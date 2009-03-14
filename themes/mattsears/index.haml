@@ -1,0 +1,45 @@
+#index
+  .blurb
+    %p
+      %img{:src => "/images/avatar.png"}
+        Hi and welcome. I'm Matt Sears, a software developer/entrepreneur living and working in Ohio. My career spans nearly 10 years of designing and developing complex, simple, large-scale, small-scale, enterprise web applications.
+      %p
+        Nowadays, I'm spending most of my time working on my own company, <a href='http://littlelines.com' rel='external'>Littlelines</a>. It's a small software company focused on making high-quality web applications with beautiful user interfaces.
+      %p
+
+  .blurb
+    %h2 About this site
+    %p
+      First and foremost, this site my personal design and code playground, a place to write about technology, business and ideas.  This site that is in a constant state of flux. I also love to travel and attend conferences and hoped to become a speaker some day.
+  .blurb
+    %h2 Recent Articles
+    %ul
+      -Aerial::Article.recent.each do |article|
+        %li
+          %a{:href => "#{article.permalink}"}=article.title
+          %span
+            =short_date(article.published_at)
+          %br/
+          =blurb(article.body)
+  .blurb
+    %h2 Elsewhere
+    %ul
+      %li
+        %a{:href => "http://www.linkedin.com/in/matthewsears", :rel => "external"} LinkedIn
+        details on past projects and employers
+      %li
+        %a{:href => "http://twitter.com/mattsears", :rel => "external"} Twitter
+        latest status and observations
+      %li
+        %a{:href => "http://delicious.com/mamoodize", :rel => "external"} Delicious
+        bookmarks I find interesting
+    %ul
+      %li
+        %a{:href => "http://github.com/mattsears", :rel => "external"} Github
+        my open source projects and forks
+      %li
+        %a{:href => "http://www.flickr.com/photos/matthewsears", :rel => "external"} Flickr
+        photos I keep publicly
+      %li
+        %a{:href => "http://mattsears.mp", :rel => "external"} Chi.mp
+        the other online identity

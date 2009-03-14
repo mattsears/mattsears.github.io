@@ -1,0 +1,21 @@
+#sidebar
+  #about
+    %p
+      %img{:src => "/images/avatar.png"}
+    %p
+      Hi. My name is Matt Sears and I'm a web developer based in Ohio. I run a small web development company called Littlelines with my brother Josh, and we build awesome websites for a living.
+  %h2 Recent Posts
+  %ul
+    -Aerial::Article.recent.each do |article|
+      %li
+        %a{:href => "#{article.permalink}"}=article.title
+  %h2 Categories
+  %ul
+    -Aerial::Article.tags.each do |tag|
+      %li
+        %a{:href => "/tags/#{tag}"}=tag
+  %h2 Archives
+  %ul
+    -Aerial::Article.archives.each do |archive|
+      %li
+        %a{:href => "/archives/#{archive[0][0]}"}="#{archive[0][1]} (#{archive[1]})"
