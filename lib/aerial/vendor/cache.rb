@@ -81,10 +81,10 @@ module Cacheable
 
     # Write the content to a cache store
     #   +content+ is a string to be saved
-    def cache(content, options={})
-      return content if development?
+    def cache(content, opts={})
+      return content unless options.cache_enabled
       page = content
-      path = self.env["REQUEST_PATH"]
+      path = self.env["REQUEST_URI"]
       store = Sinatra::Cache::FileStore.new
       store.write(path, page)
       page

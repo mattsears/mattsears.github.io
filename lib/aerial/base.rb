@@ -37,7 +37,7 @@ module Aerial
     end
 
     def path
-      base = "#{request.env['REQUEST_PATH']}".scan(/\w+/).first
+      base = "#{request.env['REQUEST_URI']}".scan(/\w+/).first
       return base.blank? ? "index" : base
     end
 
