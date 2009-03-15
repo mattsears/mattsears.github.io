@@ -13,6 +13,11 @@ module Aerial
       self.find_by_name(name, options)
     end
 
+    # Convert the page to html
+    def to_html
+      RDiscount::new( self.body ).to_html
+    end
+
     private
 
     # Retreive all pages from the repository
@@ -51,10 +56,11 @@ module Aerial
       file                = blob.data
       page                = Hash.new
       page[:id]           = blob.id
-      page[:author]       = self.extract_header("author", file)
-      page[:title]        = self.extract_header("title", file)
-      page[:published_at] = DateTime.parse(self.extract_header("published", file))
-      page[:body]         = self.scan_for_field(file, self.body_field)
+      #page[:author]       = self.extract_header("author", file)
+      #page[:title]        = self.extract_header("title", file)
+      #page[:published_at] = DateTime.parse(self.extract_header("published", file))
+      #page[:body]         = self.scan_for_field(file, self.body_field)
+      page[:body]          = blob.data
       return page
     end
 

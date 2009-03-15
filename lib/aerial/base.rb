@@ -113,10 +113,12 @@ module Aerial
 
     # Added the file in the path and commit the changs to the repo
     def self.commit(path, message)
-      Grit.debug = true
-      Aerial.repo.add(path)
+      Dir.chdir(Aerial.repo.working_dir) do
+        Grit.debug = true
+        Aerial.repo.add(path)
+        Grit.debug = false
+      end
       #Aerial.repo.commit_index(message)
-      Grit.debug = false
     end
 
     # Adds all untracked files and commits them to the repo

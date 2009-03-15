@@ -36,7 +36,8 @@ end
 
 # Homepage
 get '/' do
-  cache haml(:index)
+  cache haml(:about)
+  #cache haml(:index)
 end
 
 # Articles
@@ -60,7 +61,6 @@ end
 
 # Single page
 get '/:page' do
-  @page = Aerial::Page.with_name(params[:page])
   cache haml(:page)
 end
 
@@ -90,7 +90,6 @@ end
 
 # New comments
 post '/article/:id/comments' do
-  @content_for_sidebar = partial(:sidebar)
   @article = Aerial::Article.find(params[:id])
   throw :halt, [404, not_found ] unless @article
   @article.add_comment(Aerial::Comment.new(params))

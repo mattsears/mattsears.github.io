@@ -4,7 +4,7 @@ blog:
   name:  "@mattsears"
   author: "Matt Sears"
   email:  "matt@mattsears.com"
-  directory: "blog"
+  directory: "app/articles"
 
 ga_code: "{REPLACE WITH YOUR GOOGLE ANALYTICS CODE OR LEAVE EMPTY}"
 
@@ -12,8 +12,8 @@ public:
   directory: "public"
 
 theme:
-  name: "mattsears"
-  directory: "themes"
+  name: "views"
+  directory: "app"
 
 pages:
   directory: "pages"
