@@ -27,8 +27,10 @@ module Sinatra
         return if name.nil?
         path = cache_file_path(name)
         ensure_cache_path(File.dirname(path))
-        content << timestamp
-        File.open(path, 'wb+') { |f| f << content }
+        File.open(path, 'wb+') do |f|
+          f << content
+          f << timestamp
+        end
         content
       rescue => e
         Aerial.log "Couldn't save html file to cache directory because #{e}"
