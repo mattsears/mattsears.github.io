@@ -23,9 +23,6 @@ git:
   name: "origin"
   branch: "master"
 
-cache:
-  directory: "cache"
-
 remote_repository: "git://github.com/mattsears/mattsears.com.git"
 
 # If you want to add synchronizing via Github post-receive hooks, insert some secure password here

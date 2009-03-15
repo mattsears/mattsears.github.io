@@ -16,6 +16,11 @@ class Sinatra::Default
   include Cacheable
 end
 
+before do
+  # kill trailing slashes for all requests except '/'
+  request.env['PATH_INFO'].gsub!(/\/$/, '') if request.env['PATH_INFO'] != '/'
+end
+
 # Configuration
 configure do
   set :views  => Aerial.config.theme_directory

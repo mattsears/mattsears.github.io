@@ -19,7 +19,7 @@ module Sinatra
       attr_reader   :cache_path
 
       def initialize
-        @cache_path = File.join(Aerial.config.public.directory, Aerial.config.cache.directory)
+        @cache_path = Aerial.config.public.directory
       end
 
       # Save the response to an html file
