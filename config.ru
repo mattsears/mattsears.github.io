@@ -5,6 +5,6 @@ set :run         => false,
     :environment => ENV['RACK_ENV'].to_sym,
     :root        => File.dirname(__FILE__),
     :app_file    => File.join(File.dirname(__FILE__), 'lib', 'aerial.rb'),
-    :cache_enabled => true
+    :cache_enabled => false
 
 run Sinatra::Application
