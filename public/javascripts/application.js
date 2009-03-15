@@ -2,7 +2,7 @@
     Global Javascripts
     Aerial
     Version /  1.0
-    Author / att Sears
+    Author / Matt Sears
     email / matt@mattsears.com
     website / www.mattsears.com
 -------------------------------------*/
@@ -39,6 +39,7 @@ var Comment = {
         // Append a new comment if post is successful
         if (this.post()){
             this.appendNew();
+            //this.reset();
         }
     },
 
@@ -48,13 +49,11 @@ var Comment = {
         // Data posted to server
         var data = 'author='+ this.author + '&email=' + this.email + '&homepage=' + this.phone + '&body=' + this.body;
         var url = "/article/" + this.article + "/comments";
-
         $.ajax({
             type: "POST",
             url:  url,
             data: data
         });
-
         return true;
     },
 
@@ -67,11 +66,19 @@ var Comment = {
         );
 
         // Append
-        $("#comments").append( t , {
-            author: this.author,
-            homepage: this.homepage,
-            message: this.body
-        });
+        $("#new_comment").fadeOut('slow', function() {
+            $("#comments").append( t , {
+                author: Comment.author,
+                homepage: Comment.homepage,
+                message: Comment.body
+            });
+		});
+
+    },
+
+    // Clear the form field
+    reset: function() {
+        $("input#comment_author") = '';
     },
 
     // Ensure all required fields are filled-in
@@ -87,7 +94,7 @@ var Comment = {
             return false;
         }
 
-        if (this.comment == "") {
+        if (this.body == "") {
             $("#comment_label").addClass("error");
             return false;
         }

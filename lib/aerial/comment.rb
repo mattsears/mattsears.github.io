@@ -113,18 +113,16 @@ module Aerial
     # Write the contents of the comment to the same directory as the article
     def self.save_new(comment)
       return false unless comment && comment.archive_name
-
       comment.generate_name!
       comment.published_at = DateTime.now
-
       path = File.join(Aerial.config.blog.directory, comment.archive_name, comment.name)
       Dir.chdir(Aerial.repo.working_dir) do
         File.open(path, 'w') do |file|
           file << comment.to_s
         end
+        Aerial::Git.commit(path, "New comment: #{comment.name}")
+        Aerial::Git.push()
       end
-      Aerial::Git.commit(path, "New comment: #{comment.name}")
-      Aerial::Git.push();
       return comment
     end
 

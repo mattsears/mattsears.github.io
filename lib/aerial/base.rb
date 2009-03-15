@@ -113,8 +113,10 @@ module Aerial
 
     # Added the file in the path and commit the changs to the repo
     def self.commit(path, message)
+      Grit.debug = true
       Aerial.repo.add(path)
-      Aerial.repo.commit_index(message)
+      #Aerial.repo.commit_index(message)
+      Grit.debug = false
     end
 
     # Adds all untracked files and commits them to the repo
@@ -126,11 +128,11 @@ module Aerial
 
     # Upload all new commits to the remote repo (if exists)
     def self.push(branch = "master")
-      Grit.debug = true
-      return if Aerial.config.git.url.blank?
-      Aerial.repo.git.run('', "remote add #{Aerial.config.git.name} #{Aerial.config.git.url}", '', {}, "")
+      #Grit.debug = true
+      #return if Aerial.config.git.url.blank?
+      #Aerial.repo.git.run('', "remote add #{Aerial.config.git.name} #{Aerial.config.git.url}", '', {}, "")
       #Aerial.repo.git.push()
-      Grit.debug = false
+      #Grit.debug = false
     end
 
   end
