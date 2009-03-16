@@ -4,6 +4,24 @@
       %img{:src => "/images/avatar.png"}
     %p
       Hi. My name is Matt Sears and I'm a web developer based in Ohio. I run a small web development company called Littlelines with my brother Josh, and we build awesome websites for a living.
+  %h2 Elsewhere
+  %ul
+    %li
+      %img{:src => "/images/linkedin-icon.gif"}
+      %a{:href => "http://www.linkedin.com/in/matthewsears", :rel => "external"} LinkedIn
+    %li
+      %img{:src => "/images/github-icon.gif"}
+      %a{:href => "http://github.com/mattsears", :rel => "external"} Github
+    %li
+      %img{:src => "/images/twitter-icon.gif"}
+      %a{:href => "https://twitter.com/mattsears", :rel => "external"} Twitter
+    %li
+      %img{:src => "/images/flickr-icon.gif"}
+      %a{:href => "http://www.flickr.com/photos/matthewsears", :rel => "external"} Flickr
+    %li
+      %img{:src => "/images/tumblr-icon.png"}
+      %a{:href => "http://mattsears.tumblr.com", :rel => "external"} Tumblr
+
   %h2 Recent Posts
   %ul
     -Aerial::Article.recent.each do |article|

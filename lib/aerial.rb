@@ -37,12 +37,10 @@ end
 # Homepage
 get '/' do
   cache haml(:about)
-  #cache haml(:index)
 end
 
 # Articles
 get '/articles' do
-  #Aerial::Git.commit_all(Aerial.config.blog.directory, "")
   @content_for_sidebar = partial(:sidebar)
   @articles = Aerial::Article.all
   cache haml(:articles)
