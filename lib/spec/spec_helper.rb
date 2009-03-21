@@ -10,17 +10,6 @@ require 'rack'
 require 'spec'
 require 'sinatra/test/rspec'
 
-# set test environment
-set :environment, :test
-set :run, false
-set :raise_errors, true
-set :logging, false
-
-require File.expand_path(File.dirname(__FILE__) + "/../aerial")
-
-include Aerial
-include Aerial::Helper
-
 # Helper for matching html tags
 module TagMatchers
 
@@ -68,12 +57,15 @@ module TagMatchers
 
 end
 
-## Helpers for creating a test Git repo
+# Helpers for creating a test Git repo
 module GitHelper
 
   def new_git_repo
-    path = File.join(File.dirname(__FILE__), 'repo')
-    data = File.join(File.dirname(__FILE__), 'fixtures')
+    delete_git_repo # delete the old repo first
+
+    path = File.expand_path( File.join(File.dirname(__FILE__), 'repo') )
+    data = File.expand_path( File.join(File.dirname(__FILE__), 'fixtures') )
+
     Dir.mkdir(path)
     Dir.chdir(path) do
       git = Git.init
@@ -99,7 +91,28 @@ module GitHelper
 
 end
 
+include GitHelper
+
 Spec::Runner.configure do |config|
+  repo_path = new_git_repo
+  CONFIG = YAML.load_file( File.join(File.dirname(__FILE__), 'fixtures', 'config.yml') ) unless defined?(CONFIG)
+  AERIAL_ROOT = File.join(File.dirname(__FILE__), 'repo') unless defined?(AERIAL_ROOT)
+  require File.expand_path(File.dirname(__FILE__) + "/../aerial")
   config.include TagMatchers
   config.include GitHelper
+  config.include Aerial
+  config.include Aerial::Helper
+end
+
+# set test environment
+set :environment, :test
+set :run, false
+set :raise_errors, true
+set :logging, false
+
+include Aerial
+
+def setup_repo
+  @repo_path = new_git_repo
+  Aerial.stub!(:repo).and_return(Grit::Repo.new(@repo_path))
 end

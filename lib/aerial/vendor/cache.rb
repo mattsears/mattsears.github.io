@@ -19,7 +19,7 @@ module Sinatra
       attr_reader   :cache_path
 
       def initialize
-        @cache_path = Aerial.config.public.directory
+        @cache_path = Aerial.config.public.dir
       end
 
       # Save the response to an html file
@@ -85,6 +85,7 @@ module Cacheable
     #   +content+ is a string to be saved
     def cache(content, opts={})
       return content unless options.cache_enabled
+
       page = content
       path = self.env["REQUEST_URI"]
       store = Sinatra::Cache::FileStore.new

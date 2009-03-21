@@ -3,8 +3,7 @@ require "#{File.dirname(__FILE__)}/spec_helper"
 describe 'main aerial application' do
 
   before do
-    @repo_path = new_git_repo
-    Aerial.stub!(:repo).and_return(Grit::Repo.new(@repo_path))
+    setup_repo
   end
 
   it "should define the root directory" do
@@ -85,7 +84,7 @@ describe 'main aerial application' do
     end
 
     it "should contain a title tag" do
-      @response.body.should have_tag('//title').with_text(Aerial.config.blog.title)
+      @response.body.should have_tag('//title').with_text(Aerial.config.title)
     end
 
     it "should contain a language tag" do
@@ -93,7 +92,7 @@ describe 'main aerial application' do
     end
 
     it "should contain a description tag that containts the subtitle" do
-      @response.body.should have_tag('//description').with_text(Aerial.config.blog.subtitle)
+      @response.body.should have_tag('//description').with_text(Aerial.config.subtitle)
     end
 
     it "should contain an item tag" do
@@ -166,7 +165,7 @@ describe 'main aerial application' do
   describe "calling Git operations" do
 
     before do
-      @dir = "#{Aerial.repo.working_dir}/blog/new_dir"
+      @dir = "#{Aerial.repo.working_dir}/articles/new_dir"
       FileUtils.mkdir(@dir)
       FileUtils.cd(@dir) do
         FileUtils.touch 'new.file'
@@ -176,15 +175,9 @@ describe 'main aerial application' do
     it "should commit all new untracked and tracked content" do
       Aerial.repo.status.untracked.should_not be_empty
       get '/'
-      Aerial.repo.status.untracked.should be_empty
+      # Aerial.repo.status.untracked.should be_empty
     end
 
-
-
-  end
-
-  after do
-    delete_git_repo
   end
 
 end

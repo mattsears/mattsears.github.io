@@ -12,9 +12,8 @@ module Aerial
 
     # Complete path to the directory theme
     def theme_directory
-      directory = File.join(AERIAL_ROOT, self.theme.directory)
-      theme_name = self.theme.name || "default"
-      File.join(directory, theme_name)
+      directory = File.join(AERIAL_ROOT, self.views.dir)
+      File.join(directory)
     end
 
     def method_missing(method_name, *attributes)

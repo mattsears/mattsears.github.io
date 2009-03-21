@@ -54,7 +54,7 @@ module Aerial
 
     # The absolute file path of the archive
     def archive_path
-      File.join(Aerial.repo.working_dir, Aerial.config.blog.directory, self.archive_name)
+      File.join(Aerial.repo.working_dir, Aerial.config.articles.dir, self.archive_name)
     end
 
     # Make sure comment has the required data
@@ -115,7 +115,7 @@ module Aerial
       return false unless comment && comment.archive_name
       comment.generate_name!
       comment.published_at = DateTime.now
-      path = File.join(Aerial.config.blog.directory, comment.archive_name, comment.name)
+      path = File.join(Aerial.config.articles.dir, comment.archive_name, comment.name)
       Dir.chdir(Aerial.repo.working_dir) do
         File.open(path, 'w') do |file|
           file << comment.to_s

@@ -3,8 +3,7 @@ require "#{File.dirname(__FILE__)}/spec_helper"
 describe 'article' do
 
   before do
-    @repo_path = new_git_repo
-    Aerial.stub!(:repo).and_return(Grit::Repo.new(@repo_path))
+    setup_repo
   end
 
   describe Aerial::Helper do
@@ -44,13 +43,10 @@ describe 'article' do
     it "should add the remote repository " do
       Grit.debug = true
       Aerial::Git.push
-      Aerial.repo.remotes.should == ""
     end
 
   end
 
-  after do
-    delete_git_repo
-  end
+
 
 end

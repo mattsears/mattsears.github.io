@@ -24,7 +24,7 @@ end
 # Configuration
 configure do
   set :views  => Aerial.config.theme_directory
-  set :public => Aerial.config.public.directory
+  set :public => Aerial.config.public.dir
 end
 
 # Helpers
@@ -36,7 +36,8 @@ end
 
 # Homepage
 get '/' do
-  cache haml(:about)
+  @articles = Aerial::Article.all
+  cache haml(Aerial.config.views.default.to_sym)
 end
 
 # Articles
@@ -59,7 +60,7 @@ end
 
 # Single page
 get '/:page' do
-  cache haml(:page)
+  cache haml(params[:page])
 end
 
 # Single article page

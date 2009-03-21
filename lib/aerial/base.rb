@@ -1,7 +1,6 @@
 CONFIG = YAML.load_file( File.join(AERIAL_ROOT, 'config', 'config.yml') ) unless defined?(CONFIG)
 
 require 'aerial/content'
-require 'aerial/page'
 require 'aerial/article'
 require 'aerial/comment'
 require 'aerial/vendor/cache'
@@ -49,7 +48,7 @@ module Aerial
     # Display the page titles in proper format
     def page_title
       title = @page_title ? "| #{@page_title}" : ""
-      return "#{Aerial.config.blog.title} #{title}"
+      return "#{Aerial.config.title} #{title}"
     end
 
     # Format just the DATE in a nice easy to read format
@@ -92,7 +91,7 @@ module Aerial
                          )
         end.join("\n")
       else
-        haml(template, options)
+         haml(template, options)
       end
     end
 
@@ -113,12 +112,12 @@ module Aerial
 
     # Added the file in the path and commit the changs to the repo
     def self.commit(path, message)
-      Dir.chdir(Aerial.repo.working_dir) do
+      Dir.chdir(File.expand_path(Aerial.repo.working_dir)) do
         Grit.debug = true
         Aerial.repo.add(path)
         Grit.debug = false
       end
-      #Aerial.repo.commit_index(message)
+      Aerial.repo.commit_index(message)
     end
 
     # Adds all untracked files and commits them to the repo
@@ -126,6 +125,7 @@ module Aerial
       unless Aerial.repo.status.untracked.empty?
         self.commit(path, message)
       end
+      true
     end
 
     # Upload all new commits to the remote repo (if exists)

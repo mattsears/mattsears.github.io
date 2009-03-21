@@ -87,7 +87,7 @@ module Aerial
     # Returns the full path of the article's archive
     def archive_expand_path
       return unless archive = self.archive_name
-      return "#{Aerial.repo.working_dir}/#{Aerial.config.blog.directory}/#{archive}"
+      return "#{Aerial.repo.working_dir}/#{Aerial.config.articles.dir}/#{archive}"
     end
 
     private
@@ -99,7 +99,7 @@ module Aerial
     # Find a single article given the article name
     #   +name+ file name
     def self.find_by_name(name, options={})
-      if tree = Aerial.repo.tree/"#{Aerial.config.blog.directory}/#{name}"
+      if tree = Aerial.repo.tree/"#{Aerial.config.articles.dir}/#{name}"
         return self.find_article(tree)
       end
     end
@@ -108,7 +108,7 @@ module Aerial
     #   +id+ the blob id
     #   +options+
     def self.find_by_id(article_id, options = {})
-      if blog = Aerial.repo.tree/"#{Aerial.config.blog.directory}"
+      if blog = Aerial.repo.tree/"#{Aerial.config.articles.dir}"
         blog.contents.each do |entry|
           article = self.find_article(entry, options)
           return article if article.id == article_id
@@ -139,7 +139,7 @@ module Aerial
 
     # Find a single article given the article's permalink value
     def self.find_by_permalink(link, options={})
-      if blog = Aerial.repo.tree/"#{Aerial.config.blog.directory}/"
+      if blog = Aerial.repo.tree/"#{Aerial.config.articles.dir}/"
         blog.contents.each do |entry|
           article = self.find_article(entry, options)
           if article.permalink == link
@@ -165,7 +165,7 @@ module Aerial
     # Find all the articles in the reposiotory
     def self.find_all(options={})
       articles = []
-      if blog = Aerial.repo.tree/"#{Aerial.config.blog.directory}/"
+      if blog = Aerial.repo.tree/"#{Aerial.config.articles.dir}/"
         blog.contents.first( options[:limit] || 100 ).each do |entry|
           article = self.find_article(entry, options)
           articles << self.find_article(entry, options) if article

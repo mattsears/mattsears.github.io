@@ -3,8 +3,7 @@ require "#{File.dirname(__FILE__)}/spec_helper"
 describe 'comment' do
 
   before do
-    @repo_path = new_git_repo
-    Aerial.stub!(:repo).and_return(Grit::Repo.new(@repo_path))
+    setup_repo
     @article_one = Article.with_name("test-article-one")
     @article_two = Article.with_name("test-article-two")
     @comment = Comment.new
@@ -105,11 +104,16 @@ describe 'comment' do
     end
 
     it "should calculate the absoulte path to the comment file" do
-      @comment.expand_file.should == File.join(@repo_path, Aerial.config.blog.directory, @article.archive_name, @comment.name)
+      @comment.expand_file.should == File.join(@repo_path,
+                                               Aerial.config.articles.dir,
+                                               @article.archive_name,
+                                               @comment.name)
     end
 
     it "should calculate the absoulte path of the comment's archive directory" do
-      @comment.archive_path.should == File.join(@repo_path, Aerial.config.blog.directory, @article.archive_name)
+      @comment.archive_path.should == File.join(@repo_path,
+                                                Aerial.config.articles.dir,
+                                                @article.archive_name)
     end
 
     it "should write a new comment to disk" do
@@ -143,7 +147,7 @@ describe 'comment' do
 
     it "should write the comment to the article's archive path" do
       @comment.save(@article.archive_name).should_not be_nil
-      @comment.expand_file.should == File.join(@repo_path, Aerial.config.blog.directory,
+      @comment.expand_file.should == File.join(@repo_path, Aerial.config.articles.dir,
                                                @article.archive_name, @comment.name)
     end
 
@@ -188,10 +192,6 @@ describe 'comment' do
       File.delete @comment.expand_file if @comment.expand_file
     end
 
-  end
-
-  after do
-    delete_git_repo
   end
 
 end

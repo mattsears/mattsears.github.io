@@ -3,8 +3,7 @@ require "#{File.dirname(__FILE__)}/spec_helper"
 describe 'article' do
 
   before do
-    @repo_path = new_git_repo
-    Aerial.stub!(:repo).and_return(Grit::Repo.new(@repo_path))
+    setup_repo
   end
 
   describe "when finding an article" do
@@ -76,7 +75,7 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
     end
 
     it "should find the file path of where the article is stored" do
-      @article.expand_path.should == "#{@repo_path}/blog/test-article-one/test-article.article"
+      @article.expand_path.should == "#{@repo_path}/articles/test-article-one/test-article.article"
     end
 
     it "should be an instance of an Article object" do
@@ -300,10 +299,6 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
       retrieve_article.comments.size.should == 1
     end
 
-  end
-
-  after do
-    delete_git_repo
   end
 
 end
