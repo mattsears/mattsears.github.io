@@ -7,6 +7,7 @@ describe 'comment' do
     @article_one = Article.with_name("test-article-one")
     @article_two = Article.with_name("test-article-two")
     @comment = Comment.new
+    Akismetor.stub!(:spam?).and_return(false)
   end
 
   it "should ensure url is clean" do
@@ -45,7 +46,7 @@ describe 'comment' do
     end
 
     it "should assign an IP address of the commenter" do
-      @comment.ip.should == "127.0.0.1"
+      @comment.user_ip.should == "127.0.0.1"
     end
 
     it "should assign a homepage of the commenter" do
@@ -147,8 +148,10 @@ describe 'comment' do
 
     it "should write the comment to the article's archive path" do
       @comment.save(@article.archive_name).should_not be_nil
-      @comment.expand_file.should == File.join(@repo_path, Aerial.config.articles.dir,
-                                               @article.archive_name, @comment.name)
+      @comment.expand_file.should == File.join(@repo_path,
+                                               Aerial.config.articles.dir,
+                                               @article.archive_name,
+                                               @comment.name)
     end
 
     it "should assign a publication date of the comment" do

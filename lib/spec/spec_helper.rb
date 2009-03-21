@@ -44,7 +44,7 @@ module TagMatchers
 
     def match_message
       if @elem
-        "#{@elem} to have text #{@text.inspect} but got #{@elem.inner_html}"
+        "#{@elem} to have text #{@text} but got #{@elem.inner_html}"
       else
         "#{@target.inspect} to contain element #{@expected.inspect}"
       end
@@ -65,7 +65,6 @@ module GitHelper
 
     path = File.expand_path( File.join(File.dirname(__FILE__), 'repo') )
     data = File.expand_path( File.join(File.dirname(__FILE__), 'fixtures') )
-
     Dir.mkdir(path)
     Dir.chdir(path) do
       git = Git.init

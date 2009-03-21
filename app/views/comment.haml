@@ -3,6 +3,6 @@
     %a{:href => comment.homepage}
       =comment.author
     %span
-      =comment.published_at
+      =humanized_date(comment.published_at)
   %p
     =comment.body

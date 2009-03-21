@@ -15,16 +15,16 @@ module Aerial
     attr_accessor :debug, :logger, :repo, :config
 
     def log(str)
-      logger.debug { str }
+      logger.debug { str } if debug
     end
   end
 
   # Make sure git is added to the env path
   ENV['PATH'] = "#{ENV['PATH']}:/usr/local/bin"
-  @debug  = false
   @logger ||= ::Logger.new(STDOUT)
   @config ||= Aerial::Config.new(CONFIG)
   @repo   ||= Grit::Repo.new(File.join(AERIAL_ROOT, '.'))
+  @debug  ||= false
 
   module Helper
 
@@ -62,6 +62,15 @@ module Aerial
       end
     end
 
+    # Format just the DATE in a short way
+    def short_date(date)
+      if date && date.respond_to?(:strftime)
+        date.strftime('%b %d').strip
+      else
+        'Never'
+      end
+    end
+
     # Truncate a string
     def blurb(text, options ={})
       options.merge!(:length => 160, :omission => "...")
@@ -69,15 +78,6 @@ module Aerial
         l = options[:length] - options[:omission].length
         chars = text
         (chars.length > options[:length] ? chars[0...l] + options[:omission] : text).to_s
-      end
-    end
-
-    # Format just the DATE in a short way
-    def short_date(date)
-      if date && date.respond_to?(:strftime)
-        date.strftime('%b %d').strip
-      else
-        'Never'
       end
     end
 
@@ -117,9 +117,7 @@ module Aerial
     #   +message+ description of the commit
     def self.commit(path, message)
       Dir.chdir(File.expand_path(Aerial.repo.working_dir)) do
-        Grit.debug = true
         Aerial.repo.add(path)
-        Grit.debug = false
       end
       Aerial.repo.commit_index(message)
     end

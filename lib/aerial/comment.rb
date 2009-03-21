@@ -5,7 +5,7 @@ module Aerial
 
     attr_reader   :id,           :permalink, :article,      :spam,       :file_path
     attr_accessor :archive_name, :spam,      :published_at, :name,
-                  :email,        :homepage,  :ip,           :user_agent, :referrer
+                  :email,        :homepage,  :user_ip,      :user_agent, :referrer
 
     def initialize(atts = {})
       super
@@ -72,6 +72,7 @@ module Aerial
     # Create a unique file name for this comment
     def generate_name!
       return self.name unless self.name.nil?
+
       extenstion = self.suspicious? ? "spam" : "comment"
       self.name = "#{DateTime.now.strftime("%Y%m%d%H%d%S")}_#{self.email}.#{extenstion}"
     end
@@ -83,6 +84,9 @@ module Aerial
       me << "Published: #{self.published_at} \n" if self.published_at.to_s
       me << "Email: #{self.email} \n" if self.email
       me << "Homepage: #{self.homepage} \n" if self.homepage
+      me << "User IP: #{self.user_ip} \n" if self.user_ip
+      me << "User Agent: #{self.user_agent} \n" if self.user_agent
+      me << "Spam?: #{self.spam} \n" if self.user_agent
       me << "\n#{self.body}" if self.body
       return me
     end
@@ -98,14 +102,14 @@ module Aerial
       comment_file          = data.to_s
       comment               = Hash.new
       comment[:id]          = self.extract_header("id", comment_file)
-      comment[:ip]          = self.extract_header("ip", comment_file)
+      comment[:user_ip]          = self.extract_header("ip", comment_file)
       comment[:user_agent]  = self.extract_header("user-agent", comment_file)
       comment[:referrer]    = self.extract_header("referrer", comment_file)
       comment[:permalink]   = self.extract_header("permalink", comment_file)
       comment[:author]      = self.extract_header("author", comment_file)
       comment[:email]       = self.extract_header("email", comment_file)
       comment[:homepage]    = self.extract_header("homepage", comment_file)
-      comment[:published_at]= self.extract_header("published", comment_file)
+      comment[:published_at]= DateTime.parse(self.extract_header("published", comment_file))
       comment[:body]        = self.scan_for_field(comment_file, self.body_field)
       return comment
     end
@@ -141,7 +145,7 @@ module Aerial
       {
         :key                  => Aerial.config.akismet.key,
         :blog                 => Aerial.config.akismet.url,
-        :user_ip              => self.ip,
+        :user_ip              => self.user_ip,
         :user_agent           => self.user_agent,
         :referrer             => self.referrer,
         :permalink            => self.permalink,

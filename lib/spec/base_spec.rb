@@ -41,7 +41,6 @@ describe 'article' do
     end
 
     it "should add the remote repository " do
-      Grit.debug = true
       Aerial::Git.push
     end
 

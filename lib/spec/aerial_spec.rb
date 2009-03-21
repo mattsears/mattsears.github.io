@@ -105,7 +105,7 @@ describe 'main aerial application' do
     end
 
     it "should have the link tag with the articles permalink" do
-      # @response.body.should have_tag('//item[1]/link').with_text("http://#{@articles[0].permalink}")
+      #@response.body.should have_tag('//item[1]/link').with_text("http://#{@articles[0].permalink}")
     end
 
     it "should have the description tags for the articles" do
@@ -158,7 +158,7 @@ describe 'main aerial application' do
     end
 
     it "should return a valid response" do
-      @response.status.should == 200
+      @response.status.should == 204
     end
   end
 

@@ -26,10 +26,5 @@ github_token: ~
 
 # See http://soakedandsoaped.com/articles/2006/10/01/how-to-protect-a-rails-application-against-spam-with-akismet
 akismet:
-  key: "{REPLACE WITH YOUR AKISMET KEY}"
-  url: "{REPLACE WITH YOUR AKISMET URL}"
-
-# http://antispam.typepad.com/info/developers.html
-typekey_antispam:
-  key: "{REPLACE WITH YOUR TYPEKEY ANTISPAM URL}"
-  url: "{REPLACE WITH YOUR BLOG URL}"
+  key: "71bd5f85f0cf"
+  url: "http://mattsears.com"

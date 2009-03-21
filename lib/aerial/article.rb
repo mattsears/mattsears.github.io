@@ -6,7 +6,7 @@ module Aerial
   class Article < Content
 
     attr_reader :id,   :tags,       :archive_name, :body_html,
-    :meta, :updated_on, :published,    :comments, :file_name
+                :meta, :updated_on, :published,    :comments, :file_name
 
     # =============================================================================================
     # PUBLIC CLASS METHODS

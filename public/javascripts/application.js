@@ -16,17 +16,13 @@ $(document).ready(function() {
 //
 var Comment = {
 
-    author: '',
-    homepage: '',
-    email: '',
-    body: '',
-    article: '',
+    author: '',  homepage: '',   email: '',   body: '', article: '',
 
     // Submit a new comment to the server via ajax
     submit: function(article_id) {
 
         this.author   = $("input#comment_author").val();
-        this.homepage = $("input#comment_website").val();
+        this.homepage = $("input#comment_homepage").val();
         this.email    = $("input#comment_email").val();
         this.body     = $("textarea#comment_body").val();
         this.article  = article_id;
@@ -39,7 +35,6 @@ var Comment = {
         // Append a new comment if post is successful
         if (this.post()){
             this.appendNew();
-            //this.reset();
         }
     },
 
@@ -47,7 +42,8 @@ var Comment = {
     post: function() {
 
         // Data posted to server
-        var data = 'author='+ this.author + '&email=' + this.email + '&homepage=' + this.phone + '&body=' + this.body;
+        var data = 'author='+ this.author + '&email=' + this.email +
+                   '&homepage=' + this.homepage + '&body=' + this.body;
         var url = "/article/" + this.article + "/comments";
         $.ajax({
             type: "POST",
