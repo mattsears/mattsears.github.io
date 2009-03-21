@@ -114,7 +114,7 @@ module Aerial
 
     # Commit the new file and push it to the remote repository
     def self.commit_and_push(path, message)
-      #self.commit(path, message)
+      self.commit(path, message)
       self.push
     end
 
@@ -138,12 +138,14 @@ module Aerial
 
     # Upload all new commits to the remote repo (if exists)
     def self.push(branch = "master")
-      Grit.debug = true
-      #return if Aerial.config.git.url.blank?
-      #cmd = "push --repo #{Aerial.config.git.name} --dry-run"
-      #Aerial.repo.git.run('', "remote add #{Aerial.config.git.name} #{Aerial.config.git.url}", '', {}, "")
-      #Aerial.repo.git.push()
-      Grit.debug = false
+      begin
+        Grit.debug = true
+        cmd = "push #{Aerial.config.git.name} #{Aerial.config.git.branch}  --dry-run"
+        Aerial.repo.git.run('', cmd, '', {}, "")
+        Grit.debug = false
+      rescue Exception => e
+        Aerial.log(e.message)
+      end
     end
 
   end
