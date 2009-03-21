@@ -19,6 +19,8 @@ module Aerial
     end
   end
 
+  # Make sure git is added to the env path
+  ENV['PATH'] = "#{ENV['PATH']}:/usr/local/bin"
   @debug  = false
   @logger ||= ::Logger.new(STDOUT)
   @config ||= Aerial::Config.new(CONFIG)
@@ -111,6 +113,8 @@ module Aerial
   class Git
 
     # Added the file in the path and commit the changs to the repo
+    #   +path+ to the new file to commit
+    #   +message+ description of the commit
     def self.commit(path, message)
       Dir.chdir(File.expand_path(Aerial.repo.working_dir)) do
         Grit.debug = true
