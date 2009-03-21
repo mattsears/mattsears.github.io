@@ -20,7 +20,7 @@ module Aerial
       if @config.respond_to?(method_name.to_sym)
         return @config.send(method_name.to_sym)
       else
-        super
+        false
       end
     end
 

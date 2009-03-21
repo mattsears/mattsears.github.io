@@ -112,6 +112,12 @@ module Aerial
   # Provides a few methods for interacting with that Aerial repository
   class Git
 
+    # Commit the new file and push it to the remote repository
+    def self.commit_and_push(path, message)
+      #self.commit(path, message)
+      self.push
+    end
+
     # Added the file in the path and commit the changs to the repo
     #   +path+ to the new file to commit
     #   +message+ description of the commit
@@ -132,11 +138,12 @@ module Aerial
 
     # Upload all new commits to the remote repo (if exists)
     def self.push(branch = "master")
-      #Grit.debug = true
+      Grit.debug = true
       #return if Aerial.config.git.url.blank?
+      #cmd = "push --repo #{Aerial.config.git.name} --dry-run"
       #Aerial.repo.git.run('', "remote add #{Aerial.config.git.name} #{Aerial.config.git.url}", '', {}, "")
       #Aerial.repo.git.push()
-      #Grit.debug = false
+      Grit.debug = false
     end
 
   end

@@ -125,8 +125,7 @@ module Aerial
           file << comment.to_s
         end
       end
-      Aerial::Git.commit(path, "New comment: #{comment.name}")
-      #Aerial::Git.push()
+      Aerial::Git.commit_and_push(path, "New comment: #{comment.name}")
       return comment
     end
 
