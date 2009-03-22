@@ -1,6 +1,6 @@
 module Aerial
 
-  # Base classe for all the site's content
+  # Base class for all the site's content
   class Content
 
     attr_reader :id, :author, :title, :body, :published_at, :archive_name, :file_name
@@ -32,7 +32,7 @@ module Aerial
       return self.scan_for_field(content, self.header_field_for(field))
     end
 
-    # Returns the strinf that matches the given pattern
+    # Returns the string that matches the given pattern
     def self.scan_for_field(contents, pattern)
       contents.scan(pattern).first.to_s.strip
     end

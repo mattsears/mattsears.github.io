@@ -2,7 +2,6 @@ require 'date'
 
 module Aerial
 
-  # Blog post
   class Article < Content
 
     attr_reader :id,   :tags,       :archive_name, :body_html,
