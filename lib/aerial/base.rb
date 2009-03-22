@@ -115,7 +115,7 @@ module Aerial
     # Commit the new file and push it to the remote repository
     def self.commit_and_push(path, message)
       self.commit(path, message)
-      #self.push
+      self.push
     end
 
     # Added the file in the path and commit the changs to the repo
