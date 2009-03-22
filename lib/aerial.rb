@@ -47,15 +47,16 @@ get '/articles' do
   cache haml(:articles)
 end
 
-get '/feed' do
+get '/feed.xml' do
+  content_type 'text/xml', :charset => 'utf-8'
   @articles = Aerial::Article.all
-  haml :rss, :layout => false
+  cache haml(:rss, :layout => false)
 end
 
 # Sassy!
 get '/style.css' do
   content_type 'text/css', :charset => 'utf-8'
-  sass :style
+  cache sass(:style)
 end
 
 # Single page
