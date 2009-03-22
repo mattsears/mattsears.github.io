@@ -24,7 +24,7 @@
 
   %h2 Recent Posts
   %ul
-    -Aerial::Article.recent.each do |article|
+    -Aerial::Article.recent(:limit => 15).each do |article|
       %li
         %a{:href => "#{article.permalink}"}=article.title
   %h2 Categories

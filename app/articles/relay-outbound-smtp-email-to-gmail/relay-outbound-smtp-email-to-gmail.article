@@ -1,6 +1,6 @@
 Title      : Relay outbound SMTP email to Gmail
 Tags       : rails
-Published  : 01/08/2008
+Published  : 08/01/2008
 Author     : Matt Sears
 
 Sending emails with Rails via Gmail is a snap with Marc Chung's excellent plugin [action_mailer_tls](http://code.openrain.com/rails/action_mailer_tls). However, sometimes our production environment isn't using Gmail as a mail server and/or we just need an easy way to send email from our development environment for testing or demonstrating purposes.
@@ -11,7 +11,7 @@ First create /etc/postfix/relay_password file with the server name, email accoun
 
     smtp.gmail.com    example@yourdomain.com:yourpassword
 
-Then tell Postfix about our google accounts information so it knows how and where to relay the email to.  This can be done with the postmap command:
+Then tell Postfix about our google accounts information so it knows how and where to relay the email to. This can be done with the postmap command:
 
     $ postmap /etc/postfix/relay_password
 
