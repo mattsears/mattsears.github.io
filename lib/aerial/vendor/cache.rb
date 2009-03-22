@@ -39,8 +39,9 @@ module Sinatra
       # Removed the cached file from the disk
       def delete(name, options = nil)
         File.delete(cache_file_path(name))
+        Aerial.log("Cache expired: #{name}")
       rescue SystemCallError => e
-        # There's no cache
+        # There's no cache, so no probem
       end
 
       # Determine if cache exists
@@ -96,6 +97,7 @@ module Cacheable
     # Removed the cached page from the cache store
     #  +name+ the location of the cached content
     def expire_cache(name = nil, options={})
+
       store = Sinatra::Cache::FileStore.new
       store.delete(name)
       name

@@ -87,19 +87,18 @@ get '/archives/:year/:month' do
   cache haml(:articles)
 end
 
-# New comments
+# Add comment
 post '/article/:id/comments' do
   @article = Aerial::Article.find(params[:id])
   throw :halt, [404, not_found ] unless @article
 
-  # Create a new comment object
   comment = Aerial::Comment.new(params.merge!( {
     :referrer    => request.referrer,
     :user_agent  => request.user_agent,
     :user_ip     => request.ip
   }))
 
-  @article.add_comment(comment)
+  @article.comments << comment.save(@article.archive_name)
+  expire_cache( @article.permalink )
   status 204
 end
-
