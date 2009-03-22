@@ -44,7 +44,8 @@ module Aerial
 
     # Find the most recent articles
     def self.recent(options={})
-      self.find_all(options)
+      limit = options.delete(:limit) || 4
+      self.find_all(options).first(limit)
     end
 
     # Return true if the article file exists

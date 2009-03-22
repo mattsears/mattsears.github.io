@@ -36,14 +36,13 @@ end
 
 # Homepage
 get '/' do
-  @articles = Aerial::Article.all
   cache haml(Aerial.config.views.default.to_sym)
 end
 
 # Articles
 get '/articles' do
   @content_for_sidebar = partial(:sidebar)
-  @articles = Aerial::Article.all
+  @articles = Aerial::Article.recent(:limit => 10)
   cache haml(:articles)
 end
 
