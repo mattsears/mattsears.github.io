@@ -141,10 +141,8 @@ module Aerial
       return unless Aerial.config.git.name && Aerial.config.git.branch
 
       begin
-        Grit.debug = true
         cmd = "push #{Aerial.config.git.name} #{Aerial.config.git.branch} "
         Aerial.repo.git.run('', cmd, '', {}, "")
-        Grit.debug = false
       rescue Exception => e
         Aerial.log(e.message)
       end

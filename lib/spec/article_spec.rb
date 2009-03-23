@@ -50,7 +50,7 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
     end
 
     it "should calculate a permalink based on the directory the article is saved in" do
-      @article.permalink.should == "/2009/1/31/test-article-one"
+      @article.permalink.should == "/2009/1/31/test-article"
     end
 
   end
@@ -104,7 +104,7 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
   describe "when finding an article by permalink" do
 
     before(:each) do
-      @article = Article.find_by_permalink("/2009/1/31/test-article-one")
+      @article = Article.find_by_permalink("/2009/1/31/test-article")
     end
 
     it "should return an article with a valid permalink" do

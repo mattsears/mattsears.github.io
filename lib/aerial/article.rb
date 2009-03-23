@@ -76,7 +76,8 @@ module Aerial
 
     # Permanent link for the article
     def permalink
-      "/#{published_at.year}/#{published_at.month}/#{published_at.day}/#{escape(self.archive_name)}"
+      link = self.file_name.gsub('.article', '')
+      "/#{published_at.year}/#{published_at.month}/#{published_at.day}/#{escape(link)}"
     end
 
     # Returns the absolute path of the Article's file
