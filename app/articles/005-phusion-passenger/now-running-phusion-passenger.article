@@ -1,0 +1,14 @@
+Title      : Now running Phusion Passenger
+Tags       : ruby, passenger
+Published  : 2008-07-25 13:00:13
+Author     : Matt Sears
+
+Just finished making some major changes to this site.  First thing you might noticed are the changes to the design. In effort to simplify things a bit, I modified a [Scribbish](http://www.quotedprintable.com/pages/scribbish) theme to my own liking.  Is it too geeky? The awesome portrait you see at the top right was created by [Josh](http://papertelevision.com "Paper Television").  Nailed it.
+
+Here is a rundown of the changes made:
+
+1. Upgraded to Ubuntu 8.04 Hardy Heron
+2. Installed Apache and Phusion Passenger (mod_rails)
+3. Change and tweaked Mephisto theme
+
+I'm still in the process of moving my old blog posts over. More big news coming soon.
