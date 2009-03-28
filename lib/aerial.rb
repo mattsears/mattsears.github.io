@@ -12,9 +12,9 @@ require 'rdiscount'
 require 'aerial/base'
 
 # Add caching to Sinatra
-class Sinatra::Default
-  include Cacheable
-end
+# class Sinatra::Default
+#   include Cacheable
+# end
 
 before do
   # kill trailing slashes for all requests except '/'
@@ -31,6 +31,7 @@ end
 helpers do
   include Rack::Utils
   include Aerial::Helper
+  include Sinatra::Cache::Helpers
   alias_method :h, :escape_html
 end
 
@@ -46,7 +47,7 @@ get '/articles' do
   cache haml(:articles)
 end
 
-get '/feed.xml' do
+get '/feed*' do
   content_type 'text/xml', :charset => 'utf-8'
   @articles = Aerial::Article.all
   cache haml(:rss, :layout => false)
@@ -99,6 +100,6 @@ post '/article/:id/comments' do
   }))
 
   @article.comments << comment.save(@article.archive_name)
-  expire_cache( @article.permalink )
+  cache_expire( @article.permalink )
   status 204
 end

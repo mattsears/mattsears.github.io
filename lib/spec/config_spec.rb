@@ -18,4 +18,8 @@ describe 'system configuration settings' do
     Aerial.config.public.dir.should == "public"
   end
 
+  it "should return false if config does not contain a variable" do
+    Aerial.config.undefined == false
+  end
+
 end

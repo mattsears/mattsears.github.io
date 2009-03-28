@@ -55,6 +55,23 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
 
   end
 
+  describe "when opening the article with the blob id" do
+
+    before(:each) do
+      article_id = Article.with_name("test-article-one").id
+      @article = Article.open(article_id, :fast => true)
+    end
+
+    it "should return a valid article object" do
+      @article.should_not be_nil
+    end
+
+    it "should be an instance of an Article object" do
+      @article.should be_instance_of(Article)
+    end
+
+  end
+
   describe "when finding the first article by the id" do
 
     before(:each) do
@@ -80,6 +97,23 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
 
     it "should be an instance of an Article object" do
       @article.should be_instance_of(Article)
+    end
+
+  end
+
+  describe "when articles don't exitst"  do
+
+    it "should raise error when article could not be found" do
+      lambda {
+        @article = Article.find("doesn't exists")
+      }.should raise_error(RuntimeError)
+    end
+
+
+    it "should raise error when article blob doesn't exist" do
+      lambda {
+        @article = Article.open("doesn't exists")
+      }.should raise_error(RuntimeError)
     end
 
   end
@@ -111,7 +145,7 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
       @article.should be_instance_of(Article)
     end
 
-    it "should return falss if article can't be found" do
+    it "should return nil if article can't be found" do
       Article.find_by_permalink("does-not-exist").should == false
     end
 

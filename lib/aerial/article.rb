@@ -4,8 +4,8 @@ module Aerial
 
   class Article < Content
 
-    attr_reader :id,   :tags,       :archive_name, :body_html,
-                :meta, :updated_on, :published,    :comments, :file_name
+    attr_reader :comments, :id,         :tags,      :archive_name, :body_html,
+                :meta,     :updated_on, :published, :file_name
 
     # =============================================================================================
     # PUBLIC CLASS METHODS
@@ -16,22 +16,33 @@ module Aerial
       self.find_all
     end
 
+    # A quick way to load an article
+    #   +id+ of the blob
+    def self.open(id, options = {})
+      self.find_by_blob_id(id, options)
+    end
+
     # Find a single article
+    #   +id+ of the blob
     def self.find(id, options={})
       self.find_by_id(id, options)
     end
 
     # Find a single article
+    #   +name+ of the article file
     def self.with_name(name, options={})
       self.find_by_name(name, options)
     end
 
     # Find articles by tag
+    #   +tag+ category
     def self.with_tag(tag, options={})
       self.find_by_tag(tag, options)
     end
 
     # Find articles by month and year
+    #   +year+ of when article was published
+    #   + month+ of when the article was published
     def self.with_date(year, month, options={})
       self.find_by_date(year, month, options)
     end
@@ -50,8 +61,7 @@ module Aerial
 
     # Return true if the article file exists
     def self.exists?(id)
-      return true if self.find_by_name(id)
-      false
+      self.find_by_name(id) ? true : false
     end
 
     # Return all the tags assigned to the articles
@@ -115,6 +125,20 @@ module Aerial
           return article if article.id == article_id
         end
       end
+      raise "Article not found"
+    end
+
+    # Find the article given the blob id.
+    # This is a more efficient way of find and Article
+    # However, we won't know anything else about the article such as the filename, tree, etc
+    #   +id+ of the blob
+    def self.find_by_blob_id(id, options = {})
+      blob = Aerial.repo.blob(id)
+      if blob.size > 0
+        attributes = self.extract_article(blob, options)
+        return Article.new(attributes) if attributes
+      end
+      raise "Article doesn't exists"
     end
 
     # Returns the articles with the given tag
@@ -129,26 +153,15 @@ module Aerial
       return articles
     end
 
-    # Find the article given the blob id.  This is a more efficient way of find and Article
-    # However, we won't know anything else about the article such as the filename, tree, etc
-    def find_by_blob_id(id, options = {})
-      if blob = Aerial.repo.blob(id)
-        attributes = self.extract_article_info_from(blob, options)
-        return Article.new(attributes) if attributes
-      end
-    end
-
     # Find a single article given the article's permalink value
     def self.find_by_permalink(link, options={})
       if blog = Aerial.repo.tree/"#{Aerial.config.articles.dir}/"
         blog.contents.each do |entry|
           article = self.find_article(entry, options)
-          if article.permalink == link
-            return article
-          end
+          return article if article.permalink == link
         end
       end
-      false
+      return false
     end
 
     # Find all the articles with the given month and date
@@ -183,7 +196,7 @@ module Aerial
       attributes = nil
       tree.contents.each do |archive|
         if archive.name =~ /article/
-          attributes = self.extract_article_info_from(archive, options)
+          attributes = self.extract_article(archive, options)
           attributes[:archive_name] = tree.name
           attributes[:file_name] = archive.name
         elsif archive.name =~ /comment/
@@ -191,7 +204,6 @@ module Aerial
         end
       end
       return Article.new(attributes.merge(:comments => comments)) if attributes
-      nil
     end
 
     # Find all the tags assign to the articles
@@ -214,7 +226,7 @@ module Aerial
     end
 
     # Extract the Article attributes from the file
-    def self.extract_article_info_from(blob, options={})
+    def self.extract_article(blob, options={})
       file                   = blob.data
       article                = Hash.new
       article[:id]           = blob.id

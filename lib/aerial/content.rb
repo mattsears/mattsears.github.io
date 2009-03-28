@@ -9,16 +9,6 @@ module Aerial
       atts.each_pair { |key, value| instance_variable_set("@#{key}", value) if self.respond_to? key}
     end
 
-    # Convert the page's body from markdown to html
-    def to_html
-      RDiscount::new( self.body ).to_html
-    end
-
-    # Derive the content name based on the file name (without the extension)
-    def name
-      File.basename(self.file_name, File.extname(self.file_name))
-    end
-
     protected
 
     # =============================================================================================

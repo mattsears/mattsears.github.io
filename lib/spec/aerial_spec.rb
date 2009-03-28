@@ -3,6 +3,7 @@ require "#{File.dirname(__FILE__)}/spec_helper"
 describe 'main aerial application' do
 
   before do
+    @articles = Article.all
     setup_repo
   end
 
@@ -25,7 +26,7 @@ describe 'main aerial application' do
   end
 
   it "should render a single article page" do
-    get '/2009/1/31/test-article-one'
+    get '/2009/1/31/test-article'
     @response.status.should == 200
   end
 
@@ -50,13 +51,14 @@ describe 'main aerial application' do
 
   end
 
-  describe "calling /tags" do
+   describe "calling /tags" do
 
     before do
       @article = Article.new(:title        => "Test Article",
                              :tags         => "git, sinatra",
                              :published_at => DateTime.new,
-                             :comments     => [])
+                             :comments     => [],
+                             :file_name    => "test-article")
       Aerial::Article.stub!(:with_tag).and_return([@article])
       get '/tags/git'
     end
@@ -65,7 +67,7 @@ describe 'main aerial application' do
       @response.status.should == 200
     end
 
-    it "should" do
+    it "should return a response body" do
       @response.body.should_not be_empty
     end
 
@@ -108,11 +110,6 @@ describe 'main aerial application' do
       #@response.body.should have_tag('//item[1]/link').with_text("http://#{@articles[0].permalink}")
     end
 
-    it "should have the description tags for the articles" do
-      # @response.body.should have_tag('//item[1]/description').with_text(@articles.first.body)
-      # @response.body.should have_tag('//item[2]/description').with_text(@articles[1].body_html)
-    end
-
     it "should have a pubDate tag with the article's publication date" do
       @response.body.should have_tag('//item[1]/pubDate').with_text(@articles[0].published_at.to_s)
       @response.body.should have_tag('//item[2]/pubDate').with_text(@articles[1].published_at.to_s)
@@ -129,13 +126,33 @@ describe 'main aerial application' do
 
   end
 
+  describe "calling /feed" do
+
+    before do
+      @articles = Article.find_all
+      Aerial::Article.stub!(:all).and_return(@articles)
+      get '/articles'
+    end
+
+    it "should return a valid response" do
+      @response.status.should == 200
+    end
+
+    it "should return a response body" do
+      @response.body.should_not be_empty
+    end
+
+  end
+
+
   describe "calling /arhives" do
     before do
       @article = Article.new(:title        => "Test Article",
                              :body         => "Test Content",
                              :id           => 333,
                              :published_at => DateTime.new,
-                             :comments     => [])
+                             :comments     => [],
+                             :file_name    => "test-article.article")
       Aerial::Article.stub!(:with_date).and_return([@article])
       get '/archives/year/month'
     end
@@ -149,11 +166,14 @@ describe 'main aerial application' do
   describe "posting a new comment" do
 
     before do
-      @article = Article.new(:title    => "Test Article",
-                             :body     => "Test Content",
-                             :id       => 333)
+      @article = Article.new(:title     => "Test Article",
+                             :body      => "Test Content",
+                             :file_name => "test-article",
+                             :archive_name => "test-article",
+                             :id        => 333)
       Aerial::Article.stub!(:find).and_return(@article)
-      @article.stub!(:add_comment).and_return(true)
+      @article.stub!(:comments).and_return(Array.new)
+      @article.stub!(:permalink).and_return('/permalink')
       post "/article/#{@article.id}/comments"
     end
 

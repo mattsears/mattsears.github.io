@@ -37,6 +37,7 @@ module Aerial
       end
     end
 
+    # Returns the
     def path
       base = "#{request.env['REQUEST_URI']}".scan(/\w+/).first
       return base.blank? ? "index" : base
@@ -84,13 +85,12 @@ module Aerial
     # Handy method to render partials including collections
     def partial(template, options = {})
       options.merge!(:layout => false)
+      return if options.has_key?(:collection) && options[:collection].nil?
+
       if collection = options.delete(:collection) then
         collection.inject([]) do |buffer, member|
-          buffer << haml(template, options.merge(
-                                                 :layout => false,
-                                                 :locals => {template.to_sym => member}
-                                                 )
-                         )
+          buffer << haml(template, options.merge(:layout => false,
+                                                 :locals => {template.to_sym => member}))
         end.join("\n")
       else
          haml(template, options)
