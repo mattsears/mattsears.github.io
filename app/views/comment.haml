@@ -1,7 +1,6 @@
 .comment
   %h2
-    %a{:href => comment.homepage}
-      =comment.author
+    =author_link comment.author, comment.homepage
     %span
       =humanized_date(comment.published_at)
   %p

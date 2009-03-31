@@ -97,6 +97,14 @@ module Aerial
       end
     end
 
+    # Author link
+    def author_link(name, homepage)
+      #if homepage.blank?
+      #  return "<a href='#{homepage}' rel='external'>#{name}</a>"
+      #end
+      name
+    end
+
     # Create a list of hyperlinks with a set of tags
     def link_to_tags(tags)
       return unless tags

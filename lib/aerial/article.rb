@@ -1,5 +1,3 @@
-require 'date'
-
 module Aerial
 
   class Article < Content
@@ -235,10 +233,9 @@ module Aerial
       article[:tags]         = self.extract_header("tags", file).split(/, /)
       article[:published_at] = DateTime.parse(self.extract_header("published", file))
       article[:body]         = self.scan_for_field(file, self.body_field)
-      article[:body_html]    = RDiscount::new( article[:body] ).to_html
+      article[:body_html]    = parse_coderay( RDiscount::new( article[:body] ).to_html )
       return article
     end
 
   end
-
 end

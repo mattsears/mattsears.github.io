@@ -1,3 +1,6 @@
+require 'coderay'
+require 'date'
+
 module Aerial
 
   # Base class for all the site's content
@@ -24,7 +27,7 @@ module Aerial
 
     # Returns the string that matches the given pattern
     def self.scan_for_field(contents, pattern)
-      contents.scan(pattern).first.to_s.strip
+      content = contents.scan(pattern).first.to_s.strip
     end
 
     # Returns the regular expression pattern for the header fields
@@ -35,6 +38,19 @@ module Aerial
     # Returns the regular expression pattern for the body field
     def self.body_field
       exp = Regexp.new('^\n(.*)$', Regexp::MULTILINE)
+    end
+
+    # Look for <code> blocks and convert it for syntax highlighting
+    def self.parse_coderay(text)
+      text.scan(/(\<code>(.+?)\<\/code>)/m).each do |match|
+         match[1] = match[1].gsub("<br>", "\n").
+           gsub("&amp;nbsp;", " ").
+           gsub("&amp;lt;", "<").
+           gsub("&amp;gt;", ">").
+           gsub("&amp;quot;", '"')
+        text.gsub!(match[0], CodeRay.scan(match[1].strip, :ruby).div(:line_numbers => :table, :css => :class))
+      end
+      return text
     end
 
     # =============================================================================================
@@ -52,6 +68,8 @@ module Aerial
       result.downcase!
       return result
     end
+
+
 
   end
 
