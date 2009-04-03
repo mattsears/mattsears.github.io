@@ -32,7 +32,7 @@ module Aerial
 
     # Returns the regular expression pattern for the header fields
     def self.header_field_for(header)
-      exp = Regexp.new('^'+header+'\s*:\s*(.*)\s+', Regexp::IGNORECASE)
+      exp = Regexp.new('^'+header+'\s*:(.*)$', Regexp::IGNORECASE)
     end
 
     # Returns the regular expression pattern for the body field
@@ -68,8 +68,6 @@ module Aerial
       result.downcase!
       return result
     end
-
-
 
   end
 
