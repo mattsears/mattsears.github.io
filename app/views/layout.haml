@@ -6,7 +6,7 @@
     %script{ 'type' => "text/javascript", :src => "/javascripts/jquery.template.js" }
     %script{ 'type' => "text/javascript", :src => "/javascripts/application.js" }
     %link{:href => '/style.css', :rel => 'stylesheet', :type => 'text/css'}
-    %link{:href => "http://#{hostname}/feed", :rel => 'alternate', :type => 'application/atom+xml', :title => "Feed for #{Aerial.config.name}" }
+    %link{:href => "http://#{hostname}/feed.xml", :rel => 'alternate', :type => 'application/atom+xml', :title => "Feed for #{Aerial.config.name}" }
   %body{:class => "#{path}" }
     #container
       #header
@@ -23,7 +23,7 @@
           %li
             %a{:href => 'mailto:matt@mattsears.com'} Contact
           %li
-            %a{:href => '/feed'} Subscribe
+            %a{:href => '/feed.xml'} Subscribe
             %img{:src => '/images/icon-rss.gif'}
       #content= yield
       =@content_for_sidebar

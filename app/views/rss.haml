@@ -5,11 +5,13 @@
     %link= "http://#{hostname}"
     %language= "en-us"
     %ttl= "40"
+    %generator Aerial
     %description= "#{Aerial.config.subtitle}"
+    %pubDate= @articles.first ? rss_date(@articles.first.published_at) : rss_date(Time.now.utc)
     - @articles.each do |article|
       %item
         %title= article.title
         %link= full_hostname(article.permalink)
         %description= article.body_html
-        %pubDate= article.published_at
+        %pubDate= rss_date(article.published_at)
         %guid{"isPermaLink" => "false"}= article.id

@@ -72,6 +72,11 @@ module Aerial
       end
     end
 
+    # Format for the rss 2.0 feed
+    def rss_date(date)
+      date.strftime("%a, %d %b %Y %H:%M:%S %Z") #Tue, 03 Jun 2003 09:39:21 GMT
+    end
+
     # Truncate a string
     def blurb(text, options ={})
       options.merge!(:length => 160, :omission => "...")
