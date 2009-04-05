@@ -42,7 +42,7 @@ module Aerial
 
     # Look for <code> blocks and convert it for syntax highlighting
     def self.parse_coderay(text)
-      text.scan(/(\<code>(.+?)\<\/code>)/m).each do |match|
+      text.scan(/(\<pre><code>(.+?)\<\/code>)<\/pre>/m).each do |match|
          match[1] = match[1].gsub("<br>", "\n").
            gsub("&amp;nbsp;", " ").
            gsub("&amp;lt;", "<").
