@@ -1,0 +1,12 @@
+Author: Gaius Parx 
+Published: 2009-04-20T17:56:30+00:00 
+Email: gaiusparx@gmail.com 
+Homepage:  
+User IP: 219.75.63.8 
+User Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_6; en-us) AppleWebKit/528.16 (KHTML, like Gecko) Version/4.0 Safari/528.16 
+Spam?: false 
+
+When I run "rake bootstrap" I got the error message
+no such file to load - cucumber/rake/task
+
+is cucumber a gem?
