@@ -3,7 +3,7 @@ Tags       : clojure, code
 Published  : 06/06/2009
 Author     : Matt Sears
 
-Writing multi-threaded code is hard. If you've ever done concurrent programming, you'll *probably* agree. Clojure offers a compelling alternative to traditional object-oriented approaches to programming. Recently, Clojure has garnered much attention from the Ruby and Python communities because of it's elegant design that lets you get right to the essence of a problem.
+Writing multi-threaded code is hard. If you've ever done concurrent programming, you'll *probably* agree. Clojure offers a compelling alternative to traditional object-oriented approaches to programming. Clojure has garnered much attention from the Ruby and Python communities because of it's elegant design that lets you get right to the essence of a problem.
 
 What is Clojure?
 ----
