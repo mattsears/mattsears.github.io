@@ -19,7 +19,7 @@
         %li
           %a{:href => "#{article.permalink}"}=article.title
           %span
-            =short_date(article.published_at)
+            =short_date(article.publish_date)
           %br/
           =blurb(article.body)
   .blurb

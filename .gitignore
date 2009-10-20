@@ -1,4 +1,4 @@
 config/deploy.rb
 config/config.yml
 config.ru
-lib/spec/repo
+tmp
