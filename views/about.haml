@@ -1,0 +1,46 @@
+#index
+  .blurb
+    %p
+      %img{:src => "/images/avatar.png"}
+        Hello and welcome. I'm Matt Sears, a software developer/entrepreneur currently living in Ohio. My career spans nearly 10 years of designing and developing software for the web. I specialize in Ruby on Rails development, but also enjoy learning new languages and technology.
+      %p
+        These days I spend most of my time working on my own company, <a href='http://littlelines.com' rel='external'>Littlelines</a>. It's a small software company focused on building high-quality web applications with beautiful user interfaces.
+      %p
+        I can be contacted at matt@mattsears.com or via direct message at twitter.com/mattsears
+  .blurb
+    %h2 About this site
+    %p
+      This site is my personal design and code playground.  It includes a collection of essays and articles on topics I find interesting. Mostly topics including coding, design, and business. This site was built with my open source project called <a href='http://github.com/mattsears/aerial'>Aerial</a>. It's written in Ruby using Sinatra and Git.
+
+  .blurb
+    %h2 Recent Articles
+    %ul
+      -Aerial::Article.recent.each do |article|
+        %li
+          %a{:href => "#{article.permalink}"}=article.title
+          %span
+            =short_date(article.published_at)
+          %br/
+          =blurb(article.body)
+  .blurb
+    %h2 Elsewhere on the web
+    %ul{:style=> "margin-right: 70px"}
+      %li
+        %a{:href => "http://www.linkedin.com/in/matthewsears", :rel => "external"} LinkedIn
+        online resume
+      %li
+        %a{:href => "http://twitter.com/mattsears", :rel => "external"} Twitter
+        latest status and observations
+      %li
+        %a{:href => "http://delicious.com/mamoodize", :rel => "external"} Delicious
+        bookmarks I find interesting
+    %ul
+      %li
+        %a{:href => "http://github.com/mattsears", :rel => "external"} Github
+        my open source projects and forks
+      %li
+        %a{:href => "http://www.flickr.com/photos/matthewsears", :rel => "external"} Flickr
+        photos I keep publicly
+      %li
+        %a{:href => "http://mattsears.mp", :rel => "external"} Chi.mp
+        the other online identity

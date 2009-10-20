@@ -1,0 +1,7 @@
+.comment
+  %h2
+    =link_to_author comment
+    %span
+      =humanized_date(comment.published_at)
+  %p
+    =comment.body
