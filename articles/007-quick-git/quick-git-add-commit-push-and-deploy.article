@@ -1,6 +1,6 @@
 Title           : Quick git add, commit, push, and deploy
 Tags            : capistrano, code, git
-Published Date  : 08/11/2008
+Publish Date  : 08/11/2008
 Author          : Matt Sears
 
 Last week, I was preparing a presentation and found myself doing a lot of quick fixes and deployments to prepare a web application for a demonstration.  I thought instead of running the following four commands each time:
