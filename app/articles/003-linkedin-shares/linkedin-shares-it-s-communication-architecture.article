@@ -1,6 +1,0 @@
-Title         : LinkedIn shares it's communication architecture
-Tags          : architecture
-Publish Date  : 2008-07-13 22:52:33
-Author        : Matt Sears
-
-I was just reading LinkedIn's presentation on it's architecture and it was like walking down memory lane. I worked with almost the same architecture at [LexisNexis](http://www.lexisnexis.com). We also used Java, Solaris, Tomcat (Websphere mostly), Oracle, JMS and the cached was implemented with C++. Ah, the good ol' days.
