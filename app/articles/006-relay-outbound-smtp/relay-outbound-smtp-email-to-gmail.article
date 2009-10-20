@@ -1,7 +1,7 @@
-Title      : Relay outbound SMTP email to Gmail
-Tags       : rails
-Published  : 08/01/2008
-Author     : Matt Sears
+Title           : Relay outbound SMTP email to Gmail
+Tags            : rails
+Published Date  : 08/01/2008
+Author          : Matt Sears
 
 Sending emails with Rails via Gmail is a snap with Marc Chung's excellent plugin [action_mailer_tls](http://code.openrain.com/rails/action_mailer_tls). However, sometimes our production environment isn't using Gmail as a mail server and/or we just need an easy way to send email from our development environment for testing or demonstrating purposes.
 

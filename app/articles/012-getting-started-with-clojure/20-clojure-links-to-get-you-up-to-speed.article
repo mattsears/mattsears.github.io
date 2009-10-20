@@ -1,6 +1,6 @@
 Title      : 20 Clojure Links To Get You Up To Speed
 Tags       : clojure, code
-Published  : 06/06/2009
+Published Date  : 06/06/2009
 Author     : Matt Sears
 
 Writing multi-threaded code is hard. If you've ever done concurrent programming, you'll *probably* agree. Clojure offers a compelling alternative to traditional object-oriented approaches to programming and has garnered much attention from the Ruby community because of it's elegant design that lets you get right to the essence of a problem.

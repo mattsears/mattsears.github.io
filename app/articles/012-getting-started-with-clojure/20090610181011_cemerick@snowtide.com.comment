@@ -1,10 +1,10 @@
-Author: Chas Emerick 
-Published: 2009-06-10T18:00:11+00:00 
-Email: cemerick@snowtide.com 
-Homepage: http://blog.snowtide.com 
-User IP: 75.147.38.122 
-User Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.0.7) Gecko/2009021906 Firefox/3.0.7 
-Spam?: false 
+Author: Chas Emerick
+Published Date: 2009-06-10T18:00:11+00:00
+Email: cemerick@snowtide.com
+Homepage: http://blog.snowtide.com
+User IP: 75.147.38.122
+User Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.0.7) Gecko/2009021906 Firefox/3.0.7
+Spam?: false
 
 I'd recommend Enclojure, a clojure plugin for NetBeans:
 

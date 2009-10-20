@@ -1,15 +1,20 @@
-require 'sinatra'
-require File.join(File.dirname(__FILE__), 'lib', 'aerial')
+#!/usr/bin/env ruby
+require "rubygems"
+require "aerial"
 
-root_dir = File.dirname(__FILE__)
-env = ENV['RACK_ENV'].to_sym
+env  = ENV['RACK_ENV'].to_sym
+root = File.dirname(__FILE__)
 
-set :environment          => env,
-    :root                 => root_dir,
-    :app_file             => File.join(root_dir, 'lib', 'aerial.rb'),
-    :cache_enabled        => env == :production ? true : false,
-    :cache_page_extension => '.html',
-    :cache_output_dir     => ''
+# Load configuration and initialize Aerial
+Aerial.new(root, "/config/config.yml")
 
-disable :run
-run Sinatra::Application
+# You probably don't want to edit anything below
+Aerial::App.set :environment, ENV["RACK_ENV"] || :production
+#Aerial::App.set :port, 4567
+Aerial::App.set :cache_enabled, env == :production ? true : false
+Aerial::App.set :cache_page_extension, '.html'
+Aerial::App.set :cache_output_dir, ''
+Aerial::App.set :root, root
+
+#disable :run
+run Aerial::App
