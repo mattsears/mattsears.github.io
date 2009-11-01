@@ -23,11 +23,11 @@ Occasionally, you might be working on a project dealing with conversions.  Alche
 
 Instead of:
 
-   miles = 8 * 1609.344 # converting meters to miles
+    miles = 8 * 1609.344 # converting meters to miles
 
 We can write:
 
-   8.meters.to.miles
+    8.meters.to.miles
 
 [andand](http://andand.rubyforge.org/)
 ---
@@ -35,11 +35,11 @@ andand is a cool gem that simplifies the . For example:
 
 Instead of:
 
-   @body = (article = Article.find_by_title('test')) && article.body
+    @body = (article = Article.find_by_title('test')) && article.body
 
 We can write this:
 
-   @body = Article.find_by_title('test').andand.body
+    @body = Article.find_by_title('test').andand.body
 
 This will call find on the Article class and sends 'body' if the result is not nil. In addition, our methods are guarded from NoMethodErrors is the result is nil.
 
