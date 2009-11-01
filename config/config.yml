@@ -1,0 +1,23 @@
+title: "Matt Sears"
+subtitle: ""
+name:  "mattsears"
+author: "Matt Sears"
+email:  "matt@mattsears.com"
+
+articles:
+  dir: "articles"
+
+public:
+  dir: "public"
+
+views:
+  dir: "views"
+  default: "about"
+
+git:
+  name: "origin"
+  branch: "master"
+
+akismet:
+  key: "71bd5f85f0cf"
+  url: "http://mattsears.com"

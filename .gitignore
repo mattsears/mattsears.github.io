@@ -1,4 +1,2 @@
 config/deploy.rb
-config/config.yml
-config.ru
 tmp
