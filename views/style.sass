@@ -12,7 +12,7 @@
 body
   :color = !black
   :font normal 12px Verdana, Arial, sans-serif
-  :font-size 88%
+  :font-size 82%
   :line-height 1.5
 a
   :text-decoration none
@@ -65,9 +65,9 @@ form
     :font normal 14px Verdana, Arial, sans-serif
 
 #header
-  :height 60px
+  :height 70px
   :width 100%
-  :border-bottom 1px dashed
+  :border-bottom 5px solid
   :border-color = !lightgrey
   #logo
     :float left
@@ -75,12 +75,14 @@ form
     h1
       :font 250% arial, sans-serif
       :padding 5px 0
-      :margin 0
+      :margin 7px 0 0 0
       a
         :color = !blue
         :text-decoration none
+        &:hover
+          :color = !darkgrey
       span
-        :font-size 14pt
+        :font-size 22pt
         :color = !darkgrey
   ul
     :float right
@@ -91,8 +93,10 @@ form
       a
         :color = !darkgrey
         :text-decoration none
-      &:hover, &:visited
-        :text-decoration underline
+        :font-size 11pt
+        &:hover
+          :color = !blue
+
 #container
   :width 800px
   :margin 0 auto
@@ -100,7 +104,8 @@ form
 #content
   :width 575px
   :float left
-  :border-right 1px dashed
+  :margin-top 2px
+  :border-top 1px solid
   :border-color = !lightgrey
   :padding 10px 10px 0 0
   a
@@ -146,8 +151,9 @@ form
       :overflow hidden
     ul
       li
-        :list-style disc
-        :margin-left 30px
+        :list-style none
+        :background url(/images/bullet.png) no-repeat 0 5px
+        :padding 0 0 0 15px
   .meta
     :font-size 8pt
     :background = !lightgrey
@@ -168,7 +174,6 @@ form
         :margin-left 5px
         :color #777
   .blurb
-    :width 100%
     :float left
     :font-size 110%
     :padding-bottom 10px
@@ -182,21 +187,35 @@ form
       :padding-right 10px
       :padding-bottom 15px
     ul
-      :margin-left 20px
+      :margin-left 0px
       :float left
       li
         :color = !black
         :margin-bottom 10px
-        :list-style-type disc
+        :list-style-type none
+        :margin-left 0
+  .find_me
+    :width 100px
+    :display inline
+    :float right
+    :margin 10px 0 20px 20px
+  .col
+    :width 220px
+    :margin-right 0px
+  .main
+    :width 525px
+
 body.index
   #content
-    :border none
-    :width 100%
+    :width 789px
 #sidebar
   :float right
   :width 200px
   :font-size 9pt
   :padding-top 20px
+  :margin-top 2px
+  :border-top 1px solid
+  :border-color = !lightgrey
   h2
     :margin 15px 0 10px 0
   p
@@ -215,7 +234,7 @@ body.index
   :height 100px
   :float left
   :margin-top 0px
-  :border-top 1px dashed
+  :border-top 1px solid
   :border-color = !lightgrey
   p
     :margin-top 5px

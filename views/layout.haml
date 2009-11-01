@@ -14,9 +14,7 @@
       #header
         #logo
           %h1
-            %a{:href => '/'}= Aerial.config.name
-            %span
-              =Aerial.config.subtitle
+            %a{:href => '/'}= "<span>@</span>#{Aerial.config.name}"
         %ul
           %li
             %a{:href => '/'} Home
