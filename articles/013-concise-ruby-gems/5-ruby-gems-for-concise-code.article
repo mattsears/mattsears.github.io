@@ -3,7 +3,7 @@ Tags          : rails, ruby
 Publish Date  : 2009-10-31 20:38:19
 Author        : Matt Sears
 
-At [Littlelines](http://littlelines.com), we have to write a lot of code under strict time constraints. We work in small teams which means that writing clean and concise code is a necessity. When a Ruby gem helps make our code easier for our team to grasp in a hurry, test, and maintain - we use it. Here are some gems we have in our toolbox:
+At [Littlelines](http://littlelines.com), we have to write a lot of code under strict time constraints. We work in small teams which means that writing clean and concise code is a necessity. When a Ruby library comes along that makes code easier to grasp in a hurry, test, and maintain - we use it. Here are some gems we have in our toolbox:
 
 [Formtastic](http://github.com/justinfrench/formtastic)
 ---
