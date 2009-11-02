@@ -29,9 +29,11 @@ We can write:
 
     8.meters.to.miles
 
+Includes a staggering array of conversions distance, mass, volume, and more.
+
 [andand](http://andand.rubyforge.org/)
 ---
-andand is a cool gem that simplifies the . For example:
+andand is a handy gem that allows allows natural method chaining for methods that can return nil. This saves a lot of boilerplate code and improves readability. For example:
 
 Instead of:
 
