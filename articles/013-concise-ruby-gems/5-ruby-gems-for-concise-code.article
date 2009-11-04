@@ -19,7 +19,7 @@ Finding data can get messy. Sometimes we run into situations where we are concat
 
 [Alchemist](http://github.com/toastyapps/alchemist)
 ---
-Occasionally, we workin on project dealing with conversions.  Alchemist is a Ruby library that does conversions for you and thus making your code more readable and easier to maintain. For example:
+Occasionally, we work on projects dealing with conversions.  Alchemist is a Ruby library that does conversions for you and thus making your code more readable and easier to maintain. For example:
 
 Instead of:
 
