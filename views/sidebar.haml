@@ -1,39 +1,42 @@
 #sidebar
-  #about
+  .border-line &nbsp;
+  .get-in-touch
+    %img.img-matt{:alt => "", :src => "/images/matt-sears.jpg"}/
     %p
-      %img{:src => "/images/avatar.png"}
-    %p
-      Hi. My name is Matt Sears and I'm a web developer based in Ohio. I run a small web development company called Littlelines with my brother Josh, and we build awesome websites for a living.
-  %h2 Elsewhere
-  %ul
-    %li
-      %img{:src => "/images/linkedin-icon.gif"}
-      %a{:href => "http://www.linkedin.com/in/matthewsears", :rel => "external"} LinkedIn
-    %li
-      %img{:src => "/images/github-icon.gif"}
-      %a{:href => "http://github.com/mattsears", :rel => "external"} Github
-    %li
-      %img{:src => "/images/twitter-icon.gif"}
-      %a{:href => "https://twitter.com/mattsears", :rel => "external"} Twitter
-    %li
-      %img{:src => "/images/flickr-icon.gif"}
-      %a{:href => "http://www.flickr.com/photos/matthewsears", :rel => "external"} Flickr
-    %li
-      %img{:src => "/images/tumblr-icon.png"}
-      %a{:href => "http://mattsears.tumblr.com", :rel => "external"} Tumblr
-
-  %h2 Recent Posts
-  %ul
-    -Aerial::Article.recent(:limit => 15).each do |article|
+      Hi. I'm Matt Sears, a web developer currently living
+      %br/
+      in Ohio.
+      %br/
+  %a.btn-subscribe{:href => "#"} subscribe
+  .elsewhere
+    %h4 Elsewhere
+    %ul
       %li
-        %a{:href => "#{article.permalink}"}=article.title
-  %h2 Categories
-  %ul
-    -Aerial::Article.tags.each do |tag|
+        %a.small-ico-linkedIn{:href => "http://www.linkedin.com/in/matthewsears", :rel => "external"} LinkedIn
       %li
-        %a{:href => "/tags/#{tag}"}=tag
-  %h2 Archives
-  %ul
-    -Aerial::Article.archives.each do |archive|
+        %a.small-ico-github{:href => "http://github.com/mattsears", :rel => "external"} Github
       %li
-        %a{:href => "/archives/#{archive[0][0]}"}="#{archive[0][1]} (#{archive[1]})"
+        %a.small-ico-twitter{:href => "https://twitter.com/mattsears", :rel => "external"} Twitter
+      %li
+        %a.small-ico-flickr{:href => "http://www.flickr.com/photos/matthewsears", :rel => "external"} Flickr
+      %li.last
+        %a.small-ico-tumblr{:href => "http://mattsears.tumblr.com", :rel => "external"} tumblr
+  .recent-posts
+    %h4 Recent Posts
+    %ul
+      -Aerial::Article.recent(:limit => 5).each do |article|
+        %li
+          %a{:href => "#{article.permalink}"}=article.title
+  .categories
+    %h4 Categories
+    %ul
+      -Aerial::Article.tags.each do |tag|
+        %li
+          %a{:href => "/tags/#{tag}"}=tag
+  .archives
+    %h4 Archives
+    %ul
+      -Aerial::Article.archives.each do |archive|
+        %li
+          %a{:href => "/archives/#{archive[0][0]}"}="#{archive[0][1]} (#{archive[1]})"
+.cl &nbsp;

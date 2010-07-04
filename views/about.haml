@@ -1,34 +1,70 @@
-#index
-  .blurb
-    .find_me
-      %h3 Find me
-      %ul{:style=> "margin-right: 70px"}
-        %li
-          %a{:href => "http://www.linkedin.com/in/matthewsears", :rel => "external"} LinkedIn
-        %li
-          %a{:href => "http://twitter.com/mattsears", :rel => "external"} Twitter
-        %li
-          %a{:href => "http://delicious.com/mamoodize", :rel => "external"} Delicious
-        %li
-          %a{:href => "http://github.com/mattsears", :rel => "external"} Github
-        %li
-          %a{:href => "http://www.flickr.com/photos/matthewsears", :rel => "external"} Flickr
-        %li
-          %a{:href => "http://mattsears.mp", :rel => "external"} Chi.mp
-    %p
-      %img{:src => "/images/avatar.png"}
-        Hello and welcome. I'm Matt Sears, a software developer/entrepreneur currently living in Ohio. My career spans nearly 10 years of designing and developing software for the web. I specialize in Ruby on Rails development, but also enjoy learning new languages and technology.
-      %p
-        These days I spend most of my time working on my own company, <a href='http://littlelines.com' rel='external'>Littlelines</a>. It's a small software company focused on building high-quality web applications with beautiful user interfaces.
-
-  .blurb
-    %h2 Recent Articles
+.top-section
+  #slider
     %ul
-      -Aerial::Article.recent.each do |article|
-        %li
-          %a{:href => "#{article.permalink}"}=article.title
-          %span
-            =short_date(article.publish_date)
-          %br/
-          =blurb(article.body)
-
+      %li
+        .image
+          %img{:alt => "", :height => "275", :src => "/images/slider-image-rubyrags.png", :width => "568"}/
+      %li
+        .image
+          %img{:alt => "", :height => "312", :src => "/images/slider-image-sliqr.png", :width => "568"}/
+      %li
+        .image
+          %img{:alt => "", :height => "312", :src => "/images/slider-image-wondergraphs.png", :width => "568"}/
+      %li
+        .image
+          %img{:alt => "", :height => "312", :src => "/images/slider-image-littlelines.png", :width => "568"}/
+    .slider-controls
+      %a.active{:href => "#"} 1
+      %a{:href => "#"} 2
+      %a{:href => "#"} 3
+      %a{:href => "#"} 4
+  .intro
+    .border-line &nbsp;
+    %p
+      %strong Hello and welcome.
+      I'm Matt Sears, a software developer/entrepreneur currently living in Ohio. My career spans nearly 10 years of designing and developing software for the web. I specialize in Ruby on Rails development, but also enjoy learning new languages and technology.
+    .border-line &nbsp;
+    .more-about-me
+      I spend most of my time working on (and in) my own company,
+      %a{:href => "#"} Littlelines
+      \. It's a small software studio focused on building cutting-edge web applications.
+    .border-line &nbsp;
+  .cl &nbsp;
+  .bottom-section
+    .border-line &nbsp;
+    #recent-articles
+      %h3.bg-pattern Recent Articles
+      .box
+        -Aerial::Article.recent(:limit => 3).each do |article|
+          .entry
+            %h2.nocufon
+              %a{:href => "#{article.permalink}"}=article.title
+            %p
+              =blurb(article.body)
+          .border-line &nbsp;
+      %a.btn-visit.more{:href => "/articles"} Visit My Blog
+    #find-elsewhere
+      %h3.bg-pattern Find Me Elsewhere
+      .box
+        %ul
+          %li
+            %a.ico-linkedIn{:href => "http://www.linkedin.com/in/matthewsears", :rel => "external"} LinkedIn
+          %li
+            %a.ico-twitterbig{:href => "https://twitter.com/mattsears", :rel => "external"} Twitter
+          %li
+            %a.ico-flickr{:href => "http://www.flickr.com/photos/matthewsears", :rel => "external"} Flickr
+          %li
+            %a.ico-github{:href => "http://github.com/mattsears", :rel => "external"} Github
+          %li
+            %a.ico-facebook{:href => "http://www.facebook.com/profile.php?id=1389547090", :rel => "external"} Facebook
+    .cl &nbsp;
+    .widgets
+      .border-line &nbsp;
+      #flickr-widget
+        %h4.bg-pattern Recent Photos
+        .flickr-box
+          %ul
+      #twitter-widget
+        %h4.bg-pattern Recent Tweets
+        .twitter-box
+      .cl &nbsp;

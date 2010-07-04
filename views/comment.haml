@@ -1,7 +1,12 @@
-.comment
-  %h2
-    =link_to_author comment
-    %span
-      =humanized_date(comment.publish_date)
-  %p
-    =comment.body
+%li{:class => 'even'}
+  %a.comment-author{:href => "#"}
+    %img{:alt => "", :src => "/images/comment-author1.jpg"}/
+  .comment-content
+    %h4.nocufon
+      = link_to_author comment
+      said:
+    %p= comment.body
+    %p.date
+      Post at
+      = humanized_date(comment.publish_date)
+  .cl &nbsp;
