@@ -5,8 +5,6 @@ require "aerial"
 env  = ENV['RACK_ENV'].to_sym
 root = File.dirname(__FILE__)
 
-require "sinatra/reloader"
-
 # Load configuration and initialize Aerial
 Aerial.new(root, "/config/config.yml")
 

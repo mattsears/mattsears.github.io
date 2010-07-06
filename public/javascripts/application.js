@@ -66,7 +66,7 @@ $(document).ready(function(){
   );
 
   $("#slider ul").jcarousel({
-    scroll: 0,
+    scroll: 1,
     wrap: 'both',
     auto: 7,
     initCallback: mycarousel_initCallback,

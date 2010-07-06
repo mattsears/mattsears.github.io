@@ -30,6 +30,6 @@ end
 begin
   require "vlad"
   Vlad.load(:app => nil, :scm => "git")
-rescue LoadError
+  rescue LoadError
   # do nothing
 end
