@@ -5,4 +5,5 @@ aerial -v 0.1.1
 grit -v 1.0.1
 rdiscount -v 1.3.4
 coderay -v 0.8.357
-
+rack-rewrite -v 1.0.0
+rack-contrib -v 1.0.1
