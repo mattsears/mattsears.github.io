@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require "rubygems"
-#require "aerial"
-require File.join(File.dirname('/Users/matt/Workspace/aerial/'), "aerial", "lib", "aerial.rb")
+require "aerial"
+#require File.join(File.dirname('/Users/matt/Workspace/aerial/'), "aerial", "lib", "aerial.rb")
 
 env  = ENV['RACK_ENV'].to_sym
 #root = File.dirname(__FILE__)
