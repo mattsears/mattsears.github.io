@@ -6,6 +6,7 @@ root = File.expand_path(File.dirname(__FILE__))
 
 if env == :production
   require "aerial"
+  #require File.join(File.dirname('/Users/matt/Workspace/aerial/'), "aerial", "lib", "aerial.rb")
   require 'rack/contrib'
   require 'rack-rewrite'
   use Rack::StaticCache, :urls => ['/images','/stylesheets','/favicon.ico'], :root => "public"
