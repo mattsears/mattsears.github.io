@@ -1,0 +1,386 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html dir='ltr' lang='en-US' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-type' />
+    <title>Matt Sears</title>
+    <meta content='Matt Sears, Matt, Sears' name='keywords' />
+    <meta author='Matt Sears' />
+    <link href='http://example.org/feed.xml' rel='alternate' title='Feed for mattsears' type='application/atom+xml' />
+    <link href='/images/favicon.gif' rel='shortcut icon' />
+    <link href='/style.css' media='all' rel='stylesheet' type='text/css' />
+    <!--[if IE 6]>
+      <link rel="stylesheet" href="css/ie6.css" type="text/css" media="all" />
+    <![endif]-->
+    <script charset='utf-8' src='/javascripts/jquery-1.4.2.min.js' type='text/javascript'></script>
+    <script charset='utf-8' src='/javascripts/jquery.jcarousel.pack.js' type='text/javascript'></script>
+    <script charset='utf-8' src='/javascripts/jflickrfeed.js' type='text/javascript'></script>
+    <script charset='utf-8' src='/javascripts/jquery.tweet.js' type='text/javascript'></script>
+    <script charset='utf-8' src='/javascripts/cufon-yui.js' type='text/javascript'></script>
+    <script charset='utf-8' src='/javascripts/Rockwell_Bold_700.font.js' type='text/javascript'></script>
+    <script charset='utf-8' src='/javascripts/HoeflerTextItalic_italic_500.font.js' type='text/javascript'></script>
+    <script charset='utf-8' src='/javascripts/InterstateBold_400.font.js' type='text/javascript'></script>
+    <script charset='utf-8' src='/javascripts/application.js' type='text/javascript'></script>
+  </head>
+  <body class='index'>
+    <div class='page-bg'>&nbsp;</div>
+    <div id='header'>
+      <div class='shell'>
+        <div class='header-bg'>&nbsp;</div>
+        <div class='cl'>&nbsp;</div>
+        <a href='/'>
+          <h1 class='nocufon' id='logo'></h1>
+        </a>
+        <div class='right'>
+          <div class='cl'>&nbsp;</div>
+          <div id='navigation'>
+            <ul>
+              <li class='home-link'>
+                <a href='/'>
+                  <span>Home</span>
+                  <span class='hover-state'>&nbsp;</span>
+                </a>
+              </li>
+              <li class='articles-link'>
+                <a href='/articles'>
+                  <span>Articles</span>
+                  <span class='hover-state'>&nbsp;</span>
+                </a>
+              </li>
+              <li class='contact-link'>
+                <a href='mailto:matt@mattsears.com'>
+                  <span>Contact</span>
+                  <span class='hover-state'>&nbsp;</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class='cl'>&nbsp;</div>
+        </div>
+        <div class='cl'>&nbsp;</div>
+      </div>
+    </div>
+    <div id='main'>
+      <div class='shell'>
+        <div id='content'>
+          <div id='content-top'></div>
+          <div id='content-bg'>
+            <div class='posts'>
+              <div class='post'>
+                <div class='head'>
+                  <h2 class='nocufon'>
+                    <a href='/2009/10/31/5-ruby-gems-for-concise-code'>
+                      5 Ruby Gems for Concise Code
+                    </a>
+                  </h2>
+                  <p class='subtitle'></p>
+                  <span class='comments' href='#'>
+                    <a class='dsq-comment-count comment-link commentslink' href='/2009/10/31/5-ruby-gems-for-concise-code#disqus_thread'></a>
+                  </span>
+                  <span class='author'>
+                    Posted by Matt Sears on Saturday October, 31 2009
+                  </span>
+                  <div class='cl'>&nbsp;</div>
+                </div>
+                <div class='body'>
+                  <p class='with-border'>
+                    <p>At <a href="http://littlelines.com">Littlelines</a>, we have to write a lot of code under strict time constraints. We work in small teams which means that writing clean and concise code is a necessity. When a Ruby library comes along that makes code easier to grasp in a hurry, test, and maintain - we use it. Here are some gems we have in our toolbox:</p>
+                    
+                    <h2><a href="http://github.com/justinfrench/formtastic">Formtastic</a></h2>
+                    
+                    <p>If you're developing wep apps, more than likely it will include html forms.  Forms can be a time-drain, not to mention very boring to build. Formtastic provides a more concise way of generating form views and includes inline error messages and is semantically rich.</p>
+                    
+                    <h2><a href="http://github.com/giraffesoft/resource_controller">Resource  Controller</a></h2>
+                    
+                    <p>Resource Controller hides away the RESTful controller boiler plate code and make your controllers skinny. Skinny controllers help you to consolidate your business logic into one place, thus saves time on maintenance and testing.</p>
+                    
+                    <h2><a href="http://github.com/binarylogic/searchlogic">Search Logic</a></h2>
+                    
+                    <p>Finding data can get messy. Sometimes we run into situations where we are concatenating strings to build SQL statements and this can lead to bugs. Searchlogic works by creating a number of named scopes that can be called on any ActiveRecord model. The best part, you can dynamically call scopes on associated classes and Searchlogic will take care of creating the necessary joins for you.</p>
+                    
+                    <h2><a href="http://github.com/toastyapps/alchemist">Alchemist</a></h2>
+                    
+                    <p>Occasionally, we work on projects dealing with conversions.  Alchemist is a Ruby library that does conversions for you and thus making your code more readable and easier to maintain. For example:</p>
+                    
+                    <p>Instead of:</p>
+                    
+                    <pre><code>miles = 8 * 1609.344 # converting meters to miles&#x000A;</code></pre>
+                    
+                    <p>We can write:</p>
+                    
+                    <pre><code>8.meters.to.miles&#x000A;</code></pre>
+                    
+                    <p>Alchemist includes a staggering array of conversions including distance, mass, volume, and more.</p>
+                    
+                    <h2><a href="http://andand.rubyforge.org/">andand</a></h2>
+                    
+                    <p>andand is a handy gem that allows allows natural method chaining for methods that can return nil. This saves a lot of boilerplate code and improves readability. For example:</p>
+                    
+                    <p>Instead of:</p>
+                    
+                    <pre><code>@body = (article = Article.find_by_title('test')) &amp;&amp; article.body&#x000A;</code></pre>
+                    
+                    <p>We can write this:</p>
+                    
+                    <pre><code>@body = Article.find_by_title('test').andand.body&#x000A;</code></pre>
+                    
+                    <p>This will call find on the Article class and sends 'body' if the result is not nil. In addition, our methods are guarded from NoMethodErrors is the result is nil.</p>
+                  </p>
+                </div>
+                <div class='post-separator'>&nbsp;</div>
+              </div>
+              
+              <div class='post'>
+                <div class='head'>
+                  <h2 class='nocufon'>
+                    <a href='/2008/10/12/two-years-working-with-rails'>
+                      Two+ Years Working with Rails
+                    </a>
+                  </h2>
+                  <p class='subtitle'></p>
+                  <span class='comments' href='#'>
+                    <a class='dsq-comment-count comment-link commentslink' href='/2008/10/12/two-years-working-with-rails#disqus_thread'></a>
+                  </span>
+                  <span class='author'>
+                    Posted by Matt Sears on Sunday October, 12 2008
+                  </span>
+                  <div class='cl'>&nbsp;</div>
+                </div>
+                <div class='body'>
+                  <p class='with-border'>
+                    <p>Update: I thought I should give a little background on how I got started with Rails - when I was attending the SDWest conference in March 2006.  I was at the Jolt Awards, and saw @d2h receive the award for the best web development tool for Rails 1.0.  I downloaded Rails that night in the hotel room and was hooked.</p>
+                    
+                    <p>This week marks the two year anniversary when I delivered my first professional Rails app.  Today, I decided to take a look back at the  code of that first project and see what's improved over the past two years.  The result - not bad, but there were a couple areas that stood out. Here are a few:</p>
+                    
+                    <ol>
+                    <li>The controllers in that first project were out of control. Not sure why, maybe coming from the J2EE world, my first instinct was to cram everything into the controller. It was apparent that the concept of REST wasn't completely baked into my brain yet. Not to mention the concept of fat models, skinny controllers.</li>
+                    <li>Second, the views and Javascripts were a bit unorganized.  I noticed excessive conditional logic and messy Javascript code in a few of the pages.  If I was to re-write the app today, most of it could be cleanup with rendering partials with collections and using Low Pro to clean up the Javascript.</li>
+                    <li>Finally, the sheer lack of plugins for that first project was surprising. It's true that the amount and quality of plugins have grown in two years, but I believe the lack of awareness was the main cause.</li>
+                    </ol>
+                    
+                    
+                    <p>So this made me think of what I would say if I were to advise newcomers writing their first Rails app.  I would have to say first, if you find yourself writing code in the controller, then ask yourself "Can I put this logic in the model?". And also be sure to familiarize yourself with the available plugins with sites such as <a href="http://agilewebdevelopment.com">Agile Web Development</a> and <a href="http://github.com">Github</a>. They can save you a ton of work.</p>
+                  </p>
+                </div>
+                <div class='post-separator'>&nbsp;</div>
+              </div>
+              
+              <div class='post'>
+                <div class='head'>
+                  <h2 class='nocufon'>
+                    <a href='/2008/8/1/relay-outbound-smtp-email-to-gmail'>
+                      Relay outbound SMTP email to Gmail
+                    </a>
+                  </h2>
+                  <p class='subtitle'></p>
+                  <span class='comments' href='#'>
+                    <a class='dsq-comment-count comment-link commentslink' href='/2008/8/1/relay-outbound-smtp-email-to-gmail#disqus_thread'></a>
+                  </span>
+                  <span class='author'>
+                    Posted by Matt Sears on Friday August, 01 2008
+                  </span>
+                  <div class='cl'>&nbsp;</div>
+                </div>
+                <div class='body'>
+                  <p class='with-border'>
+                    <p>Sending emails with Rails via Gmail is a snap with Marc Chung's excellent plugin <a href="http://code.openrain.com/rails/action_mailer_tls">action_mailer_tls</a>. However, sometimes our production environment isn't using Gmail as a mail server and/or we just need an easy way to send email from our development environment for testing or demonstrating purposes.</p>
+                    
+                    <p>Instead of installing the action_mailer_tls plugin and configuring each of our Rails apps, we can do a one-time setup of our local Postfix client to relay all SMTP outbound emails to our Gmail account. If your running a Mac OS Leopard or Linux, Postfix should already be installed. With a little configuration, we should be up and running in a couple minutes.</p>
+                    
+                    <p>First create /etc/postfix/relay_password file with the server name, email account name and password as shown below. This configuration works with Gmail accounts as well as with Google Apps email accounts. I'm personally using my company's Google Apps with a special email account setup for outbound emails only.</p>
+                    
+                    <pre><code>smtp.gmail.com    example@yourdomain.com:yourpassword&#x000A;</code></pre>
+                    
+                    <p>Then tell Postfix about our google accounts information so it knows how and where to relay the email to. This can be done with the postmap command:</p>
+                    
+                    <pre><code>$ postmap /etc/postfix/relay_password&#x000A;</code></pre>
+                    
+                    <p>Since Gmail requires a TLS (Transport Layer Security) connection for certificate-based authentication, we'll need to download a free root certificate from Verisign <a href="https://www.verisign.com/support/roots.html" rel="external">https://www.verisign.com/support/roots.html</a> to authenticate our remote SMTP client.</p>
+                    
+                    <pre><code>$ mkdir /etc/postfix/certs&#x000A;$ cd /etc/postfix/certs&#x000A;$ sudo cp roots.zip /etc/postfix/certs&#x000A;$ sudo unzip -j roots.zip&#x000A;$ sudo openssl x509 -inform der -in ThawtePremiumServerCA.cer -out  ThawtePremiumServerCA.pem&#x000A;$ sudo c_rehash /etc/postfix/certs&#x000A;</code></pre>
+                    
+                    <p>Now we are ready to configure Postfix. Postfix needs to know what host to relay the email to, the username and password to authenticate the Gmail account, and the path to our certificates for the encrypted session.  Add these lines to the bottom of /etc/postfix/main.cf</p>
+                    
+                    <pre><code>relayhost = smtp.gmail.com:587&#x000A;# auth&#x000A;smtp_sasl_auth_enable = yes&#x000A;smtp_sasl_password_maps = hash:/etc/postfix/relay_password&#x000A;smtp_sasl_security_options = noanonymous&#x000A;&#x000A;# tls&#x000A;smtp_tls_security_level = may&#x000A;smtp_tls_CApath = /etc/postfix/certs&#x000A;smtp_tls_session_cache_database = btree:/etc/postfix/smtp_scache&#x000A;smtp_tls_session_cache_timeout = 3600s&#x000A;smtp_tls_loglevel = 1&#x000A;tls_random_source = dev:/dev/urandom&#x000A;</code></pre>
+                    
+                    <p>Restart (or start) Postfix to pick up our new changes.</p>
+                    
+                    <pre><code>$ sudo postfix stop&#x000A;$ sudo postfix start&#x000A;</code></pre>
+                    
+                    <p>That's it! Now we don't have to do any special installation or configuration to send email via Gmail for our Rails apps. We just need to set the delivery method to :smtp and we're ready to go.</p>
+                  </p>
+                </div>
+                <div class='post-separator'>&nbsp;</div>
+              </div>
+            </div>
+          </div>
+          <div id='content-btm'>&nbsp;</div>
+        </div>
+        <div id='sidebar'>
+          <div class='border-line'>&nbsp;</div>
+          <div class='get-in-touch'>
+            <img alt='' class='img-matt' src='/images/matt-sears.jpg' />
+            <p>
+              Hi. I'm Matt Sears, a web developer currently living
+              <br />
+              in Ohio. I run
+              <br />
+              <a href='http://littlelines.com' rel='external'>
+                Littlelines
+              </a>
+              , a web design and development studio.
+            </p>
+            <p>
+              I use this blog to share my ideas and as a way to learn.
+              Feel free to contact me via email or follow me on Twitter at
+              <a href='https://twitter.com/mattsears' rel='external'>
+                @mattsears.
+              </a>
+            </p>
+          </div>
+          <a class='btn-subscribe' href='#'>Subscribe</a>
+          <div class='elsewhere'>
+            <h4>Elsewhere</h4>
+            <ul>
+              <li>
+                <a class='small-ico-linkedIn' href='http://www.linkedin.com/in/matthewsears' rel='external'>LinkedIn</a>
+              </li>
+              <li>
+                <a class='small-ico-github' href='http://github.com/mattsears' rel='external'>Github</a>
+              </li>
+              <li>
+                <a class='small-ico-twitter' href='https://twitter.com/mattsears' rel='external'>Twitter</a>
+              </li>
+              <li>
+                <a class='small-ico-flickr' href='http://www.flickr.com/photos/matthewsears' rel='external'>Flickr</a>
+              </li>
+              <li class='last'>
+                <a class='small-ico-tumblr' href='http://mattsears.tumblr.com' rel='external'>tumblr</a>
+              </li>
+            </ul>
+          </div>
+          <div class='recent-posts'>
+            <h4>Recent Posts</h4>
+            <ul>
+              <li>
+                <a href='/2009/10/31/5-ruby-gems-for-concise-code'>5 Ruby Gems for Concise Code</a>
+              </li>
+              <li>
+                <a href='/2009/6/6/20-clojure-links-to-get-you-up-to-speed'>20 Clojure Links To Get You Up To Speed</a>
+              </li>
+              <li>
+                <a href='/2009/4/4/git-blogging-with-aerial'>Git blogging with Aerial</a>
+              </li>
+              <li>
+                <a href='/2008/11/23/rubyconf-2008-wrap-up'>RubyConf 2008 Wrap Up</a>
+              </li>
+              <li>
+                <a href='/2008/10/12/two-years-working-with-rails'>Two+ Years Working with Rails</a>
+              </li>
+            </ul>
+          </div>
+          <div class='categories'>
+            <h4>Categories</h4>
+            <ul>
+              <li>
+                <a href='/tags/rails'>rails</a>
+              </li>
+              <li>
+                <a href='/tags/ruby'>ruby</a>
+              </li>
+              <li>
+                <a href='/tags/clojure'>clojure</a>
+              </li>
+              <li>
+                <a href='/tags/code'>code</a>
+              </li>
+              <li>
+                <a href='/tags/projects'>projects</a>
+              </li>
+              <li>
+                <a href='/tags/git'>git</a>
+              </li>
+              <li>
+                <a href='/tags/sinatra'>sinatra</a>
+              </li>
+              <li>
+                <a href='/tags/conference'>conference</a>
+              </li>
+              <li>
+                <a href='/tags/capistrano'>capistrano</a>
+              </li>
+              <li>
+                <a href='/tags/passenger'>passenger</a>
+              </li>
+              <li>
+                <a href='/tags/littlelines'>littlelines</a>
+              </li>
+              <li>
+                <a href='/tags/architecture'>architecture</a>
+              </li>
+              <li>
+                <a href='/tags/news'>news</a>
+              </li>
+            </ul>
+          </div>
+          <div class='archives'>
+            <h4>Archives</h4>
+            <ul>
+              <li>
+                <a href='/archives/2008/10'>October 2008 (1)</a>
+              </li>
+              <li>
+                <a href='/archives/2009/04'>April 2009 (1)</a>
+              </li>
+              <li>
+                <a href='/archives/2008/08'>August 2008 (3)</a>
+              </li>
+              <li>
+                <a href='/archives/2008/11'>November 2008 (1)</a>
+              </li>
+              <li>
+                <a href='/archives/2009/06'>June 2009 (1)</a>
+              </li>
+              <li>
+                <a href='/archives/2008/07'>July 2008 (5)</a>
+              </li>
+              <li>
+                <a href='/archives/2009/10'>October 2009 (1)</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class='cl'>&nbsp;</div>
+      </div>
+    </div>
+    <div id='footer'>
+      <div class='shell'>
+        <div class='left'>
+          <p>&copy; Copyright 2010 Matt Sears. All Rights Reserved.</p>
+        </div>
+        <p class='footer-navigation'>
+          <a href='#'>HOME</a>
+          <a href='#'>ARTICLES</a>
+          <a href='#'>CONTACT</a>
+        </p>
+        <div class='cl'>&nbsp;</div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        Cufon.now();
+        //
+        (function() {
+          var links = document.getElementsByTagName('a');
+          var query = '?';
+          for(var i = 0; i < links.length; i++) {
+          if(links[i].href.indexOf('#disqus_thread') >= 0) {
+            query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+          }
+          }
+          document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/mattsears/get_num_replies.js' + query + '"></' + 'script>');
+        })();
+        //
+      //]]>
+    </script>
+  </body>
+</html>
