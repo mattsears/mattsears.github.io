@@ -10,10 +10,10 @@ if env == :production
   require 'rack/contrib'
   require 'rack-rewrite'
 
-  use Rack::StaticCache, :urls => ['/images', '/javascripts', '/favicon.ico'], :root => "public"
+  use Rack::StaticCache, :urls => ['/images', '/javascripts', '/favicon.ico', '/style.css'], :root => "public"
   use Rack::Rewrite do
     rewrite '/', '/index.html'
-    rewrite %r{^(.*)\.css}, '/$1.css'
+    #rewrite %r{^(.*)\.css}, '/$1.css'
     rewrite %r{^(.*)}, '/$1.html'
   end
   run Rack::Directory.new('public')
