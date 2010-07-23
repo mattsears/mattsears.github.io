@@ -12,6 +12,7 @@ if env == :production
 
   use Rack::StaticCache, :urls => ['/images', '/javascripts', '/favicon.ico', '/site'], :root => "public"
   use Rack::Rewrite do
+    rewrite '/style.css', '/site/style.css'
     rewrite '/', '/site/index.html'
     rewrite %r{^(.*)}, '/site/$1.html'
   end
