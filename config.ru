@@ -10,7 +10,7 @@ if env == :production
   require 'rack/contrib'
   require 'rack-rewrite'
 
-  use Rack::StaticCache, :urls => ["/images", "/javascripts"], :root => "public"
+  use Rack::StaticCache, :urls => ["/images", "/javascripts"], :root => "site"
   use Rack::Rewrite do
     rewrite '/', '/index.html'
   end
@@ -20,7 +20,7 @@ if env == :production
   #   rewrite '/', '/site/index.html'
   #   rewrite %r{^(.*)}, '/site/$1.html'
   # end
-  run Rack::Directory.new('public')
+  run Rack::Directory.new('site')
 else
   #require "aerial"
   require File.join(File.dirname('/Users/matt/Workspace/aerial/'), "aerial", "lib", "aerial.rb")
