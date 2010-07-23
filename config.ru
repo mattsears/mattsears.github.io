@@ -10,16 +10,11 @@ if env == :production
   require 'rack/contrib'
   require 'rack-rewrite'
 
-  use Rack::StaticCache, :urls => ["/images", "/javascripts"], :root => "site"
-  # use Rack::Rewrite do
-  #   rewrite '/', '/index.html'
-  # end
-  # use Rack::StaticCache, :urls => ['/images','/javascripts','/favicon.ico'], :root => "site"
-  # use Rack::Rewrite do
-  #   rewrite %r{^(.*)\.css}, '/site/$1.css'
-  #   rewrite '/', '/site/index.html'
-  #   rewrite %r{^(.*)}, '/site/$1.html'
-  # end
+  use Rack::StaticCache, :urls => ['/images', '/javascripts', '/favicon.ico'], :root => "site"
+  use Rack::Rewrite do
+    rewrite '/', '/index.html'
+    rewrite %r{^(.*)}, '/$1.html'
+  end
   run Rack::Directory.new('site')
 else
   #require "aerial"
