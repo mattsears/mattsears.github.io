@@ -5,7 +5,7 @@ require "rubygems"
 env  = ENV['RACK_ENV'].to_sym
 root = File.expand_path(File.dirname(__FILE__))
 
-if env == :production
+if env == :development
   #require File.join(File.dirname('/Users/matt/Workspace/aerial/'), "aerial", "lib", "aerial.rb")
   require 'rack/contrib'
   require 'rack-rewrite'
@@ -16,6 +16,7 @@ if env == :production
     rewrite '/', '/site/index.html'
     rewrite %r{^(.*)}, '/site/$1.html'
   end
+  use RewriteContentType, {"html" => "text/html"}
   run Rack::Directory.new('public')
 else
   #require "aerial"
