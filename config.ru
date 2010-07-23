@@ -9,12 +9,10 @@ if env == :production
   #require File.join(File.dirname('/Users/matt/Workspace/aerial/'), "aerial", "lib", "aerial.rb")
   require 'rack/contrib'
   require 'rack-rewrite'
-
-  use Rack::StaticCache, :urls => ['/images', '/javascripts', '/favicon.ico', '/style.css'], :root => "public"
+  use Rack::StaticCache, :urls => ['/images', '/javascripts', '/favicon.ico', '/site/style.css'], :root => "public"
   use Rack::Rewrite do
-    rewrite '/', '/index.html'
-    #rewrite %r{^(.*)\.css}, '/$1.css'
-    rewrite %r{^(.*)}, '/$1.html'
+    rewrite '/', '/site/index.html'
+    rewrite %r{^(.*)}, '/site/$1.html'
   end
   run Rack::Directory.new('public')
 else
