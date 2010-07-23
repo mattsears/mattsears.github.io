@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# -*- coding: undecided -*-
 require "rubygems"
 
 env  = ENV['RACK_ENV'].to_sym
@@ -10,7 +11,8 @@ if env == :production
   require 'rack/contrib'
   require 'rack-rewrite'
   #use Rack::ETag
-  use Rack::StaticCache, :urls => ['/images','/javascripts','/favicon.ico'], :root => "public"
+  #use Rack::StaticCache, :urls => ['/images','/javascripts','/favicon.ico'], :root => "public"
+  use Rack::Static, :urls => ["/images", "/javascripts"], :root => "public"
   use Rack::Rewrite do
     rewrite %r{^(.*)\.css}, '/site/$1.css'
     rewrite '/', '/site/index.html'
