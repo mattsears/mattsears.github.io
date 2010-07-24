@@ -124,11 +124,11 @@
       <div id="summary">
         <h1><strong>NameError</strong> at <strong>/feed.xml
           </strong></h1>
-        <h2>undefined local variable or method `hostname&#39; for #&lt;Aerial::App:0x102762638&gt;</h2>
+        <h2>undefined local variable or method `hostname&#39; for #&lt;Aerial::App:0x102302bd8&gt;</h2>
         <ul>
           <li class="first"><strong>file:</strong> <code>
             rss.haml</code></li>
-          <li><strong>location:</strong> <code>__tilt_7776d622dc6772aabce8f58e4b49ec13
+          <li><strong>location:</strong> <code>__tilt_b2bd532ca3b5ca57f0c69c0ceed55bc0
             </code></li>
           <li class="last"><strong>line:
             </strong> 5</li>
@@ -157,7 +157,7 @@
 
             <li class="frame-info app">
               <code>/Users/matt/Workspace/active/mattsears.com/src/mattsears.com/views/rss.haml</code> in
-                <code><strong>__tilt_7776d622dc6772aabce8f58e4b49ec13</strong></code>
+                <code><strong>__tilt_b2bd532ca3b5ca57f0c69c0ceed55bc0</strong></code>
             </li>
 
             <li class="code app">
@@ -2647,53 +2647,47 @@
 
             <li class="frame-info system">
               <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/actions/create_file.rb</code> in
-                <code><strong>nil</strong></code>
+                <code><strong>identical?</strong></code>
             </li>
 
             <li class="code system">
               
-              <ol start="56"
+              <ol start="40"
                   class="pre-context" id="pre-34"
                   onclick="toggle(34);">
                 
-                <li class="pre-context-line"><code>          data
-</code></li>
-                
-                <li class="pre-context-line"><code>        end
-</code></li>
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
                 <li class="pre-context-line"><code>
 </code></li>
                 
-                <li class="pre-context-line"><code>      def invoke!
+                <li class="pre-context-line"><code>      # Checks if the content of the file at the destination is identical to the rendered result.
 </code></li>
                 
-                <li class="pre-context-line"><code>        invoke_with_conflict_check do
+                <li class="pre-context-line"><code>      #
 </code></li>
                 
-                <li class="pre-context-line"><code>          FileUtils.mkdir_p(File.dirname(destination))
+                <li class="pre-context-line"><code>      # ==== Returns
+</code></li>
+                
+                <li class="pre-context-line"><code>      # Boolean:: true if it is identical, false otherwise.
+</code></li>
+                
+                <li class="pre-context-line"><code>      #
+</code></li>
+                
+                <li class="pre-context-line"><code>      def identical?
 </code></li>
                 
               </ol>
               
 
-              <ol start="63" class="context" id="34"
+              <ol start="47" class="context" id="34"
                   onclick="toggle(34);">
-                <li class="context-line" id="context-34"><code>          File.open(destination, &#39;wb&#39;) { |f| f.write render }</code></li>
+                <li class="context-line" id="context-34"><code>        exists? &amp;&amp; File.binread(destination) == render</code></li>
               </ol>
 
               
-              <ol start="64" class="post-context"
+              <ol start="48" class="post-context"
                   id="post-34" onclick="toggle(34);">
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-                <li class="post-context-line"><code>        given_destination
-</code></li>
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -2701,13 +2695,19 @@
                 <li class="post-context-line"><code>
 </code></li>
                 
-                <li class="post-context-line"><code>      protected
+                <li class="post-context-line"><code>      # Holds the content to be added to the file.
 </code></li>
                 
-                <li class="post-context-line"><code>
+                <li class="post-context-line"><code>      #
 </code></li>
                 
-                <li class="post-context-line"><code>        # Now on conflict we check if the file is identical or not.
+                <li class="post-context-line"><code>      def render
+</code></li>
+                
+                <li class="post-context-line"><code>        @render ||= if data.is_a?(Proc)
+</code></li>
+                
+                <li class="post-context-line"><code>          data.call
 </code></li>
                 
               </ol>
@@ -2723,219 +2723,67 @@
 
             <li class="frame-info system">
               <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/actions/create_file.rb</code> in
-                <code><strong>open</strong></code>
+                <code><strong>on_conflict_behavior</strong></code>
             </li>
 
             <li class="code system">
               
-              <ol start="56"
+              <ol start="66"
                   class="pre-context" id="pre-35"
                   onclick="toggle(35);">
                 
-                <li class="pre-context-line"><code>          data
-</code></li>
-                
-                <li class="pre-context-line"><code>        end
-</code></li>
-                
                 <li class="pre-context-line"><code>      end
 </code></li>
                 
                 <li class="pre-context-line"><code>
 </code></li>
                 
-                <li class="pre-context-line"><code>      def invoke!
-</code></li>
-                
-                <li class="pre-context-line"><code>        invoke_with_conflict_check do
-</code></li>
-                
-                <li class="pre-context-line"><code>          FileUtils.mkdir_p(File.dirname(destination))
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="63" class="context" id="35"
-                  onclick="toggle(35);">
-                <li class="context-line" id="context-35"><code>          File.open(destination, &#39;wb&#39;) { |f| f.write render }</code></li>
-              </ol>
-
-              
-              <ol start="64" class="post-context"
-                  id="post-35" onclick="toggle(35);">
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-                <li class="post-context-line"><code>        given_destination
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      protected
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>        # Now on conflict we check if the file is identical or not.
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/actions/create_file.rb</code> in
-                <code><strong>nil</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="56"
-                  class="pre-context" id="pre-36"
-                  onclick="toggle(36);">
-                
-                <li class="pre-context-line"><code>          data
-</code></li>
-                
-                <li class="pre-context-line"><code>        end
-</code></li>
-                
-                <li class="pre-context-line"><code>      end
+                <li class="pre-context-line"><code>      protected
 </code></li>
                 
                 <li class="pre-context-line"><code>
 </code></li>
                 
-                <li class="pre-context-line"><code>      def invoke!
-</code></li>
-                
-                <li class="pre-context-line"><code>        invoke_with_conflict_check do
-</code></li>
-                
-                <li class="pre-context-line"><code>          FileUtils.mkdir_p(File.dirname(destination))
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="63" class="context" id="36"
-                  onclick="toggle(36);">
-                <li class="context-line" id="context-36"><code>          File.open(destination, &#39;wb&#39;) { |f| f.write render }</code></li>
-              </ol>
-
-              
-              <ol start="64" class="post-context"
-                  id="post-36" onclick="toggle(36);">
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-                <li class="post-context-line"><code>        given_destination
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      protected
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>        # Now on conflict we check if the file is identical or not.
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/actions/empty_directory.rb</code> in
-                <code><strong>call</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="107"
-                  class="pre-context" id="pre-37"
-                  onclick="toggle(37);">
-                
-                <li class="pre-context-line"><code>        # conditions are met.
+                <li class="pre-context-line"><code>        # Now on conflict we check if the file is identical or not.
 </code></li>
                 
                 <li class="pre-context-line"><code>        #
 </code></li>
                 
-                <li class="pre-context-line"><code>        def invoke_with_conflict_check(&amp;block)
-</code></li>
-                
-                <li class="pre-context-line"><code>          if exists?
-</code></li>
-                
-                <li class="pre-context-line"><code>            on_conflict_behavior(&amp;block)
-</code></li>
-                
-                <li class="pre-context-line"><code>          else
-</code></li>
-                
-                <li class="pre-context-line"><code>            say_status :create, :green
+                <li class="pre-context-line"><code>        def on_conflict_behavior(&amp;block)
 </code></li>
                 
               </ol>
               
 
-              <ol start="114" class="context" id="37"
-                  onclick="toggle(37);">
-                <li class="context-line" id="context-37"><code>            block.call unless pretend?</code></li>
+              <ol start="73" class="context" id="35"
+                  onclick="toggle(35);">
+                <li class="context-line" id="context-35"><code>          if identical?</code></li>
               </ol>
 
               
-              <ol start="115" class="post-context"
-                  id="post-37" onclick="toggle(37);">
+              <ol start="74" class="post-context"
+                  id="post-35" onclick="toggle(35);">
+                
+                <li class="post-context-line"><code>            say_status :identical, :blue
+</code></li>
+                
+                <li class="post-context-line"><code>          else
+</code></li>
+                
+                <li class="post-context-line"><code>            options = base.options.merge(config)
+</code></li>
+                
+                <li class="post-context-line"><code>            force_or_skip_or_conflict(options[:force], options[:skip], &amp;block)
+</code></li>
                 
                 <li class="post-context-line"><code>          end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>          destination
 </code></li>
                 
                 <li class="post-context-line"><code>        end
 </code></li>
                 
                 <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>        # What to do when the destination file already exists.
-</code></li>
-                
-                <li class="post-context-line"><code>        #
 </code></li>
                 
               </ol>
@@ -2956,9 +2804,18 @@
 
             <li class="code system">
               
-              <ol start="107"
-                  class="pre-context" id="pre-38"
-                  onclick="toggle(38);">
+              <ol start="104"
+                  class="pre-context" id="pre-36"
+                  onclick="toggle(36);">
+                
+                <li class="pre-context-line"><code>        end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>        # Receives a hash of options and just execute the block if some
+</code></li>
                 
                 <li class="pre-context-line"><code>        # conditions are met.
 </code></li>
@@ -2972,26 +2829,26 @@
                 <li class="pre-context-line"><code>          if exists?
 </code></li>
                 
-                <li class="pre-context-line"><code>            on_conflict_behavior(&amp;block)
-</code></li>
-                
-                <li class="pre-context-line"><code>          else
-</code></li>
-                
-                <li class="pre-context-line"><code>            say_status :create, :green
-</code></li>
-                
               </ol>
               
 
-              <ol start="114" class="context" id="38"
-                  onclick="toggle(38);">
-                <li class="context-line" id="context-38"><code>            block.call unless pretend?</code></li>
+              <ol start="111" class="context" id="36"
+                  onclick="toggle(36);">
+                <li class="context-line" id="context-36"><code>            on_conflict_behavior(&amp;block)</code></li>
               </ol>
 
               
-              <ol start="115" class="post-context"
-                  id="post-38" onclick="toggle(38);">
+              <ol start="112" class="post-context"
+                  id="post-36" onclick="toggle(36);">
+                
+                <li class="post-context-line"><code>          else
+</code></li>
+                
+                <li class="post-context-line"><code>            say_status :create, :green
+</code></li>
+                
+                <li class="post-context-line"><code>            block.call unless pretend?
+</code></li>
                 
                 <li class="post-context-line"><code>          end
 </code></li>
@@ -3003,15 +2860,6 @@
 </code></li>
                 
                 <li class="post-context-line"><code>        end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>        # What to do when the destination file already exists.
-</code></li>
-                
-                <li class="post-context-line"><code>        #
 </code></li>
                 
               </ol>
@@ -3033,8 +2881,8 @@
             <li class="code system">
               
               <ol start="54"
-                  class="pre-context" id="pre-39"
-                  onclick="toggle(39);">
+                  class="pre-context" id="pre-37"
+                  onclick="toggle(37);">
                 
                 <li class="pre-context-line"><code>          data.call
 </code></li>
@@ -3060,14 +2908,14 @@
               </ol>
               
 
-              <ol start="61" class="context" id="39"
-                  onclick="toggle(39);">
-                <li class="context-line" id="context-39"><code>        invoke_with_conflict_check do</code></li>
+              <ol start="61" class="context" id="37"
+                  onclick="toggle(37);">
+                <li class="context-line" id="context-37"><code>        invoke_with_conflict_check do</code></li>
               </ol>
 
               
               <ol start="62" class="post-context"
-                  id="post-39" onclick="toggle(39);">
+                  id="post-37" onclick="toggle(37);">
                 
                 <li class="post-context-line"><code>          FileUtils.mkdir_p(File.dirname(destination))
 </code></li>
@@ -3109,8 +2957,8 @@
             <li class="code system">
               
               <ol start="86"
-                  class="pre-context" id="pre-40"
-                  onclick="toggle(40);">
+                  class="pre-context" id="pre-38"
+                  onclick="toggle(38);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -3136,14 +2984,14 @@
               </ol>
               
 
-              <ol start="93" class="context" id="40"
-                  onclick="toggle(40);">
-                <li class="context-line" id="context-40"><code>        instance.invoke!</code></li>
+              <ol start="93" class="context" id="38"
+                  onclick="toggle(38);">
+                <li class="context-line" id="context-38"><code>        instance.invoke!</code></li>
               </ol>
 
               
               <ol start="94" class="post-context"
-                  id="post-40" onclick="toggle(40);">
+                  id="post-38" onclick="toggle(38);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -3185,8 +3033,8 @@
             <li class="code system">
               
               <ol start="19"
-                  class="pre-context" id="pre-41"
-                  onclick="toggle(41);">
+                  class="pre-context" id="pre-39"
+                  onclick="toggle(39);">
                 
                 <li class="pre-context-line"><code>    #   end
 </code></li>
@@ -3212,14 +3060,14 @@
               </ol>
               
 
-              <ol start="26" class="context" id="41"
-                  onclick="toggle(41);">
-                <li class="context-line" id="context-41"><code>      action CreateFile.new(self, destination, block || data.to_s, config)</code></li>
+              <ol start="26" class="context" id="39"
+                  onclick="toggle(39);">
+                <li class="context-line" id="context-39"><code>      action CreateFile.new(self, destination, block || data.to_s, config)</code></li>
               </ol>
 
               
               <ol start="27" class="post-context"
-                  id="post-41" onclick="toggle(41);">
+                  id="post-39" onclick="toggle(39);">
                 
                 <li class="post-context-line"><code>    end
 </code></li>
@@ -3261,8 +3109,8 @@
             <li class="code app">
               
               <ol start="70"
-                  class="pre-context" id="pre-42"
-                  onclick="toggle(42);">
+                  class="pre-context" id="pre-40"
+                  onclick="toggle(40);">
                 
                 <li class="pre-context-line"><code>          @request.request(&#39;get&#39;, &quot;/archives/#{archive.first.first}&quot;).body
 </code></li>
@@ -3288,14 +3136,14 @@
               </ol>
               
 
-              <ol start="77" class="context" id="42"
-                  onclick="toggle(42);">
-                <li class="context-line" id="context-42"><code>      create_file &quot;#{@site_path}/feed.xml&quot; do</code></li>
+              <ol start="77" class="context" id="40"
+                  onclick="toggle(40);">
+                <li class="context-line" id="context-40"><code>      create_file &quot;#{@site_path}/feed.xml&quot; do</code></li>
               </ol>
 
               
               <ol start="78" class="post-context"
-                  id="post-42" onclick="toggle(42);">
+                  id="post-40" onclick="toggle(40);">
                 
                 <li class="post-context-line"><code>        @request.request(&#39;get&#39;, &quot;/feed.xml&quot;).body
 </code></li>
@@ -3331,8 +3179,8 @@
             <li class="code app">
               
               <ol start="19"
-                  class="pre-context" id="pre-43"
-                  onclick="toggle(43);">
+                  class="pre-context" id="pre-41"
+                  onclick="toggle(41);">
                 
                 <li class="pre-context-line"><code>      @articles = Aerial::Article.all
 </code></li>
@@ -3358,14 +3206,14 @@
               </ol>
               
 
-              <ol start="26" class="context" id="43"
-                  onclick="toggle(43);">
-                <li class="context-line" id="context-43"><code>      build_feed_xml</code></li>
+              <ol start="26" class="context" id="41"
+                  onclick="toggle(41);">
+                <li class="context-line" id="context-41"><code>      build_feed_xml</code></li>
               </ol>
 
               
               <ol start="27" class="post-context"
-                  id="post-43" onclick="toggle(43);">
+                  id="post-41" onclick="toggle(41);">
                 
                 <li class="post-context-line"><code>    end
 </code></li>
@@ -3407,8 +3255,8 @@
             <li class="code system">
               
               <ol start="15"
-                  class="pre-context" id="pre-44"
-                  onclick="toggle(44);">
+                  class="pre-context" id="pre-42"
+                  onclick="toggle(42);">
                 
                 <li class="pre-context-line"><code>      false
 </code></li>
@@ -3434,14 +3282,14 @@
               </ol>
               
 
-              <ol start="22" class="context" id="44"
-                  onclick="toggle(44);">
-                <li class="context-line" id="context-44"><code>        instance.send(name, *args) : instance.class.handle_no_task_error(name)</code></li>
+              <ol start="22" class="context" id="42"
+                  onclick="toggle(42);">
+                <li class="context-line" id="context-42"><code>        instance.send(name, *args) : instance.class.handle_no_task_error(name)</code></li>
               </ol>
 
               
               <ol start="23" class="post-context"
-                  id="post-44" onclick="toggle(44);">
+                  id="post-42" onclick="toggle(42);">
                 
                 <li class="post-context-line"><code>    rescue ArgumentError =&gt; e
 </code></li>
@@ -3483,8 +3331,8 @@
             <li class="code system">
               
               <ol start="15"
-                  class="pre-context" id="pre-45"
-                  onclick="toggle(45);">
+                  class="pre-context" id="pre-43"
+                  onclick="toggle(43);">
                 
                 <li class="pre-context-line"><code>      false
 </code></li>
@@ -3510,14 +3358,14 @@
               </ol>
               
 
-              <ol start="22" class="context" id="45"
-                  onclick="toggle(45);">
-                <li class="context-line" id="context-45"><code>        instance.send(name, *args) : instance.class.handle_no_task_error(name)</code></li>
+              <ol start="22" class="context" id="43"
+                  onclick="toggle(43);">
+                <li class="context-line" id="context-43"><code>        instance.send(name, *args) : instance.class.handle_no_task_error(name)</code></li>
               </ol>
 
               
               <ol start="23" class="post-context"
-                  id="post-45" onclick="toggle(45);">
+                  id="post-43" onclick="toggle(43);">
                 
                 <li class="post-context-line"><code>    rescue ArgumentError =&gt; e
 </code></li>
@@ -3559,8 +3407,8 @@
             <li class="code system">
               
               <ol start="102"
-                  class="pre-context" id="pre-46"
-                  onclick="toggle(46);">
+                  class="pre-context" id="pre-44"
+                  onclick="toggle(44);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -3586,14 +3434,14 @@
               </ol>
               
 
-              <ol start="109" class="context" id="46"
-                  onclick="toggle(46);">
-                <li class="context-line" id="context-46"><code>          task.run(instance, method_args)</code></li>
+              <ol start="109" class="context" id="44"
+                  onclick="toggle(44);">
+                <li class="context-line" id="context-44"><code>          task.run(instance, method_args)</code></li>
               </ol>
 
               
               <ol start="110" class="post-context"
-                  id="post-46" onclick="toggle(46);">
+                  id="post-44" onclick="toggle(44);">
                 
                 <li class="post-context-line"><code>        end
 </code></li>
@@ -3635,8 +3483,8 @@
             <li class="code system">
               
               <ol start="109"
-                  class="pre-context" id="pre-47"
-                  onclick="toggle(47);">
+                  class="pre-context" id="pre-45"
+                  onclick="toggle(45);">
                 
                 <li class="pre-context-line"><code>          task.run(instance, method_args)
 </code></li>
@@ -3662,14 +3510,14 @@
               </ol>
               
 
-              <ol start="116" class="context" id="47"
-                  onclick="toggle(47);">
-                <li class="context-line" id="context-47"><code>        iterator.call(nil, task)</code></li>
+              <ol start="116" class="context" id="45"
+                  onclick="toggle(45);">
+                <li class="context-line" id="context-45"><code>        iterator.call(nil, task)</code></li>
               </ol>
 
               
               <ol start="117" class="post-context"
-                  id="post-47" onclick="toggle(47);">
+                  id="post-45" onclick="toggle(45);">
                 
                 <li class="post-context-line"><code>      else
 </code></li>
@@ -3711,8 +3559,8 @@
             <li class="code system">
               
               <ol start="109"
-                  class="pre-context" id="pre-48"
-                  onclick="toggle(48);">
+                  class="pre-context" id="pre-46"
+                  onclick="toggle(46);">
                 
                 <li class="pre-context-line"><code>          task.run(instance, method_args)
 </code></li>
@@ -3738,14 +3586,14 @@
               </ol>
               
 
-              <ol start="116" class="context" id="48"
-                  onclick="toggle(48);">
-                <li class="context-line" id="context-48"><code>        iterator.call(nil, task)</code></li>
+              <ol start="116" class="context" id="46"
+                  onclick="toggle(46);">
+                <li class="context-line" id="context-46"><code>        iterator.call(nil, task)</code></li>
               </ol>
 
               
               <ol start="117" class="post-context"
-                  id="post-48" onclick="toggle(48);">
+                  id="post-46" onclick="toggle(46);">
                 
                 <li class="post-context-line"><code>      else
 </code></li>
@@ -3787,8 +3635,8 @@
             <li class="code system">
               
               <ol start="154"
-                  class="pre-context" id="pre-49"
-                  onclick="toggle(49);">
+                  class="pre-context" id="pre-47"
+                  onclick="toggle(47);">
                 
                 <li class="pre-context-line"><code>          config.merge!(:task_options =&gt; task.options)
 </code></li>
@@ -3814,14 +3662,14 @@
               </ol>
               
 
-              <ol start="161" class="context" id="49"
-                  onclick="toggle(49);">
-                <li class="context-line" id="context-49"><code>        new(args, opts, config).invoke(task, trailing || [])</code></li>
+              <ol start="161" class="context" id="47"
+                  onclick="toggle(47);">
+                <li class="context-line" id="context-47"><code>        new(args, opts, config).invoke(task, trailing || [])</code></li>
               </ol>
 
               
               <ol start="162" class="post-context"
-                  id="post-49" onclick="toggle(49);">
+                  id="post-47" onclick="toggle(47);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -3863,8 +3711,8 @@
             <li class="code system">
               
               <ol start="372"
-                  class="pre-context" id="pre-50"
-                  onclick="toggle(50);">
+                  class="pre-context" id="pre-48"
+                  onclick="toggle(48);">
                 
                 <li class="pre-context-line"><code>      end
 </code></li>
@@ -3890,14 +3738,14 @@
               </ol>
               
 
-              <ol start="379" class="context" id="50"
-                  onclick="toggle(50);">
-                <li class="context-line" id="context-50"><code>        yield(given_args.dup)</code></li>
+              <ol start="379" class="context" id="48"
+                  onclick="toggle(48);">
+                <li class="context-line" id="context-48"><code>        yield(given_args.dup)</code></li>
               </ol>
 
               
               <ol start="380" class="post-context"
-                  id="post-50" onclick="toggle(50);">
+                  id="post-48" onclick="toggle(48);">
                 
                 <li class="post-context-line"><code>      rescue Thor::Error =&gt; e
 </code></li>
@@ -3939,8 +3787,8 @@
             <li class="code system">
               
               <ol start="133"
-                  class="pre-context" id="pre-51"
-                  onclick="toggle(51);">
+                  class="pre-context" id="pre-49"
+                  onclick="toggle(49);">
                 
                 <li class="pre-context-line"><code>    #
 </code></li>
@@ -3966,14 +3814,14 @@
               </ol>
               
 
-              <ol start="140" class="context" id="51"
-                  onclick="toggle(51);">
-                <li class="context-line" id="context-51"><code>      super do |given_args|</code></li>
+              <ol start="140" class="context" id="49"
+                  onclick="toggle(49);">
+                <li class="context-line" id="context-49"><code>      super do |given_args|</code></li>
               </ol>
 
               
               <ol start="141" class="post-context"
-                  id="post-51" onclick="toggle(51);">
+                  id="post-49" onclick="toggle(49);">
                 
                 <li class="post-context-line"><code>        meth = given_args.first.to_s
 </code></li>
@@ -4015,8 +3863,8 @@
             <li class="code system">
               
               <ol start="1"
-                  class="pre-context" id="pre-52"
-                  onclick="toggle(52);">
+                  class="pre-context" id="pre-50"
+                  onclick="toggle(50);">
                 
                 <li class="pre-context-line"><code>#!/usr/bin/env ruby
 </code></li>
@@ -4039,14 +3887,14 @@
               </ol>
               
 
-              <ol start="7" class="context" id="52"
-                  onclick="toggle(52);">
-                <li class="context-line" id="context-52"><code>Aerial::Build.start</code></li>
+              <ol start="7" class="context" id="50"
+                  onclick="toggle(50);">
+                <li class="context-line" id="context-50"><code>Aerial::Build.start</code></li>
               </ol>
 
               
               <ol start="8" class="post-context"
-                  id="post-52" onclick="toggle(52);">
+                  id="post-50" onclick="toggle(50);">
                 
               </ol>
               
@@ -4135,12 +3983,12 @@
          
          <tr>
            <td>rack.errors</td>
-           <td class="code"><div>#&lt;StringIO:0x102762958&gt;</div></td>
+           <td class="code"><div>#&lt;StringIO:0x102302ed0&gt;</div></td>
          </tr>
          
          <tr>
            <td>rack.input</td>
-           <td class="code"><div>#&lt;StringIO:0x1027628e0&gt;</div></td>
+           <td class="code"><div>#&lt;StringIO:0x102302e58&gt;</div></td>
          </tr>
          
          <tr>
@@ -4180,7 +4028,7 @@
          
          <tr>
            <td>sinatra.error</td>
-           <td class="code"><div>#&lt;NameError: undefined local variable or method `hostname&#39; for #&lt;Aerial::App:0x102762638&gt;&gt;</div></td>
+           <td class="code"><div>#&lt;NameError: undefined local variable or method `hostname&#39; for #&lt;Aerial::App:0x102302bd8&gt;&gt;</div></td>
          </tr>
          
       </table>
