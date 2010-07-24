@@ -5,7 +5,7 @@ require "rubygems"
 env  = ENV['RACK_ENV'].to_sym
 root = File.expand_path(File.dirname(__FILE__))
 
-if env == :development
+if env == :production
   require 'rack/contrib'
   require 'rack-rewrite'
   use Rack::StaticCache, :urls => ['/images', '/javascripts', '/favicon.ico'], :root => "public"
