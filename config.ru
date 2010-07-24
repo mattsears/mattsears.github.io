@@ -5,7 +5,7 @@ require "rubygems"
 env  = ENV['RACK_ENV'].to_sym
 root = File.expand_path(File.dirname(__FILE__))
 
-if env == :development
+if env == :production
   require 'rack/contrib'
   require 'rack-rewrite'
   use Rack::StaticCache, :urls => ['/images', '/javascripts', '/favicon.ico'], :root => "public"
@@ -16,8 +16,8 @@ if env == :development
   end
   run Rack::Directory.new('public')
 else
-  #require "aerial"
-  require File.join(File.dirname('/Users/matt/Workspace/aerial/'), "aerial", "lib", "aerial.rb")
+  require "aerial"
+  #require File.join(File.dirname('/Users/matt/Workspace/aerial/'), "aerial", "lib", "aerial.rb")
   Aerial::App.set :environment, ENV["RACK_ENV"] || :development
   Aerial::App.set :root, root
   Aerial.new(root, "/config/config.yml") # Load configuration and initialize Aerial
