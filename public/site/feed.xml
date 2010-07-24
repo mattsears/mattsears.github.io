@@ -1,4042 +1,497 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>NameError at /feed.xml</title>
-
-  <script type="text/javascript">
-  //<!--
-  function toggle(id) {
-    var pre  = document.getElementById("pre-" + id);
-    var post = document.getElementById("post-" + id);
-    var context = document.getElementById("context-" + id);
-
-    if (pre.style.display == 'block') {
-      pre.style.display = 'none';
-      post.style.display = 'none';
-      context.style.background = "none";
-    } else {
-      pre.style.display = 'block';
-      post.style.display = 'block';
-      context.style.background = "#fffed9";
-    }
-  }
-
-  function toggleBacktrace(){
-    var bt = document.getElementById("backtrace");
-    var toggler = document.getElementById("expando");
-
-    if (bt.className == 'condensed') {
-      bt.className = 'expanded';
-      toggler.innerHTML = "(condense)";
-    } else {
-      bt.className = 'condensed';
-      toggler.innerHTML = "(expand)";
-    }
-  }
-  //-->
-  </script>
-
-<style type="text/css" media="screen">
-  *                   {margin: 0; padding: 0; border: 0; outline: 0;}
-  div.clear           {clear: both;}
-  body                {background: #EEEEEE; margin: 0; padding: 0;
-                       font-family: 'Lucida Grande', 'Lucida Sans Unicode',
-                       'Garuda';}
-  code                {font-family: 'Lucida Console', monospace;
-                       font-size: 12px;}
-  li                  {height: 18px;}
-  ul                  {list-style: none; margin: 0; padding: 0;}
-  ol:hover            {cursor: pointer;}
-  ol li               {white-space: pre;}
-  #explanation        {font-size: 12px; color: #666666;
-                       margin: 20px 0 0 100px;}
-/* WRAP */
-  #wrap               {width: 1000px; background: #FFFFFF; margin: 0 auto;
-                       padding: 30px 50px 20px 50px;
-                       border-left: 1px solid #DDDDDD;
-                       border-right: 1px solid #DDDDDD;}
-/* HEADER */
-  #header             {margin: 0 auto 25px auto;}
-  #header img         {float: left;}
-  #header #summary    {float: left; margin: 12px 0 0 20px; width:660px;
-                       font-family: 'Lucida Grande', 'Lucida Sans Unicode';}
-  h1                  {margin: 0; font-size: 36px; color: #981919;}
-  h2                  {margin: 0; font-size: 22px; color: #333333;}
-  #header ul          {margin: 0; font-size: 12px; color: #666666;}
-  #header ul li strong{color: #444444;}
-  #header ul li       {display: inline; padding: 0 10px;}
-  #header ul li.first {padding-left: 0;}
-  #header ul li.last  {border: 0; padding-right: 0;}
-/* BODY */
-  #backtrace,
-  #get,
-  #post,
-  #cookies,
-  #rack               {width: 980px; margin: 0 auto 10px auto;}
-  p#nav               {float: right; font-size: 14px;}
-/* BACKTRACE */
-  a#expando           {float: left; padding-left: 5px; color: #666666;
-                      font-size: 14px; text-decoration: none; cursor: pointer;}
-  a#expando:hover     {text-decoration: underline;}
-  h3                  {float: left; width: 100px; margin-bottom: 10px;
-                       color: #981919; font-size: 14px; font-weight: bold;}
-  #nav a              {color: #666666; text-decoration: none; padding: 0 5px;}
-  #backtrace li.frame-info {background: #f7f7f7; padding-left: 10px;
-                           font-size: 12px; color: #333333;}
-  #backtrace ul       {list-style-position: outside; border: 1px solid #E9E9E9;
-                       border-bottom: 0;}
-  #backtrace ol       {width: 920px; margin-left: 50px;
-                       font: 10px 'Lucida Console', monospace; color: #666666;}
-  #backtrace ol li    {border: 0; border-left: 1px solid #E9E9E9;
-                       padding: 2px 0;}
-  #backtrace ol code  {font-size: 10px; color: #555555; padding-left: 5px;}
-  #backtrace-ul li    {border-bottom: 1px solid #E9E9E9; height: auto;
-                       padding: 3px 0;}
-  #backtrace-ul .code {padding: 6px 0 4px 0;}
-  #backtrace.condensed .system,
-  #backtrace.condensed .framework {display:none;}
-/* REQUEST DATA */
-  p.no-data           {padding-top: 2px; font-size: 12px; color: #666666;}
-  table.req           {width: 980px; text-align: left; font-size: 12px;
-                       color: #666666; padding: 0; border-spacing: 0;
-                       border: 1px solid #EEEEEE; border-bottom: 0;
-                       border-left: 0;
-                       clear:both}
-  table.req tr th     {padding: 2px 10px; font-weight: bold;
-                       background: #F7F7F7; border-bottom: 1px solid #EEEEEE;
-                       border-left: 1px solid #EEEEEE;}
-  table.req tr td     {padding: 2px 20px 2px 10px;
-                       border-bottom: 1px solid #EEEEEE;
-                       border-left: 1px solid #EEEEEE;}
-/* HIDE PRE/POST CODE AT START */
-  .pre-context,
-  .post-context       {display: none;}
-
-  table td.code       {width:750px}
-  table td.code div   {width:750px;overflow:hidden}
-</style>
-</head>
-<body>
-  <div id="wrap">
-    <div id="header">
-      <img src="/__sinatra__/500.png" alt="application error" height="161" width="313" />
-      <div id="summary">
-        <h1><strong>NameError</strong> at <strong>/feed.xml
-          </strong></h1>
-        <h2>undefined local variable or method `hostname&#39; for #&lt;Aerial::App:0x102302bd8&gt;</h2>
+<?xml version='1.0' encoding='utf-8' ?>
+<rss version='2.0'>
+  <channel>
+    <title>Matt Sears</title>
+    <link>http://example.org</link>
+    <language>en-us</language>
+    <ttl>40</ttl>
+    <generator>Aerial</generator>
+    <description></description>
+    <pubDate>Sat, 31 Oct 2009 20:38:19 +00:00</pubDate>
+    <item>
+      <title>5 Ruby Gems for Concise Code</title>
+      <link>http://example.org/2009/10/31/5-ruby-gems-for-concise-code</link>
+      <description>
+        <p>At <a href="http://littlelines.com">Littlelines</a>, we have to write a lot of code under strict time constraints. We work in small teams which means that writing clean and concise code is a necessity. When a Ruby library comes along that makes code easier to grasp in a hurry, test, and maintain - we use it. Here are some gems we have in our toolbox:</p>
+        
+        <h2><a href="http://github.com/justinfrench/formtastic">Formtastic</a></h2>
+        
+        <p>If you're developing wep apps, more than likely it will include html forms.  Forms can be a time-drain, not to mention very boring to build. Formtastic provides a more concise way of generating form views and includes inline error messages and is semantically rich.</p>
+        
+        <h2><a href="http://github.com/giraffesoft/resource_controller">Resource  Controller</a></h2>
+        
+        <p>Resource Controller hides away the RESTful controller boiler plate code and make your controllers skinny. Skinny controllers help you to consolidate your business logic into one place, thus saves time on maintenance and testing.</p>
+        
+        <h2><a href="http://github.com/binarylogic/searchlogic">Search Logic</a></h2>
+        
+        <p>Finding data can get messy. Sometimes we run into situations where we are concatenating strings to build SQL statements and this can lead to bugs. Searchlogic works by creating a number of named scopes that can be called on any ActiveRecord model. The best part, you can dynamically call scopes on associated classes and Searchlogic will take care of creating the necessary joins for you.</p>
+        
+        <h2><a href="http://github.com/toastyapps/alchemist">Alchemist</a></h2>
+        
+        <p>Occasionally, we work on projects dealing with conversions.  Alchemist is a Ruby library that does conversions for you and thus making your code more readable and easier to maintain. For example:</p>
+        
+        <p>Instead of:</p>
+        
+        <pre><code>miles = 8 * 1609.344 # converting meters to miles
+        </code></pre>
+        
+        <p>We can write:</p>
+        
+        <pre><code>8.meters.to.miles
+        </code></pre>
+        
+        <p>Alchemist includes a staggering array of conversions including distance, mass, volume, and more.</p>
+        
+        <h2><a href="http://andand.rubyforge.org/">andand</a></h2>
+        
+        <p>andand is a handy gem that allows allows natural method chaining for methods that can return nil. This saves a lot of boilerplate code and improves readability. For example:</p>
+        
+        <p>Instead of:</p>
+        
+        <pre><code>@body = (article = Article.find_by_title('test')) &amp;&amp; article.body
+        </code></pre>
+        
+        <p>We can write this:</p>
+        
+        <pre><code>@body = Article.find_by_title('test').andand.body
+        </code></pre>
+        
+        <p>This will call find on the Article class and sends 'body' if the result is not nil. In addition, our methods are guarded from NoMethodErrors is the result is nil.</p>
+      </description>
+      <pubDate>Sat, 31 Oct 2009 20:38:19 +00:00</pubDate>
+      <guid isPermaLink='false'>796da7232a47882a32b2a180c28c6e08107930f1</guid>
+    </item>
+    <item>
+      <title>20 Clojure Links To Get You Up To Speed</title>
+      <link>http://example.org/2009/6/6/20-clojure-links-to-get-you-up-to-speed</link>
+      <description>
+        <p>Writing multi-threaded code is hard. If you've ever done concurrent programming, you'll <em>probably</em> agree. Clojure offers a compelling alternative to traditional object-oriented approaches to programming and has garnered much attention from the Ruby community because of it's elegant design that lets you get right to the essence of a problem.</p>
+        
+        <h2>What is Clojure?</h2>
+        
+        <p>Simply put, Clojure is a functional programming language for the Java Virtual Machine with several powerful features for building concurrent applications. In addition, Clojure is fast, robust, and a powerful general-purpose programming language. A dialect of Lisp, Clojure embraces traditional code-as-data philosophy and a powerful macro system, plus some syntactic sugar tailored to Java.</p>
+        
+        <p>Now that <a href="http://clojure.blogspot.com/2009/05/clojure-10.html">version 1.0</a> is out and Stuart Halloway's new book <a href="http://www.pragprog.com/titles/shcloj/programming-clojure">Programming Clojure</a> just dropped, I've rounded up some of the best articles and tutorials on Clojure to you get you up to speed quickly.</p>
+        
+        <h2>Tutorials and Links</h2>
+        
         <ul>
-          <li class="first"><strong>file:</strong> <code>
-            rss.haml</code></li>
-          <li><strong>location:</strong> <code>__tilt_b2bd532ca3b5ca57f0c69c0ceed55bc0
-            </code></li>
-          <li class="last"><strong>line:
-            </strong> 5</li>
+        <li><p><a href="http://java.ociweb.com/mark/clojure/article.html">A Clojure Tutorial</a> by R. Mark Volkmann</p></li>
+        <li><p><a href="http://www.pragprog.com/titles/shcloj/programming-clojure">Programming Clojure book</a> by Stuart Halloway</p></li>
+        <li><p><a href="http://blog.thinkrelevance.com/2008/09/16/pcl-clojure">Practical Common Lisp to Clojure</a> by Stuart Halloway</p></li>
+        <li><p><a href="http://writingcoding.blogspot.com/2008/06/clojure-series-table-of-contents.html">Clojure Series: Table of Contents</a> by Eric Rochester</p></li>
+        <li><p><a href="http://en.wikibooks.org/wiki/Learning_Clojure">Learning Clojure</a> via Wikibooks</p></li>
+        <li><p><a href="http://en.wikibooks.org/wiki/Clojure_Programming/Examples/API_Examples">Clojure Programming/Examples/API Examples</a> via Wikibooks</p></li>
+        <li><p><a href="http://en.wikibooks.org/wiki/Clojure_Programming/Tutorials_and_Tips">Clojure Programming/Tutorials and Tips</a> via Wikibooks</p></li>
         </ul>
-      </div>
-      <div class="clear"></div>
-    </div>
-
-    <div id="backtrace" class='condensed'>
-      <h3>BACKTRACE</h3>
-      <p><a href="#" id="expando"
-            onclick="toggleBacktrace(); return false">(expand)</a></p>
-      <p id="nav"><strong>JUMP TO:</strong>
-         <a href="#get-info">GET</a>
-         <a href="#post-info">POST</a>
-         <a href="#cookie-info">COOKIES</a>
-         <a href="#env-info">ENV</a>
-      </p>
-      <div class="clear"></div>
-
-      <ul id="backtrace-ul">
-
-      
-      
-          
-
-            <li class="frame-info app">
-              <code>/Users/matt/Workspace/active/mattsears.com/src/mattsears.com/views/rss.haml</code> in
-                <code><strong>__tilt_b2bd532ca3b5ca57f0c69c0ceed55bc0</strong></code>
-            </li>
-
-            <li class="code app">
-              
-              <ol start="1"
-                  class="pre-context" id="pre-1"
-                  onclick="toggle(1);">
-                
-                <li class="pre-context-line"><code>!!! XML
-</code></li>
-                
-                <li class="pre-context-line"><code>%rss{&quot;version&quot; =&gt; &quot;2.0&quot;}
-</code></li>
-                
-                <li class="pre-context-line"><code>  %channel
-</code></li>
-                
-                <li class="pre-context-line"><code>    %title= &quot;#{Aerial.config.title}&quot;
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="5" class="context" id="1"
-                  onclick="toggle(1);">
-                <li class="context-line" id="context-1"><code>    %link= &quot;http://#{hostname}&quot;</code></li>
-              </ol>
-
-              
-              <ol start="6" class="post-context"
-                  id="post-1" onclick="toggle(1);">
-                
-                <li class="post-context-line"><code>    %language= &quot;en-us&quot;
-</code></li>
-                
-                <li class="post-context-line"><code>    %ttl= &quot;40&quot;
-</code></li>
-                
-                <li class="post-context-line"><code>    %generator Aerial
-</code></li>
-                
-                <li class="post-context-line"><code>    %description= &quot;#{Aerial.config.subtitle}&quot;
-</code></li>
-                
-                <li class="post-context-line"><code>    %pubDate= @articles.first ? rss_date(@articles.first.published_at) : rss_date(Time.now.utc)
-</code></li>
-                
-                <li class="post-context-line"><code>    - @articles.each do |article|
-</code></li>
-                
-                <li class="post-context-line"><code>      %item
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/tilt.rb</code> in
-                <code><strong>send</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="188"
-                  class="pre-context" id="pre-2"
-                  onclick="toggle(2);">
-                
-                <li class="pre-context-line"><code>    def evaluate(scope, locals, &amp;block)
-</code></li>
-                
-                <li class="pre-context-line"><code>      if scope.respond_to?(:__tilt__)
-</code></li>
-                
-                <li class="pre-context-line"><code>        method_name = compiled_method_name(locals.keys)
-</code></li>
-                
-                <li class="pre-context-line"><code>        if scope.respond_to?(method_name)
-</code></li>
-                
-                <li class="pre-context-line"><code>          scope.send(method_name, locals, &amp;block)
-</code></li>
-                
-                <li class="pre-context-line"><code>        else
-</code></li>
-                
-                <li class="pre-context-line"><code>          compile_template_method(method_name, locals)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="195" class="context" id="2"
-                  onclick="toggle(2);">
-                <li class="context-line" id="context-2"><code>          scope.send(method_name, locals, &amp;block)</code></li>
-              </ol>
-
-              
-              <ol start="196" class="post-context"
-                  id="post-2" onclick="toggle(2);">
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-                <li class="post-context-line"><code>      else
-</code></li>
-                
-                <li class="post-context-line"><code>        evaluate_source(scope, locals, &amp;block)
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    # Generates all template source by combining the preamble, template, and
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/tilt.rb</code> in
-                <code><strong>evaluate</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="188"
-                  class="pre-context" id="pre-3"
-                  onclick="toggle(3);">
-                
-                <li class="pre-context-line"><code>    def evaluate(scope, locals, &amp;block)
-</code></li>
-                
-                <li class="pre-context-line"><code>      if scope.respond_to?(:__tilt__)
-</code></li>
-                
-                <li class="pre-context-line"><code>        method_name = compiled_method_name(locals.keys)
-</code></li>
-                
-                <li class="pre-context-line"><code>        if scope.respond_to?(method_name)
-</code></li>
-                
-                <li class="pre-context-line"><code>          scope.send(method_name, locals, &amp;block)
-</code></li>
-                
-                <li class="pre-context-line"><code>        else
-</code></li>
-                
-                <li class="pre-context-line"><code>          compile_template_method(method_name, locals)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="195" class="context" id="3"
-                  onclick="toggle(3);">
-                <li class="context-line" id="context-3"><code>          scope.send(method_name, locals, &amp;block)</code></li>
-              </ol>
-
-              
-              <ol start="196" class="post-context"
-                  id="post-3" onclick="toggle(3);">
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-                <li class="post-context-line"><code>      else
-</code></li>
-                
-                <li class="post-context-line"><code>        evaluate_source(scope, locals, &amp;block)
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    # Generates all template source by combining the preamble, template, and
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <h2>Screencasts, Videos, and Presentations</h2>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/tilt.rb</code> in
-                <code><strong>evaluate</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="442"
-                  class="pre-context" id="pre-4"
-                  onclick="toggle(4);">
-                
-                <li class="pre-context-line"><code>    def prepare
-</code></li>
-                
-                <li class="pre-context-line"><code>      options = @options.merge(:filename =&gt; eval_file, :line =&gt; line)
-</code></li>
-                
-                <li class="pre-context-line"><code>      @engine = ::Haml::Engine.new(data, options)
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    def evaluate(scope, locals, &amp;block)
-</code></li>
-                
-                <li class="pre-context-line"><code>      if @engine.respond_to?(:precompiled_method_return_value, true)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="449" class="context" id="4"
-                  onclick="toggle(4);">
-                <li class="context-line" id="context-4"><code>        super</code></li>
-              </ol>
-
-              
-              <ol start="450" class="post-context"
-                  id="post-4" onclick="toggle(4);">
-                
-                <li class="post-context-line"><code>      else
-</code></li>
-                
-                <li class="post-context-line"><code>        @engine.render(scope, locals, &amp;block)
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    # Precompiled Haml source. Taken from the precompiled_with_ambles
-</code></li>
-                
-                <li class="post-context-line"><code>    # method in Haml::Precompiler:
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <ul>
+        <li><p><a href="http://peepcode.com/products/functional-programming-with-clojure">Functional Programming with Clojure</a> by Phil Hagelberg (PeepCode)</p></li>
+        <li><p><a href="http://clojure.blip.tv">Clojure Series on Blip.tv</a> by Rich Hickey</p></li>
+        <li><p><a href="http://www.youtube.com/view_play_list?p=AC43CFB134E85266">Intro to Clojure</a> by Brian Will (YouTube)</p></li>
+        <li><p><a href="http://vimeo.com/2419596">Emacs with Clojure, Slime and Swank</a> by Seth Buntin (Vimeo)</p></li>
+        </ul>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/tilt.rb</code> in
-                <code><strong>render</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="124"
-                  class="pre-context" id="pre-5"
-                  onclick="toggle(5);">
-                
-                <li class="pre-context-line"><code>      prepare
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Render the template in the given scope with the locals specified. If a
-</code></li>
-                
-                <li class="pre-context-line"><code>    # block is given, it is typically available within the template via
-</code></li>
-                
-                <li class="pre-context-line"><code>    # +yield+.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def render(scope=Object.new, locals={}, &amp;block)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="131" class="context" id="5"
-                  onclick="toggle(5);">
-                <li class="context-line" id="context-5"><code>      evaluate scope, locals || {}, &amp;block</code></li>
-              </ol>
-
-              
-              <ol start="132" class="post-context"
-                  id="post-5" onclick="toggle(5);">
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    # The basename of the template file.
-</code></li>
-                
-                <li class="post-context-line"><code>    def basename(suffix=&#39;&#39;)
-</code></li>
-                
-                <li class="post-context-line"><code>      File.basename(file, suffix) if file
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>render</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="336"
-                  class="pre-context" id="pre-6"
-                  onclick="toggle(6);">
-                
-                <li class="pre-context-line"><code>      locals = options.delete(:locals) || locals || {}
-</code></li>
-                
-                <li class="pre-context-line"><code>      views = options.delete(:views) || settings.views || &quot;./views&quot;
-</code></li>
-                
-                <li class="pre-context-line"><code>      layout = options.delete(:layout)
-</code></li>
-                
-                <li class="pre-context-line"><code>      layout = :layout if layout.nil? || layout == true
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      # compile and render template
-</code></li>
-                
-                <li class="pre-context-line"><code>      template = compile_template(engine, data, options, views)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="343" class="context" id="6"
-                  onclick="toggle(6);">
-                <li class="context-line" id="context-6"><code>      output = template.render(self, locals, &amp;block)</code></li>
-              </ol>
-
-              
-              <ol start="344" class="post-context"
-                  id="post-6" onclick="toggle(6);">
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      # render layout
-</code></li>
-                
-                <li class="post-context-line"><code>      if layout
-</code></li>
-                
-                <li class="post-context-line"><code>        begin
-</code></li>
-                
-                <li class="post-context-line"><code>          options = options.merge(:views =&gt; views, :layout =&gt; false)
-</code></li>
-                
-                <li class="post-context-line"><code>          output = render(engine, layout, options, locals) { output }
-</code></li>
-                
-                <li class="post-context-line"><code>        rescue Errno::ENOENT
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <h2>Tools and Setup</h2>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>haml</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="304"
-                  class="pre-context" id="pre-7"
-                  onclick="toggle(7);">
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    def erubis(template, options={}, locals={})
-</code></li>
-                
-                <li class="pre-context-line"><code>      options[:outvar] = &#39;@_out_buf&#39;
-</code></li>
-                
-                <li class="pre-context-line"><code>      render :erubis, template, options, locals
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    def haml(template, options={}, locals={})
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="311" class="context" id="7"
-                  onclick="toggle(7);">
-                <li class="context-line" id="context-7"><code>      render :haml, template, options, locals</code></li>
-              </ol>
-
-              
-              <ol start="312" class="post-context"
-                  id="post-7" onclick="toggle(7);">
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    def sass(template, options={}, locals={})
-</code></li>
-                
-                <li class="post-context-line"><code>      options[:layout] = false
-</code></li>
-                
-                <li class="post-context-line"><code>      render :sass, template, options, locals
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <ul>
+        <li><p><a href="http://yusupov.com/blog/2009/basic-clojure-setup-part-1/">Basic Clojure Setup</a> by Telman Yusupov</p></li>
+        <li><p><a href="http://mark.reid.name/sap/setting-up-clojure.html">Setting Up Clojure for Mac OS X Leopard</a> by Mark Reid</p></li>
+        <li><p><a href="http://technomancy.us/126">Getting Emacs setup to write Clojure code</a> by Phil Hagelberg</p></li>
+        <li><p><a href="http://github.com/nullstyle/clojure-tmbundle/tree/master">Textmate Bundle for Clojure code</a> by Scott Fleckenstein</p></li>
+        <li><p><a href="http://www.vim.org/scripts/script.php?script_id=2501">VimClojure, a Vim plugin for Clojure</a></p></li>
+        </ul>
         
-      
-          
-
-            <li class="frame-info app">
-              <code>/Users/matt/Workspace/aerial/bin/../lib/aerial/../aerial/app.rb</code> in
-                <code><strong>GET /feed*</strong></code>
-            </li>
-
-            <li class="code app">
-              
-              <ol start="27"
-                  class="pre-context" id="pre-8"
-                  onclick="toggle(8);">
-                
-                <li class="pre-context-line"><code>      @articles = Aerial::Article.recent(:limit =&gt; 10)
-</code></li>
-                
-                <li class="pre-context-line"><code>      cache haml(:articles)
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    get &#39;/feed*&#39; do
-</code></li>
-                
-                <li class="pre-context-line"><code>      content_type &#39;text/xml&#39;, :charset =&gt; &#39;utf-8&#39;
-</code></li>
-                
-                <li class="pre-context-line"><code>      @articles = Aerial::Article.all
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="34" class="context" id="8"
-                  onclick="toggle(8);">
-                <li class="context-line" id="context-8"><code>      cache haml(:rss, :layout =&gt; false)</code></li>
-              </ol>
-
-              
-              <ol start="35" class="post-context"
-                  id="post-8" onclick="toggle(8);">
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    # Sassy!
-</code></li>
-                
-                <li class="post-context-line"><code>    get &#39;/style.css&#39; do
-</code></li>
-                
-                <li class="post-context-line"><code>      content_type &#39;text/css&#39;, :charset =&gt; &#39;utf-8&#39;
-</code></li>
-                
-                <li class="post-context-line"><code>      cache sass(:style)
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>call</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="856"
-                  class="pre-context" id="pre-9"
-                  onclick="toggle(9);">
-                
-                <li class="pre-context-line"><code>        pattern, keys = compile(path)
-</code></li>
-                
-                <li class="pre-context-line"><code>        conditions, @conditions = @conditions, []
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>        define_method &quot;#{verb} #{path}&quot;, &amp;block
-</code></li>
-                
-                <li class="pre-context-line"><code>        unbound_method = instance_method(&quot;#{verb} #{path}&quot;)
-</code></li>
-                
-                <li class="pre-context-line"><code>        block =
-</code></li>
-                
-                <li class="pre-context-line"><code>          if block.arity != 0
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="863" class="context" id="9"
-                  onclick="toggle(9);">
-                <li class="context-line" id="context-9"><code>            proc { unbound_method.bind(self).call(*@block_params) }</code></li>
-              </ol>
-
-              
-              <ol start="864" class="post-context"
-                  id="post-9" onclick="toggle(9);">
-                
-                <li class="post-context-line"><code>          else
-</code></li>
-                
-                <li class="post-context-line"><code>            proc { unbound_method.bind(self).call }
-</code></li>
-                
-                <li class="post-context-line"><code>          end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>        invoke_hook(:route_added, verb, path, block)
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>        (@routes[verb] ||= []).
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <h2>Documentation</h2>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>route</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="856"
-                  class="pre-context" id="pre-10"
-                  onclick="toggle(10);">
-                
-                <li class="pre-context-line"><code>        pattern, keys = compile(path)
-</code></li>
-                
-                <li class="pre-context-line"><code>        conditions, @conditions = @conditions, []
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>        define_method &quot;#{verb} #{path}&quot;, &amp;block
-</code></li>
-                
-                <li class="pre-context-line"><code>        unbound_method = instance_method(&quot;#{verb} #{path}&quot;)
-</code></li>
-                
-                <li class="pre-context-line"><code>        block =
-</code></li>
-                
-                <li class="pre-context-line"><code>          if block.arity != 0
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="863" class="context" id="10"
-                  onclick="toggle(10);">
-                <li class="context-line" id="context-10"><code>            proc { unbound_method.bind(self).call(*@block_params) }</code></li>
-              </ol>
-
-              
-              <ol start="864" class="post-context"
-                  id="post-10" onclick="toggle(10);">
-                
-                <li class="post-context-line"><code>          else
-</code></li>
-                
-                <li class="post-context-line"><code>            proc { unbound_method.bind(self).call }
-</code></li>
-                
-                <li class="post-context-line"><code>          end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>        invoke_hook(:route_added, verb, path, block)
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>        (@routes[verb] ||= []).
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <ul>
+        <li><p><a href="http://clojure.org">Official Clojure site</a></p></li>
+        <li><p><a href="http://clojure.org/api">Official Clojure API</a></p></li>
+        <li><p><a href="http://clj-doc.s3.amazonaws.com/tmp/doc-1116/index.html">Clojure Docs</a></p></li>
+        <li><p><a href="http://java.ociweb.com/mark/clojure/ClojureCodingGuidelines.html">Clojure Coding Guidelines</a> by Mark Volkmann</p></li>
+        </ul>
+      </description>
+      <pubDate>Sat, 06 Jun 2009 00:00:00 +00:00</pubDate>
+      <guid isPermaLink='false'>7010d367853e988bd32aaf70f8b8c41511823e32</guid>
+    </item>
+    <item>
+      <title>Git blogging with Aerial</title>
+      <link>http://example.org/2009/4/4/git-blogging-with-aerial</link>
+      <description>
+        <p>Over the last few years, I have grown tired of maintaining, migrating, and upgrading blog software, so I've decided to roll my own with Ruby code. In doing so, I wanted to keep things as simple as possible with a basic set of features: articles, pages, comments, rss, etc. What I didn't want is a SQL database or an administration tool. I wanted to write articles in my text editor of choice (Emacs), in <a href="http://daringfireball.net/projects/markdown/">Markdown</a> format, and versioned with <a href="http://git-scm.com/">Git</a>. So I've ported this site from Mephisto to my own custom creation. I call it Aerial.</p>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>instance_eval</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="514"
-                  class="pre-context" id="pre-11"
-                  onclick="toggle(11);">
-                
-                <li class="pre-context-line"><code>      route_eval(&amp;pass_block) if pass_block
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      route_missing
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Run a route block and throw :halt with the result.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def route_eval(&amp;block)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="521" class="context" id="11"
-                  onclick="toggle(11);">
-                <li class="context-line" id="context-11"><code>      throw :halt, instance_eval(&amp;block)</code></li>
-              </ol>
-
-              
-              <ol start="522" class="post-context"
-                  id="post-11" onclick="toggle(11);">
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    # No matching route was found or all routes passed. The default
-</code></li>
-                
-                <li class="post-context-line"><code>    # implementation is to forward the request downstream when running
-</code></li>
-                
-                <li class="post-context-line"><code>    # as middleware (@app is non-nil); when no downstream app is set, raise
-</code></li>
-                
-                <li class="post-context-line"><code>    # a NotFound exception. Subclasses can override this method to perform
-</code></li>
-                
-                <li class="post-context-line"><code>    # custom route miss logic.
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>Much inspiration for Aerial has come from <a href="http://github.com/karmi/marley">Marley</a>, a minimal flat-file blog engine written in Sinatra. Like Marley, Aerial is built with <a href="http://www.sinatrarb.com/">Sinatra</a> and uses plain text files. Unlike Marley, Aerial doesn't use a SQL database and uses <a href="http://github.com/mojombo/grit">Grit</a> to retrieve article and comment files from a Git repository.</p>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>route_eval</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="514"
-                  class="pre-context" id="pre-12"
-                  onclick="toggle(12);">
-                
-                <li class="pre-context-line"><code>      route_eval(&amp;pass_block) if pass_block
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      route_missing
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Run a route block and throw :halt with the result.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def route_eval(&amp;block)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="521" class="context" id="12"
-                  onclick="toggle(12);">
-                <li class="context-line" id="context-12"><code>      throw :halt, instance_eval(&amp;block)</code></li>
-              </ol>
-
-              
-              <ol start="522" class="post-context"
-                  id="post-12" onclick="toggle(12);">
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    # No matching route was found or all routes passed. The default
-</code></li>
-                
-                <li class="post-context-line"><code>    # implementation is to forward the request downstream when running
-</code></li>
-                
-                <li class="post-context-line"><code>    # as middleware (@app is non-nil); when no downstream app is set, raise
-</code></li>
-                
-                <li class="post-context-line"><code>    # a NotFound exception. Subclasses can override this method to perform
-</code></li>
-                
-                <li class="post-context-line"><code>    # custom route miss logic.
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <h2>So how does it work?</h2>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>route!</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="493"
-                  class="pre-context" id="pre-13"
-                  onclick="toggle(13);">
-                
-                <li class="pre-context-line"><code>              end
-</code></li>
-                
-                <li class="pre-context-line"><code>            @params = original_params.merge(params)
-</code></li>
-                
-                <li class="pre-context-line"><code>            @block_params = values
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>            pass_block = catch(:pass) do
-</code></li>
-                
-                <li class="pre-context-line"><code>              conditions.each { |cond|
-</code></li>
-                
-                <li class="pre-context-line"><code>                throw :pass if instance_eval(&amp;cond) == false }
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="500" class="context" id="13"
-                  onclick="toggle(13);">
-                <li class="context-line" id="context-13"><code>              route_eval(&amp;block)</code></li>
-              </ol>
-
-              
-              <ol start="501" class="post-context"
-                  id="post-13" onclick="toggle(13);">
-                
-                <li class="post-context-line"><code>            end
-</code></li>
-                
-                <li class="post-context-line"><code>          end
-</code></li>
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>        @params = original_params
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>Articles and comments are stored as plain text files in a local Git directory. Aerial parses each file and converts them the Article and Comment objects with their own set of attributes such as title, body, tags, and author. For example, this article looks something like this:</p>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>catch</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="490"
-                  class="pre-context" id="pre-14"
-                  onclick="toggle(14);">
-                
-                <li class="pre-context-line"><code>                {&#39;captures&#39; =&gt; values}
-</code></li>
-                
-                <li class="pre-context-line"><code>              else
-</code></li>
-                
-                <li class="pre-context-line"><code>                {}
-</code></li>
-                
-                <li class="pre-context-line"><code>              end
-</code></li>
-                
-                <li class="pre-context-line"><code>            @params = original_params.merge(params)
-</code></li>
-                
-                <li class="pre-context-line"><code>            @block_params = values
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="497" class="context" id="14"
-                  onclick="toggle(14);">
-                <li class="context-line" id="context-14"><code>            pass_block = catch(:pass) do</code></li>
-              </ol>
-
-              
-              <ol start="498" class="post-context"
-                  id="post-14" onclick="toggle(14);">
-                
-                <li class="post-context-line"><code>              conditions.each { |cond|
-</code></li>
-                
-                <li class="post-context-line"><code>                throw :pass if instance_eval(&amp;cond) == false }
-</code></li>
-                
-                <li class="post-context-line"><code>              route_eval(&amp;block)
-</code></li>
-                
-                <li class="post-context-line"><code>            end
-</code></li>
-                
-                <li class="post-context-line"><code>          end
-</code></li>
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <pre><code>Title      : Git blogging with Aerial
+        Tags       : projects, ruby, git, sinatra
+        Published  : 03/28/2009
+        Author     : Matt Sears
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>route!</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="490"
-                  class="pre-context" id="pre-15"
-                  onclick="toggle(15);">
-                
-                <li class="pre-context-line"><code>                {&#39;captures&#39; =&gt; values}
-</code></li>
-                
-                <li class="pre-context-line"><code>              else
-</code></li>
-                
-                <li class="pre-context-line"><code>                {}
-</code></li>
-                
-                <li class="pre-context-line"><code>              end
-</code></li>
-                
-                <li class="pre-context-line"><code>            @params = original_params.merge(params)
-</code></li>
-                
-                <li class="pre-context-line"><code>            @block_params = values
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="497" class="context" id="15"
-                  onclick="toggle(15);">
-                <li class="context-line" id="context-15"><code>            pass_block = catch(:pass) do</code></li>
-              </ol>
-
-              
-              <ol start="498" class="post-context"
-                  id="post-15" onclick="toggle(15);">
-                
-                <li class="post-context-line"><code>              conditions.each { |cond|
-</code></li>
-                
-                <li class="post-context-line"><code>                throw :pass if instance_eval(&amp;cond) == false }
-</code></li>
-                
-                <li class="post-context-line"><code>              route_eval(&amp;block)
-</code></li>
-                
-                <li class="post-context-line"><code>            end
-</code></li>
-                
-                <li class="post-context-line"><code>          end
-</code></li>
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        Over the last few years...
+        </code></pre>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>each</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="469"
-                  class="pre-context" id="pre-16"
-                  onclick="toggle(16);">
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Run routes defined on the class and all superclasses.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def route!(base=self.class, pass_block=nil)
-</code></li>
-                
-                <li class="pre-context-line"><code>      if routes = base.routes[@request.request_method]
-</code></li>
-                
-                <li class="pre-context-line"><code>        original_params = @params
-</code></li>
-                
-                <li class="pre-context-line"><code>        path            = unescape(@request.path_info)
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="476" class="context" id="16"
-                  onclick="toggle(16);">
-                <li class="context-line" id="context-16"><code>        routes.each do |pattern, keys, conditions, block|</code></li>
-              </ol>
-
-              
-              <ol start="477" class="post-context"
-                  id="post-16" onclick="toggle(16);">
-                
-                <li class="post-context-line"><code>          if match = pattern.match(path)
-</code></li>
-                
-                <li class="post-context-line"><code>            values = match.captures.to_a
-</code></li>
-                
-                <li class="post-context-line"><code>            params =
-</code></li>
-                
-                <li class="post-context-line"><code>              if keys.any?
-</code></li>
-                
-                <li class="post-context-line"><code>                keys.zip(values).inject({}) do |hash,(k,v)|
-</code></li>
-                
-                <li class="post-context-line"><code>                  if k == &#39;splat&#39;
-</code></li>
-                
-                <li class="post-context-line"><code>                    (hash[k] ||= []) &lt;&lt; v
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>Since Aerial reads the articles from the Git repository, the contents of article won't display in the browser unless the changes are committed to Git. Same goes for comments.</p>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>route!</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="469"
-                  class="pre-context" id="pre-17"
-                  onclick="toggle(17);">
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Run routes defined on the class and all superclasses.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def route!(base=self.class, pass_block=nil)
-</code></li>
-                
-                <li class="pre-context-line"><code>      if routes = base.routes[@request.request_method]
-</code></li>
-                
-                <li class="pre-context-line"><code>        original_params = @params
-</code></li>
-                
-                <li class="pre-context-line"><code>        path            = unescape(@request.path_info)
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="476" class="context" id="17"
-                  onclick="toggle(17);">
-                <li class="context-line" id="context-17"><code>        routes.each do |pattern, keys, conditions, block|</code></li>
-              </ol>
-
-              
-              <ol start="477" class="post-context"
-                  id="post-17" onclick="toggle(17);">
-                
-                <li class="post-context-line"><code>          if match = pattern.match(path)
-</code></li>
-                
-                <li class="post-context-line"><code>            values = match.captures.to_a
-</code></li>
-                
-                <li class="post-context-line"><code>            params =
-</code></li>
-                
-                <li class="post-context-line"><code>              if keys.any?
-</code></li>
-                
-                <li class="post-context-line"><code>                keys.zip(values).inject({}) do |hash,(k,v)|
-</code></li>
-                
-                <li class="post-context-line"><code>                  if k == &#39;splat&#39;
-</code></li>
-                
-                <li class="post-context-line"><code>                    (hash[k] ||= []) &lt;&lt; v
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <h2>Working with remote repositories</h2>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>dispatch!</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="594"
-                  class="pre-context" id="pre-18"
-                  onclick="toggle(18);">
-                
-                <li class="pre-context-line"><code>      res
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Dispatch a request with error handling.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def dispatch!
-</code></li>
-                
-                <li class="pre-context-line"><code>      static! if settings.static? &amp;&amp; (request.get? || request.head?)
-</code></li>
-                
-                <li class="pre-context-line"><code>      before_filter!
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="601" class="context" id="18"
-                  onclick="toggle(18);">
-                <li class="context-line" id="context-18"><code>      route!</code></li>
-              </ol>
-
-              
-              <ol start="602" class="post-context"
-                  id="post-18" onclick="toggle(18);">
-                
-                <li class="post-context-line"><code>    rescue NotFound =&gt; boom
-</code></li>
-                
-                <li class="post-context-line"><code>      handle_not_found!(boom)
-</code></li>
-                
-                <li class="post-context-line"><code>    rescue ::Exception =&gt; boom
-</code></li>
-                
-                <li class="post-context-line"><code>      handle_exception!(boom)
-</code></li>
-                
-                <li class="post-context-line"><code>    ensure
-</code></li>
-                
-                <li class="post-context-line"><code>      after_filter! unless env[&#39;sinatra.static_file&#39;]
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>Aerial uses local and remote Git repositories to sync data between the production web server and your local environment. For example, when comments are submitted on the production web server, they are checked for Spam via <a href="http://akismet.com/">Akismet</a> and saved to the same directory as the article. Then, the new comment file is added to the production web server's repository and pushed to the remote repository (Github in my case). To pull in user comments to our local environment, simply use the pull command:</p>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>call!</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="404"
-                  class="pre-context" id="pre-19"
-                  onclick="toggle(19);">
-                
-                <li class="pre-context-line"><code>    def call!(env)
-</code></li>
-                
-                <li class="pre-context-line"><code>      @env      = env
-</code></li>
-                
-                <li class="pre-context-line"><code>      @request  = Request.new(env)
-</code></li>
-                
-                <li class="pre-context-line"><code>      @response = Response.new
-</code></li>
-                
-                <li class="pre-context-line"><code>      @params   = indifferent_params(@request.params)
-</code></li>
-                
-                <li class="pre-context-line"><code>      @template_cache.clear if settings.reload_templates
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="411" class="context" id="19"
-                  onclick="toggle(19);">
-                <li class="context-line" id="context-19"><code>      invoke { dispatch! }</code></li>
-              </ol>
-
-              
-              <ol start="412" class="post-context"
-                  id="post-19" onclick="toggle(19);">
-                
-                <li class="post-context-line"><code>      invoke { error_block!(response.status) }
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      status, header, body = @response.finish
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      # Never produce a body on HEAD requests. Do retain the Content-Length
-</code></li>
-                
-                <li class="post-context-line"><code>      # unless it&#39;s &quot;0&quot;, in which case we assume it was calculated erroneously
-</code></li>
-                
-                <li class="post-context-line"><code>      # for a manual HEAD response and remove it entirely.
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <pre><code>git pull
+        </code></pre>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>instance_eval</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="559"
-                  class="pre-context" id="pre-20"
-                  onclick="toggle(20);">
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    def indifferent_hash
-</code></li>
-                
-                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Run the block with &#39;throw :halt&#39; support and apply result to the response.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def invoke(&amp;block)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="566" class="context" id="20"
-                  onclick="toggle(20);">
-                <li class="context-line" id="context-20"><code>      res = catch(:halt) { instance_eval(&amp;block) }</code></li>
-              </ol>
-
-              
-              <ol start="567" class="post-context"
-                  id="post-20" onclick="toggle(20);">
-                
-                <li class="post-context-line"><code>      return if res.nil?
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      case
-</code></li>
-                
-                <li class="post-context-line"><code>      when res.respond_to?(:to_str)
-</code></li>
-                
-                <li class="post-context-line"><code>        @response.body = [res]
-</code></li>
-                
-                <li class="post-context-line"><code>      when res.respond_to?(:to_ary)
-</code></li>
-                
-                <li class="post-context-line"><code>        res = res.to_ary
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>Now we have all the comments that users have submitted.</p>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>invoke</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="559"
-                  class="pre-context" id="pre-21"
-                  onclick="toggle(21);">
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    def indifferent_hash
-</code></li>
-                
-                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Run the block with &#39;throw :halt&#39; support and apply result to the response.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def invoke(&amp;block)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="566" class="context" id="21"
-                  onclick="toggle(21);">
-                <li class="context-line" id="context-21"><code>      res = catch(:halt) { instance_eval(&amp;block) }</code></li>
-              </ol>
-
-              
-              <ol start="567" class="post-context"
-                  id="post-21" onclick="toggle(21);">
-                
-                <li class="post-context-line"><code>      return if res.nil?
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      case
-</code></li>
-                
-                <li class="post-context-line"><code>      when res.respond_to?(:to_str)
-</code></li>
-                
-                <li class="post-context-line"><code>        @response.body = [res]
-</code></li>
-                
-                <li class="post-context-line"><code>      when res.respond_to?(:to_ary)
-</code></li>
-                
-                <li class="post-context-line"><code>        res = res.to_ary
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <h2>Getting Started</h2>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>catch</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="559"
-                  class="pre-context" id="pre-22"
-                  onclick="toggle(22);">
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    def indifferent_hash
-</code></li>
-                
-                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Run the block with &#39;throw :halt&#39; support and apply result to the response.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def invoke(&amp;block)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="566" class="context" id="22"
-                  onclick="toggle(22);">
-                <li class="context-line" id="context-22"><code>      res = catch(:halt) { instance_eval(&amp;block) }</code></li>
-              </ol>
-
-              
-              <ol start="567" class="post-context"
-                  id="post-22" onclick="toggle(22);">
-                
-                <li class="post-context-line"><code>      return if res.nil?
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      case
-</code></li>
-                
-                <li class="post-context-line"><code>      when res.respond_to?(:to_str)
-</code></li>
-                
-                <li class="post-context-line"><code>        @response.body = [res]
-</code></li>
-                
-                <li class="post-context-line"><code>      when res.respond_to?(:to_ary)
-</code></li>
-                
-                <li class="post-context-line"><code>        res = res.to_ary
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>For Aerial to work, you'll need Git installed and the following RubyGems:</p>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>invoke</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="559"
-                  class="pre-context" id="pre-23"
-                  onclick="toggle(23);">
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    def indifferent_hash
-</code></li>
-                
-                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Run the block with &#39;throw :halt&#39; support and apply result to the response.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def invoke(&amp;block)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="566" class="context" id="23"
-                  onclick="toggle(23);">
-                <li class="context-line" id="context-23"><code>      res = catch(:halt) { instance_eval(&amp;block) }</code></li>
-              </ol>
-
-              
-              <ol start="567" class="post-context"
-                  id="post-23" onclick="toggle(23);">
-                
-                <li class="post-context-line"><code>      return if res.nil?
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      case
-</code></li>
-                
-                <li class="post-context-line"><code>      when res.respond_to?(:to_str)
-</code></li>
-                
-                <li class="post-context-line"><code>        @response.body = [res]
-</code></li>
-                
-                <li class="post-context-line"><code>      when res.respond_to?(:to_ary)
-</code></li>
-                
-                <li class="post-context-line"><code>        res = res.to_ary
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <pre><code>sudo gem install sinatra grit rdiscount haml
+        </code></pre>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>call!</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="404"
-                  class="pre-context" id="pre-24"
-                  onclick="toggle(24);">
-                
-                <li class="pre-context-line"><code>    def call!(env)
-</code></li>
-                
-                <li class="pre-context-line"><code>      @env      = env
-</code></li>
-                
-                <li class="pre-context-line"><code>      @request  = Request.new(env)
-</code></li>
-                
-                <li class="pre-context-line"><code>      @response = Response.new
-</code></li>
-                
-                <li class="pre-context-line"><code>      @params   = indifferent_params(@request.params)
-</code></li>
-                
-                <li class="pre-context-line"><code>      @template_cache.clear if settings.reload_templates
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="411" class="context" id="24"
-                  onclick="toggle(24);">
-                <li class="context-line" id="context-24"><code>      invoke { dispatch! }</code></li>
-              </ol>
-
-              
-              <ol start="412" class="post-context"
-                  id="post-24" onclick="toggle(24);">
-                
-                <li class="post-context-line"><code>      invoke { error_block!(response.status) }
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      status, header, body = @response.finish
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      # Never produce a body on HEAD requests. Do retain the Content-Length
-</code></li>
-                
-                <li class="post-context-line"><code>      # unless it&#39;s &quot;0&quot;, in which case we assume it was calculated erroneously
-</code></li>
-                
-                <li class="post-context-line"><code>      # for a manual HEAD response and remove it entirely.
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>Grab the <a href="http://github.com/mattsears/aerial">source code</a> from Github.</p>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>call</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="392"
-                  class="pre-context" id="pre-25"
-                  onclick="toggle(25);">
-                
-                <li class="pre-context-line"><code>      @app = app
-</code></li>
-                
-                <li class="pre-context-line"><code>      @template_cache = Tilt::Cache.new
-</code></li>
-                
-                <li class="pre-context-line"><code>      yield self if block_given?
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Rack call interface.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def call(env)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="399" class="context" id="25"
-                  onclick="toggle(25);">
-                <li class="context-line" id="context-25"><code>      dup.call!(env)</code></li>
-              </ol>
-
-              
-              <ol start="400" class="post-context"
-                  id="post-25" onclick="toggle(25);">
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    attr_accessor :env, :request, :response, :params
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    def call!(env)
-</code></li>
-                
-                <li class="post-context-line"><code>      @env      = env
-</code></li>
-                
-                <li class="post-context-line"><code>      @request  = Request.new(env)
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>A small configuration file in config/config.yml is used to store information about your blog. You can add your info now or leave it as is and it will still work. To setup and run Aerial, we need to run the boostrap Rake task:</p>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/rack-1.1.0/lib/rack/showexceptions.rb</code> in
-                <code><strong>call</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="17"
-                  class="pre-context" id="pre-26"
-                  onclick="toggle(26);">
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    def initialize(app)
-</code></li>
-                
-                <li class="pre-context-line"><code>      @app = app
-</code></li>
-                
-                <li class="pre-context-line"><code>      @template = ERB.new(TEMPLATE)
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    def call(env)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="24" class="context" id="26"
-                  onclick="toggle(26);">
-                <li class="context-line" id="context-26"><code>      @app.call(env)</code></li>
-              </ol>
-
-              
-              <ol start="25" class="post-context"
-                  id="post-26" onclick="toggle(26);">
-                
-                <li class="post-context-line"><code>    rescue StandardError, LoadError, SyntaxError =&gt; e
-</code></li>
-                
-                <li class="post-context-line"><code>      backtrace = pretty(env, e)
-</code></li>
-                
-                <li class="post-context-line"><code>      [500,
-</code></li>
-                
-                <li class="post-context-line"><code>       {&quot;Content-Type&quot; =&gt; &quot;text/html&quot;,
-</code></li>
-                
-                <li class="post-context-line"><code>        &quot;Content-Length&quot; =&gt; backtrace.join.size.to_s},
-</code></li>
-                
-                <li class="post-context-line"><code>       backtrace]
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <pre><code>rake bootstrap
+        </code></pre>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>call</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="972"
-                  class="pre-context" id="pre-27"
-                  onclick="toggle(27);">
-                
-                <li class="pre-context-line"><code>        middleware.each { |c,a,b| builder.use(c, *a, &amp;b) }
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>        builder.run super
-</code></li>
-                
-                <li class="pre-context-line"><code>        builder.to_app
-</code></li>
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      def call(env)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="979" class="context" id="27"
-                  onclick="toggle(27);">
-                <li class="context-line" id="context-27"><code>        synchronize { prototype.call(env) }</code></li>
-              </ol>
-
-              
-              <ol start="980" class="post-context"
-                  id="post-27" onclick="toggle(27);">
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    private
-</code></li>
-                
-                <li class="post-context-line"><code>      def detect_rack_handler
-</code></li>
-                
-                <li class="post-context-line"><code>        servers = Array(self.server)
-</code></li>
-                
-                <li class="post-context-line"><code>        servers.each do |server_name|
-</code></li>
-                
-                <li class="post-context-line"><code>          begin
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>This will install the necessary directories (specified in the config.yml file), javascript files, and insert a sample article to get you started. If every goes smoothly, Aerial should be up and running at:</p>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>synchronize</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="998"
-                  class="pre-context" id="pre-28"
-                  onclick="toggle(28);">
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      @@mutex = Mutex.new
-</code></li>
-                
-                <li class="pre-context-line"><code>      def synchronize(&amp;block)
-</code></li>
-                
-                <li class="pre-context-line"><code>        if lock?
-</code></li>
-                
-                <li class="pre-context-line"><code>          @@mutex.synchronize(&amp;block)
-</code></li>
-                
-                <li class="pre-context-line"><code>        else
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="1005" class="context" id="28"
-                  onclick="toggle(28);">
-                <li class="context-line" id="context-28"><code>          yield</code></li>
-              </ol>
-
-              
-              <ol start="1006" class="post-context"
-                  id="post-28" onclick="toggle(28);">
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      def metadef(message, &amp;block)
-</code></li>
-                
-                <li class="post-context-line"><code>        (class &lt;&lt; self; self; end).
-</code></li>
-                
-                <li class="post-context-line"><code>          send :define_method, message, &amp;block
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <pre><code>http://localhost:4567
+        </code></pre>
         
-      
-          
-
-            <li class="frame-info framework">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/sinatra-1.0/lib/sinatra/base.rb</code> in
-                <code><strong>call</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="972"
-                  class="pre-context" id="pre-29"
-                  onclick="toggle(29);">
-                
-                <li class="pre-context-line"><code>        middleware.each { |c,a,b| builder.use(c, *a, &amp;b) }
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>        builder.run super
-</code></li>
-                
-                <li class="pre-context-line"><code>        builder.to_app
-</code></li>
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      def call(env)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="979" class="context" id="29"
-                  onclick="toggle(29);">
-                <li class="context-line" id="context-29"><code>        synchronize { prototype.call(env) }</code></li>
-              </ol>
-
-              
-              <ol start="980" class="post-context"
-                  id="post-29" onclick="toggle(29);">
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    private
-</code></li>
-                
-                <li class="post-context-line"><code>      def detect_rack_handler
-</code></li>
-                
-                <li class="post-context-line"><code>        servers = Array(self.server)
-</code></li>
-                
-                <li class="post-context-line"><code>        servers.each do |server_name|
-</code></li>
-                
-                <li class="post-context-line"><code>          begin
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>Keeping in spirit with minimalism, all the pages use <a href="http://haml.hamptoncatlin.com">Haml</a> for the templating engine. Of course, you may change this to the templating engine of your choice.</p>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/rack-1.1.0/lib/rack/mock.rb</code> in
-                <code><strong>request</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="63"
-                  class="pre-context" id="pre-30"
-                  onclick="toggle(30);">
-                
-                <li class="pre-context-line"><code>      if opts[:lint]
-</code></li>
-                
-                <li class="pre-context-line"><code>        app = Rack::Lint.new(@app)
-</code></li>
-                
-                <li class="pre-context-line"><code>      else
-</code></li>
-                
-                <li class="pre-context-line"><code>        app = @app
-</code></li>
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      errors = env[&quot;rack.errors&quot;]
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="70" class="context" id="30"
-                  onclick="toggle(30);">
-                <li class="context-line" id="context-30"><code>      MockResponse.new(*(app.call(env) + [errors]))</code></li>
-              </ol>
-
-              
-              <ol start="71" class="post-context"
-                  id="post-30" onclick="toggle(30);">
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    # Return the Rack environment used for a request to +uri+.
-</code></li>
-                
-                <li class="post-context-line"><code>    def self.env_for(uri=&quot;&quot;, opts={})
-</code></li>
-                
-                <li class="post-context-line"><code>      uri = URI(uri)
-</code></li>
-                
-                <li class="post-context-line"><code>      uri.path = &quot;/#{uri.path}&quot; unless uri.path[0] == ?/
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <h2>Creating new articles</h2>
         
-      
-          
-
-            <li class="frame-info app">
-              <code>/Users/matt/Workspace/aerial/bin/../lib/aerial/build.rb</code> in
-                <code><strong>nil</strong></code>
-            </li>
-
-            <li class="code app">
-              
-              <ol start="71"
-                  class="pre-context" id="pre-31"
-                  onclick="toggle(31);">
-                
-                <li class="pre-context-line"><code>        end
-</code></li>
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    desc &quot;build_feed_xml&quot;, &quot;Build the feed rss xml&quot;
-</code></li>
-                
-                <li class="pre-context-line"><code>    def build_feed_xml
-</code></li>
-                
-                <li class="pre-context-line"><code>      create_file &quot;#{@site_path}/feed.xml&quot; do
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="78" class="context" id="31"
-                  onclick="toggle(31);">
-                <li class="context-line" id="context-31"><code>        @request.request(&#39;get&#39;, &quot;/feed.xml&quot;).body</code></li>
-              </ol>
-
-              
-              <ol start="79" class="post-context"
-                  id="post-31" onclick="toggle(31);">
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>  end
-</code></li>
-                
-                <li class="post-context-line"><code>end
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>Create a new folder in the app/articles directory.  You can name this folder anything you want, but it may be helpful to number them so they display in the order you want them to. For example, the folder for this articles looks like this:</p>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/actions/create_file.rb</code> in
-                <code><strong>call</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="47"
-                  class="pre-context" id="pre-32"
-                  onclick="toggle(32);">
-                
-                <li class="pre-context-line"><code>        exists? &amp;&amp; File.binread(destination) == render
-</code></li>
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      # Holds the content to be added to the file.
-</code></li>
-                
-                <li class="pre-context-line"><code>      #
-</code></li>
-                
-                <li class="pre-context-line"><code>      def render
-</code></li>
-                
-                <li class="pre-context-line"><code>        @render ||= if data.is_a?(Proc)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="54" class="context" id="32"
-                  onclick="toggle(32);">
-                <li class="context-line" id="context-32"><code>          data.call</code></li>
-              </ol>
-
-              
-              <ol start="55" class="post-context"
-                  id="post-32" onclick="toggle(32);">
-                
-                <li class="post-context-line"><code>        else
-</code></li>
-                
-                <li class="post-context-line"><code>          data
-</code></li>
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      def invoke!
-</code></li>
-                
-                <li class="post-context-line"><code>        invoke_with_conflict_check do
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <pre><code>app/articles/011-introducing-aerial
+        </code></pre>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/actions/create_file.rb</code> in
-                <code><strong>render</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="47"
-                  class="pre-context" id="pre-33"
-                  onclick="toggle(33);">
-                
-                <li class="pre-context-line"><code>        exists? &amp;&amp; File.binread(destination) == render
-</code></li>
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      # Holds the content to be added to the file.
-</code></li>
-                
-                <li class="pre-context-line"><code>      #
-</code></li>
-                
-                <li class="pre-context-line"><code>      def render
-</code></li>
-                
-                <li class="pre-context-line"><code>        @render ||= if data.is_a?(Proc)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="54" class="context" id="33"
-                  onclick="toggle(33);">
-                <li class="context-line" id="context-33"><code>          data.call</code></li>
-              </ol>
-
-              
-              <ol start="55" class="post-context"
-                  id="post-33" onclick="toggle(33);">
-                
-                <li class="post-context-line"><code>        else
-</code></li>
-                
-                <li class="post-context-line"><code>          data
-</code></li>
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      def invoke!
-</code></li>
-                
-                <li class="post-context-line"><code>        invoke_with_conflict_check do
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>Next, create a text file with the extension '.article' and save it to the new folder.  The '.article' file extension let's Aerial know that this file should be converted to an Article object.  The name of the article will be the article's permalink. Remember, the article will not display on the site until it's committed to the git repository. When the article is completed, we can push it to the remote repository with the push command:</p>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/actions/create_file.rb</code> in
-                <code><strong>identical?</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="40"
-                  class="pre-context" id="pre-34"
-                  onclick="toggle(34);">
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      # Checks if the content of the file at the destination is identical to the rendered result.
-</code></li>
-                
-                <li class="pre-context-line"><code>      #
-</code></li>
-                
-                <li class="pre-context-line"><code>      # ==== Returns
-</code></li>
-                
-                <li class="pre-context-line"><code>      # Boolean:: true if it is identical, false otherwise.
-</code></li>
-                
-                <li class="pre-context-line"><code>      #
-</code></li>
-                
-                <li class="pre-context-line"><code>      def identical?
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="47" class="context" id="34"
-                  onclick="toggle(34);">
-                <li class="context-line" id="context-34"><code>        exists? &amp;&amp; File.binread(destination) == render</code></li>
-              </ol>
-
-              
-              <ol start="48" class="post-context"
-                  id="post-34" onclick="toggle(34);">
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      # Holds the content to be added to the file.
-</code></li>
-                
-                <li class="post-context-line"><code>      #
-</code></li>
-                
-                <li class="post-context-line"><code>      def render
-</code></li>
-                
-                <li class="post-context-line"><code>        @render ||= if data.is_a?(Proc)
-</code></li>
-                
-                <li class="post-context-line"><code>          data.call
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <pre><code>git push
+        </code></pre>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/actions/create_file.rb</code> in
-                <code><strong>on_conflict_behavior</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="66"
-                  class="pre-context" id="pre-35"
-                  onclick="toggle(35);">
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      protected
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>        # Now on conflict we check if the file is identical or not.
-</code></li>
-                
-                <li class="pre-context-line"><code>        #
-</code></li>
-                
-                <li class="pre-context-line"><code>        def on_conflict_behavior(&amp;block)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="73" class="context" id="35"
-                  onclick="toggle(35);">
-                <li class="context-line" id="context-35"><code>          if identical?</code></li>
-              </ol>
-
-              
-              <ol start="74" class="post-context"
-                  id="post-35" onclick="toggle(35);">
-                
-                <li class="post-context-line"><code>            say_status :identical, :blue
-</code></li>
-                
-                <li class="post-context-line"><code>          else
-</code></li>
-                
-                <li class="post-context-line"><code>            options = base.options.merge(config)
-</code></li>
-                
-                <li class="post-context-line"><code>            force_or_skip_or_conflict(options[:force], options[:skip], &amp;block)
-</code></li>
-                
-                <li class="post-context-line"><code>          end
-</code></li>
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>Now, we're ready to deploy it.</p>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/actions/empty_directory.rb</code> in
-                <code><strong>invoke_with_conflict_check</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="104"
-                  class="pre-context" id="pre-36"
-                  onclick="toggle(36);">
-                
-                <li class="pre-context-line"><code>        end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>        # Receives a hash of options and just execute the block if some
-</code></li>
-                
-                <li class="pre-context-line"><code>        # conditions are met.
-</code></li>
-                
-                <li class="pre-context-line"><code>        #
-</code></li>
-                
-                <li class="pre-context-line"><code>        def invoke_with_conflict_check(&amp;block)
-</code></li>
-                
-                <li class="pre-context-line"><code>          if exists?
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="111" class="context" id="36"
-                  onclick="toggle(36);">
-                <li class="context-line" id="context-36"><code>            on_conflict_behavior(&amp;block)</code></li>
-              </ol>
-
-              
-              <ol start="112" class="post-context"
-                  id="post-36" onclick="toggle(36);">
-                
-                <li class="post-context-line"><code>          else
-</code></li>
-                
-                <li class="post-context-line"><code>            say_status :create, :green
-</code></li>
-                
-                <li class="post-context-line"><code>            block.call unless pretend?
-</code></li>
-                
-                <li class="post-context-line"><code>          end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>          destination
-</code></li>
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <h2>Deployment</h2>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/actions/create_file.rb</code> in
-                <code><strong>invoke!</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="54"
-                  class="pre-context" id="pre-37"
-                  onclick="toggle(37);">
-                
-                <li class="pre-context-line"><code>          data.call
-</code></li>
-                
-                <li class="pre-context-line"><code>        else
-</code></li>
-                
-                <li class="pre-context-line"><code>          data
-</code></li>
-                
-                <li class="pre-context-line"><code>        end
-</code></li>
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      def invoke!
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="61" class="context" id="37"
-                  onclick="toggle(37);">
-                <li class="context-line" id="context-37"><code>        invoke_with_conflict_check do</code></li>
-              </ol>
-
-              
-              <ol start="62" class="post-context"
-                  id="post-37" onclick="toggle(37);">
-                
-                <li class="post-context-line"><code>          FileUtils.mkdir_p(File.dirname(destination))
-</code></li>
-                
-                <li class="post-context-line"><code>          File.open(destination, &#39;wb&#39;) { |f| f.write render }
-</code></li>
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-                <li class="post-context-line"><code>        given_destination
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      protected
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>Deployment tasks are handled with <a href="http://rubyhitsquad.com/Vlad_the_Deployer.html">Vlad the Deployer</a>. A simple deployment script is located at config/deploy.rb. It assumes your running Apache and Phusions Passenger, but you can edit this file with your own settings. Future enhancements may include auto-syncing with post-receive hooks so that 'git push' will make Aerial update itself, but for now we can deploy with a simple rake task:</p>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/actions.rb</code> in
-                <code><strong>action</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="86"
-                  class="pre-context" id="pre-38"
-                  onclick="toggle(38);">
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Wraps an action object and call it accordingly to the thor class behavior.
-</code></li>
-                
-                <li class="pre-context-line"><code>    #
-</code></li>
-                
-                <li class="pre-context-line"><code>    def action(instance) #:nodoc:
-</code></li>
-                
-                <li class="pre-context-line"><code>      if behavior == :revoke
-</code></li>
-                
-                <li class="pre-context-line"><code>        instance.revoke!
-</code></li>
-                
-                <li class="pre-context-line"><code>      else
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="93" class="context" id="38"
-                  onclick="toggle(38);">
-                <li class="context-line" id="context-38"><code>        instance.invoke!</code></li>
-              </ol>
-
-              
-              <ol start="94" class="post-context"
-                  id="post-38" onclick="toggle(38);">
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    # Returns the root for this thor class (also aliased as destination root).
-</code></li>
-                
-                <li class="post-context-line"><code>    #
-</code></li>
-                
-                <li class="post-context-line"><code>    def destination_root
-</code></li>
-                
-                <li class="post-context-line"><code>      @destination_stack.last
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <pre><code>rake deploy
+        </code></pre>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/actions/create_file.rb</code> in
-                <code><strong>create_file</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="19"
-                  class="pre-context" id="pre-39"
-                  onclick="toggle(39);">
-                
-                <li class="pre-context-line"><code>    #   end
-</code></li>
-                
-                <li class="pre-context-line"><code>    #
-</code></li>
-                
-                <li class="pre-context-line"><code>    #   create_file &quot;config/apach.conf&quot;, &quot;your apache config&quot;
-</code></li>
-                
-                <li class="pre-context-line"><code>    #
-</code></li>
-                
-                <li class="pre-context-line"><code>    def create_file(destination, *args, &amp;block)
-</code></li>
-                
-                <li class="pre-context-line"><code>      config = args.last.is_a?(Hash) ? args.pop : {}
-</code></li>
-                
-                <li class="pre-context-line"><code>      data = args.first
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="26" class="context" id="39"
-                  onclick="toggle(39);">
-                <li class="context-line" id="context-39"><code>      action CreateFile.new(self, destination, block || data.to_s, config)</code></li>
-              </ol>
-
-              
-              <ol start="27" class="post-context"
-                  id="post-39" onclick="toggle(39);">
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>    alias :add_file :create_file
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    # AddFile is a subset of Template, which instead of rendering a file with
-</code></li>
-                
-                <li class="post-context-line"><code>    # ERB, it gets the content from the user.
-</code></li>
-                
-                <li class="post-context-line"><code>    #
-</code></li>
-                
-                <li class="post-context-line"><code>    class CreateFile &lt; EmptyDirectory #:nodoc:
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>This is by no means a comprehensive introduction. If you have any questions or run into any problems, please drop me a line.</p>
+      </description>
+      <pubDate>Sat, 04 Apr 2009 00:00:00 +00:00</pubDate>
+      <guid isPermaLink='false'>dad405a4784c3736148aede183ad3bf0a3f74131</guid>
+    </item>
+    <item>
+      <title>RubyConf 2008 Wrap Up</title>
+      <link>http://example.org/2008/11/23/rubyconf-2008-wrap-up</link>
+      <description>
+        <p>This month I headed down to Orlando, Florida for RubyConf 2008. It kicked off with a delightful (and touching) keynote by Matz. He walked through his own programming history with languages including the language he got started with BASIC (the same language I started with). Matz talked about the growing community and a statistic from Gartner that says there are over a million Ruby developers and will grow to 4 million by 2012, which is amazing. He finished up by saying that Ruby is all about love, and included a slide that said "I love you all".  Below are couple highlights from each day.</p>
         
-      
-          
-
-            <li class="frame-info app">
-              <code>/Users/matt/Workspace/aerial/bin/../lib/aerial/build.rb</code> in
-                <code><strong>build_feed_xml</strong></code>
-            </li>
-
-            <li class="code app">
-              
-              <ol start="70"
-                  class="pre-context" id="pre-40"
-                  onclick="toggle(40);">
-                
-                <li class="pre-context-line"><code>          @request.request(&#39;get&#39;, &quot;/archives/#{archive.first.first}&quot;).body
-</code></li>
-                
-                <li class="pre-context-line"><code>        end
-</code></li>
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    desc &quot;build_feed_xml&quot;, &quot;Build the feed rss xml&quot;
-</code></li>
-                
-                <li class="pre-context-line"><code>    def build_feed_xml
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="77" class="context" id="40"
-                  onclick="toggle(40);">
-                <li class="context-line" id="context-40"><code>      create_file &quot;#{@site_path}/feed.xml&quot; do</code></li>
-              </ol>
-
-              
-              <ol start="78" class="post-context"
-                  id="post-40" onclick="toggle(40);">
-                
-                <li class="post-context-line"><code>        @request.request(&#39;get&#39;, &quot;/feed.xml&quot;).body
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>  end
-</code></li>
-                
-                <li class="post-context-line"><code>end
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <blockquote><p><img src="http://farm4.static.flickr.com/3007/3012059619_54ca460d75.jpg" title="The Keynote Audience" alt="Alt text" />
+        Photo credit: <a href="http://www.flickr.com/photos/danbenjamin/3012059619/in/set-72157608762375251/">Dan BenJamin</a></p></blockquote>
         
-      
-          
-
-            <li class="frame-info app">
-              <code>/Users/matt/Workspace/aerial/bin/../lib/aerial/build.rb</code> in
-                <code><strong>build</strong></code>
-            </li>
-
-            <li class="code app">
-              
-              <ol start="19"
-                  class="pre-context" id="pre-41"
-                  onclick="toggle(41);">
-                
-                <li class="pre-context-line"><code>      @articles = Aerial::Article.all
-</code></li>
-                
-                <li class="pre-context-line"><code>      @request = Rack::MockRequest.new(Aerial::App)
-</code></li>
-                
-                <li class="pre-context-line"><code>      build_style_css
-</code></li>
-                
-                <li class="pre-context-line"><code>      build_pages_html
-</code></li>
-                
-                <li class="pre-context-line"><code>      build_articles_html
-</code></li>
-                
-                <li class="pre-context-line"><code>      build_tags_html
-</code></li>
-                
-                <li class="pre-context-line"><code>      build_archives_html
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="26" class="context" id="41"
-                  onclick="toggle(41);">
-                <li class="context-line" id="context-41"><code>      build_feed_xml</code></li>
-              </ol>
-
-              
-              <ol start="27" class="post-context"
-                  id="post-41" onclick="toggle(41);">
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    desc &quot;build_style_css&quot;, &quot;Build all css files.&quot;
-</code></li>
-                
-                <li class="post-context-line"><code>    def build_style_css
-</code></li>
-                
-                <li class="post-context-line"><code>      create_file &quot;#{@site_path}/style.css&quot; do
-</code></li>
-                
-                <li class="post-context-line"><code>        @request.request(&#39;get&#39;, &#39;/style.css&#39;).body
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <h2>Day 1:</h2>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/task.rb</code> in
-                <code><strong>send</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="15"
-                  class="pre-context" id="pre-42"
-                  onclick="toggle(42);">
-                
-                <li class="pre-context-line"><code>      false
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # By default, a task invokes a method in the thor class. You can change this
-</code></li>
-                
-                <li class="pre-context-line"><code>    # implementation to create custom tasks.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def run(instance, args=[])
-</code></li>
-                
-                <li class="pre-context-line"><code>      public_method?(instance) ?
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="22" class="context" id="42"
-                  onclick="toggle(42);">
-                <li class="context-line" id="context-42"><code>        instance.send(name, *args) : instance.class.handle_no_task_error(name)</code></li>
-              </ol>
-
-              
-              <ol start="23" class="post-context"
-                  id="post-42" onclick="toggle(42);">
-                
-                <li class="post-context-line"><code>    rescue ArgumentError =&gt; e
-</code></li>
-                
-                <li class="post-context-line"><code>      handle_argument_error?(instance, e, caller) ?
-</code></li>
-                
-                <li class="post-context-line"><code>        instance.class.handle_argument_error(self, e) : (raise e)
-</code></li>
-                
-                <li class="post-context-line"><code>    rescue NoMethodError =&gt; e
-</code></li>
-                
-                <li class="post-context-line"><code>      handle_no_method_error?(instance, e, caller) ?
-</code></li>
-                
-                <li class="post-context-line"><code>        instance.class.handle_no_task_error(name) : (raise e)
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>Gregg Pollack's talk on Scaling Ruby (without Rails) was really good.  He touched on green and native threads, EventMachine, message queues, and profiling code with ruby-prof.  My favorite part of the presentation was the performance tips and tricks of optimizing Ruby code.  His talk is up at EnvyCast and I definitely recommend it.</p>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/task.rb</code> in
-                <code><strong>run</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="15"
-                  class="pre-context" id="pre-43"
-                  onclick="toggle(43);">
-                
-                <li class="pre-context-line"><code>      false
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # By default, a task invokes a method in the thor class. You can change this
-</code></li>
-                
-                <li class="pre-context-line"><code>    # implementation to create custom tasks.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def run(instance, args=[])
-</code></li>
-                
-                <li class="pre-context-line"><code>      public_method?(instance) ?
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="22" class="context" id="43"
-                  onclick="toggle(43);">
-                <li class="context-line" id="context-43"><code>        instance.send(name, *args) : instance.class.handle_no_task_error(name)</code></li>
-              </ol>
-
-              
-              <ol start="23" class="post-context"
-                  id="post-43" onclick="toggle(43);">
-                
-                <li class="post-context-line"><code>    rescue ArgumentError =&gt; e
-</code></li>
-                
-                <li class="post-context-line"><code>      handle_argument_error?(instance, e, caller) ?
-</code></li>
-                
-                <li class="post-context-line"><code>        instance.class.handle_argument_error(self, e) : (raise e)
-</code></li>
-                
-                <li class="post-context-line"><code>    rescue NoMethodError =&gt; e
-</code></li>
-                
-                <li class="post-context-line"><code>      handle_no_method_error?(instance, e, caller) ?
-</code></li>
-                
-                <li class="post-context-line"><code>        instance.class.handle_no_task_error(name) : (raise e)
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>Jamis Buck - "Recovering from the Enterprise" was probably my favorite presentation at the conference.  The main theme of his talk was that working in the enterprise solves problems differently than those solutions in Ruby.  Jamis worked in Java (like me) before Ruby and he told a story of how he written a library for dependency injection for Ruby but realized that he was trying to use Java solutions in a Ruby world that didn't need it. He said Java is like Legos and Ruby is like Play-doh and delivered the best quote of the conference "Just in time, not just in case"</p>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/invocation.rb</code> in
-                <code><strong>nil</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="102"
-                  class="pre-context" id="pre-44"
-                  onclick="toggle(44);">
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      method_args = []
-</code></li>
-                
-                <li class="pre-context-line"><code>      current = @_invocations[klass]
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      iterator = proc do |_, task|
-</code></li>
-                
-                <li class="pre-context-line"><code>        unless current.include?(task.name)
-</code></li>
-                
-                <li class="pre-context-line"><code>          current &lt;&lt; task.name
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="109" class="context" id="44"
-                  onclick="toggle(44);">
-                <li class="context-line" id="context-44"><code>          task.run(instance, method_args)</code></li>
-              </ol>
-
-              
-              <ol start="110" class="post-context"
-                  id="post-44" onclick="toggle(44);">
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      if task
-</code></li>
-                
-                <li class="post-context-line"><code>        args ||= []
-</code></li>
-                
-                <li class="post-context-line"><code>        method_args = args[Range.new(klass.arguments.size, -1)] || []
-</code></li>
-                
-                <li class="post-context-line"><code>        iterator.call(nil, task)
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <blockquote><p><img src="http://farm4.static.flickr.com/3022/3012058753_cedb320f27.jpg?v=0" title="Glenn Vanderburg and Dave Thomas" alt="Alt text" />
+        Photo credit: <a href="http://www.flickr.com/photos/danbenjamin/3012058753/in/set-72157608762375251/">Dan BenJamin</a></p></blockquote>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/invocation.rb</code> in
-                <code><strong>call</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="109"
-                  class="pre-context" id="pre-45"
-                  onclick="toggle(45);">
-                
-                <li class="pre-context-line"><code>          task.run(instance, method_args)
-</code></li>
-                
-                <li class="pre-context-line"><code>        end
-</code></li>
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      if task
-</code></li>
-                
-                <li class="pre-context-line"><code>        args ||= []
-</code></li>
-                
-                <li class="pre-context-line"><code>        method_args = args[Range.new(klass.arguments.size, -1)] || []
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="116" class="context" id="45"
-                  onclick="toggle(45);">
-                <li class="context-line" id="context-45"><code>        iterator.call(nil, task)</code></li>
-              </ol>
-
-              
-              <ol start="117" class="post-context"
-                  id="post-45" onclick="toggle(45);">
-                
-                <li class="post-context-line"><code>      else
-</code></li>
-                
-                <li class="post-context-line"><code>        klass.all_tasks.map(&amp;iterator)
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    # Invokes using shell padding.
-</code></li>
-                
-                <li class="post-context-line"><code>    def invoke_with_padding(*args)
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <h2>Day 2:</h2>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/invocation.rb</code> in
-                <code><strong>invoke</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="109"
-                  class="pre-context" id="pre-46"
-                  onclick="toggle(46);">
-                
-                <li class="pre-context-line"><code>          task.run(instance, method_args)
-</code></li>
-                
-                <li class="pre-context-line"><code>        end
-</code></li>
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      if task
-</code></li>
-                
-                <li class="pre-context-line"><code>        args ||= []
-</code></li>
-                
-                <li class="pre-context-line"><code>        method_args = args[Range.new(klass.arguments.size, -1)] || []
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="116" class="context" id="46"
-                  onclick="toggle(46);">
-                <li class="context-line" id="context-46"><code>        iterator.call(nil, task)</code></li>
-              </ol>
-
-              
-              <ol start="117" class="post-context"
-                  id="post-46" onclick="toggle(46);">
-                
-                <li class="post-context-line"><code>      else
-</code></li>
-                
-                <li class="post-context-line"><code>        klass.all_tasks.map(&amp;iterator)
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    # Invokes using shell padding.
-</code></li>
-                
-                <li class="post-context-line"><code>    def invoke_with_padding(*args)
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>Effective and Creative Code by Eric Ivancich was awesome.  He discussed how our minds work while programming - the differences between fascination and direct attention, the mental fatique and long periods of direct attention can have on you.  Fascinating stuff.</p>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor.rb</code> in
-                <code><strong>start</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="154"
-                  class="pre-context" id="pre-47"
-                  onclick="toggle(47);">
-                
-                <li class="pre-context-line"><code>          config.merge!(:task_options =&gt; task.options)
-</code></li>
-                
-                <li class="pre-context-line"><code>        else
-</code></li>
-                
-                <li class="pre-context-line"><code>          args, opts = given_args, {}
-</code></li>
-                
-                <li class="pre-context-line"><code>        end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>        task ||= Thor::DynamicTask.new(meth)
-</code></li>
-                
-                <li class="pre-context-line"><code>        trailing = args[Range.new(arguments.size, -1)]
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="161" class="context" id="47"
-                  onclick="toggle(47);">
-                <li class="context-line" id="context-47"><code>        new(args, opts, config).invoke(task, trailing || [])</code></li>
-              </ol>
-
-              
-              <ol start="162" class="post-context"
-                  id="post-47" onclick="toggle(47);">
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    # Prints help information for the given task.
-</code></li>
-                
-                <li class="post-context-line"><code>    #
-</code></li>
-                
-                <li class="post-context-line"><code>    # ==== Parameters
-</code></li>
-                
-                <li class="post-context-line"><code>    # shell&lt;Thor::Shell&gt;
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>Yehuda Katz taught us how to write code that doesn't suck with Interface Oriented Design.  But first, he announced that Merb 1.0 was released just minutes before his presentation.  Then he went on to say that unit tests are not regression tests and that writing regression tests should make sure that the API we are exposing to the world doesn't break while work is being done under the covers.</p>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor/base.rb</code> in
-                <code><strong>start</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="372"
-                  class="pre-context" id="pre-48"
-                  onclick="toggle(48);">
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      # Default way to start generators from the command line.
-</code></li>
-                
-                <li class="pre-context-line"><code>      #
-</code></li>
-                
-                <li class="pre-context-line"><code>      def start(given_args=ARGV, config={})
-</code></li>
-                
-                <li class="pre-context-line"><code>        self.debugging = given_args.include?(&quot;--debug&quot;)
-</code></li>
-                
-                <li class="pre-context-line"><code>        config[:shell] ||= Thor::Base.shell.new
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="379" class="context" id="48"
-                  onclick="toggle(48);">
-                <li class="context-line" id="context-48"><code>        yield(given_args.dup)</code></li>
-              </ol>
-
-              
-              <ol start="380" class="post-context"
-                  id="post-48" onclick="toggle(48);">
-                
-                <li class="post-context-line"><code>      rescue Thor::Error =&gt; e
-</code></li>
-                
-                <li class="post-context-line"><code>        debugging ? (raise e) : config[:shell].error(e.message)
-</code></li>
-                
-                <li class="post-context-line"><code>        exit(1) if exit_on_failure?
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      def handle_no_task_error(task) #:nodoc:
-</code></li>
-                
-                <li class="post-context-line"><code>        if $thor_runner
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <blockquote><p><img src="http://farm4.static.flickr.com/3201/3012061855_402f2b1cd6.jpg" title="The Hall Between Sessions" alt="Alt text" />
+        Photo credit: <a href="http://www.flickr.com/photos/danbenjamin/3012061855/in/set-72157608762375251/">Dan BenJamin</a></p></blockquote>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/.rvm/gems/ree-1.8.7-2010.01/gems/thor-0.13.8/lib/thor.rb</code> in
-                <code><strong>start</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="133"
-                  class="pre-context" id="pre-49"
-                  onclick="toggle(49);">
-                
-                <li class="pre-context-line"><code>    #
-</code></li>
-                
-                <li class="pre-context-line"><code>    #   script = MyScript.new(args, options, config)
-</code></li>
-                
-                <li class="pre-context-line"><code>    #   script.invoke(:task, first_arg, second_arg, third_arg)
-</code></li>
-                
-                <li class="pre-context-line"><code>    #
-</code></li>
-                
-                <li class="pre-context-line"><code>    def start(original_args=ARGV, config={})
-</code></li>
-                
-                <li class="pre-context-line"><code>      @@original_args = original_args
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="140" class="context" id="49"
-                  onclick="toggle(49);">
-                <li class="context-line" id="context-49"><code>      super do |given_args|</code></li>
-              </ol>
-
-              
-              <ol start="141" class="post-context"
-                  id="post-49" onclick="toggle(49);">
-                
-                <li class="post-context-line"><code>        meth = given_args.first.to_s
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>        if !meth.empty? &amp;&amp; (map[meth] || meth !~ /^\-/)
-</code></li>
-                
-                <li class="post-context-line"><code>          given_args.shift
-</code></li>
-                
-                <li class="post-context-line"><code>        else
-</code></li>
-                
-                <li class="post-context-line"><code>          meth = nil
-</code></li>
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <h2>Day 3:</h2>
         
-      
-          
-
-            <li class="frame-info system">
-              <code>/Users/matt/Workspace/aerial/bin/aerial</code> in
-                <code><strong>nil</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="1"
-                  class="pre-context" id="pre-50"
-                  onclick="toggle(50);">
-                
-                <li class="pre-context-line"><code>#!/usr/bin/env ruby
-</code></li>
-                
-                <li class="pre-context-line"><code>$LOAD_PATH &lt;&lt; File.join(File.dirname(__FILE__), &#39;..&#39;)
-</code></li>
-                
-                <li class="pre-context-line"><code>require &#39;rubygems&#39;
-</code></li>
-                
-                <li class="pre-context-line"><code>require File.dirname(__FILE__) + &quot;/../lib/aerial/installer&quot;
-</code></li>
-                
-                <li class="pre-context-line"><code>require File.dirname(__FILE__) + &quot;/../lib/aerial/build&quot;
-</code></li>
-                
-                <li class="pre-context-line"><code>#Aerial::Installer.start
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="7" class="context" id="50"
-                  onclick="toggle(50);">
-                <li class="context-line" id="context-50"><code>Aerial::Build.start</code></li>
-              </ol>
-
-              
-              <ol start="8" class="post-context"
-                  id="post-50" onclick="toggle(50);">
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
+        <p>I saw Neal Ford's talk on Advanced DSLs in Ruby - one of my favorite topics.  This presentation was really good because Neal was very specific on how to build DSLs in Ruby and not just the basics.  He covered various techniques on writing DSLs and provided a nice summary of his talk on his <a href="http://www.nealford.com/downloads/conferences/canonical/Neal_Ford-Advanced_DSLs_in_Ruby-slides.pdf">website</a>.</p>
         
-      
-
-      </ul>
-    </div> <!-- /BACKTRACE -->
-
-    <div id="get">
-      <h3 id="get-info">GET</h3>
-      
-        <p class="no-data">No GET data.</p>
-      
-      <div class="clear"></div>
-    </div> <!-- /GET -->
-
-    <div id="post">
-      <h3 id="post-info">POST</h3>
-      
-        <p class="no-data">No POST data.</p>
-      
-      <div class="clear"></div>
-    </div> <!-- /POST -->
-
-    <div id="cookies">
-      <h3 id="cookie-info">COOKIES</h3>
-      
-        <p class="no-data">No cookie data.</p>
-      
-      <div class="clear"></div>
-    </div> <!-- /COOKIES -->
-
-    <div id="rack">
-      <h3 id="env-info">Rack ENV</h3>
-      <table class="req">
-        <tr>
-          <th>Variable</th>
-          <th>Value</th>
-        </tr>
-         
-         <tr>
-           <td>CONTENT_LENGTH</td>
-           <td class="code"><div>0</div></td>
-         </tr>
-         
-         <tr>
-           <td>HTTPS</td>
-           <td class="code"><div>off</div></td>
-         </tr>
-         
-         <tr>
-           <td>PATH_INFO</td>
-           <td class="code"><div>/feed.xml</div></td>
-         </tr>
-         
-         <tr>
-           <td>QUERY_STRING</td>
-           <td class="code"><div></div></td>
-         </tr>
-         
-         <tr>
-           <td>REQUEST_METHOD</td>
-           <td class="code"><div>GET</div></td>
-         </tr>
-         
-         <tr>
-           <td>SCRIPT_NAME</td>
-           <td class="code"><div></div></td>
-         </tr>
-         
-         <tr>
-           <td>SERVER_NAME</td>
-           <td class="code"><div>example.org</div></td>
-         </tr>
-         
-         <tr>
-           <td>SERVER_PORT</td>
-           <td class="code"><div>80</div></td>
-         </tr>
-         
-         <tr>
-           <td>rack.errors</td>
-           <td class="code"><div>#&lt;StringIO:0x102302ed0&gt;</div></td>
-         </tr>
-         
-         <tr>
-           <td>rack.input</td>
-           <td class="code"><div>#&lt;StringIO:0x102302e58&gt;</div></td>
-         </tr>
-         
-         <tr>
-           <td>rack.multiprocess</td>
-           <td class="code"><div>true</div></td>
-         </tr>
-         
-         <tr>
-           <td>rack.multithread</td>
-           <td class="code"><div>true</div></td>
-         </tr>
-         
-         <tr>
-           <td>rack.request.query_hash</td>
-           <td class="code"><div>{}</div></td>
-         </tr>
-         
-         <tr>
-           <td>rack.request.query_string</td>
-           <td class="code"><div></div></td>
-         </tr>
-         
-         <tr>
-           <td>rack.run_once</td>
-           <td class="code"><div>false</div></td>
-         </tr>
-         
-         <tr>
-           <td>rack.url_scheme</td>
-           <td class="code"><div>http</div></td>
-         </tr>
-         
-         <tr>
-           <td>rack.version</td>
-           <td class="code"><div>[1, 1]</div></td>
-         </tr>
-         
-         <tr>
-           <td>sinatra.error</td>
-           <td class="code"><div>#&lt;NameError: undefined local variable or method `hostname&#39; for #&lt;Aerial::App:0x102302bd8&gt;&gt;</div></td>
-         </tr>
-         
-      </table>
-      <div class="clear"></div>
-    </div> <!-- /RACK ENV -->
-
-    <p id="explanation">You're seeing this error because you have
-enabled the <code>show_exceptions</code> setting.</p>
-  </div> <!-- /WRAP -->
-  </body>
-</html>
+        <p>I sat down next to Dave Thomas to listen to Gregory Brown's talk about Prawn, a pure Ruby PDF generation library. Prawn is cool, but how Prawn was born was the most interesting part of the talk. A community funded project called The Ruby Mendicant Project allowed Gregory to quit his job and work on Prawn full time - A Ruby community employee.</p>
+        
+        <p>Overall it was an amazing conference.  It was great to see and talk to people that I only get to see online.  Looking forward to next year.</p>
+      </description>
+      <pubDate>Sun, 23 Nov 2008 00:00:00 +00:00</pubDate>
+      <guid isPermaLink='false'>c257d0eee7af820157eab6a8d573d3ea7db1db75</guid>
+    </item>
+    <item>
+      <title>Two+ Years Working with Rails</title>
+      <link>http://example.org/2008/10/12/two-years-working-with-rails</link>
+      <description>
+        <p>Update: I thought I should give a little background on how I got started with Rails - when I was attending the SDWest conference in March 2006.  I was at the Jolt Awards, and saw @d2h receive the award for the best web development tool for Rails 1.0.  I downloaded Rails that night in the hotel room and was hooked.</p>
+        
+        <p>This week marks the two year anniversary when I delivered my first professional Rails app.  Today, I decided to take a look back at the  code of that first project and see what's improved over the past two years.  The result - not bad, but there were a couple areas that stood out. Here are a few:</p>
+        
+        <ol>
+        <li>The controllers in that first project were out of control. Not sure why, maybe coming from the J2EE world, my first instinct was to cram everything into the controller. It was apparent that the concept of REST wasn't completely baked into my brain yet. Not to mention the concept of fat models, skinny controllers.</li>
+        <li>Second, the views and Javascripts were a bit unorganized.  I noticed excessive conditional logic and messy Javascript code in a few of the pages.  If I was to re-write the app today, most of it could be cleanup with rendering partials with collections and using Low Pro to clean up the Javascript.</li>
+        <li>Finally, the sheer lack of plugins for that first project was surprising. It's true that the amount and quality of plugins have grown in two years, but I believe the lack of awareness was the main cause.</li>
+        </ol>
+        
+        
+        <p>So this made me think of what I would say if I were to advise newcomers writing their first Rails app.  I would have to say first, if you find yourself writing code in the controller, then ask yourself "Can I put this logic in the model?". And also be sure to familiarize yourself with the available plugins with sites such as <a href="http://agilewebdevelopment.com">Agile Web Development</a> and <a href="http://github.com">Github</a>. They can save you a ton of work.</p>
+      </description>
+      <pubDate>Sun, 12 Oct 2008 00:00:00 +00:00</pubDate>
+      <guid isPermaLink='false'>fd7d3d4a33f5b38653b81b26da93b3ec7d6b9074</guid>
+    </item>
+    <item>
+      <title>erubycon 2008</title>
+      <link>http://example.org/2008/8/24/erubycon-2008</link>
+      <description>
+        <p>Last week I made a short drive to Columbus for the erubycon conference presented by the <a href="http://theedgecase.com">EdgeCase</a> crew.  The three day conference, hosted by Microsoft, was an event to demonstrate Ruby's role in the enterprise.  Having worked in the Enterprise for six years, I was very excited to learn more about how Ruby can change the Enterprise.</p>
+        
+        <blockquote><p><img src="http://farm4.static.flickr.com/3165/2782317715_0541ef31ee.jpg" title="erubycon" alt="Alt text" />
+        Photo credit: <a href="http://www.flickr.com/photos/edgecase/2782317715/in/set-72157606864457793/">EdgeCase, LLC</a></p></blockquote>
+        
+        <p>What is legacy code and how do we avoid it?  Stuart Halloway addresses these questions with his talk <a href="http://blog.thinkrelevance.com/2008/4/1/ending-legacy-code-in-our-lifetime">Ending Legacy Code In Our Lifetime</a>.  This was my favorite talk on the first day because the Enterprise is "full of it" and much my time was spent trying to avoid it. It's nice to see somebody calling attention to it.</p>
+        
+        <blockquote><p><img src="http://farm4.static.flickr.com/3250/2782305159_8bb28e367d.jpg" alt="Alt Stuart Halloway" />
+        Photo credit: <a href="http://www.flickr.com/photos/edgecase/2782305159/">EdgeCase, LLC</a></p></blockquote>
+        
+        <p>Very interesting talk on JRuby by it's creator Charles Nutter on the second day.  I went back to the hotel room that evening and setup JRuby on my laptop.  I wrote a quick rails app and with <a href="http://caldersphere.rubyforge.org/warbler/">Warbler</a>, had a working war file ready to be deployed to Java application server.  Very impressive.</p>
+        
+        <blockquote><p><img src="http://farm4.static.flickr.com/3092/2783141904_a67d981d4e.jpg" alt="Alt Charles Nutter" />
+        Photo credit: <a href="http://www.flickr.com/photos/edgecase/2783141904">EdgeCase, LLC</a></p></blockquote>
+        
+        <p>Perhaps my favorite session at the conference was Jim Weirich's talk on concurrent software development. Something I don't think is talked about enough and is certainly important in the Enterprise.  I've written multi-threaded apps in Java and it can be very difficult especially avoiding deadlocks.  Is Ruby the answer? According to Jim, not really. Perhaps a Erlang or Clojure offers a better solution.</p>
+        
+        <blockquote><p><img src="http://farm4.static.flickr.com/3203/2783371134_637089301c.jpg" alt="Alt Jim Weirich" />
+        Photo credit: <a href="http://www.flickr.com/photos/edgecase/2783371134/">EdgeCase, LLC</a></p></blockquote>
+        
+        <p>And Finally, Chris Wanstrath, co-creator of GitHub talks about Git, GitHub, and a little about side projects.  Oh, and did I mention I really love GitHub?  It's really changing how we develop software.</p>
+        
+        <blockquote><p><img src="http://farm4.static.flickr.com/3029/2782508887_bc3260b878.jpg" alt="Chris Wanstrath" />
+        Photo credit: <a href="http://www.flickr.com/photos/edgecase/2782508887">EdgeCase, LLC</a></p></blockquote>
+        
+        <ul>
+        <li>All the photos above are provided by EdgeCase, LLC and more are available on their <a href="http://www.flickr.com/photos/edgecase/">Flickr</a> page.</li>
+        </ul>
+      </description>
+      <pubDate>Sun, 24 Aug 2008 00:00:00 +00:00</pubDate>
+      <guid isPermaLink='false'>91509b2caddec850c5f17128ba36d14be39cc0c5</guid>
+    </item>
+    <item>
+      <title>Quick git add, commit, push, and deploy</title>
+      <link>http://example.org/2008/8/11/quick-git-add-commit-push-and-deploy</link>
+      <description>
+        <p>Last week, I was preparing a presentation and found myself doing a lot of quick fixes and deployments to prepare a web application for a demonstration.  I thought instead of running the following four commands each time:</p>
+        
+        <pre><code>git add .
+        git commit -a -m 'A description of the change'
+        git push
+        cap production deploy
+        </code></pre>
+        
+        <p>It would be nice if I could do all of the above with just one command.  So I created this shell script:</p>
+        
+        <pre><code>push() {
+        
+          # Defaults
+          MINLEN=25
+          DIRTY=false
+          DEPLOY="production deploy"
+          REMOTE_REPO = "origin master"
+        
+          # Check if we have any untracked files
+          if git status | grep -q "modified:"
+          then
+             DIRTY=true
+          fi
+        
+          # Make sure there is a message with the commit
+          if [ -z "$1" ] &amp;&amp; (test $DIRTY == true)
+          then
+            echo "You must specify a message with your commit"
+            return
+          elif [ ${#1} -lt $MINLEN ] &amp;&amp; (test $DIRTY == true)
+          then
+            echo "Your message must have at least $MINLEN letters."
+          return
+          fi
+        
+          # Commit all the changes by default
+          if (test $DIRTY == true)
+          then
+             echo "Adding new files to Git repository"
+             git add .
+        
+             echo "Commiting to local Git repository"
+             git commit -a -m "$1"
+        
+             # Push changes if a remote repository exists
+             if git remote | grep -q "origin"
+             then
+                echo "Pushing changes to remote repository"
+                git push $REMOTE_REPO
+             fi
+          fi
+        
+          # Deploy changes via Capistrano
+          if ls | grep -q Capfile
+          then
+             cap $DEPLOY
+          fi
+        }
+        </code></pre>
+        
+        <p>The 'push' function will first check to make sure you supplied a description if any recent changes were made.  Second, it will commit all the code and push it to the remote repository (if one exists).</p>
+        
+        <p>If none of the code was modified or added, it will skip the Git commands and simply run the Capistrano deploy command and not require a description for the changes.</p>
+        
+        <p>To use this script, copy and paste the above function to the end of your ~/.bash_profile file. To run it, simply run the 'push' command.</p>
+        
+        <pre><code>push "The description for the committed changes."
+        </code></pre>
+        
+        <p>That's it!  All the code is added, commited, pushed, and deployed.</p>
+      </description>
+      <pubDate>Mon, 11 Aug 2008 00:00:00 +00:00</pubDate>
+      <guid isPermaLink='false'>7edc8f22c2b58a9694d7ccde430da87e65270d06</guid>
+    </item>
+    <item>
+      <title>Relay outbound SMTP email to Gmail</title>
+      <link>http://example.org/2008/8/1/relay-outbound-smtp-email-to-gmail</link>
+      <description>
+        <p>Sending emails with Rails via Gmail is a snap with Marc Chung's excellent plugin <a href="http://code.openrain.com/rails/action_mailer_tls">action_mailer_tls</a>. However, sometimes our production environment isn't using Gmail as a mail server and/or we just need an easy way to send email from our development environment for testing or demonstrating purposes.</p>
+        
+        <p>Instead of installing the action_mailer_tls plugin and configuring each of our Rails apps, we can do a one-time setup of our local Postfix client to relay all SMTP outbound emails to our Gmail account. If your running a Mac OS Leopard or Linux, Postfix should already be installed. With a little configuration, we should be up and running in a couple minutes.</p>
+        
+        <p>First create /etc/postfix/relay_password file with the server name, email account name and password as shown below. This configuration works with Gmail accounts as well as with Google Apps email accounts. I'm personally using my company's Google Apps with a special email account setup for outbound emails only.</p>
+        
+        <pre><code>smtp.gmail.com    example@yourdomain.com:yourpassword
+        </code></pre>
+        
+        <p>Then tell Postfix about our google accounts information so it knows how and where to relay the email to. This can be done with the postmap command:</p>
+        
+        <pre><code>$ postmap /etc/postfix/relay_password
+        </code></pre>
+        
+        <p>Since Gmail requires a TLS (Transport Layer Security) connection for certificate-based authentication, we'll need to download a free root certificate from Verisign <a href="https://www.verisign.com/support/roots.html" rel="external">https://www.verisign.com/support/roots.html</a> to authenticate our remote SMTP client.</p>
+        
+        <pre><code>$ mkdir /etc/postfix/certs
+        $ cd /etc/postfix/certs
+        $ sudo cp roots.zip /etc/postfix/certs
+        $ sudo unzip -j roots.zip
+        $ sudo openssl x509 -inform der -in ThawtePremiumServerCA.cer -out  ThawtePremiumServerCA.pem
+        $ sudo c_rehash /etc/postfix/certs
+        </code></pre>
+        
+        <p>Now we are ready to configure Postfix. Postfix needs to know what host to relay the email to, the username and password to authenticate the Gmail account, and the path to our certificates for the encrypted session.  Add these lines to the bottom of /etc/postfix/main.cf</p>
+        
+        <pre><code>relayhost = smtp.gmail.com:587
+        # auth
+        smtp_sasl_auth_enable = yes
+        smtp_sasl_password_maps = hash:/etc/postfix/relay_password
+        smtp_sasl_security_options = noanonymous
+        
+        # tls
+        smtp_tls_security_level = may
+        smtp_tls_CApath = /etc/postfix/certs
+        smtp_tls_session_cache_database = btree:/etc/postfix/smtp_scache
+        smtp_tls_session_cache_timeout = 3600s
+        smtp_tls_loglevel = 1
+        tls_random_source = dev:/dev/urandom
+        </code></pre>
+        
+        <p>Restart (or start) Postfix to pick up our new changes.</p>
+        
+        <pre><code>$ sudo postfix stop
+        $ sudo postfix start
+        </code></pre>
+        
+        <p>That's it! Now we don't have to do any special installation or configuration to send email via Gmail for our Rails apps. We just need to set the delivery method to :smtp and we're ready to go.</p>
+      </description>
+      <pubDate>Fri, 01 Aug 2008 00:00:00 +00:00</pubDate>
+      <guid isPermaLink='false'>b4ab8848688491c937266cb9a628e20552c79127</guid>
+    </item>
+    <item>
+      <title>Now running Phusion Passenger</title>
+      <link>http://example.org/2008/7/25/now-running-phusion-passenger</link>
+      <description>
+        <p>Just finished making some major changes to this site.  First thing you might noticed are the changes to the design. In effort to simplify things a bit, I modified a <a href="http://www.quotedprintable.com/pages/scribbish">Scribbish</a> theme to my own liking.  Is it too geeky? The awesome portrait you see at the top right was created by <a href="http://papertelevision.com" title="Paper Television">Josh</a>.  Nailed it.</p>
+        
+        <p>Here is a rundown of the changes made:</p>
+        
+        <ol>
+        <li>Upgraded to Ubuntu 8.04 Hardy Heron</li>
+        <li>Installed Apache and Phusion Passenger (mod_rails)</li>
+        <li>Change and tweaked Mephisto theme</li>
+        </ol>
+        
+        
+        <p>I'm still in the process of moving my old blog posts over. More big news coming soon.</p>
+      </description>
+      <pubDate>Fri, 25 Jul 2008 13:00:13 +00:00</pubDate>
+      <guid isPermaLink='false'>5712819b49b1d48ecefab8a4480c77d5183d1d90</guid>
+    </item>
+    <item>
+      <title>Littlelines featured at Freshbooks</title>
+      <link>http://example.org/2008/7/13/littlelines-featured-at-freshbooks</link>
+      <description>
+        <p>Josh and I were interviewed by Freshbooks for their "FreshFaces" blog.  Freshbooks is a great tool for keeping track of invoices, so we were pretty excited to talk to them.</p>
+        
+        <p>The article can be seen  <a href="http://www.freshbooks.com/blog/2008/04/16/fresh-faces-matt-josh-sears">here</a>.</p>
+      </description>
+      <pubDate>Sun, 13 Jul 2008 23:07:01 +00:00</pubDate>
+      <guid isPermaLink='false'>f8e80249a060ad0af4027d1f46394dc961da726b</guid>
+    </item>
+    <item>
+      <title>LinkedIn shares it's communication architecture</title>
+      <link>http://example.org/2008/7/13/linkedin-shares-it-s-communication-architecture</link>
+      <description><p>I was just reading LinkedIn's presentation on it's architecture and it was like walking down memory lane. I worked with almost the same architecture at <a href="http://www.lexisnexis.com">LexisNexis</a>. We also used Java, Solaris, Tomcat (Websphere mostly), Oracle, JMS and the cached was implemented with C++. Ah, the good ol' days.</p></description>
+      <pubDate>Sun, 13 Jul 2008 22:52:33 +00:00</pubDate>
+      <guid isPermaLink='false'>b3b2fa75b1b3acf560c2663c1ad23d66dab51fc0</guid>
+    </item>
+    <item>
+      <title>SD West</title>
+      <link>http://example.org/2008/7/13/sd-west</link>
+      <description>
+        <p>Really late on this, but here are some snapshots of the Software Development conference in Santa Clara, California. I had a really good time, except I was sick for a couple days. I concentrated mostly on design patterns, generics, C++, Java, and vomiting. :-)</p>
+        
+        <blockquote><p><img src="http://farm4.static.flickr.com/3227/2665584462_f8139d5182.jpg?v=0" title="Thai Restaurant in Sunnyvale, CA" alt="Alt text" /></p></blockquote>
+        
+        <p>I had the opportunity to attend a few good sessions with pros like Bjarne Stroustrup, Herb Sutter, Martin Fowler, Eric Evans, Stephen Dewhurst, Ken Pugh, Allen, Hollub, and Bruce Schneier to name a few. There really is no substitute from learning hands-on from experts like these. I left each session feeling like I just learned an entire year's worth of knowledge. And of course, there were other things to do at the conference besides classes - Jolt awards, the expo, and Joel Spolsky was back to screen his documentary called Aardvarked.</p>
+        
+        <blockquote><p><img src="http://farm4.static.flickr.com/3226/2664760057_182fbfc6ff.jpg?v=0" title="SDWEST 2006" alt="Alt text" /></p></blockquote>
+        
+        <p>This year, I made it point to get out of the hotel, convention center, and bar to explore Silicon Valley. I drove around town with no real plans except to search for better food. The hotel food is awful, which is ironic since it costs 3 times more. Twenty six dollars for a chicken sangwich, fries, and drink - get real. There are a lot more locally owned restaurants in Silicon Valley that are a lot cheaper. There are especially a lot of Thai restaurants, which is good, because I love Thai food. I think I had that like three times.</p>
+        
+        <blockquote><p><img src="http://farm4.static.flickr.com/3173/2665582108_d70ae3b895.jpg?v=0" title="Rainy day in Silicon Valley" alt="Alt text" /></p></blockquote>
+        
+        <p>There are quite a few good restaurants in Sunnyvale too, but you have to know where to look.</p>
+        
+        <p>Not going to make it back there this year. This is year is crazy busy and going to get busier and crazier, and any other 'ziers I can't think of right now.</p>
+      </description>
+      <pubDate>Sun, 13 Jul 2008 20:50:17 +00:00</pubDate>
+      <guid isPermaLink='false'>671a25ed202ede4553d58e1cf72301aa0a886c43</guid>
+    </item>
+    <item>
+      <title>Finally, MattSears.com</title>
+      <link>http://example.org/2008/7/13/finally-mattsears-com</link>
+      <description><p>After a decade of waiting, I finally nabbed the mattsears.com domain name. I almost forgot about it until Godaddy sent me an email last week that said it was Pending deletion. Though, I have to admit that I'm not really excite about it as I thought I would be. I guess it's because I've been using matthewsears.com for a couple years now and excepted using my full name instead, but it's cool that I have both now.</p></description>
+      <pubDate>Sun, 13 Jul 2008 20:38:19 +00:00</pubDate>
+      <guid isPermaLink='false'>08c2049da3f440bccf68dac63b8008aad1622066</guid>
+    </item>
+  </channel>
+</rss>
