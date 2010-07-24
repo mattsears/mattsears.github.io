@@ -5,13 +5,14 @@ require "rubygems"
 env  = ENV['RACK_ENV'].to_sym
 root = File.expand_path(File.dirname(__FILE__))
 
-if env == :production
+if env == :development
   require 'rack/contrib'
   require 'rack-rewrite'
   use Rack::StaticCache, :urls => ['/images', '/javascripts', '/favicon.ico'], :root => "public"
   use Rack::Rewrite do
     rewrite '/', '/site/index.html'
-    rewrite %r{^/(.*\.)(css)}, '/site/$1$2'
+    rewrite '/feed', '/site/feed.xml'
+    rewrite %r{^/(.*\.)(css|xml)}, '/site/$1$2'
     rewrite %r{^/(.*)}, '/site/$1.html'
   end
   run Rack::Directory.new('public')
