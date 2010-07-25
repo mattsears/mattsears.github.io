@@ -8,7 +8,8 @@ root = File.expand_path(File.dirname(__FILE__))
 if env == :production
   require 'rack/contrib'
   require 'rack-rewrite'
-  use Rack::StaticCache, :urls => ['/images', '/javascripts', '/favicon.ico'], :root => "public"
+  use Rack::StaticCache, :urls => ['/images', '/javascripts', '/favicon.ico', '/site'], :root => "public"
+  use Rack::ETag
   use Rack::Rewrite do
     rewrite '/', '/site/index.html'
     rewrite '/feed', '/site/feed.xml'
@@ -17,8 +18,8 @@ if env == :production
   end
   run Rack::Directory.new('public')
 else
-  require "aerial"
-  #require File.join(File.dirname('/Users/matt/Workspace/aerial/'), "aerial", "lib", "aerial.rb")
+  #require "aerial"
+  require File.join(File.dirname('/Users/matt/Workspace/aerial/'), "aerial", "lib", "aerial.rb")
   Aerial::App.set :environment, ENV["RACK_ENV"] || :development
   Aerial::App.set :root, root
   Aerial.new(root, "/config/config.yml") # Load configuration and initialize Aerial
