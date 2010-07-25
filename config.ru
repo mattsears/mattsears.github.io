@@ -5,11 +5,10 @@ require "rubygems"
 env  = ENV['RACK_ENV'].to_sym
 root = File.expand_path(File.dirname(__FILE__))
 
-if env == :production
+if env == :development
   require 'rack/contrib'
   require 'rack-rewrite'
   use Rack::StaticCache, :urls => ['/images', '/javascripts', '/favicon.ico', '/site'], :root => "public"
-  use Rack::ETag
   use Rack::Rewrite do
     rewrite '/', '/site/index.html'
     rewrite '/feed', '/site/feed.xml'
