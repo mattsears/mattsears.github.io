@@ -17,7 +17,3 @@ views:
 git:
   name: "origin"
   branch: "master"
-
-akismet:
-  key: "71bd5f85f0cf"
-  url: "http://mattsears.com"

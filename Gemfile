@@ -7,6 +7,5 @@ gem 'rdiscount'
 gem 'sinatra'
 
 group :development do
-end
-group :test do
+  gem 'aerial', :git => 'git://github.com/mattsears/aerial.git'
 end
