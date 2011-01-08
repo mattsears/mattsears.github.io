@@ -1,7 +1,20 @@
+PATH
+  remote: /Users/matt/Workspace/aerial
+  specs:
+    aerial (0.2.0)
+      grit
+      haml
+      rdiscount
+      sinatra
+      thin
+      thor
+
 GEM
   remote: http://rubygems.org/
   specs:
+    daemons (1.1.0)
     diff-lcs (1.1.2)
+    eventmachine (0.12.10)
     grit (2.3.0)
       diff-lcs (~> 1.1)
       mime-types (~> 1.15)
@@ -12,12 +25,18 @@ GEM
     sinatra (1.1.0)
       rack (~> 1.1)
       tilt (~> 1.1)
+    thin (1.2.7)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
+    thor (0.14.6)
     tilt (1.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  aerial!
   grit
   haml
   rack

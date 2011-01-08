@@ -2,9 +2,8 @@
 # -*- coding: undecided -*-
 require "rubygems"
 
-# env  = ENV['RACK_ENV'].to_sym
-env  = :development
-root = File.expand_path(File.dirname(__FILE__))
+env  = ENV['RACK_ENV'].to_sym
+root = File.dirname(__FILE__)
 
 if env == :production
   require 'rack/contrib'
@@ -19,10 +18,10 @@ if env == :production
   run Rack::Directory.new('public')
 else
   require "aerial"
-  Aerial::App.set :environment, ENV["RACK_ENV"] || :development
+  Aerial.new(root, "/config/config.yml")
+  Aerial::App.set :environment, ENV["RACK_ENV"] || :production
+  Aerial::App.set :port, 3000
   Aerial::App.set :root, root
-  Aerial.new(root, "/config/config.yml") # Load configuration and initialize Aerial
-  disable :run
   run Aerial::App
 end
 

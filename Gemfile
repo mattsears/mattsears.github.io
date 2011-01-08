@@ -7,5 +7,6 @@ gem 'rdiscount'
 gem 'sinatra'
 
 group :development do
-  gem 'aerial', :git => 'git://github.com/mattsears/aerial.git'
+  #gem 'aerial', :git => 'git://github.com/mattsears/aerial.git'
+  gem 'aerial', :path => '~/Workspace/aerial'
 end
