@@ -14,6 +14,6 @@ group :production do
 end
 
 group :development do
-  #gem 'aerial', :git => 'git://github.com/mattsears/aerial.git'
-  gem 'aerial', :path => '~/Workspace/aerial'
+  gem 'aerial', :git => 'git://github.com/mattsears/aerial.git'
+  #gem 'aerial', :path => '~/Workspace/aerial'
 end
