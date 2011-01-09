@@ -17,3 +17,6 @@ views:
 git:
   name: "origin"
   branch: "master"
+
+static:
+  dir: "public/_site"
