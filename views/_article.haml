@@ -2,17 +2,14 @@
 - @body_class = 'articles'
 .post
   .head
-    %h2.nocufon
+    %h2
       %a{:href => article.permalink}
         = article.title
-    %p.subtitle
-    %span.comments{:href => "#"}
-      %a.dsq-comment-count.comment-link.commentslink{:href => "#{article.permalink}#disqus_thread"}
-    %span.author
-      = "Posted by #{article.author} on #{humanized_date article.publish_date}"
+      %span
+        %a.dsq-comment-count.comment-link.commentslink{:href => "#{article.permalink}#disqus_thread"}
     .cl &nbsp;
   .body
     %p.with-border
       ~ article.body_html
   .post-separator &nbsp;
-
+.post-bottom

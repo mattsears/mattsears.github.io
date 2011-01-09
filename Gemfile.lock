@@ -22,6 +22,7 @@ GEM
     mime-types (1.16)
     rack (1.2.1)
     rdiscount (1.6.5)
+    sass (3.1.0.alpha.214)
     sinatra (1.1.0)
       rack (~> 1.1)
       tilt (~> 1.1)
@@ -41,4 +42,5 @@ DEPENDENCIES
   haml
   rack
   rdiscount
+  sass
   sinatra

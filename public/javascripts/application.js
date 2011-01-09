@@ -6,22 +6,15 @@
   email / matt@mattsears.com
   website / www.mattsears.com
   -------------------------------------*/
-
-
-//Cufon.replace("h1:not('.nocufon')", { fontFamily: 'Rockwell Bold' });
-//Cufon.replace("h2:not('.nocufon')", { fontFamily: 'Rockwell Bold' });
-//Cufon.replace("h3:not('.nocufon')", { fontFamily: 'Rockwell Bold' });
-//Cufon.replace("h4:not('.nocufon')", { fontFamily: 'Rockwell Bold' });
-//Cufon.replace('.intro strong', { fontFamily: 'Rockwell Bold' });
-Cufon.replace('.footer-navigation a', { fontFamily: 'interstateBold' });
-Cufon.replace('a.more', { fontFamily: 'HoeflerTextItalic', hover: true });
-Cufon.replace('a.more-black', { fontFamily: 'HoeflerTextItalic', hover: true });
+Cufon.replace("h2:not('.nocufon')", { fontFamily: 'Titillium-800' });
+Cufon.replace("h3:not('.nocufon')", { fontFamily: 'Titillium-400' });
+Cufon.replace("h4:not('.nocufon')", { fontFamily: 'Titillium-400' });
+// Cufon.replace("#navigation a:not('.nocufon')", { fontFamily: 'Titillium-800' });
 
 $(document).ready(function(){
 
   $('a.more').append('<img src=\"/images/arrow.gif\" alt=\"arrow\" />');
   $('a.more-black').append('<img src=\"/images/arrow-black.gif\" alt=\"arrow\" />');
-  $('#recent-articles h2').prepend('<img src=\"/images/arrow.gif\" alt=\"arrow\" />');
 
   $('#navigation li').hover(
     function(){

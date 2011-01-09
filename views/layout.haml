@@ -18,12 +18,13 @@
     %script{:charset => "utf-8", :src => "/javascripts/Rockwell_Bold_700.font.js", :type => "text/javascript"}
     %script{:charset => "utf-8", :src => "/javascripts/HoeflerTextItalic_italic_500.font.js", :type => "text/javascript"}
     %script{:charset => "utf-8", :src => "/javascripts/InterstateBold_400.font.js", :type => "text/javascript"}
+    %script{:charset => "utf-8", :src => "/javascripts/titillium_400_mod2.font.js", :type => "text/javascript"}
+    %script{:charset => "utf-8", :src => "/javascripts/titillium_800_mod2.font.js", :type => "text/javascript"}
     %script{:charset => "utf-8", :src => "/javascripts/application.js", :type => "text/javascript"}
   %body{:class => "#{@body_class ||= 'index'}" }
     .page-bg &nbsp;
     #header
       .shell
-        .header-bg &nbsp;
         .cl &nbsp;
         %a{:href => "/"}
           %h1#logo.nocufon
@@ -33,16 +34,13 @@
             %ul
               %li.home-link
                 %a{:href => "/"}
-                  %span Home
-                  %span.hover-state &nbsp;
+                  Home
               %li.articles-link
                 %a{:href => "/articles"}
-                  %span Articles
-                  %span.hover-state &nbsp;
+                  Articles
               %li.contact-link
                 %a{:href => "mailto:matt@mattsears.com"}
-                  %span Contact
-                  %span.hover-state &nbsp;
+                  Contact
           .cl &nbsp;
         .cl &nbsp;
     #main
@@ -50,11 +48,11 @@
     #footer
       .shell
         .left
-          %p &copy; Copyright 2010 Matt Sears. All Rights Reserved.
+          %p &copy; Copyright #{Time.now.year} Matt Sears. All Rights Reserved.
         %p.footer-navigation
-          %a{:href => "#"} HOME
-          %a{:href => "#"} ARTICLES
-          %a{:href => "#"} CONTACT
+          Powered by
+          %a{:href => "http://github.com/mattears/aerial"} Aerial
+          on Heroku
         .cl &nbsp;
     :javascript
       Cufon.now();
