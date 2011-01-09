@@ -1,3 +1,4 @@
 config/deploy.rb
 tmp
 .rvmrc
+.sass-cache
