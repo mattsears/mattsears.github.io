@@ -11,13 +11,7 @@
     /[if IE 6]
       <link rel="stylesheet" href="css/ie6.css" type="text/css" media="all" />
     %script{:charset => "utf-8", :src => "/javascripts/jquery-1.4.2.min.js", :type => "text/javascript"}
-    %script{:charset => "utf-8", :src => "/javascripts/jquery.jcarousel.pack.js", :type => "text/javascript"}
-    %script{:charset => "utf-8", :src => "/javascripts/jflickrfeed.js", :type => "text/javascript"}
-    %script{:charset => "utf-8", :src => "/javascripts/jquery.tweet.js", :type => "text/javascript"}
     %script{:charset => "utf-8", :src => "/javascripts/cufon-yui.js", :type => "text/javascript"}
-    %script{:charset => "utf-8", :src => "/javascripts/Rockwell_Bold_700.font.js", :type => "text/javascript"}
-    %script{:charset => "utf-8", :src => "/javascripts/HoeflerTextItalic_italic_500.font.js", :type => "text/javascript"}
-    %script{:charset => "utf-8", :src => "/javascripts/InterstateBold_400.font.js", :type => "text/javascript"}
     %script{:charset => "utf-8", :src => "/javascripts/titillium_400_mod2.font.js", :type => "text/javascript"}
     %script{:charset => "utf-8", :src => "/javascripts/titillium_800_mod2.font.js", :type => "text/javascript"}
     %script{:charset => "utf-8", :src => "/javascripts/application.js", :type => "text/javascript"}
@@ -35,9 +29,15 @@
               %li.home-link
                 %a{:href => "/"}
                   Home
+              %li.divider /
               %li.articles-link
                 %a{:href => "/articles"}
-                  Articles
+                  Writing
+              %li.divider /
+              %li.about-link
+                %a{:href => "/about"}
+                  About
+              %li.divider /
               %li.contact-link
                 %a{:href => "mailto:matt@mattsears.com"}
                   Contact
@@ -51,8 +51,9 @@
           %p &copy; Copyright #{Time.now.year} Matt Sears. All Rights Reserved.
         %p.footer-navigation
           Powered by
-          %a{:href => "http://github.com/mattears/aerial"} Aerial
-          on Heroku
+          %a{:href => "http://mattsears.github.com/aerial", :rel => 'external'} aerial
+          on
+          %a{:href => "http://heroku.com", :rel => 'external'} heroku
         .cl &nbsp;
     :javascript
       Cufon.now();

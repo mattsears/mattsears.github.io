@@ -1,14 +1,7 @@
+- @body_class = 'articles'
 #content
   #content-top
-  #content-bg
-    .post
-      = partial :article
-      .post-comments
-        .bottom-border
-          %a.comments{:href => "#"}
-          %h3 Comments
-          .cl &nbsp;
-      = partial :comments
-  #content-btm &nbsp;
+  .posts
+    =partial :article
+  = partial :comments
 =partial :sidebar
-

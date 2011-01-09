@@ -12,7 +12,7 @@ public:
 
 views:
   dir: "views"
-  default: "about"
+  default: "home"
 
 git:
   name: "origin"

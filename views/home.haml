@@ -1,0 +1,37 @@
+.top-section
+  #recent-articles
+    .box
+      %h3 Recent Articles
+      -Aerial::Article.recent(:limit => 4).each do |article|
+        .entry
+          %h2
+            %a{:href => "#{article.permalink}"}=article.title
+          %p
+            =blurb(article.body)
+    .box-foot
+  #splash
+.bottom-section
+  #hello
+    %p
+      %img{:src => '/images/me.png'}
+      Hello. I'm Matt Sears, a software developer/entrepreneur currently living in Ohio. My career spans over 10 years of designing and developing software for the web. I specialize in Ruby on Rails development, but also enjoy learning new languages and technology.
+    .cl &nbsp;
+  #find-elsewhere
+    %h3 Connect
+    %ul
+      %li
+        %a{:href => "http://www.linkedin.com/in/matthewsears", :rel => "external"} LinkedIn
+      %li
+        %a{:href => "https://twitter.com/mattsears", :rel => "external"} Twitter
+    %ul
+      %li
+        %a{:href => "http://github.com/mattsears", :rel => "external"} Github
+      %li
+        %a{:href => "http://www.facebook.com/profile.php?id=1389547090", :rel => "external"} Facebook
+    %ul.last
+      %li
+        %a{:href => "http://pinboard.in/u:mattsears", :rel => "external"} Pinboard
+      %li
+        %a{:href => "http://www.flickr.com/photos/matthewsears", :rel => "external"} Flickr
+
+  .cl &nbsp;

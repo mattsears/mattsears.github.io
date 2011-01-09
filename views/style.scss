@@ -46,6 +46,7 @@ textarea {
     overflow: hidden; }
 
 h1, h2, h3, h4, h5, h6 { }
+h1 { font-size: 36px; }
 h2 a { color: #202023; }
 h2 { font-size: 34px; }
 h3 { font-size: 20px;}
@@ -129,10 +130,10 @@ h1#logo {
         float: left;
         display: inline;
         margin-left: 5px;
-        &.home-link a {
-            width: 77px; }
-        &.articles-link a, &.contact-link a {
-            width: 80px; } }
+        margin-top: -4px;
+        &.divider{ margin: 0 12px 5px 12px;}
+        &.home-link a { }
+        &.articles-link a, &.contact-link a {} }
     a {
         position: relative;
         color: #000;
@@ -148,7 +149,14 @@ h1#logo {
 
 /* Top Section */
 
-.top-section {margin-top: 0px;}
+.top-section {
+    margin-top: 0px;
+    center {
+        h1{
+            margin: 10px 0 5px 0;}
+    }
+}
+
 
 .ico-balloon {
     width: 34px;
@@ -642,7 +650,7 @@ a {
         height: 95px;
         padding-top: 10px;
         border-top: 1px solid #CCCCCC; }
-    a { color: #000; } }
+    a { color: #202023; } }
 
 .footer-navigation {
     float: right;
