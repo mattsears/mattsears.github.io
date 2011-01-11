@@ -1,3 +1,4 @@
+- page_title 'Hello'
 .top-section
   #recent-articles
     .box
@@ -13,11 +14,14 @@
 .bottom-section
   #hello
     %p
-      %img{:src => '/images/me.png'}
-      Hello. I'm Matt Sears, a software developer/entrepreneur currently living in Ohio. My career spans over 10 years of designing and developing software for the web. I specialize in Ruby on Rails development, but also enjoy learning new languages and technology.
+      .me
+        %img{:class => 'fade', :src => '/images/me.png', :style => 'background: url(images/me!.png)'}
+      Hello. I'm Matt Sears, a software developer
+      %span.amp &
+      entrepreneur currently living in Ohio. My career spans over 10 years of designing and developing software for the web. I specialize in Ruby on Rails development, but also enjoy learning new languages and technology.
     .cl &nbsp;
   #find-elsewhere
-    %h3 Connect
+    %h3 Elsewhere on the Interwebs
     %ul
       %li
         %a{:href => "http://www.linkedin.com/in/matthewsears", :rel => "external"} LinkedIn
@@ -30,7 +34,7 @@
         %a{:href => "http://www.facebook.com/profile.php?id=1389547090", :rel => "external"} Facebook
     %ul.last
       %li
-        %a{:href => "http://pinboard.in/u:mattsears", :rel => "external"} Pinboard
+        %a{:href => "http://forrst.com/people/mattsears", :rel => "external"} Forrst
       %li
         %a{:href => "http://www.flickr.com/photos/matthewsears", :rel => "external"} Flickr
 
