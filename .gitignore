@@ -2,3 +2,4 @@ config/deploy.rb
 tmp
 .rvmrc
 .sass-cache
+.DS_Store
