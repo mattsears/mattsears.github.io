@@ -3,38 +3,41 @@ Tags          : ruby
 Publish Date  : 2011-11-01 20:38:19
 Author        : Matt Sears
 
-For the past week I've been migrating my personal site and my company
-site to [Heroku](http://heroku.com). Heroku, as you may know, is a fantastic
+Recently, I migrated all of my personal business related sites
+to [Heroku](http://heroku.com). Heroku, as you may know, is a fantastic
 service for hosting ruby applications. Oh, and it's free!
 
-I like to keep work and personal accounts separate such as email
-addresses, bank accounts, github accounts, etc.  Heroku uses git and
-ssh as it's transport protical and restricts only one ssh key for any account.
+Like a lot of folks, I want to keep work and personal itmes such
+as email, bank accounts, github, etc in separate accounts.
+Heroku doesn't really place nice with multiple accounts since the
+heroku gem interfaces with a single credentials file located in the
+users home directory.
 
-Ut oh.  This means two different ssh keys will be required to manage
-each account. Too complicate matters more, the Heroku client stores the username
-and password in the home directory ~/.heroku/credentials in order to
-save you from tediously entering this information on each run.
+So how to do we effectively manage multiple Heroku accounts?
 
-So how to do we effectively use manage multiple account on Heroku?
-
-First, we can write a custom shell script such as Keith Gaddis
+One option, we can write a custom script such as Keith Gaddis
 [describes](http://collectiveidea.com/blog/archives/2010/08/06/heroku-ing-with-multiple-personalities)
-over at the Collective Idea blog, and that is to use small ruby
-script to create a link to the ssh identity you want heroku to use at any
-given time. With his [script](https://gist.github.com/511789) we can
+over at the Collective Idea. With his [switcher](https://gist.github.com/511789) script, we can
 switch between two accounts like this:
 
     ruby switcher.rb personal
     ruby switcher.rb work
 
-This make it pretty easy switching between multiple Heroku accounts easier by replacing existing Heroku
-account crendentials.
+This essentially swaps the credentials file for the account you want to
+use. This works well enough, however this can be tedious especially
+if you need to switch between work and personal projects frequently.
 
-David Dollar of Heroku saves a bit of work with his official Heroku
-plugin called [heroku-accounts](https://github.com/ddollar/heroku-accounts).
+David Dollar of Heroku recently released an official Heroku
+plugin called [heroku-accounts](https://github.com/ddollar/heroku-accounts). With
+this plugin, we can eliminate the need to manually switch accounts.
 
-To add and account, we simply run this in the project root:
+To get started, we first install the plugin:
+
+    heroku plugins:install git://github.com/ddollar/heroku-accounts.git
+
+The installation process will download the plugin from github
+to the ``~/.heroku/plugins`` directory. Now, we can
+setup each of our Heroku accounts with ``add`` command:
 
     heroku accounts:add work
 
@@ -42,16 +45,19 @@ and for our personal account, we can run:
 
     heroku accounts:add personal
 
-The ``add`` command will prompt you for your Heroku email address and
-password for the account. The plugin will maintain your Heroku accounts info the
-~/.heroku/accounts directory .
+The ``add`` command will ask you for your Heroku email address and
+password for each account. The plugin will maintain
+your account credentials in the ``~/.heroku/accounts`` folder in your
+home directory. (Passwords are not saved in plain text)
 
-To assign a project to a Heroku account, in each project root we run:
+To assign a project to a specific Heroku account, we run the following
+comand in each of the project roots:
 
     heroku accounts:set personal # or work
 
-Now we don't need to manually switch between each account
-
+This will assign a Heroky account to the project by adding a setting
+to the project's git config file. Now we don't need to manually
+switch between our accounts. Awesome.
 
 
 
