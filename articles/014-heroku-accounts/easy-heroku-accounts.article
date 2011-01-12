@@ -1,9 +1,9 @@
-Title         : Painless Multiple Accounts on Heroku
+Title         : Easy Accounts Management with Heroku Accounts Plugin
 Tags          : ruby
 Publish Date  : 2011-11-01 20:38:19
 Author        : Matt Sears
 
-Recently, I migrated all of my personal and business sites
+Recently, I migrated all of my personal and [business](http://littlelines.com) sites
 to [Heroku](http://heroku.com). Heroku, as you may know, is a fantastic
 service for hosting ruby applications. Oh, and it's free!
 
@@ -72,9 +72,6 @@ to the project's git config file.
 ### Celebrate
 
 Horray! now we switch Heroku accounts automatically. Awesome.
-
-
-
 
 
 
