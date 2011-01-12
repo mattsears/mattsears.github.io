@@ -1,0 +1,71 @@
+Title         : Multiple Account Management for Heroku
+Tags          : ruby
+Publish Date  : 2011-11-01 20:38:19
+Author        : Matt Sears
+
+For the past week I've been migrating my personal site and my company
+site to [Heroku](http://heroku.com). Heroku, as you may know, is a fantastic
+service for hosting ruby applications. Oh, and it's free!
+
+I like to keep work and personal accounts separate such as email
+addresses, bank accounts, github accounts, etc.  Heroku uses git and
+ssh as it's transport protical and restricts only one ssh key for any account.
+
+Ut oh.  This means two different ssh keys will be required to manage
+each account. Too complicate matters more, the Heroku client stores the username
+and password in the home directory ~/.heroku/credentials in order to
+save you from tediously entering this information on each run.
+
+So how to do we effectively use manage multiple account on Heroku?
+
+First, we can write a custom shell script such as Keith Gaddis
+[describes](http://collectiveidea.com/blog/archives/2010/08/06/heroku-ing-with-multiple-personalities)
+over at the Collective Idea blog, and that is to use small ruby
+script to create a link to the ssh identity you want heroku to use at any
+given time. With his [script](https://gist.github.com/511789) we can
+switch between two accounts like this:
+
+    ruby switcher.rb personal
+    ruby switcher.rb work
+
+This make it pretty easy switching between multiple Heroku accounts easier by replacing existing Heroku
+account crendentials.
+
+David Dollar of Heroku saves a bit of work with his official Heroku
+plugin called [heroku-accounts](https://github.com/ddollar/heroku-accounts).
+
+To add and account, we simply run this in the project root:
+
+    heroku accounts:add work
+
+and for our personal account, we can run:
+
+    heroku accounts:add personal
+
+The ``add`` command will prompt you for your Heroku email address and
+password for the account. The plugin will maintain your Heroku accounts info the
+~/.heroku/accounts directory .
+
+To assign a project to a Heroku account, in each project root we run:
+
+    heroku accounts:set personal # or work
+
+Now we don't need to manually switch between each account
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
