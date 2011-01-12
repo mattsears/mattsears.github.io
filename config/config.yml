@@ -4,19 +4,5 @@ name:  "mattsears"
 author: "Matt Sears"
 email:  "matt@mattsears.com"
 
-articles:
-  dir: "articles"
-
-public:
-  dir: "public"
-
-views:
-  dir: "views"
-  default: "home"
-
-git:
-  name: "origin"
-  branch: "master"
-
 static:
   dir: "public/_site"
