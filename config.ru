@@ -5,7 +5,7 @@ require "rubygems"
 env  = ENV['RACK_ENV'].to_sym
 root = File.dirname(__FILE__)
 
-#if env == :production
+if env == :production
   require 'rack/contrib'
   require 'rack-rewrite'
   require 'rack-static-if-present'
@@ -23,12 +23,12 @@ root = File.dirname(__FILE__)
   Aerial::App.set :environment, :production
   Aerial::App.set :root, root
   run Aerial::App
-# else
-#   require "aerial"
-#   Aerial.new(root, "/config/config.yml")
-#   Aerial::App.set :environment, ENV["RACK_ENV"] || :production
-#   Aerial::App.set :port, 3000
-#   Aerial::App.set :root, root
-#   run Aerial::App
-# end
+else
+  require "aerial"
+  Aerial.new(root)
+  Aerial::App.set :environment, ENV["RACK_ENV"] || :production
+  Aerial::App.set :port, 3000
+  Aerial::App.set :root, root
+  run Aerial::App
+end
 
