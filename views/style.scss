@@ -325,17 +325,7 @@ a {
     padding: 3px 0 5px 0 !important; }
 
 .posts {}
-
-.post-separator {
-    width: 765px;
-    height: 32px;
-    margin: 0 -16px 0 -20px;
-    position: relative;
-    font-size: 0;
-    line-height: 0;
-    text-indent: -4000px; }
 .first-post { padding-top: 0; }
-
 #dsq-global-toolbar { display: none !important; }
 #dsq-new-post { h3 { display: none !important; } }
 #dsq-comments-title { h3 { display: none !important; } }
@@ -368,10 +358,13 @@ a {
         font-size: 17px;
         line-height: 29px;
         padding: 0; }
-    p { padding: 10px 0; }
+    p { padding: 10px 0;
+        code{ color: #444444 !important;
+              border: 1px solid #dedede !important;
+              padding: 0 0.3em;
+              background-color: ghostWhite !important; } }
     ul { padding: 10px 0 20px 20px; }
     li { p { padding-bottom: 10px !important; } }
-    code { font: normal normal normal 12px / normal Monaco, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace; }
     pre { background-color: ghostWhite !important;
           border: 1px solid #dedede !important;
           color: #444444 !important;
@@ -379,7 +372,9 @@ a {
           line-height: 1.5em !important;
           margin: 1em 0px !important;
           overflow: auto !important;
-          padding: 0.5em !important; } }
+          padding: 0.5em !important; }
+       code { font: normal normal normal 12px / normal Monaco, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace; }
+    }
 
 .post-bottom{
     height: 30px;
