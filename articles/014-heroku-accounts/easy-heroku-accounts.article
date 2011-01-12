@@ -15,6 +15,8 @@ users home directory.
 
 So how to do we effectively manage multiple Heroku accounts?
 
+### Custom Ruby Script
+
 One option, we can write a custom script such as Keith Gaddis
 [describes](http://collectiveidea.com/blog/archives/2010/08/06/heroku-ing-with-multiple-personalities)
 over at the Collective Idea. With his [switcher](https://gist.github.com/511789) script, we can
@@ -26,6 +28,8 @@ switch between two accounts like this:
 This essentially swaps the credentials file for the account you want to
 use. This works well enough, however this can be tedious especially
 if you need to switch between work and personal projects frequently.
+
+### Heroku Plugin
 
 David Dollar of Heroku recently released an official Heroku
 plugin called [heroku-accounts](https://github.com/ddollar/heroku-accounts). With
@@ -55,9 +59,12 @@ comand in each of the project roots:
 
     heroku accounts:set personal # or work
 
-This will assign a Heroky account to the project by adding a setting
-to the project's git config file. Now we don't need to manually
-switch between our accounts. Awesome.
+This will assign a Heroku account to the project by adding a setting
+to the project's git config file.
+
+### Celebrate
+
+Now we don't need to manually switch between our accounts. Awesome.
 
 
 
