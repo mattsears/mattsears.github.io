@@ -31,21 +31,15 @@
           <div id='navigation'>
             <ul>
               <li class='home-link'>
-                <a href='/'>
-                  Home
-                </a>
+                <a href='/'>Home</a>
               </li>
               <li class='divider'>/</li>
               <li class='articles-link'>
-                <a href='/articles'>
-                  Writing
-                </a>
+                <a href='/articles'>Writing</a>
               </li>
               <li class='divider'>/</li>
               <li class='about-link'>
-                <a href='/about'>
-                  About
-                </a>
+                <a href='/about'>About</a>
               </li>
               <li class='divider'>/</li>
               <li class='contact-link'>
@@ -122,7 +116,6 @@
                   <p>This will call find on the Article class and sends 'body' if the result is not nil. In addition, our methods are guarded from NoMethodErrors is the result is nil.</p>
                 </p>
               </div>
-              <div class='post-separator'>&nbsp;</div>
             </div>
             <div class='post-bottom'></div>
           </div>
@@ -149,13 +142,15 @@
         </div>
         <div id='sidebar'>
           <div class='get-in-touch'>
-            <img alt='' class='img-matt' src='/images/me.png' />
+            <div class='me'>
+              <img class='fade' src='/images/me.png' style='background: url(images/me!.png)' />
+            </div>
             <p>
-              Hi. I'm Matt Sears, a web developer currently living
-              <br />
-              in Ohio. I run
-              <a href='http://littlelines.com' rel='external'>Littlelines</a>
-              , a web design and development studio.
+              Hi. I'm Matt Sears, a web developer
+              <span class='amp'>&</span>
+              entrepreneur in Ohio. I run
+              <a href='http://littlelines.com' rel='external'>Littlelines,</a>
+              a distinguished web development and desgin firm.
             </p>
             <p>
               I use this blog to share my ideas and as a way to learn.
@@ -172,10 +167,16 @@
                 <a class='small-ico-external' href='https://twitter.com/mattsears' rel='external'>Twitter</a>
               </li>
               <li>
+                <a class='small-ico-external' href='http://www.facebook.com/profile.php?id=1389547090' rel='external'>Facebook</a>
+              </li>
+              <li>
                 <a class='small-ico-external' href='http://www.linkedin.com/in/matthewsears' rel='external'>LinkedIn</a>
               </li>
               <li>
                 <a class='small-ico-external' href='http://github.com/mattsears' rel='external'>Github</a>
+              </li>
+              <li>
+                <a class='small-ico-external' href='http://forrst.com/people/mattsears' rel='external'>Forrst</a>
               </li>
               <li>
                 <a class='small-ico-external' href='http://www.flickr.com/photos/matthewsears' rel='external'>Flickr</a>
@@ -189,6 +190,9 @@
             <h4>Recent Posts</h4>
             <ul>
               <li>
+                <a href='articles/2011/11/1/easy-multiple-account-management-for-heroku'>Easy Multiple Account Management for Heroku</a>
+              </li>
+              <li>
                 <a href='articles/2009/10/31/5-ruby-gems-for-concise-code'>5 Ruby Gems for Concise Code</a>
               </li>
               <li>
@@ -200,19 +204,16 @@
               <li>
                 <a href='articles/2008/12/10/two-years-working-with-rails'>Two+ Years Working with Rails</a>
               </li>
-              <li>
-                <a href='articles/2008/11/23/rubyconf-2008-wrap-up'>RubyConf 2008 Wrap Up</a>
-              </li>
             </ul>
           </div>
           <div class='categories'>
             <h4>Categories</h4>
             <ul>
               <li>
-                <a href='/tags/rails'>rails</a>
+                <a href='/tags/ruby'>ruby</a>
               </li>
               <li>
-                <a href='/tags/ruby'>ruby</a>
+                <a href='/tags/rails'>rails</a>
               </li>
               <li>
                 <a href='/tags/clojure'>clojure</a>
@@ -252,6 +253,9 @@
           <div class='archives'>
             <h4>Archives</h4>
             <ul>
+              <li>
+                <a href='/archives/2011/11'>November 2011 (1)</a>
+              </li>
               <li>
                 <a href='/archives/2009/10'>October 2009 (1)</a>
               </li>

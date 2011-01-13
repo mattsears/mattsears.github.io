@@ -1,12 +1,13 @@
 #sidebar
   .get-in-touch
-    %img.img-matt{:alt => "", :src => "/images/me.png"}/
+    .me
+      %img{:class => 'fade', :src => '/images/me.png', :style => 'background: url(images/me!.png)'}
     %p
-      Hi. I'm Matt Sears, a web developer currently living
-      %br/
-      in Ohio. I run
-      %a{:href => "http://littlelines.com", :rel => "external"} Littlelines
-      , a web design and development studio.
+      Hi. I'm Matt Sears, a web developer
+      %span.amp &
+      entrepreneur in Ohio. I run
+      %a{:href => "http://littlelines.com", :rel => "external"} Littlelines,
+      a distinguished web development and desgin firm.
     %p
       I use this blog to share my ideas and as a way to learn.
       Feel free to contact me via email or follow me on Twitter at
@@ -18,9 +19,13 @@
       %li
         %a.small-ico-external{:href => "https://twitter.com/mattsears", :rel => "external"} Twitter
       %li
+        %a.small-ico-external{:href => "http://www.facebook.com/profile.php?id=1389547090", :rel => "external"} Facebook
+      %li
         %a.small-ico-external{:href => "http://www.linkedin.com/in/matthewsears", :rel => "external"} LinkedIn
       %li
         %a.small-ico-external{:href => "http://github.com/mattsears", :rel => "external"} Github
+      %li
+        %a.small-ico-external{:href => "http://forrst.com/people/mattsears", :rel => "external"} Forrst
       %li
         %a.small-ico-external{:href => "http://www.flickr.com/photos/matthewsears", :rel => "external"} Flickr
       %li.last

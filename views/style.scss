@@ -201,10 +201,8 @@ body.index { #navigation { li.home-link { a { color: #999 } } } }
     line-height: 0;
     text-indent: -4000px; }
 
-/* Bottom section */
-
 .bottom-section {
-    padding-top: 25px;
+    padding-top: 10px;
     clear: both;
     h3, h4 {
         text-shadow: white 1px 1px 0px; }
@@ -215,14 +213,7 @@ body.index { #navigation { li.home-link { a { color: #999 } } } }
         width: 540px;
         position: relative;
         margin-top: 10px;
-        margin-left: 5px;
-        .me{
-            width: 70px;
-            height: 70px;
-            float: left;
-            margin-top: 3px;
-            margin-right: 5px; } }
-}
+        margin-left: 5px; }}
 
 .box {
     background-color: #fff;
@@ -230,12 +221,18 @@ body.index { #navigation { li.home-link { a { color: #999 } } } }
     height: 100%;
     position: relative;
     color: #444444; }
+
 .box-foot {
     height: 13px;
-    background: transparent url("/images/box-bottom.png") 0 0 no-repeat;}
+    background: transparent url("/images/box-bottom.png") 0 -4px no-repeat;}
 
 .amp{ font-family: Baskerville, Palatino, 'Hoefler Text', serif;
       font-style: italic;}
+
+.me{ width: 70px;
+     height: 70px;
+     float: left;
+     margin: 3px 5px 0 0;}
 
 #splash{
     width: 340px;
@@ -251,7 +248,7 @@ body.index { #navigation { li.home-link { a { color: #999 } } } }
     width: 540px;
     font-size: 13px;
     position: relative;
-    p{ font-weight: normal}
+    p{ font-weight: normal }
     .box {
         padding-bottom: 2px;
         margin-top: 10px; }
@@ -259,10 +256,8 @@ body.index { #navigation { li.home-link { a { color: #999 } } } }
         padding: 5px 0;
         height: 100%;
         p { line-height: 20px; } }
-    .first-entry {
-        padding-top: 10px; }
-    h2 {
-        font-size: 16px;
+    .first-entry { padding-top: 10px; }
+    h2 { font-size: 16px;
         a {
             font-size: 14px;
             color: #333; } } }
@@ -284,8 +279,7 @@ body.index { #navigation { li.home-link { a { color: #999 } } } }
         padding-top: 10px;
         &.last{ width: 60px; float: right;}
     }
-    li {
-        margin-bottom: 5px;
+    li {margin-bottom: 5px;
         a {
             border: none;
             display: block;
@@ -297,10 +291,8 @@ a {
     &.more img, &.more-black img {
         float: none !important;
         margin: 0 0 0 5px !important; }
-    &.more {
-        color: #7d0202 !important; }
-    &.more-black {
-        color: black !important; } }
+    &.more { color: #7d0202 !important; }
+    &.more-black { color: black !important; } }
 
 #content {
     width: 700px;
@@ -322,9 +314,9 @@ a {
 
 .with-border {
     border-bottom: 1px solid #CCC;
+    margin-bottom: 10px;
     padding: 3px 0 5px 0 !important; }
 
-.posts {}
 .first-post { padding-top: 0; }
 #dsq-global-toolbar { display: none !important; }
 #dsq-new-post { h3 { display: none !important; } }
@@ -354,11 +346,13 @@ a {
     .author { color: #333333; }
     .body { p { padding-bottom: 10px; } }
     h2 {font-size: 20px; }
+    h3 {margin-bottom: 10px;
+        font-size: 18px; }
     .subtitle {
         font-size: 17px;
         line-height: 29px;
         padding: 0; }
-    p { padding: 10px 0;
+    p { padding: 0 0 10px 0;
         code{ color: #444444 !important;
               border: 1px solid #dedede !important;
               padding: 0 0.3em;
@@ -373,13 +367,13 @@ a {
           margin: 1em 0px !important;
           overflow: auto !important;
           padding: 0.5em !important; }
-       code { font: normal normal normal 12px / normal Monaco, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace; }
-    }
+    code { font: normal normal normal 12px / normal Monaco, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace; }
+}
 
 .post-bottom{
     height: 30px;
     width: 700px;
-    background: url(/images/bg-post-bottom.png) 0 0 no-repeat;}
+    background: url(/images/bg-post-bottom.png) 0 -4px no-repeat;}
 
 .comments {
     height: 32px;
@@ -426,14 +420,10 @@ a {
         p { margin-bottom: 10px; } }
 
     .get-in-touch {
-        padding: 10px 0;
-        height: 220px;
+        padding: 10px 0 0 0;
         line-height: 1.4;
-        margin-bottom: 8px;
-        a {
-            font-weight: bold; }
-        p {
-            margin-bottom: 10px; } }
+        a { font-weight: bold; }
+        p { margin-bottom: 10px; } }
 
     .img-matt {
         float: left;

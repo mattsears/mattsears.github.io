@@ -9,6 +9,7 @@
 Cufon.replace("h1:not('.nocufon')", { fontFamily: 'Titillium-800' });
 Cufon.replace("h2:not('.nocufon')", { fontFamily: 'Titillium-800' });
 Cufon.replace("h3:not('.nocufon')", { fontFamily: 'Titillium-400' });
+Cufon.replace(".box h3:not('.nocufon')", { fontFamily: 'Titillium-800' });
 Cufon.replace("h4:not('.nocufon')", { fontFamily: 'Titillium-400' });
 // Cufon.replace("#navigation a:not('.nocufon')", { fontFamily: 'Titillium-800' });
 

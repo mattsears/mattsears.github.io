@@ -8,7 +8,7 @@
           %h2
             %a{:href => "#{article.permalink}"}=article.title
           %p
-            =blurb(article.body)
+            = blurb(article.body)
     .box-foot
   #splash
 .bottom-section
@@ -23,7 +23,7 @@
   #find-elsewhere
     %h3 Elsewhere on the Interwebs
     %ul
-      %li
+      %li.linkedin
         %a{:href => "http://www.linkedin.com/in/matthewsears", :rel => "external"} LinkedIn
       %li
         %a{:href => "https://twitter.com/mattsears", :rel => "external"} Twitter

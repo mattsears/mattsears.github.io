@@ -223,9 +223,8 @@ body.index #navigation li.home-link a {
   line-height: 0;
   text-indent: -4000px; }
 
-/* Bottom section */
 .bottom-section {
-  padding-top: 25px;
+  padding-top: 10px;
   clear: both; }
   .bottom-section h3, .bottom-section h4 {
     text-shadow: white 1px 1px 0px; }
@@ -237,12 +236,6 @@ body.index #navigation li.home-link a {
     position: relative;
     margin-top: 10px;
     margin-left: 5px; }
-    .bottom-section #hello .me {
-      width: 70px;
-      height: 70px;
-      float: left;
-      margin-top: 3px;
-      margin-right: 5px; }
 
 .box {
   background-color: #fff;
@@ -253,11 +246,17 @@ body.index #navigation li.home-link a {
 
 .box-foot {
   height: 13px;
-  background: transparent url("/images/box-bottom.png") 0 0 no-repeat; }
+  background: transparent url("/images/box-bottom.png") 0 -4px no-repeat; }
 
 .amp {
   font-family: Baskerville, Palatino, 'Hoefler Text', serif;
   font-style: italic; }
+
+.me {
+  width: 70px;
+  height: 70px;
+  float: left;
+  margin: 3px 5px 0 0; }
 
 #splash {
   width: 340px;
@@ -346,16 +345,8 @@ a.more-black {
 
 .with-border {
   border-bottom: 1px solid #CCC;
+  margin-bottom: 10px;
   padding: 3px 0 5px 0 !important; }
-
-.post-separator {
-  width: 765px;
-  height: 32px;
-  margin: 0 -16px 0 -20px;
-  position: relative;
-  font-size: 0;
-  line-height: 0;
-  text-indent: -4000px; }
 
 .first-post {
   padding-top: 0; }
@@ -397,18 +388,24 @@ a.more-black {
     padding-bottom: 10px; }
   .post h2 {
     font-size: 20px; }
+  .post h3 {
+    margin-bottom: 10px;
+    font-size: 18px; }
   .post .subtitle {
     font-size: 17px;
     line-height: 29px;
     padding: 0; }
   .post p {
-    padding: 10px 0; }
+    padding: 0 0 10px 0; }
+    .post p code {
+      color: #444444 !important;
+      border: 1px solid #dedede !important;
+      padding: 0 0.3em;
+      background-color: ghostWhite !important; }
   .post ul {
     padding: 10px 0 20px 20px; }
   .post li p {
     padding-bottom: 10px !important; }
-  .post code {
-    font: normal normal normal 12px/normal Monaco, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace; }
   .post pre {
     background-color: ghostWhite !important;
     border: 1px solid #dedede !important;
@@ -418,11 +415,13 @@ a.more-black {
     margin: 1em 0px !important;
     overflow: auto !important;
     padding: 0.5em !important; }
+  .post code {
+    font: normal normal normal 12px/normal Monaco, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace; }
 
 .post-bottom {
   height: 30px;
   width: 700px;
-  background: url(/images/bg-post-bottom.png) 0 0 no-repeat; }
+  background: url(/images/bg-post-bottom.png) 0 -4px no-repeat; }
 
 .comments {
   height: 32px;
@@ -474,10 +473,8 @@ a.more-black {
     #sidebar .contact p {
       margin-bottom: 10px; }
   #sidebar .get-in-touch {
-    padding: 10px 0;
-    height: 220px;
-    line-height: 1.4;
-    margin-bottom: 8px; }
+    padding: 10px 0 0 0;
+    line-height: 1.4; }
     #sidebar .get-in-touch a {
       font-weight: bold; }
     #sidebar .get-in-touch p {
