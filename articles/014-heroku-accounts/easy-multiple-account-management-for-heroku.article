@@ -9,8 +9,7 @@ service for hosting ruby applications. Oh, and it's free!
 
 Like a lot of folks, I keep work and personal items such
 as email, bank accounts, github, etc in separate accounts.
-Heroku doesn't really place nice with multiple accounts since the
-heroku gem interfaces with a single credentials file.
+Heroku doesn't really place nice with multiple accounts.
 
 So how to do we effectively manage multiple Heroku accounts?
 
@@ -23,7 +22,7 @@ public keys for each account.
 
 ### Custom Ruby Script
 
-One option is we can write a custom script such as Keith Gaddis
+One option is we can use a script such as Keith Gaddis
 [describes](http://collectiveidea.com/blog/archives/2010/08/06/heroku-ing-with-multiple-personalities)
 over at the Collective Idea blog. With his [switcher](https://gist.github.com/511789) script, we can
 switch between two accounts like this:
@@ -34,9 +33,9 @@ switch between two accounts like this:
 This essentially swaps the credentials file (used by the Heroku gem
 for authentication) for the account you want to
 use. This works well enough, however this can be tedious especially if
-you need to switch between work and personal projects frequently.
+you switch between work and personal projects frequently.
 
-### Heroku Plugin
+### Enter Heroku Accounts Plugin
 
 David Dollar of Heroku recently released an official Heroku
 plugin called [heroku-accounts](https://github.com/ddollar/heroku-accounts). With
@@ -66,12 +65,12 @@ command in the project root:
 
     heroku accounts:set personal # or work
 
-This will assign a Heroku account to the project by adding a variable
+This will assign a Heroku account to the project by adding an 'account' variable
 to the project's git config file.
 
 ### Celebrate
 
-Horray! now we switch Heroku accounts automatically. Awesome.
+Hooray! Now we can switch Heroku accounts automatically. Awesome.
 
 
 
