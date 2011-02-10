@@ -2,11 +2,11 @@
 <html dir='ltr' lang='en-US' xmlns='http://www.w3.org/1999/xhtml'>
   <head>
     <meta content='text/html; charset=utf-8' http-equiv='Content-type' />
-    <title>Matt Sears | Relay outbound SMTP email to Gmail</title>
+    <title>Matt Sears | Writing</title>
     <meta content='Matt Sears, Matt, Sears' name='keywords' />
     <meta author='Matt Sears' />
     <link href='http://example.org/feed.xml' rel='alternate' title='Feed for mattsears' type='application/atom+xml' />
-    <link href='/images/favicon.gif' rel='shortcut icon' />
+    <link href='/images/favicon.png' rel='shortcut icon' />
     <link href='/style.css' media='all' rel='stylesheet' type='text/css' />
     <!--[if IE 6]>
       <link rel="stylesheet" href="css/ie6.css" type="text/css" media="all" />
@@ -35,7 +35,11 @@
               </li>
               <li class='divider'>/</li>
               <li class='articles-link'>
-                <a href='/articles'>Writing</a>
+                <a href='/articles'>Articles</a>
+              </li>
+              <li class='divider'>/</li>
+              <li class='tumblr-link'>
+                <a href='http://mattsears.tumblr.com'>Notebook</a>
               </li>
               <li class='divider'>/</li>
               <li class='about-link'>
@@ -74,55 +78,35 @@
               <div class='body'>
                 <p class='with-border'>
                   <p>Sending emails with Rails via Gmail is a snap with Marc Chung's excellent plugin <a href="http://code.openrain.com/rails/action_mailer_tls">action_mailer_tls</a>. However, sometimes our production environment isn't using Gmail as a mail server and/or we just need an easy way to send email from our development environment for testing or demonstrating purposes.</p>
-                  
+
                   <p>Instead of installing the action_mailer_tls plugin and configuring each of our Rails apps, we can do a one-time setup of our local Postfix client to relay all SMTP outbound emails to our Gmail account. If your running a Mac OS Leopard or Linux, Postfix should already be installed. With a little configuration, we should be up and running in a couple minutes.</p>
-                  
+
                   <p>First create /etc/postfix/relay_password file with the server name, email account name and password as shown below. This configuration works with Gmail accounts as well as with Google Apps email accounts. I'm personally using my company's Google Apps with a special email account setup for outbound emails only.</p>
-                  
+
                   <pre><code>smtp.gmail.com    example@yourdomain.com:yourpassword&#x000A;</code></pre>
-                  
+
                   <p>Then tell Postfix about our google accounts information so it knows how and where to relay the email to. This can be done with the postmap command:</p>
-                  
+
                   <pre><code>$ postmap /etc/postfix/relay_password&#x000A;</code></pre>
-                  
+
                   <p>Since Gmail requires a TLS (Transport Layer Security) connection for certificate-based authentication, we'll need to download a free root certificate from Verisign <a href="https://www.verisign.com/support/roots.html" rel="external">https://www.verisign.com/support/roots.html</a> to authenticate our remote SMTP client.</p>
-                  
+
                   <pre><code>$ mkdir /etc/postfix/certs&#x000A;$ cd /etc/postfix/certs&#x000A;$ sudo cp roots.zip /etc/postfix/certs&#x000A;$ sudo unzip -j roots.zip&#x000A;$ sudo openssl x509 -inform der -in ThawtePremiumServerCA.cer -out  ThawtePremiumServerCA.pem&#x000A;$ sudo c_rehash /etc/postfix/certs&#x000A;</code></pre>
-                  
+
                   <p>Now we are ready to configure Postfix. Postfix needs to know what host to relay the email to, the username and password to authenticate the Gmail account, and the path to our certificates for the encrypted session.  Add these lines to the bottom of /etc/postfix/main.cf</p>
-                  
+
                   <pre><code>relayhost = smtp.gmail.com:587&#x000A;# auth&#x000A;smtp_sasl_auth_enable = yes&#x000A;smtp_sasl_password_maps = hash:/etc/postfix/relay_password&#x000A;smtp_sasl_security_options = noanonymous&#x000A;&#x000A;# tls&#x000A;smtp_tls_security_level = may&#x000A;smtp_tls_CApath = /etc/postfix/certs&#x000A;smtp_tls_session_cache_database = btree:/etc/postfix/smtp_scache&#x000A;smtp_tls_session_cache_timeout = 3600s&#x000A;smtp_tls_loglevel = 1&#x000A;tls_random_source = dev:/dev/urandom&#x000A;</code></pre>
-                  
+
                   <p>Restart (or start) Postfix to pick up our new changes.</p>
-                  
+
                   <pre><code>$ sudo postfix stop&#x000A;$ sudo postfix start&#x000A;</code></pre>
-                  
+
                   <p>That's it! Now we don't have to do any special installation or configuration to send email via Gmail for our Rails apps. We just need to set the delivery method to :smtp and we're ready to go.</p>
                 </p>
               </div>
             </div>
             <div class='post-bottom'></div>
           </div>
-          <div id='disqus_thread'></div>
-          <script type='text/javascript'>
-            //<![CDATA[
-              var disqus_developer = 1;
-              var disqus_shortname = 'mattsears'; // required: replace example with your forum shortname
-              // The following are highly recommended additional parameters. Remove the slashes in front to use.
-              var disqus_identifier = "/articles/2008/1/8/relay-outbound-smtp-email-to-gmail/";
-              var disqus_url = "http://mattsears.com/articles/2008/1/8/relay-outbound-smtp-email-to-gmail";
-              /* * * DON'T EDIT BELOW THIS LINE * * */
-              (function() {
-                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                  dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-              })();
-            //]]>
-          </script>
-          <noscript>
-            Please enable JavaScript to view the
-            <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a>
-          </noscript>
         </div>
         <div id='sidebar'>
           <div class='get-in-touch'>
