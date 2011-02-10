@@ -85,17 +85,19 @@ h4 { font-size: 18px; }
 #header {
     position: relative;
     margin-bottom: 0;
+
     .shell {
-        margin-top: -15px;
-        border-bottom: 1px solid #CCCCCC; } }
+        padding-bottom: 0;
+        margin-top: 0;
+        border-bottom: 5px solid #CCCCCC; } }
 
 h1#logo {
     float: left;
     display: inline;
     padding: 0;
-    margin: 0 0 0 15px;
+    margin: 0;
     position: absolute;
-    top: 28px;
+    top: 10px;
     background: url(/images/logo.png) no-repeat 0 0;
     width: 182px;
     height: 60px;
@@ -122,9 +124,10 @@ h1#logo {
     float: right;
     padding-top: 0px;
     overflow: hidden;
-    margin-top: 45px;
+    margin-top: 25px;
     ul {
         list-style: none;
+        padding: 5px 0 15px 0;
         float: right; }
     li {
         float: left;
@@ -149,7 +152,7 @@ body.articles { #navigation { li.articles-link { a { color: #999 } } } }
 body.index { #navigation { li.home-link { a { color: #999 } } } }
 
 #main {
-    padding: 20px 0 0;
+    padding: 5px 0 0 0;
     height: 100%;
     position: relative; }
 
@@ -213,7 +216,7 @@ body.index { #navigation { li.home-link { a { color: #999 } } } }
         width: 540px;
         position: relative;
         margin-top: 10px;
-        margin-left: 5px; }}
+        margin-left: 15px; }}
 
 .box {
     background-color: #fff;
