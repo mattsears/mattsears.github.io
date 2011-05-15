@@ -66,11 +66,70 @@
             <div class='post'>
               <div class='head'>
                 <h2>
-                  <a href='/articles/2011/11/1/easy-multiple-account-management-for-heroku'>
+                  <a href='/articles/2011/5/15/print-stamps-with-ruby'>
+                    Print Stamps With Ruby!
+                  </a>
+                  <span>
+                    <a class='dsq-comment-count comment-link commentslink' href='articles/2011/5/15/print-stamps-with-ruby#disqus_thread'></a>
+                  </span>
+                </h2>
+                <div class='cl'>&nbsp;</div>
+              </div>
+              <div class='body'>
+                <p class='with-border'>
+                  <p>I've just released <a href="https://github.com/mattsears/stamps">Stamps</a> - A Ruby gem for creating postage labels,
+                  calculate the shipping cost of packages, standardize domestic
+                  addresses via USPS CASS certified Address Matching Software, and track
+                  shipments using the Stamps.com Web Services API.</p>
+                  
+                  <h3>Quick Start</h3>
+                  
+                  <p>First, you will need to register for a (free) developer account at
+                  <a href="http://developer.stamps.com/developer">Stamps.com</a>. Once you receive
+                  your test credentials and integration id, just plug them into the
+                  configuration block:</p>
+                  
+                  <pre><code>Stamps.configure do |config|&#x000A;  config.integration_id = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX'&#x000A;  config.username       = 'STAMPS USERNAME'&#x000A;  config.password       = 'STAMPS PASSWORD'&#x000A;end&#x000A;</code></pre>
+                  
+                  <p>For a simple test, we can call <code>Stamps.account</code> to retreive
+                  information about the account.  By default, Stamps will return all
+                  responses as a Hash.</p>
+                  
+                  <h3>Create a Stamp</h3>
+                  
+                  <p>First, we need to standardize the shipping address that complies with the USPS address
+                  formatting guidelines:</p>
+                  
+                  <pre><code>standardized_address = Stamps.clean_address(&#x000A;  :address =&gt; {&#x000A;    :full_name =&gt; 'The White House',&#x000A;    :address1  =&gt; '1600 Pennsylvania Avenue, NW',&#x000A;    :city      =&gt; 'Washington',&#x000A;    :state     =&gt; 'DC',&#x000A;    :zip_code  =&gt; '20500'&#x000A;})&#x000A;</code></pre>
+                  
+                  <p>Now that we have a clean address we can create a new stamp.  The
+                  <code>Stamps.create!</code> takes the sender and receiver address along with parameters
+                  on the rate:</p>
+                  
+                  <pre><code>stamp = Stamps.create!(&#x000A;    :rate          =&gt; {&#x000A;      :from_zip_code =&gt; '45440',&#x000A;      :to_zip_code   =&gt; '20500',&#x000A;      :weight_oz     =&gt; '6.5',&#x000A;      :ship_date      =&gt; Date.today.strftime('%Y-%m-%d'),&#x000A;      :package_type   =&gt; 'Package',&#x000A;      :service_type   =&gt; 'US-FC'  # Flat-rate&#x000A;    },&#x000A;    :to            =&gt; standardized_address,&#x000A;    :from =&gt; {&#x000A;      :full_name   =&gt; 'Littlelines',&#x000A;      :address1    =&gt; '50 Chestnut Street',&#x000A;      :address2    =&gt; 'Suite 234',&#x000A;      :city        =&gt; 'Beavervcreek',&#x000A;      :state       =&gt; 'OH',&#x000A;      :zip_code    =&gt; '45440'&#x000A;    }&#x000A;)&#x000A;</code></pre>
+                  
+                  <h3>Hooray!</h3>
+                  
+                  <p>That's it! Stamps will return a url of the stamp.  Print it and ship it!</p>
+                  
+                  <pre><code>stamp[:url]&#x000A;</code></pre>
+                  
+                  <p>If you are interested in more detailed information, check out the repo
+                  on <a href="https://github.com/mattsears/stamps">Github</a>.</p>
+                </p>
+              </div>
+            </div>
+            <div class='post-bottom'>
+            </div>
+            
+            <div class='post'>
+              <div class='head'>
+                <h2>
+                  <a href='/articles/2011/1/11/easy-multiple-account-management-for-heroku'>
                     Easy Multiple Account Management for Heroku
                   </a>
                   <span>
-                    <a class='dsq-comment-count comment-link commentslink' href='articles/2011/11/1/easy-multiple-account-management-for-heroku#disqus_thread'></a>
+                    <a class='dsq-comment-count comment-link commentslink' href='articles/2011/1/11/easy-multiple-account-management-for-heroku#disqus_thread'></a>
                   </span>
                 </h2>
                 <div class='cl'>&nbsp;</div>
@@ -357,38 +416,6 @@
             </div>
             <div class='post-bottom'>
             </div>
-            
-            <div class='post'>
-              <div class='head'>
-                <h2>
-                  <a href='/articles/2008/12/10/two-years-working-with-rails'>
-                    Two+ Years Working with Rails
-                  </a>
-                  <span>
-                    <a class='dsq-comment-count comment-link commentslink' href='articles/2008/12/10/two-years-working-with-rails#disqus_thread'></a>
-                  </span>
-                </h2>
-                <div class='cl'>&nbsp;</div>
-              </div>
-              <div class='body'>
-                <p class='with-border'>
-                  <p>Update: I thought I should give a little background on how I got started with Rails - when I was attending the SDWest conference in March 2006.  I was at the Jolt Awards, and saw @d2h receive the award for the best web development tool for Rails 1.0.  I downloaded Rails that night in the hotel room and was hooked.</p>
-                  
-                  <p>This week marks the two year anniversary when I delivered my first professional Rails app.  Today, I decided to take a look back at the  code of that first project and see what's improved over the past two years.  The result - not bad, but there were a couple areas that stood out. Here are a few:</p>
-                  
-                  <ol>
-                  <li>The controllers in that first project were out of control. Not sure why, maybe coming from the J2EE world, my first instinct was to cram everything into the controller. It was apparent that the concept of REST wasn't completely baked into my brain yet. Not to mention the concept of fat models, skinny controllers.</li>
-                  <li>Second, the views and Javascripts were a bit unorganized.  I noticed excessive conditional logic and messy Javascript code in a few of the pages.  If I was to re-write the app today, most of it could be cleanup with rendering partials with collections and using Low Pro to clean up the Javascript.</li>
-                  <li>Finally, the sheer lack of plugins for that first project was surprising. It's true that the amount and quality of plugins have grown in two years, but I believe the lack of awareness was the main cause.</li>
-                  </ol>
-                  
-                  
-                  <p>So this made me think of what I would say if I were to advise newcomers writing their first Rails app.  I would have to say first, if you find yourself writing code in the controller, then ask yourself "Can I put this logic in the model?". And also be sure to familiarize yourself with the available plugins with sites such as <a href="http://agilewebdevelopment.com">Agile Web Development</a> and <a href="http://github.com">Github</a>. They can save you a ton of work.</p>
-                </p>
-              </div>
-            </div>
-            <div class='post-bottom'>
-            </div>
           </div>
         </div>
         <div id='sidebar'>
@@ -441,7 +468,10 @@
             <h4>Recent Posts</h4>
             <ul>
               <li>
-                <a href='articles/2011/11/1/easy-multiple-account-management-for-heroku'>Easy Multiple Account Management for Heroku</a>
+                <a href='articles/2011/5/15/print-stamps-with-ruby'>Print Stamps With Ruby!</a>
+              </li>
+              <li>
+                <a href='articles/2011/1/11/easy-multiple-account-management-for-heroku'>Easy Multiple Account Management for Heroku</a>
               </li>
               <li>
                 <a href='articles/2009/10/31/5-ruby-gems-for-concise-code'>5 Ruby Gems for Concise Code</a>
@@ -451,9 +481,6 @@
               </li>
               <li>
                 <a href='articles/2009/4/4/git-blogging-with-aerial'>Git blogging with Aerial</a>
-              </li>
-              <li>
-                <a href='articles/2008/12/10/two-years-working-with-rails'>Two+ Years Working with Rails</a>
               </li>
             </ul>
           </div>
@@ -505,7 +532,10 @@
             <h4>Archives</h4>
             <ul>
               <li>
-                <a href='/archives/2011/11'>November 2011 (1)</a>
+                <a href='/archives/2011/05'>May 2011 (1)</a>
+              </li>
+              <li>
+                <a href='/archives/2011/01'>January 2011 (1)</a>
               </li>
               <li>
                 <a href='/archives/2009/10'>October 2009 (1)</a>

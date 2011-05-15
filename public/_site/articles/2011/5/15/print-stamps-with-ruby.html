@@ -66,67 +66,56 @@
             <div class='post'>
               <div class='head'>
                 <h2>
-                  <a href='/articles/2009/6/6/20-clojure-links-to-get-you-up-to-speed'>
-                    20 Clojure Links To Get You Up To Speed
+                  <a href='/articles/2011/5/15/print-stamps-with-ruby'>
+                    Print Stamps With Ruby!
                   </a>
                   <span>
-                    <a class='dsq-comment-count comment-link commentslink' href='articles/2009/6/6/20-clojure-links-to-get-you-up-to-speed#disqus_thread'></a>
+                    <a class='dsq-comment-count comment-link commentslink' href='articles/2011/5/15/print-stamps-with-ruby#disqus_thread'></a>
                   </span>
                 </h2>
                 <div class='cl'>&nbsp;</div>
               </div>
               <div class='body'>
                 <p class='with-border'>
-                  <p>Writing multi-threaded code is hard. If you've ever done concurrent programming, you'll <em>probably</em> agree. Clojure offers a compelling alternative to traditional object-oriented approaches to programming and has garnered much attention from the Ruby community because of it's elegant design that lets you get right to the essence of a problem.</p>
+                  <p>I've just released <a href="https://github.com/mattsears/stamps">Stamps</a> - A Ruby gem for creating postage labels,
+                  calculate the shipping cost of packages, standardize domestic
+                  addresses via USPS CASS certified Address Matching Software, and track
+                  shipments using the Stamps.com Web Services API.</p>
                   
-                  <h2>What is Clojure?</h2>
+                  <h3>Quick Start</h3>
                   
-                  <p>Simply put, Clojure is a functional programming language for the Java Virtual Machine with several powerful features for building concurrent applications. In addition, Clojure is fast, robust, and a powerful general-purpose programming language. A dialect of Lisp, Clojure embraces traditional code-as-data philosophy and a powerful macro system, plus some syntactic sugar tailored to Java.</p>
+                  <p>First, you will need to register for a (free) developer account at
+                  <a href="http://developer.stamps.com/developer">Stamps.com</a>. Once you receive
+                  your test credentials and integration id, just plug them into the
+                  configuration block:</p>
                   
-                  <p>Now that <a href="http://clojure.blogspot.com/2009/05/clojure-10.html">version 1.0</a> is out and Stuart Halloway's new book <a href="http://www.pragprog.com/titles/shcloj/programming-clojure">Programming Clojure</a> just dropped, I've rounded up some of the best articles and tutorials on Clojure to you get you up to speed quickly.</p>
+                  <pre><code>Stamps.configure do |config|&#x000A;  config.integration_id = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX'&#x000A;  config.username       = 'STAMPS USERNAME'&#x000A;  config.password       = 'STAMPS PASSWORD'&#x000A;end&#x000A;</code></pre>
                   
-                  <h2>Tutorials and Links</h2>
+                  <p>For a simple test, we can call <code>Stamps.account</code> to retreive
+                  information about the account.  By default, Stamps will return all
+                  responses as a Hash.</p>
                   
-                  <ul>
-                  <li><p><a href="http://java.ociweb.com/mark/clojure/article.html">A Clojure Tutorial</a> by R. Mark Volkmann</p></li>
-                  <li><p><a href="http://www.pragprog.com/titles/shcloj/programming-clojure">Programming Clojure book</a> by Stuart Halloway</p></li>
-                  <li><p><a href="http://blog.thinkrelevance.com/2008/09/16/pcl-clojure">Practical Common Lisp to Clojure</a> by Stuart Halloway</p></li>
-                  <li><p><a href="http://writingcoding.blogspot.com/2008/06/clojure-series-table-of-contents.html">Clojure Series: Table of Contents</a> by Eric Rochester</p></li>
-                  <li><p><a href="http://en.wikibooks.org/wiki/Learning_Clojure">Learning Clojure</a> via Wikibooks</p></li>
-                  <li><p><a href="http://en.wikibooks.org/wiki/Clojure_Programming/Examples/API_Examples">Clojure Programming/Examples/API Examples</a> via Wikibooks</p></li>
-                  <li><p><a href="http://en.wikibooks.org/wiki/Clojure_Programming/Tutorials_and_Tips">Clojure Programming/Tutorials and Tips</a> via Wikibooks</p></li>
-                  </ul>
+                  <h3>Create a Stamp</h3>
                   
+                  <p>First, we need to standardize the shipping address that complies with the USPS address
+                  formatting guidelines:</p>
                   
-                  <h2>Screencasts, Videos, and Presentations</h2>
+                  <pre><code>standardized_address = Stamps.clean_address(&#x000A;  :address =&gt; {&#x000A;    :full_name =&gt; 'The White House',&#x000A;    :address1  =&gt; '1600 Pennsylvania Avenue, NW',&#x000A;    :city      =&gt; 'Washington',&#x000A;    :state     =&gt; 'DC',&#x000A;    :zip_code  =&gt; '20500'&#x000A;})&#x000A;</code></pre>
                   
-                  <ul>
-                  <li><p><a href="http://peepcode.com/products/functional-programming-with-clojure">Functional Programming with Clojure</a> by Phil Hagelberg (PeepCode)</p></li>
-                  <li><p><a href="http://clojure.blip.tv">Clojure Series on Blip.tv</a> by Rich Hickey</p></li>
-                  <li><p><a href="http://www.youtube.com/view_play_list?p=AC43CFB134E85266">Intro to Clojure</a> by Brian Will (YouTube)</p></li>
-                  <li><p><a href="http://vimeo.com/2419596">Emacs with Clojure, Slime and Swank</a> by Seth Buntin (Vimeo)</p></li>
-                  </ul>
+                  <p>Now that we have a clean address we can create a new stamp.  The
+                  <code>Stamps.create!</code> takes the sender and receiver address along with parameters
+                  on the rate:</p>
                   
+                  <pre><code>stamp = Stamps.create!(&#x000A;    :rate          =&gt; {&#x000A;      :from_zip_code =&gt; '45440',&#x000A;      :to_zip_code   =&gt; '20500',&#x000A;      :weight_oz     =&gt; '6.5',&#x000A;      :ship_date      =&gt; Date.today.strftime('%Y-%m-%d'),&#x000A;      :package_type   =&gt; 'Package',&#x000A;      :service_type   =&gt; 'US-FC'  # Flat-rate&#x000A;    },&#x000A;    :to            =&gt; standardized_address,&#x000A;    :from =&gt; {&#x000A;      :full_name   =&gt; 'Littlelines',&#x000A;      :address1    =&gt; '50 Chestnut Street',&#x000A;      :address2    =&gt; 'Suite 234',&#x000A;      :city        =&gt; 'Beavervcreek',&#x000A;      :state       =&gt; 'OH',&#x000A;      :zip_code    =&gt; '45440'&#x000A;    }&#x000A;)&#x000A;</code></pre>
                   
-                  <h2>Tools and Setup</h2>
+                  <h3>Hooray!</h3>
                   
-                  <ul>
-                  <li><p><a href="http://yusupov.com/blog/2009/basic-clojure-setup-part-1/">Basic Clojure Setup</a> by Telman Yusupov</p></li>
-                  <li><p><a href="http://mark.reid.name/sap/setting-up-clojure.html">Setting Up Clojure for Mac OS X Leopard</a> by Mark Reid</p></li>
-                  <li><p><a href="http://technomancy.us/126">Getting Emacs setup to write Clojure code</a> by Phil Hagelberg</p></li>
-                  <li><p><a href="http://github.com/nullstyle/clojure-tmbundle/tree/master">Textmate Bundle for Clojure code</a> by Scott Fleckenstein</p></li>
-                  <li><p><a href="http://www.vim.org/scripts/script.php?script_id=2501">VimClojure, a Vim plugin for Clojure</a></p></li>
-                  </ul>
+                  <p>That's it! Stamps will return a url of the stamp.  Print it and ship it!</p>
                   
+                  <pre><code>stamp[:url]&#x000A;</code></pre>
                   
-                  <h2>Documentation</h2>
-                  
-                  <ul>
-                  <li><p><a href="http://clojure.org">Official Clojure site</a></p></li>
-                  <li><p><a href="http://clojure.org/api">Official Clojure API</a></p></li>
-                  <li><p><a href="http://clj-doc.s3.amazonaws.com/tmp/doc-1116/index.html">Clojure Docs</a></p></li>
-                  <li><p><a href="http://java.ociweb.com/mark/clojure/ClojureCodingGuidelines.html">Clojure Coding Guidelines</a> by Mark Volkmann</p></li>
-                  </ul>
+                  <p>If you are interested in more detailed information, check out the repo
+                  on <a href="https://github.com/mattsears/stamps">Github</a>.</p>
                 </p>
               </div>
             </div>
@@ -137,8 +126,8 @@
                 //<![CDATA[
                   var disqus_shortname = 'mattsears'; // required: replace example with your forum shortname
                   // The following are highly recommended additional parameters. Remove the slashes in front to use.
-                  var disqus_identifier = "/articles/2009/6/6/20-clojure-links-to-get-you-up-to-speed/";
-                  var disqus_url = "http://mattsears.com/articles/2009/6/6/20-clojure-links-to-get-you-up-to-speed";
+                  var disqus_identifier = "/articles/2011/5/15/print-stamps-with-ruby/";
+                  var disqus_url = "http://mattsears.com/articles/2011/5/15/print-stamps-with-ruby";
                   /* * * DON'T EDIT BELOW THIS LINE * * */
                   (function() {
                       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

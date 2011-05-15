@@ -7,10 +7,90 @@
     <ttl>40</ttl>
     <generator>Aerial</generator>
     <description></description>
-    <pubDate>Tue, 01 Nov 2011 20:38:19 +00:00</pubDate>
+    <pubDate>Sun, 15 May 2011 20:38:19 +00:00</pubDate>
+    <item>
+      <title>Print Stamps With Ruby!</title>
+      <link>http://example.orgarticles/2011/5/15/print-stamps-with-ruby</link>
+      <description>
+        <p>I've just released <a href="https://github.com/mattsears/stamps">Stamps</a> - A Ruby gem for creating postage labels,
+        calculate the shipping cost of packages, standardize domestic
+        addresses via USPS CASS certified Address Matching Software, and track
+        shipments using the Stamps.com Web Services API.</p>
+        
+        <h3>Quick Start</h3>
+        
+        <p>First, you will need to register for a (free) developer account at
+        <a href="http://developer.stamps.com/developer">Stamps.com</a>. Once you receive
+        your test credentials and integration id, just plug them into the
+        configuration block:</p>
+        
+        <pre><code>Stamps.configure do |config|
+          config.integration_id = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX'
+          config.username       = 'STAMPS USERNAME'
+          config.password       = 'STAMPS PASSWORD'
+        end
+        </code></pre>
+        
+        <p>For a simple test, we can call <code>Stamps.account</code> to retreive
+        information about the account.  By default, Stamps will return all
+        responses as a Hash.</p>
+        
+        <h3>Create a Stamp</h3>
+        
+        <p>First, we need to standardize the shipping address that complies with the USPS address
+        formatting guidelines:</p>
+        
+        <pre><code>standardized_address = Stamps.clean_address(
+          :address =&gt; {
+            :full_name =&gt; 'The White House',
+            :address1  =&gt; '1600 Pennsylvania Avenue, NW',
+            :city      =&gt; 'Washington',
+            :state     =&gt; 'DC',
+            :zip_code  =&gt; '20500'
+        })
+        </code></pre>
+        
+        <p>Now that we have a clean address we can create a new stamp.  The
+        <code>Stamps.create!</code> takes the sender and receiver address along with parameters
+        on the rate:</p>
+        
+        <pre><code>stamp = Stamps.create!(
+            :rate          =&gt; {
+              :from_zip_code =&gt; '45440',
+              :to_zip_code   =&gt; '20500',
+              :weight_oz     =&gt; '6.5',
+              :ship_date      =&gt; Date.today.strftime('%Y-%m-%d'),
+              :package_type   =&gt; 'Package',
+              :service_type   =&gt; 'US-FC'  # Flat-rate
+            },
+            :to            =&gt; standardized_address,
+            :from =&gt; {
+              :full_name   =&gt; 'Littlelines',
+              :address1    =&gt; '50 Chestnut Street',
+              :address2    =&gt; 'Suite 234',
+              :city        =&gt; 'Beavervcreek',
+              :state       =&gt; 'OH',
+              :zip_code    =&gt; '45440'
+            }
+        )
+        </code></pre>
+        
+        <h3>Hooray!</h3>
+        
+        <p>That's it! Stamps will return a url of the stamp.  Print it and ship it!</p>
+        
+        <pre><code>stamp[:url]
+        </code></pre>
+        
+        <p>If you are interested in more detailed information, check out the repo
+        on <a href="https://github.com/mattsears/stamps">Github</a>.</p>
+      </description>
+      <pubDate>Sun, 15 May 2011 20:38:19 +00:00</pubDate>
+      <guid isPermaLink='false'>4e36891a06be3049272fbe2c853015cf65e0f8ff</guid>
+    </item>
     <item>
       <title>Easy Multiple Account Management for Heroku</title>
-      <link>http://example.orgarticles/2011/11/1/easy-multiple-account-management-for-heroku</link>
+      <link>http://example.orgarticles/2011/1/11/easy-multiple-account-management-for-heroku</link>
       <description>
         <p>Recently, I migrated all of my personal and <a href="http://littlelines.com">business</a> sites
         to <a href="http://heroku.com">Heroku</a>. Heroku, as you may know, is a fantastic
@@ -86,8 +166,8 @@
         
         <p>Hooray! Now we can switch Heroku accounts automatically. Awesome.</p>
       </description>
-      <pubDate>Tue, 01 Nov 2011 20:38:19 +00:00</pubDate>
-      <guid isPermaLink='false'>3574b6075ac0610c2c3e502ac0694d4eeea0f10b</guid>
+      <pubDate>Tue, 11 Jan 2011 20:38:19 +00:00</pubDate>
+      <guid isPermaLink='false'>1ca192f39e0b2f46b5839b3f600393d53cc2af73</guid>
     </item>
     <item>
       <title>5 Ruby Gems for Concise Code</title>
