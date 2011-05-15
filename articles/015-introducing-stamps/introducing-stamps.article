@@ -1,6 +1,6 @@
 Title         : Print Stamps With Ruby!
 Tags          : ruby
-Publish Date  : 2011-11-05 03:38:19
+Publish Date  : 2011-14-05 03:38:19
 Author        : Matt Sears
 
 I've just released [Stamps](https://github.com/mattsears/stamps) - A Ruby gem for creating postage labels,
@@ -66,16 +66,6 @@ on the rate:
 That's it! Now we can print the stamp giv
 
     stamp[:url]
-
-### Installation
-----------
-First install the gem:
-
-    gem install stamps
-
-Add it to your Gemfile:
-
-    gem 'stamps'
 
 If you are interested in more detailed information, check out the repo
 on [Github](https://github.com/mattsears/stamps).
