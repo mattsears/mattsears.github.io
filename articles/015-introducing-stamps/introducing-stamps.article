@@ -38,7 +38,6 @@ formatting guidelines:
         :zip_code  => '20500'
     })
 
-
 Now that we have a clean address we can create a new stamp.  The
 `Stamps.create!` takes the sender and receiver address along with parameters
 on the rate:
@@ -63,7 +62,9 @@ on the rate:
         }
     )
 
-That's it! Now we can print the stamp giv
+### Hooray!
+
+That's it! Stamps will return a url of the stamp.  Print it and ship it!
 
     stamp[:url]
 
