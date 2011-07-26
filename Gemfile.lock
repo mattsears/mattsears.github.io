@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/mattsears/aerial.git
-  revision: 312cc4a2dc809b4eba07e96142814c7cc6a77365
+  revision: bc41270ec1cce75ccab69f5cc2c3b7b2ce20e5da
   specs:
     aerial (0.2.0)
       grit
@@ -14,17 +14,17 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
-    configuration (1.2.0)
+    configuration (1.3.1)
     daemons (1.1.4)
     diff-lcs (1.1.2)
     eventmachine (0.12.10)
-    grit (2.3.0)
+    grit (2.4.1)
       diff-lcs (~> 1.1)
       mime-types (~> 1.15)
-    haml (3.0.24)
+    haml (3.1.2)
     heroku (1.20.1)
       launchy (~> 0.3.2)
-      rest-client (>= 1.4.0, < 1.7.0)
+      rest-client (< 1.7.0, >= 1.4.0)
     html_truncator (0.2.2)
       nokogiri (~> 1.4)
     launchy (0.3.7)
@@ -32,25 +32,26 @@ GEM
       rake (>= 0.8.1)
     mime-types (1.16)
     nokogiri (1.5.0)
-    rack (1.2.1)
+    rack (1.3.2)
     rack-contrib (1.1.0)
       rack (>= 0.9.1)
     rack-rewrite (1.0.2)
-    rack-static-if-present (0.1.0)
-    rake (0.8.7)
-    rdiscount (1.6.5)
-    rest-client (1.6.1)
+    rack-static-if-present (0.2.0)
+      rack (~> 1)
+    rake (0.9.2)
+    rdiscount (1.6.8)
+    rest-client (1.6.3)
       mime-types (>= 1.16)
-    sass (3.1.0.alpha.214)
-    sinatra (1.1.0)
+    sass (3.1.5)
+    sinatra (1.2.6)
       rack (~> 1.1)
-      tilt (~> 1.1)
+      tilt (< 2.0, >= 1.2.2)
     thin (1.2.11)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
     thor (0.14.6)
-    tilt (1.1)
+    tilt (1.3.2)
 
 PLATFORMS
   ruby
