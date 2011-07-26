@@ -4,10 +4,20 @@ module Aerial
   class App < Sinatra::Base
 
     helpers do
+
       def page_title(title = nil)
         @content ||= {}
         @content[:title] = "Matt Sears"
-        @content[:title] << " | #{title}" if title
+
+        if params[:tag]
+          @content[:title] << " | #{params[:tag]}"
+        elsif params[:year] && !params[:day]
+          @content[:title] << " | Archives #{params[:year]} "
+        elsif @article
+          @content[:title] << " | #{@article.title}"
+        else
+          @content[:title] << " | #{title}" if title
+        end
       end
 
       def body_class(name)

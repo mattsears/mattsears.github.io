@@ -41,11 +41,11 @@
     %ul
       -Aerial::Article.tags.each do |tag|
         %li
-          %a{:href => "/tags/#{tag}"}=tag
+          %a{:href => "/articles/tags/#{tag}"}=tag
   .archives
     %h4 Archives
     %ul
       -Aerial::Article.archives.each do |archive|
         %li
-          %a{:href => "/archives/#{archive[0][0]}"}="#{archive[0][1]} (#{archive[1]})"
+          %a{:href => "/articles/archives/#{archive[0][0]}"}="#{archive[0][1]} (#{archive[1]})"
 .cl &nbsp;
