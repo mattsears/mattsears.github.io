@@ -60,512 +60,512 @@
     </div>
     <div id='main'>
       <div class='shell'>
-        <div id='content'>
-          <div id='content-top'></div>
-          <div class='posts'>
-            <div class='post'>
-              <div class='head'>
-                <h2>
-                  <a href='/articles/2011/5/15/print-stamps-with-ruby'>
-                    Print Stamps With Ruby!
-                  </a>
-                  <span>
-                    <a class='dsq-comment-count comment-link commentslink' href='articles/2011/5/15/print-stamps-with-ruby#disqus_thread'></a>
-                  </span>
-                </h2>
-                <div class='cl'>&nbsp;</div>
+          <div id='content'>
+            <div id='content-top'></div>
+            <div class='posts'>
+              <div class='post'>
+                <div class='head'>
+                  <h2>
+                    <a href='/articles/2011/5/15/print-stamps-with-ruby'>
+                      Print Stamps With Ruby!
+                    </a>
+                    <span>
+                      <a class='dsq-comment-count comment-link commentslink' href='articles/2011/5/15/print-stamps-with-ruby#disqus_thread'></a>
+                    </span>
+                  </h2>
+                  <div class='cl'>&nbsp;</div>
+                </div>
+                <div class='body'>
+                  <p class='with-border'>
+                    <p>I've just released <a href="https://github.com/mattsears/stamps">Stamps</a> - A Ruby gem for creating postage labels,
+                    calculate the shipping cost of packages, standardize domestic
+                    addresses via USPS CASS certified Address Matching Software, and track
+                    shipments using the Stamps.com Web Services API.</p>
+                    
+                    <h3>Quick Start</h3>
+                    
+                    <p>First, you will need to register for a (free) developer account at
+                    <a href="http://developer.stamps.com/developer">Stamps.com</a>. Once you receive
+                    your test credentials and integration id, just plug them into the
+                    configuration block:</p>
+                    
+                    <pre><code>Stamps.configure do |config|&#x000A;  config.integration_id = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX'&#x000A;  config.username       = 'STAMPS USERNAME'&#x000A;  config.password       = 'STAMPS PASSWORD'&#x000A;end&#x000A;</code></pre>
+                    
+                    <p>For a simple test, we can call <code>Stamps.account</code> to retreive
+                    information about the account.  By default, Stamps will return all
+                    responses as a Hash.</p>
+                    
+                    <h3>Create a Stamp</h3>
+                    
+                    <p>First, we need to standardize the shipping address that complies with the USPS address
+                    formatting guidelines:</p>
+                    
+                    <pre><code>standardized_address = Stamps.clean_address(&#x000A;  :address =&gt; {&#x000A;    :full_name =&gt; 'The White House',&#x000A;    :address1  =&gt; '1600 Pennsylvania Avenue, NW',&#x000A;    :city      =&gt; 'Washington',&#x000A;    :state     =&gt; 'DC',&#x000A;    :zip_code  =&gt; '20500'&#x000A;})&#x000A;</code></pre>
+                    
+                    <p>Now that we have a clean address we can create a new stamp.  The
+                    <code>Stamps.create!</code> takes the sender and receiver address along with parameters
+                    on the rate:</p>
+                    
+                    <pre><code>stamp = Stamps.create!(&#x000A;    :rate          =&gt; {&#x000A;      :from_zip_code =&gt; '45440',&#x000A;      :to_zip_code   =&gt; '20500',&#x000A;      :weight_oz     =&gt; '6.5',&#x000A;      :ship_date      =&gt; Date.today.strftime('%Y-%m-%d'),&#x000A;      :package_type   =&gt; 'Package',&#x000A;      :service_type   =&gt; 'US-FC'  # Flat-rate&#x000A;    },&#x000A;    :to            =&gt; standardized_address,&#x000A;    :from =&gt; {&#x000A;      :full_name   =&gt; 'Littlelines',&#x000A;      :address1    =&gt; '50 Chestnut Street',&#x000A;      :address2    =&gt; 'Suite 234',&#x000A;      :city        =&gt; 'Beavervcreek',&#x000A;      :state       =&gt; 'OH',&#x000A;      :zip_code    =&gt; '45440'&#x000A;    }&#x000A;)&#x000A;</code></pre>
+                    
+                    <h3>Hooray!</h3>
+                    
+                    <p>That's it! Stamps will return a url of the stamp.  Print it and ship it!</p>
+                    
+                    <pre><code>stamp[:url]&#x000A;</code></pre>
+                    
+                    <p>If you are interested in more detailed information, check out the repo
+                    on <a href="https://github.com/mattsears/stamps">Github</a>.</p>
+                  </p>
+                </div>
               </div>
-              <div class='body'>
-                <p class='with-border'>
-                  <p>I've just released <a href="https://github.com/mattsears/stamps">Stamps</a> - A Ruby gem for creating postage labels,
-                  calculate the shipping cost of packages, standardize domestic
-                  addresses via USPS CASS certified Address Matching Software, and track
-                  shipments using the Stamps.com Web Services API.</p>
-                  
-                  <h3>Quick Start</h3>
-                  
-                  <p>First, you will need to register for a (free) developer account at
-                  <a href="http://developer.stamps.com/developer">Stamps.com</a>. Once you receive
-                  your test credentials and integration id, just plug them into the
-                  configuration block:</p>
-                  
-                  <pre><code>Stamps.configure do |config|&#x000A;  config.integration_id = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX'&#x000A;  config.username       = 'STAMPS USERNAME'&#x000A;  config.password       = 'STAMPS PASSWORD'&#x000A;end&#x000A;</code></pre>
-                  
-                  <p>For a simple test, we can call <code>Stamps.account</code> to retreive
-                  information about the account.  By default, Stamps will return all
-                  responses as a Hash.</p>
-                  
-                  <h3>Create a Stamp</h3>
-                  
-                  <p>First, we need to standardize the shipping address that complies with the USPS address
-                  formatting guidelines:</p>
-                  
-                  <pre><code>standardized_address = Stamps.clean_address(&#x000A;  :address =&gt; {&#x000A;    :full_name =&gt; 'The White House',&#x000A;    :address1  =&gt; '1600 Pennsylvania Avenue, NW',&#x000A;    :city      =&gt; 'Washington',&#x000A;    :state     =&gt; 'DC',&#x000A;    :zip_code  =&gt; '20500'&#x000A;})&#x000A;</code></pre>
-                  
-                  <p>Now that we have a clean address we can create a new stamp.  The
-                  <code>Stamps.create!</code> takes the sender and receiver address along with parameters
-                  on the rate:</p>
-                  
-                  <pre><code>stamp = Stamps.create!(&#x000A;    :rate          =&gt; {&#x000A;      :from_zip_code =&gt; '45440',&#x000A;      :to_zip_code   =&gt; '20500',&#x000A;      :weight_oz     =&gt; '6.5',&#x000A;      :ship_date      =&gt; Date.today.strftime('%Y-%m-%d'),&#x000A;      :package_type   =&gt; 'Package',&#x000A;      :service_type   =&gt; 'US-FC'  # Flat-rate&#x000A;    },&#x000A;    :to            =&gt; standardized_address,&#x000A;    :from =&gt; {&#x000A;      :full_name   =&gt; 'Littlelines',&#x000A;      :address1    =&gt; '50 Chestnut Street',&#x000A;      :address2    =&gt; 'Suite 234',&#x000A;      :city        =&gt; 'Beavervcreek',&#x000A;      :state       =&gt; 'OH',&#x000A;      :zip_code    =&gt; '45440'&#x000A;    }&#x000A;)&#x000A;</code></pre>
-                  
-                  <h3>Hooray!</h3>
-                  
-                  <p>That's it! Stamps will return a url of the stamp.  Print it and ship it!</p>
-                  
-                  <pre><code>stamp[:url]&#x000A;</code></pre>
-                  
-                  <p>If you are interested in more detailed information, check out the repo
-                  on <a href="https://github.com/mattsears/stamps">Github</a>.</p>
-                </p>
+              <div class='post-bottom'>
               </div>
-            </div>
-            <div class='post-bottom'>
-            </div>
-            
-            <div class='post'>
-              <div class='head'>
-                <h2>
-                  <a href='/articles/2011/1/11/easy-multiple-account-management-for-heroku'>
-                    Easy Multiple Account Management for Heroku
-                  </a>
-                  <span>
-                    <a class='dsq-comment-count comment-link commentslink' href='articles/2011/1/11/easy-multiple-account-management-for-heroku#disqus_thread'></a>
-                  </span>
-                </h2>
-                <div class='cl'>&nbsp;</div>
+              
+              <div class='post'>
+                <div class='head'>
+                  <h2>
+                    <a href='/articles/2011/1/11/easy-multiple-account-management-for-heroku'>
+                      Easy Multiple Account Management for Heroku
+                    </a>
+                    <span>
+                      <a class='dsq-comment-count comment-link commentslink' href='articles/2011/1/11/easy-multiple-account-management-for-heroku#disqus_thread'></a>
+                    </span>
+                  </h2>
+                  <div class='cl'>&nbsp;</div>
+                </div>
+                <div class='body'>
+                  <p class='with-border'>
+                    <p>Recently, I migrated all of my personal and <a href="http://littlelines.com">business</a> sites
+                    to <a href="http://heroku.com">Heroku</a>. Heroku, as you may know, is a fantastic
+                    service for hosting ruby applications. Oh, and it's free!</p>
+                    
+                    <p>Like a lot of folks, I keep work and personal items such
+                    as email, bank accounts, github, etc in separate accounts.
+                    Heroku doesn't really place nice with multiple accounts.</p>
+                    
+                    <p>So how to do we effectively manage multiple Heroku accounts?</p>
+                    
+                    <h3>Prerequitites</h3>
+                    
+                    <p>The following assumes you are on the Mac OS or *nix system, own
+                    multiple Heroku accounts, and have installed the Heroku gem. I should
+                    also be point out that you will need to create separate ssh
+                    public keys for each account.</p>
+                    
+                    <h3>Custom Ruby Script</h3>
+                    
+                    <p>One option is we can use a script such as Keith Gaddis
+                    <a href="http://collectiveidea.com/blog/archives/2010/08/06/heroku-ing-with-multiple-personalities">describes</a>
+                    over at the Collective Idea blog. With his <a href="https://gist.github.com/511789">switcher</a> script, we can
+                    switch between two accounts like this:</p>
+                    
+                    <pre><code>ruby switcher.rb personal&#x000A;ruby switcher.rb work&#x000A;</code></pre>
+                    
+                    <p>This essentially swaps the credentials file (used by the Heroku gem
+                    for authentication) for the account you want to
+                    use. This works well enough, however this can be tedious especially if
+                    you switch between work and personal projects frequently.</p>
+                    
+                    <h3>Enter Heroku Accounts Plugin</h3>
+                    
+                    <p>David Dollar of Heroku recently released an official Heroku
+                    plugin called <a href="https://github.com/ddollar/heroku-accounts">heroku-accounts</a>. With
+                    this plugin, we can switch Heroku accounts automatically.</p>
+                    
+                    <p>To get started, we first install the plugin:</p>
+                    
+                    <pre><code>heroku plugins:install git://github.com/ddollar/heroku-accounts.git&#x000A;</code></pre>
+                    
+                    <p>The installation process will download the plugin from github and save
+                    it to the <code>~/.heroku/plugins</code> directory. Now, we can
+                    setup each of our Heroku accounts with <code>add</code> command:</p>
+                    
+                    <pre><code>heroku accounts:add work&#x000A;</code></pre>
+                    
+                    <p>and for our personal account, we can run:</p>
+                    
+                    <pre><code>heroku accounts:add personal&#x000A;</code></pre>
+                    
+                    <p>The <code>add</code> command will ask you for your Heroku email address and
+                    password for each account. The plugin will maintain
+                    your account credentials in the <code>~/.heroku/accounts</code> folder in your
+                    home directory. (Passwords are not saved in plain text)</p>
+                    
+                    <p>To assign a project to a specific Heroku account, we run the following
+                    command in the project root:</p>
+                    
+                    <pre><code>heroku accounts:set personal # or work&#x000A;</code></pre>
+                    
+                    <p>This will assign a Heroku account to the project by adding an 'account' variable
+                    to the project's git config file.</p>
+                    
+                    <h3>Celebrate</h3>
+                    
+                    <p>Hooray! Now we can switch Heroku accounts automatically. Awesome.</p>
+                  </p>
+                </div>
               </div>
-              <div class='body'>
-                <p class='with-border'>
-                  <p>Recently, I migrated all of my personal and <a href="http://littlelines.com">business</a> sites
-                  to <a href="http://heroku.com">Heroku</a>. Heroku, as you may know, is a fantastic
-                  service for hosting ruby applications. Oh, and it's free!</p>
-                  
-                  <p>Like a lot of folks, I keep work and personal items such
-                  as email, bank accounts, github, etc in separate accounts.
-                  Heroku doesn't really place nice with multiple accounts.</p>
-                  
-                  <p>So how to do we effectively manage multiple Heroku accounts?</p>
-                  
-                  <h3>Prerequitites</h3>
-                  
-                  <p>The following assumes you are on the Mac OS or *nix system, own
-                  multiple Heroku accounts, and have installed the Heroku gem. I should
-                  also be point out that you will need to create separate ssh
-                  public keys for each account.</p>
-                  
-                  <h3>Custom Ruby Script</h3>
-                  
-                  <p>One option is we can use a script such as Keith Gaddis
-                  <a href="http://collectiveidea.com/blog/archives/2010/08/06/heroku-ing-with-multiple-personalities">describes</a>
-                  over at the Collective Idea blog. With his <a href="https://gist.github.com/511789">switcher</a> script, we can
-                  switch between two accounts like this:</p>
-                  
-                  <pre><code>ruby switcher.rb personal&#x000A;ruby switcher.rb work&#x000A;</code></pre>
-                  
-                  <p>This essentially swaps the credentials file (used by the Heroku gem
-                  for authentication) for the account you want to
-                  use. This works well enough, however this can be tedious especially if
-                  you switch between work and personal projects frequently.</p>
-                  
-                  <h3>Enter Heroku Accounts Plugin</h3>
-                  
-                  <p>David Dollar of Heroku recently released an official Heroku
-                  plugin called <a href="https://github.com/ddollar/heroku-accounts">heroku-accounts</a>. With
-                  this plugin, we can switch Heroku accounts automatically.</p>
-                  
-                  <p>To get started, we first install the plugin:</p>
-                  
-                  <pre><code>heroku plugins:install git://github.com/ddollar/heroku-accounts.git&#x000A;</code></pre>
-                  
-                  <p>The installation process will download the plugin from github and save
-                  it to the <code>~/.heroku/plugins</code> directory. Now, we can
-                  setup each of our Heroku accounts with <code>add</code> command:</p>
-                  
-                  <pre><code>heroku accounts:add work&#x000A;</code></pre>
-                  
-                  <p>and for our personal account, we can run:</p>
-                  
-                  <pre><code>heroku accounts:add personal&#x000A;</code></pre>
-                  
-                  <p>The <code>add</code> command will ask you for your Heroku email address and
-                  password for each account. The plugin will maintain
-                  your account credentials in the <code>~/.heroku/accounts</code> folder in your
-                  home directory. (Passwords are not saved in plain text)</p>
-                  
-                  <p>To assign a project to a specific Heroku account, we run the following
-                  command in the project root:</p>
-                  
-                  <pre><code>heroku accounts:set personal # or work&#x000A;</code></pre>
-                  
-                  <p>This will assign a Heroku account to the project by adding an 'account' variable
-                  to the project's git config file.</p>
-                  
-                  <h3>Celebrate</h3>
-                  
-                  <p>Hooray! Now we can switch Heroku accounts automatically. Awesome.</p>
-                </p>
+              <div class='post-bottom'>
               </div>
-            </div>
-            <div class='post-bottom'>
-            </div>
-            
-            <div class='post'>
-              <div class='head'>
-                <h2>
-                  <a href='/articles/2009/10/31/5-ruby-gems-for-concise-code'>
-                    5 Ruby Gems for Concise Code
-                  </a>
-                  <span>
-                    <a class='dsq-comment-count comment-link commentslink' href='articles/2009/10/31/5-ruby-gems-for-concise-code#disqus_thread'></a>
-                  </span>
-                </h2>
-                <div class='cl'>&nbsp;</div>
+              
+              <div class='post'>
+                <div class='head'>
+                  <h2>
+                    <a href='/articles/2009/10/31/5-ruby-gems-for-concise-code'>
+                      5 Ruby Gems for Concise Code
+                    </a>
+                    <span>
+                      <a class='dsq-comment-count comment-link commentslink' href='articles/2009/10/31/5-ruby-gems-for-concise-code#disqus_thread'></a>
+                    </span>
+                  </h2>
+                  <div class='cl'>&nbsp;</div>
+                </div>
+                <div class='body'>
+                  <p class='with-border'>
+                    <p>At <a href="http://littlelines.com">Littlelines</a>, we have to write a lot of code under strict time constraints. We work in small teams which means that writing clean and concise code is a necessity. When a Ruby library comes along that makes code easier to grasp in a hurry, test, and maintain - we use it. Here are some gems we have in our toolbox:</p>
+                    
+                    <h2><a href="http://github.com/justinfrench/formtastic">Formtastic</a></h2>
+                    
+                    <p>If you're developing wep apps, more than likely it will include html forms.  Forms can be a time-drain, not to mention very boring to build. Formtastic provides a more concise way of generating form views and includes inline error messages and is semantically rich.</p>
+                    
+                    <h2><a href="http://github.com/giraffesoft/resource_controller">Resource  Controller</a></h2>
+                    
+                    <p>Resource Controller hides away the RESTful controller boiler plate code and make your controllers skinny. Skinny controllers help you to consolidate your business logic into one place, thus saves time on maintenance and testing.</p>
+                    
+                    <h2><a href="http://github.com/binarylogic/searchlogic">Search Logic</a></h2>
+                    
+                    <p>Finding data can get messy. Sometimes we run into situations where we are concatenating strings to build SQL statements and this can lead to bugs. Searchlogic works by creating a number of named scopes that can be called on any ActiveRecord model. The best part, you can dynamically call scopes on associated classes and Searchlogic will take care of creating the necessary joins for you.</p>
+                    
+                    <h2><a href="http://github.com/toastyapps/alchemist">Alchemist</a></h2>
+                    
+                    <p>Occasionally, we work on projects dealing with conversions.  Alchemist is a Ruby library that does conversions for you and thus making your code more readable and easier to maintain. For example:</p>
+                    
+                    <p>Instead of:</p>
+                    
+                    <pre><code>miles = 8 * 1609.344 # converting meters to miles&#x000A;</code></pre>
+                    
+                    <p>We can write:</p>
+                    
+                    <pre><code>8.meters.to.miles&#x000A;</code></pre>
+                    
+                    <p>Alchemist includes a staggering array of conversions including distance, mass, volume, and more.</p>
+                    
+                    <h2><a href="http://andand.rubyforge.org/">andand</a></h2>
+                    
+                    <p>andand is a handy gem that allows allows natural method chaining for methods that can return nil. This saves a lot of boilerplate code and improves readability. For example:</p>
+                    
+                    <p>Instead of:</p>
+                    
+                    <pre><code>@body = (article = Article.find_by_title('test')) &amp;&amp; article.body&#x000A;</code></pre>
+                    
+                    <p>We can write this:</p>
+                    
+                    <pre><code>@body = Article.find_by_title('test').andand.body&#x000A;</code></pre>
+                    
+                    <p>This will call find on the Article class and sends 'body' if the result is not nil. In addition, our methods are guarded from NoMethodErrors is the result is nil.</p>
+                  </p>
+                </div>
               </div>
-              <div class='body'>
-                <p class='with-border'>
-                  <p>At <a href="http://littlelines.com">Littlelines</a>, we have to write a lot of code under strict time constraints. We work in small teams which means that writing clean and concise code is a necessity. When a Ruby library comes along that makes code easier to grasp in a hurry, test, and maintain - we use it. Here are some gems we have in our toolbox:</p>
-                  
-                  <h2><a href="http://github.com/justinfrench/formtastic">Formtastic</a></h2>
-                  
-                  <p>If you're developing wep apps, more than likely it will include html forms.  Forms can be a time-drain, not to mention very boring to build. Formtastic provides a more concise way of generating form views and includes inline error messages and is semantically rich.</p>
-                  
-                  <h2><a href="http://github.com/giraffesoft/resource_controller">Resource  Controller</a></h2>
-                  
-                  <p>Resource Controller hides away the RESTful controller boiler plate code and make your controllers skinny. Skinny controllers help you to consolidate your business logic into one place, thus saves time on maintenance and testing.</p>
-                  
-                  <h2><a href="http://github.com/binarylogic/searchlogic">Search Logic</a></h2>
-                  
-                  <p>Finding data can get messy. Sometimes we run into situations where we are concatenating strings to build SQL statements and this can lead to bugs. Searchlogic works by creating a number of named scopes that can be called on any ActiveRecord model. The best part, you can dynamically call scopes on associated classes and Searchlogic will take care of creating the necessary joins for you.</p>
-                  
-                  <h2><a href="http://github.com/toastyapps/alchemist">Alchemist</a></h2>
-                  
-                  <p>Occasionally, we work on projects dealing with conversions.  Alchemist is a Ruby library that does conversions for you and thus making your code more readable and easier to maintain. For example:</p>
-                  
-                  <p>Instead of:</p>
-                  
-                  <pre><code>miles = 8 * 1609.344 # converting meters to miles&#x000A;</code></pre>
-                  
-                  <p>We can write:</p>
-                  
-                  <pre><code>8.meters.to.miles&#x000A;</code></pre>
-                  
-                  <p>Alchemist includes a staggering array of conversions including distance, mass, volume, and more.</p>
-                  
-                  <h2><a href="http://andand.rubyforge.org/">andand</a></h2>
-                  
-                  <p>andand is a handy gem that allows allows natural method chaining for methods that can return nil. This saves a lot of boilerplate code and improves readability. For example:</p>
-                  
-                  <p>Instead of:</p>
-                  
-                  <pre><code>@body = (article = Article.find_by_title('test')) &amp;&amp; article.body&#x000A;</code></pre>
-                  
-                  <p>We can write this:</p>
-                  
-                  <pre><code>@body = Article.find_by_title('test').andand.body&#x000A;</code></pre>
-                  
-                  <p>This will call find on the Article class and sends 'body' if the result is not nil. In addition, our methods are guarded from NoMethodErrors is the result is nil.</p>
-                </p>
+              <div class='post-bottom'>
               </div>
-            </div>
-            <div class='post-bottom'>
-            </div>
-            
-            <div class='post'>
-              <div class='head'>
-                <h2>
-                  <a href='/articles/2009/6/6/20-clojure-links-to-get-you-up-to-speed'>
-                    20 Clojure Links To Get You Up To Speed
-                  </a>
-                  <span>
-                    <a class='dsq-comment-count comment-link commentslink' href='articles/2009/6/6/20-clojure-links-to-get-you-up-to-speed#disqus_thread'></a>
-                  </span>
-                </h2>
-                <div class='cl'>&nbsp;</div>
+              
+              <div class='post'>
+                <div class='head'>
+                  <h2>
+                    <a href='/articles/2009/6/6/20-clojure-links-to-get-you-up-to-speed'>
+                      20 Clojure Links To Get You Up To Speed
+                    </a>
+                    <span>
+                      <a class='dsq-comment-count comment-link commentslink' href='articles/2009/6/6/20-clojure-links-to-get-you-up-to-speed#disqus_thread'></a>
+                    </span>
+                  </h2>
+                  <div class='cl'>&nbsp;</div>
+                </div>
+                <div class='body'>
+                  <p class='with-border'>
+                    <p>Writing multi-threaded code is hard. If you've ever done concurrent programming, you'll <em>probably</em> agree. Clojure offers a compelling alternative to traditional object-oriented approaches to programming and has garnered much attention from the Ruby community because of it's elegant design that lets you get right to the essence of a problem.</p>
+                    
+                    <h2>What is Clojure?</h2>
+                    
+                    <p>Simply put, Clojure is a functional programming language for the Java Virtual Machine with several powerful features for building concurrent applications. In addition, Clojure is fast, robust, and a powerful general-purpose programming language. A dialect of Lisp, Clojure embraces traditional code-as-data philosophy and a powerful macro system, plus some syntactic sugar tailored to Java.</p>
+                    
+                    <p>Now that <a href="http://clojure.blogspot.com/2009/05/clojure-10.html">version 1.0</a> is out and Stuart Halloway's new book <a href="http://www.pragprog.com/titles/shcloj/programming-clojure">Programming Clojure</a> just dropped, I've rounded up some of the best articles and tutorials on Clojure to you get you up to speed quickly.</p>
+                    
+                    <h2>Tutorials and Links</h2>
+                    
+                    <ul>
+                    <li><p><a href="http://java.ociweb.com/mark/clojure/article.html">A Clojure Tutorial</a> by R. Mark Volkmann</p></li>
+                    <li><p><a href="http://www.pragprog.com/titles/shcloj/programming-clojure">Programming Clojure book</a> by Stuart Halloway</p></li>
+                    <li><p><a href="http://blog.thinkrelevance.com/2008/09/16/pcl-clojure">Practical Common Lisp to Clojure</a> by Stuart Halloway</p></li>
+                    <li><p><a href="http://writingcoding.blogspot.com/2008/06/clojure-series-table-of-contents.html">Clojure Series: Table of Contents</a> by Eric Rochester</p></li>
+                    <li><p><a href="http://en.wikibooks.org/wiki/Learning_Clojure">Learning Clojure</a> via Wikibooks</p></li>
+                    <li><p><a href="http://en.wikibooks.org/wiki/Clojure_Programming/Examples/API_Examples">Clojure Programming/Examples/API Examples</a> via Wikibooks</p></li>
+                    <li><p><a href="http://en.wikibooks.org/wiki/Clojure_Programming/Tutorials_and_Tips">Clojure Programming/Tutorials and Tips</a> via Wikibooks</p></li>
+                    </ul>
+                    
+                    
+                    <h2>Screencasts, Videos, and Presentations</h2>
+                    
+                    <ul>
+                    <li><p><a href="http://peepcode.com/products/functional-programming-with-clojure">Functional Programming with Clojure</a> by Phil Hagelberg (PeepCode)</p></li>
+                    <li><p><a href="http://clojure.blip.tv">Clojure Series on Blip.tv</a> by Rich Hickey</p></li>
+                    <li><p><a href="http://www.youtube.com/view_play_list?p=AC43CFB134E85266">Intro to Clojure</a> by Brian Will (YouTube)</p></li>
+                    <li><p><a href="http://vimeo.com/2419596">Emacs with Clojure, Slime and Swank</a> by Seth Buntin (Vimeo)</p></li>
+                    </ul>
+                    
+                    
+                    <h2>Tools and Setup</h2>
+                    
+                    <ul>
+                    <li><p><a href="http://yusupov.com/blog/2009/basic-clojure-setup-part-1/">Basic Clojure Setup</a> by Telman Yusupov</p></li>
+                    <li><p><a href="http://mark.reid.name/sap/setting-up-clojure.html">Setting Up Clojure for Mac OS X Leopard</a> by Mark Reid</p></li>
+                    <li><p><a href="http://technomancy.us/126">Getting Emacs setup to write Clojure code</a> by Phil Hagelberg</p></li>
+                    <li><p><a href="http://github.com/nullstyle/clojure-tmbundle/tree/master">Textmate Bundle for Clojure code</a> by Scott Fleckenstein</p></li>
+                    <li><p><a href="http://www.vim.org/scripts/script.php?script_id=2501">VimClojure, a Vim plugin for Clojure</a></p></li>
+                    </ul>
+                    
+                    
+                    <h2>Documentation</h2>
+                    
+                    <ul>
+                    <li><p><a href="http://clojure.org">Official Clojure site</a></p></li>
+                    <li><p><a href="http://clojure.org/api">Official Clojure API</a></p></li>
+                    <li><p><a href="http://clj-doc.s3.amazonaws.com/tmp/doc-1116/index.html">Clojure Docs</a></p></li>
+                    <li><p><a href="http://java.ociweb.com/mark/clojure/ClojureCodingGuidelines.html">Clojure Coding Guidelines</a> by Mark Volkmann</p></li>
+                    </ul>
+                  </p>
+                </div>
               </div>
-              <div class='body'>
-                <p class='with-border'>
-                  <p>Writing multi-threaded code is hard. If you've ever done concurrent programming, you'll <em>probably</em> agree. Clojure offers a compelling alternative to traditional object-oriented approaches to programming and has garnered much attention from the Ruby community because of it's elegant design that lets you get right to the essence of a problem.</p>
-                  
-                  <h2>What is Clojure?</h2>
-                  
-                  <p>Simply put, Clojure is a functional programming language for the Java Virtual Machine with several powerful features for building concurrent applications. In addition, Clojure is fast, robust, and a powerful general-purpose programming language. A dialect of Lisp, Clojure embraces traditional code-as-data philosophy and a powerful macro system, plus some syntactic sugar tailored to Java.</p>
-                  
-                  <p>Now that <a href="http://clojure.blogspot.com/2009/05/clojure-10.html">version 1.0</a> is out and Stuart Halloway's new book <a href="http://www.pragprog.com/titles/shcloj/programming-clojure">Programming Clojure</a> just dropped, I've rounded up some of the best articles and tutorials on Clojure to you get you up to speed quickly.</p>
-                  
-                  <h2>Tutorials and Links</h2>
-                  
-                  <ul>
-                  <li><p><a href="http://java.ociweb.com/mark/clojure/article.html">A Clojure Tutorial</a> by R. Mark Volkmann</p></li>
-                  <li><p><a href="http://www.pragprog.com/titles/shcloj/programming-clojure">Programming Clojure book</a> by Stuart Halloway</p></li>
-                  <li><p><a href="http://blog.thinkrelevance.com/2008/09/16/pcl-clojure">Practical Common Lisp to Clojure</a> by Stuart Halloway</p></li>
-                  <li><p><a href="http://writingcoding.blogspot.com/2008/06/clojure-series-table-of-contents.html">Clojure Series: Table of Contents</a> by Eric Rochester</p></li>
-                  <li><p><a href="http://en.wikibooks.org/wiki/Learning_Clojure">Learning Clojure</a> via Wikibooks</p></li>
-                  <li><p><a href="http://en.wikibooks.org/wiki/Clojure_Programming/Examples/API_Examples">Clojure Programming/Examples/API Examples</a> via Wikibooks</p></li>
-                  <li><p><a href="http://en.wikibooks.org/wiki/Clojure_Programming/Tutorials_and_Tips">Clojure Programming/Tutorials and Tips</a> via Wikibooks</p></li>
-                  </ul>
-                  
-                  
-                  <h2>Screencasts, Videos, and Presentations</h2>
-                  
-                  <ul>
-                  <li><p><a href="http://peepcode.com/products/functional-programming-with-clojure">Functional Programming with Clojure</a> by Phil Hagelberg (PeepCode)</p></li>
-                  <li><p><a href="http://clojure.blip.tv">Clojure Series on Blip.tv</a> by Rich Hickey</p></li>
-                  <li><p><a href="http://www.youtube.com/view_play_list?p=AC43CFB134E85266">Intro to Clojure</a> by Brian Will (YouTube)</p></li>
-                  <li><p><a href="http://vimeo.com/2419596">Emacs with Clojure, Slime and Swank</a> by Seth Buntin (Vimeo)</p></li>
-                  </ul>
-                  
-                  
-                  <h2>Tools and Setup</h2>
-                  
-                  <ul>
-                  <li><p><a href="http://yusupov.com/blog/2009/basic-clojure-setup-part-1/">Basic Clojure Setup</a> by Telman Yusupov</p></li>
-                  <li><p><a href="http://mark.reid.name/sap/setting-up-clojure.html">Setting Up Clojure for Mac OS X Leopard</a> by Mark Reid</p></li>
-                  <li><p><a href="http://technomancy.us/126">Getting Emacs setup to write Clojure code</a> by Phil Hagelberg</p></li>
-                  <li><p><a href="http://github.com/nullstyle/clojure-tmbundle/tree/master">Textmate Bundle for Clojure code</a> by Scott Fleckenstein</p></li>
-                  <li><p><a href="http://www.vim.org/scripts/script.php?script_id=2501">VimClojure, a Vim plugin for Clojure</a></p></li>
-                  </ul>
-                  
-                  
-                  <h2>Documentation</h2>
-                  
-                  <ul>
-                  <li><p><a href="http://clojure.org">Official Clojure site</a></p></li>
-                  <li><p><a href="http://clojure.org/api">Official Clojure API</a></p></li>
-                  <li><p><a href="http://clj-doc.s3.amazonaws.com/tmp/doc-1116/index.html">Clojure Docs</a></p></li>
-                  <li><p><a href="http://java.ociweb.com/mark/clojure/ClojureCodingGuidelines.html">Clojure Coding Guidelines</a> by Mark Volkmann</p></li>
-                  </ul>
-                </p>
+              <div class='post-bottom'>
               </div>
-            </div>
-            <div class='post-bottom'>
-            </div>
-            
-            <div class='post'>
-              <div class='head'>
-                <h2>
-                  <a href='/articles/2009/4/4/git-blogging-with-aerial'>
-                    Git blogging with Aerial
-                  </a>
-                  <span>
-                    <a class='dsq-comment-count comment-link commentslink' href='articles/2009/4/4/git-blogging-with-aerial#disqus_thread'></a>
-                  </span>
-                </h2>
-                <div class='cl'>&nbsp;</div>
+              
+              <div class='post'>
+                <div class='head'>
+                  <h2>
+                    <a href='/articles/2009/4/4/git-blogging-with-aerial'>
+                      Git blogging with Aerial
+                    </a>
+                    <span>
+                      <a class='dsq-comment-count comment-link commentslink' href='articles/2009/4/4/git-blogging-with-aerial#disqus_thread'></a>
+                    </span>
+                  </h2>
+                  <div class='cl'>&nbsp;</div>
+                </div>
+                <div class='body'>
+                  <p class='with-border'>
+                    <p>Over the last few years, I have grown tired of maintaining, migrating, and upgrading blog software, so I've decided to roll my own with Ruby code. In doing so, I wanted to keep things as simple as possible with a basic set of features: articles, pages, comments, rss, etc. What I didn't want is a SQL database or an administration tool. I wanted to write articles in my text editor of choice (Emacs), in <a href="http://daringfireball.net/projects/markdown/">Markdown</a> format, and versioned with <a href="http://git-scm.com/">Git</a>. So I've ported this site from Mephisto to my own custom creation. I call it Aerial.</p>
+                    
+                    <p>Much inspiration for Aerial has come from <a href="http://github.com/karmi/marley">Marley</a>, a minimal flat-file blog engine written in Sinatra. Like Marley, Aerial is built with <a href="http://www.sinatrarb.com/">Sinatra</a> and uses plain text files. Unlike Marley, Aerial doesn't use a SQL database and uses <a href="http://github.com/mojombo/grit">Grit</a> to retrieve article and comment files from a Git repository.</p>
+                    
+                    <h2>So how does it work?</h2>
+                    
+                    <p>Articles and comments are stored as plain text files in a local Git directory. Aerial parses each file and converts them the Article and Comment objects with their own set of attributes such as title, body, tags, and author. For example, this article looks something like this:</p>
+                    
+                    <pre><code>Title      : Git blogging with Aerial&#x000A;Tags       : projects, ruby, git, sinatra&#x000A;Published  : 03/28/2009&#x000A;Author     : Matt Sears&#x000A;&#x000A;Over the last few years...&#x000A;</code></pre>
+                    
+                    <p>Since Aerial reads the articles from the Git repository, the contents of article won't display in the browser unless the changes are committed to Git. Same goes for comments.</p>
+                    
+                    <h2>Working with remote repositories</h2>
+                    
+                    <p>Aerial uses local and remote Git repositories to sync data between the production web server and your local environment. For example, when comments are submitted on the production web server, they are checked for Spam via <a href="http://akismet.com/">Akismet</a> and saved to the same directory as the article. Then, the new comment file is added to the production web server's repository and pushed to the remote repository (Github in my case). To pull in user comments to our local environment, simply use the pull command:</p>
+                    
+                    <pre><code>git pull&#x000A;</code></pre>
+                    
+                    <p>Now we have all the comments that users have submitted.</p>
+                    
+                    <h2>Getting Started</h2>
+                    
+                    <p>For Aerial to work, you'll need Git installed and the following RubyGems:</p>
+                    
+                    <pre><code>sudo gem install sinatra grit rdiscount haml&#x000A;</code></pre>
+                    
+                    <p>Grab the <a href="http://github.com/mattsears/aerial">source code</a> from Github.</p>
+                    
+                    <p>A small configuration file in config/config.yml is used to store information about your blog. You can add your info now or leave it as is and it will still work. To setup and run Aerial, we need to run the boostrap Rake task:</p>
+                    
+                    <pre><code>rake bootstrap&#x000A;</code></pre>
+                    
+                    <p>This will install the necessary directories (specified in the config.yml file), javascript files, and insert a sample article to get you started. If every goes smoothly, Aerial should be up and running at:</p>
+                    
+                    <pre><code>http://localhost:4567&#x000A;</code></pre>
+                    
+                    <p>Keeping in spirit with minimalism, all the pages use <a href="http://haml.hamptoncatlin.com">Haml</a> for the templating engine. Of course, you may change this to the templating engine of your choice.</p>
+                    
+                    <h2>Creating new articles</h2>
+                    
+                    <p>Create a new folder in the app/articles directory.  You can name this folder anything you want, but it may be helpful to number them so they display in the order you want them to. For example, the folder for this articles looks like this:</p>
+                    
+                    <pre><code>app/articles/011-introducing-aerial&#x000A;</code></pre>
+                    
+                    <p>Next, create a text file with the extension '.article' and save it to the new folder.  The '.article' file extension let's Aerial know that this file should be converted to an Article object.  The name of the article will be the article's permalink. Remember, the article will not display on the site until it's committed to the git repository. When the article is completed, we can push it to the remote repository with the push command:</p>
+                    
+                    <pre><code>git push&#x000A;</code></pre>
+                    
+                    <p>Now, we're ready to deploy it.</p>
+                    
+                    <h2>Deployment</h2>
+                    
+                    <p>Deployment tasks are handled with <a href="http://rubyhitsquad.com/Vlad_the_Deployer.html">Vlad the Deployer</a>. A simple deployment script is located at config/deploy.rb. It assumes your running Apache and Phusions Passenger, but you can edit this file with your own settings. Future enhancements may include auto-syncing with post-receive hooks so that 'git push' will make Aerial update itself, but for now we can deploy with a simple rake task:</p>
+                    
+                    <pre><code>rake deploy&#x000A;</code></pre>
+                    
+                    <p>This is by no means a comprehensive introduction. If you have any questions or run into any problems, please drop me a line.</p>
+                  </p>
+                </div>
               </div>
-              <div class='body'>
-                <p class='with-border'>
-                  <p>Over the last few years, I have grown tired of maintaining, migrating, and upgrading blog software, so I've decided to roll my own with Ruby code. In doing so, I wanted to keep things as simple as possible with a basic set of features: articles, pages, comments, rss, etc. What I didn't want is a SQL database or an administration tool. I wanted to write articles in my text editor of choice (Emacs), in <a href="http://daringfireball.net/projects/markdown/">Markdown</a> format, and versioned with <a href="http://git-scm.com/">Git</a>. So I've ported this site from Mephisto to my own custom creation. I call it Aerial.</p>
-                  
-                  <p>Much inspiration for Aerial has come from <a href="http://github.com/karmi/marley">Marley</a>, a minimal flat-file blog engine written in Sinatra. Like Marley, Aerial is built with <a href="http://www.sinatrarb.com/">Sinatra</a> and uses plain text files. Unlike Marley, Aerial doesn't use a SQL database and uses <a href="http://github.com/mojombo/grit">Grit</a> to retrieve article and comment files from a Git repository.</p>
-                  
-                  <h2>So how does it work?</h2>
-                  
-                  <p>Articles and comments are stored as plain text files in a local Git directory. Aerial parses each file and converts them the Article and Comment objects with their own set of attributes such as title, body, tags, and author. For example, this article looks something like this:</p>
-                  
-                  <pre><code>Title      : Git blogging with Aerial&#x000A;Tags       : projects, ruby, git, sinatra&#x000A;Published  : 03/28/2009&#x000A;Author     : Matt Sears&#x000A;&#x000A;Over the last few years...&#x000A;</code></pre>
-                  
-                  <p>Since Aerial reads the articles from the Git repository, the contents of article won't display in the browser unless the changes are committed to Git. Same goes for comments.</p>
-                  
-                  <h2>Working with remote repositories</h2>
-                  
-                  <p>Aerial uses local and remote Git repositories to sync data between the production web server and your local environment. For example, when comments are submitted on the production web server, they are checked for Spam via <a href="http://akismet.com/">Akismet</a> and saved to the same directory as the article. Then, the new comment file is added to the production web server's repository and pushed to the remote repository (Github in my case). To pull in user comments to our local environment, simply use the pull command:</p>
-                  
-                  <pre><code>git pull&#x000A;</code></pre>
-                  
-                  <p>Now we have all the comments that users have submitted.</p>
-                  
-                  <h2>Getting Started</h2>
-                  
-                  <p>For Aerial to work, you'll need Git installed and the following RubyGems:</p>
-                  
-                  <pre><code>sudo gem install sinatra grit rdiscount haml&#x000A;</code></pre>
-                  
-                  <p>Grab the <a href="http://github.com/mattsears/aerial">source code</a> from Github.</p>
-                  
-                  <p>A small configuration file in config/config.yml is used to store information about your blog. You can add your info now or leave it as is and it will still work. To setup and run Aerial, we need to run the boostrap Rake task:</p>
-                  
-                  <pre><code>rake bootstrap&#x000A;</code></pre>
-                  
-                  <p>This will install the necessary directories (specified in the config.yml file), javascript files, and insert a sample article to get you started. If every goes smoothly, Aerial should be up and running at:</p>
-                  
-                  <pre><code>http://localhost:4567&#x000A;</code></pre>
-                  
-                  <p>Keeping in spirit with minimalism, all the pages use <a href="http://haml.hamptoncatlin.com">Haml</a> for the templating engine. Of course, you may change this to the templating engine of your choice.</p>
-                  
-                  <h2>Creating new articles</h2>
-                  
-                  <p>Create a new folder in the app/articles directory.  You can name this folder anything you want, but it may be helpful to number them so they display in the order you want them to. For example, the folder for this articles looks like this:</p>
-                  
-                  <pre><code>app/articles/011-introducing-aerial&#x000A;</code></pre>
-                  
-                  <p>Next, create a text file with the extension '.article' and save it to the new folder.  The '.article' file extension let's Aerial know that this file should be converted to an Article object.  The name of the article will be the article's permalink. Remember, the article will not display on the site until it's committed to the git repository. When the article is completed, we can push it to the remote repository with the push command:</p>
-                  
-                  <pre><code>git push&#x000A;</code></pre>
-                  
-                  <p>Now, we're ready to deploy it.</p>
-                  
-                  <h2>Deployment</h2>
-                  
-                  <p>Deployment tasks are handled with <a href="http://rubyhitsquad.com/Vlad_the_Deployer.html">Vlad the Deployer</a>. A simple deployment script is located at config/deploy.rb. It assumes your running Apache and Phusions Passenger, but you can edit this file with your own settings. Future enhancements may include auto-syncing with post-receive hooks so that 'git push' will make Aerial update itself, but for now we can deploy with a simple rake task:</p>
-                  
-                  <pre><code>rake deploy&#x000A;</code></pre>
-                  
-                  <p>This is by no means a comprehensive introduction. If you have any questions or run into any problems, please drop me a line.</p>
-                </p>
+              <div class='post-bottom'>
               </div>
-            </div>
-            <div class='post-bottom'>
             </div>
           </div>
+          <div id='sidebar'>
+            <div class='get-in-touch'>
+              <div class='me'>
+                <img class='fade' src='/images/me.png' style='background: url(images/me!.png)' />
+              </div>
+              <p>
+                Hi. I'm Matt Sears, a web developer
+                <span class='amp'>&</span>
+                entrepreneur in Ohio. I run
+                <a href='http://littlelines.com' rel='external'>Littlelines,</a>
+                a distinguished web development and desgin firm.
+              </p>
+              <p>
+                I use this blog to share my ideas and as a way to learn.
+                Feel free to contact me via email or follow me on Twitter at
+                <a href='https://twitter.com/mattsears' rel='external'>
+                  @mattsears.
+                </a>
+              </p>
+            </div>
+            <div class='elsewhere'>
+              <h4>Connect</h4>
+              <ul>
+                <li>
+                  <a class='small-ico-external' href='https://twitter.com/mattsears' rel='external'>Twitter</a>
+                </li>
+                <li>
+                  <a class='small-ico-external' href='http://www.facebook.com/profile.php?id=1389547090' rel='external'>Facebook</a>
+                </li>
+                <li>
+                  <a class='small-ico-external' href='http://www.linkedin.com/in/matthewsears' rel='external'>LinkedIn</a>
+                </li>
+                <li>
+                  <a class='small-ico-external' href='http://github.com/mattsears' rel='external'>Github</a>
+                </li>
+                <li>
+                  <a class='small-ico-external' href='http://forrst.com/people/mattsears' rel='external'>Forrst</a>
+                </li>
+                <li>
+                  <a class='small-ico-external' href='http://www.flickr.com/photos/matthewsears' rel='external'>Flickr</a>
+                </li>
+                <li class='last'>
+                  <a class='small-ico-external' href='http://mattsears.tumblr.com' rel='external'>Tumblr</a>
+                </li>
+              </ul>
+            </div>
+            <div class='recent-posts'>
+              <h4>Recent Posts</h4>
+              <ul>
+                <li>
+                  <a href='articles/2011/5/15/print-stamps-with-ruby'>Print Stamps With Ruby!</a>
+                </li>
+                <li>
+                  <a href='articles/2011/1/11/easy-multiple-account-management-for-heroku'>Easy Multiple Account Management for Heroku</a>
+                </li>
+                <li>
+                  <a href='articles/2009/10/31/5-ruby-gems-for-concise-code'>5 Ruby Gems for Concise Code</a>
+                </li>
+                <li>
+                  <a href='articles/2009/6/6/20-clojure-links-to-get-you-up-to-speed'>20 Clojure Links To Get You Up To Speed</a>
+                </li>
+                <li>
+                  <a href='articles/2009/4/4/git-blogging-with-aerial'>Git blogging with Aerial</a>
+                </li>
+              </ul>
+            </div>
+            <div class='categories'>
+              <h4>Categories</h4>
+              <ul>
+                <li>
+                  <a href='/tags/ruby'>ruby</a>
+                </li>
+                <li>
+                  <a href='/tags/rails'>rails</a>
+                </li>
+                <li>
+                  <a href='/tags/clojure'>clojure</a>
+                </li>
+                <li>
+                  <a href='/tags/code'>code</a>
+                </li>
+                <li>
+                  <a href='/tags/projects'>projects</a>
+                </li>
+                <li>
+                  <a href='/tags/git'>git</a>
+                </li>
+                <li>
+                  <a href='/tags/sinatra'>sinatra</a>
+                </li>
+                <li>
+                  <a href='/tags/conference'>conference</a>
+                </li>
+                <li>
+                  <a href='/tags/capistrano'>capistrano</a>
+                </li>
+                <li>
+                  <a href='/tags/passenger'>passenger</a>
+                </li>
+                <li>
+                  <a href='/tags/littlelines'>littlelines</a>
+                </li>
+                <li>
+                  <a href='/tags/architecture'>architecture</a>
+                </li>
+                <li>
+                  <a href='/tags/news'>news</a>
+                </li>
+              </ul>
+            </div>
+            <div class='archives'>
+              <h4>Archives</h4>
+              <ul>
+                <li>
+                  <a href='/archives/2011/05'>May 2011 (1)</a>
+                </li>
+                <li>
+                  <a href='/archives/2011/01'>January 2011 (1)</a>
+                </li>
+                <li>
+                  <a href='/archives/2009/10'>October 2009 (1)</a>
+                </li>
+                <li>
+                  <a href='/archives/2009/06'>June 2009 (1)</a>
+                </li>
+                <li>
+                  <a href='/archives/2009/04'>April 2009 (1)</a>
+                </li>
+                <li>
+                  <a href='/archives/2008/12'>December 2008 (1)</a>
+                </li>
+                <li>
+                  <a href='/archives/2008/11'>November 2008 (2)</a>
+                </li>
+                <li>
+                  <a href='/archives/2008/08'>August 2008 (1)</a>
+                </li>
+                <li>
+                  <a href='/archives/2008/07'>July 2008 (5)</a>
+                </li>
+                <li>
+                  <a href='/archives/2008/01'>January 2008 (1)</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class='cl'>&nbsp;</div>
         </div>
-        <div id='sidebar'>
-          <div class='get-in-touch'>
-            <div class='me'>
-              <img class='fade' src='/images/me.png' style='background: url(images/me!.png)' />
-            </div>
-            <p>
-              Hi. I'm Matt Sears, a web developer
-              <span class='amp'>&</span>
-              entrepreneur in Ohio. I run
-              <a href='http://littlelines.com' rel='external'>Littlelines,</a>
-              a distinguished web development and desgin firm.
-            </p>
-            <p>
-              I use this blog to share my ideas and as a way to learn.
-              Feel free to contact me via email or follow me on Twitter at
-              <a href='https://twitter.com/mattsears' rel='external'>
-                @mattsears.
-              </a>
-            </p>
-          </div>
-          <div class='elsewhere'>
-            <h4>Connect</h4>
-            <ul>
-              <li>
-                <a class='small-ico-external' href='https://twitter.com/mattsears' rel='external'>Twitter</a>
-              </li>
-              <li>
-                <a class='small-ico-external' href='http://www.facebook.com/profile.php?id=1389547090' rel='external'>Facebook</a>
-              </li>
-              <li>
-                <a class='small-ico-external' href='http://www.linkedin.com/in/matthewsears' rel='external'>LinkedIn</a>
-              </li>
-              <li>
-                <a class='small-ico-external' href='http://github.com/mattsears' rel='external'>Github</a>
-              </li>
-              <li>
-                <a class='small-ico-external' href='http://forrst.com/people/mattsears' rel='external'>Forrst</a>
-              </li>
-              <li>
-                <a class='small-ico-external' href='http://www.flickr.com/photos/matthewsears' rel='external'>Flickr</a>
-              </li>
-              <li class='last'>
-                <a class='small-ico-external' href='http://mattsears.tumblr.com' rel='external'>Tumblr</a>
-              </li>
-            </ul>
-          </div>
-          <div class='recent-posts'>
-            <h4>Recent Posts</h4>
-            <ul>
-              <li>
-                <a href='articles/2011/5/15/print-stamps-with-ruby'>Print Stamps With Ruby!</a>
-              </li>
-              <li>
-                <a href='articles/2011/1/11/easy-multiple-account-management-for-heroku'>Easy Multiple Account Management for Heroku</a>
-              </li>
-              <li>
-                <a href='articles/2009/10/31/5-ruby-gems-for-concise-code'>5 Ruby Gems for Concise Code</a>
-              </li>
-              <li>
-                <a href='articles/2009/6/6/20-clojure-links-to-get-you-up-to-speed'>20 Clojure Links To Get You Up To Speed</a>
-              </li>
-              <li>
-                <a href='articles/2009/4/4/git-blogging-with-aerial'>Git blogging with Aerial</a>
-              </li>
-            </ul>
-          </div>
-          <div class='categories'>
-            <h4>Categories</h4>
-            <ul>
-              <li>
-                <a href='/tags/ruby'>ruby</a>
-              </li>
-              <li>
-                <a href='/tags/rails'>rails</a>
-              </li>
-              <li>
-                <a href='/tags/clojure'>clojure</a>
-              </li>
-              <li>
-                <a href='/tags/code'>code</a>
-              </li>
-              <li>
-                <a href='/tags/projects'>projects</a>
-              </li>
-              <li>
-                <a href='/tags/git'>git</a>
-              </li>
-              <li>
-                <a href='/tags/sinatra'>sinatra</a>
-              </li>
-              <li>
-                <a href='/tags/conference'>conference</a>
-              </li>
-              <li>
-                <a href='/tags/capistrano'>capistrano</a>
-              </li>
-              <li>
-                <a href='/tags/passenger'>passenger</a>
-              </li>
-              <li>
-                <a href='/tags/littlelines'>littlelines</a>
-              </li>
-              <li>
-                <a href='/tags/architecture'>architecture</a>
-              </li>
-              <li>
-                <a href='/tags/news'>news</a>
-              </li>
-            </ul>
-          </div>
-          <div class='archives'>
-            <h4>Archives</h4>
-            <ul>
-              <li>
-                <a href='/archives/2011/05'>May 2011 (1)</a>
-              </li>
-              <li>
-                <a href='/archives/2011/01'>January 2011 (1)</a>
-              </li>
-              <li>
-                <a href='/archives/2009/10'>October 2009 (1)</a>
-              </li>
-              <li>
-                <a href='/archives/2009/06'>June 2009 (1)</a>
-              </li>
-              <li>
-                <a href='/archives/2009/04'>April 2009 (1)</a>
-              </li>
-              <li>
-                <a href='/archives/2008/12'>December 2008 (1)</a>
-              </li>
-              <li>
-                <a href='/archives/2008/11'>November 2008 (2)</a>
-              </li>
-              <li>
-                <a href='/archives/2008/08'>August 2008 (1)</a>
-              </li>
-              <li>
-                <a href='/archives/2008/07'>July 2008 (5)</a>
-              </li>
-              <li>
-                <a href='/archives/2008/01'>January 2008 (1)</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class='cl'>&nbsp;</div>
-      </div>
     </div>
     <div id='footer'>
       <div class='shell'>
