@@ -1,28 +1,55 @@
 GIT
   remote: git://github.com/mattsears/aerial.git
-  revision: 59b5f0b29d7c900e0ee7b6783199ddee4c05a292
+  revision: 312cc4a2dc809b4eba07e96142814c7cc6a77365
   specs:
     aerial (0.2.0)
+      grit
+      haml
+      html_truncator
+      rdiscount
+      sinatra
+      thin
+      thor
 
 GEM
   remote: http://rubygems.org/
   specs:
+    configuration (1.2.0)
+    daemons (1.1.4)
     diff-lcs (1.1.2)
+    eventmachine (0.12.10)
     grit (2.3.0)
       diff-lcs (~> 1.1)
       mime-types (~> 1.15)
     haml (3.0.24)
+    heroku (1.20.1)
+      launchy (~> 0.3.2)
+      rest-client (>= 1.4.0, < 1.7.0)
+    html_truncator (0.2.2)
+      nokogiri (~> 1.4)
+    launchy (0.3.7)
+      configuration (>= 0.0.5)
+      rake (>= 0.8.1)
     mime-types (1.16)
+    nokogiri (1.5.0)
     rack (1.2.1)
     rack-contrib (1.1.0)
       rack (>= 0.9.1)
     rack-rewrite (1.0.2)
     rack-static-if-present (0.1.0)
+    rake (0.8.7)
     rdiscount (1.6.5)
+    rest-client (1.6.1)
+      mime-types (>= 1.16)
     sass (3.1.0.alpha.214)
     sinatra (1.1.0)
       rack (~> 1.1)
       tilt (~> 1.1)
+    thin (1.2.11)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
+    thor (0.14.6)
     tilt (1.1)
 
 PLATFORMS
@@ -32,6 +59,7 @@ DEPENDENCIES
   aerial!
   grit
   haml
+  heroku (= 1.20.1)
   rack
   rack-contrib
   rack-rewrite
