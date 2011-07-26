@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
-# -*- coding: undecided -*-
 require "rubygems"
+require "bundler/setup"
 
 env  = ENV['RACK_ENV'].to_sym
 root = File.dirname(__FILE__)
@@ -25,7 +25,7 @@ if env == :production
   run Aerial::App
 else
   require "aerial"
-  Aerial.new(root)
+  Aerial.new(:config => "/config.yml")
   Aerial::App.set :environment, ENV["RACK_ENV"] || :production
   Aerial::App.set :port, 3000
   Aerial::App.set :root, root
