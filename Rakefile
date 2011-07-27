@@ -7,5 +7,7 @@ task :deploy do
   system "git commit -m 'Commit updates static files to repo before deploy'"
   puts "\n Pushing latest site to heroku..."
   system "git push heroku master"
+  puts "\n Pushing latest site to github..."
+  system "git push origin master"
   puts "\n>> compeleted"
 end
