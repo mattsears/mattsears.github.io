@@ -37,7 +37,7 @@
     %ul
       -Aerial::Article.recent(:limit => 5).each do |article|
         %li
-          %a{:href => "#{article.permalink}"}=article.title
+          %a{:href => "/#{article.permalink}"}=article.title
   .categories
     %h4 Categories
     %ul
