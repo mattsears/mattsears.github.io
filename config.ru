@@ -13,6 +13,8 @@ if env == :production
     '/images', '/javascripts', '/stylesheets', '/favicon.gif',
     '/robots.txt','/sitemap.xml'], :root => "public"
   use Rack::Rewrite do
+    # Permanently move posts to the articles directory
+    r301 %r{^/(\d{4})\/(\d+)\/(\d+)\/(.*)}, '/articles/$1/$2/$3/$4'
     rewrite '/', '/_site/index.html'
     rewrite '/feed', '/_site/feed.xml'
     rewrite %r{^/(.*\.)(css|xml)}, '/_site/$1$2'
