@@ -1,6 +1,6 @@
 require 'rubygems'
 
-task :deploy do
+task :push do
   system "bundle exec aerial build --config=config/config.yml"
   puts "\n commit static files to the repo...."
   system "git add public/_site/*"
