@@ -77,76 +77,29 @@
                 </div>
                 <div class='body'>
                   <p class='with-border'>
-                    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-                    <html><body>
                     <p>Recently, I migrated all of my personal and <a href="http://littlelines.com">business</a> sites
                     to <a href="http://heroku.com">Heroku</a>. Heroku, as you may know, is a fantastic
-                    service for hosting ruby applications. Oh, and it's free!</p>
-                    
-                    <p>Like a lot of folks, I keep work and personal items such
+                    service for hosting ruby applications. Oh, and it's free!</p><p>Like a lot of folks, I keep work and personal items such
                     as email, bank accounts, github, etc in separate accounts.
-                    Heroku doesn't really place nice with multiple accounts.</p>
-                    
-                    <p>So how to do we effectively manage multiple Heroku accounts?</p>
-                    
-                    <h3>Prerequitites</h3>
-                    
-                    <p>The following assumes you are on the Mac OS or *nix system, own
+                    Heroku doesn't really place nice with multiple accounts.</p><p>So how to do we effectively manage multiple Heroku accounts?</p><h3>Prerequitites</h3><p>The following assumes you are on the Mac OS or *nix system, own
                     multiple Heroku accounts, and have installed the Heroku gem. I should
                     also be point out that you will need to create separate ssh
-                    public keys for each account.</p>
-                    
-                    <h3>Custom Ruby Script</h3>
-                    
-                    <p>One option is we can use a script such as Keith Gaddis
+                    public keys for each account.</p><h3>Custom Ruby Script</h3><p>One option is we can use a script such as Keith Gaddis
                     <a href="http://collectiveidea.com/blog/archives/2010/08/06/heroku-ing-with-multiple-personalities">describes</a>
                     over at the Collective Idea blog. With his <a href="https://gist.github.com/511789">switcher</a> script, we can
-                    switch between two accounts like this:</p>
-                    
-                    <pre><code>ruby switcher.rb personal&#x000A;ruby switcher.rb work&#x000A;</code></pre>
-                    
-                    <p>This essentially swaps the credentials file (used by the Heroku gem
+                    switch between two accounts like this:</p><pre><code>ruby switcher.rb personal&#x000A;ruby switcher.rb work&#x000A;</code></pre><p>This essentially swaps the credentials file (used by the Heroku gem
                     for authentication) for the account you want to
                     use. This works well enough, however this can be tedious especially if
-                    you switch between work and personal projects frequently.</p>
-                    
-                    <h3>Enter Heroku Accounts Plugin</h3>
-                    
-                    <p>David Dollar of Heroku recently released an official Heroku
+                    you switch between work and personal projects frequently.</p><h3>Enter Heroku Accounts Plugin</h3><p>David Dollar of Heroku recently released an official Heroku
                     plugin called <a href="https://github.com/ddollar/heroku-accounts">heroku-accounts</a>. With
-                    this plugin, we can switch Heroku accounts automatically.</p>
-                    
-                    <p>To get started, we first install the plugin:</p>
-                    
-                    <pre><code>heroku plugins:install git://github.com/ddollar/heroku-accounts.git&#x000A;</code></pre>
-                    
-                    <p>The installation process will download the plugin from github and save
+                    this plugin, we can switch Heroku accounts automatically.</p><p>To get started, we first install the plugin:</p><pre><code>heroku plugins:install git://github.com/ddollar/heroku-accounts.git&#x000A;</code></pre><p>The installation process will download the plugin from github and save
                     it to the <code>~/.heroku/plugins</code> directory. Now, we can
-                    setup each of our Heroku accounts with <code>add</code> command:</p>
-                    
-                    <pre><code>heroku accounts:add work&#x000A;</code></pre>
-                    
-                    <p>and for our personal account, we can run:</p>
-                    
-                    <pre><code>heroku accounts:add personal&#x000A;</code></pre>
-                    
-                    <p>The <code>add</code> command will ask you for your Heroku email address and
+                    setup each of our Heroku accounts with <code>add</code> command:</p><pre><code>heroku accounts:add work&#x000A;</code></pre><p>and for our personal account, we can run:</p><pre><code>heroku accounts:add personal&#x000A;</code></pre><p>The <code>add</code> command will ask you for your Heroku email address and
                     password for each account. The plugin will maintain
                     your account credentials in the <code>~/.heroku/accounts</code> folder in your
-                    home directory. (Passwords are not saved in plain text)</p>
-                    
-                    <p>To assign a project to a specific Heroku account, we run the following
-                    command in the project root:</p>
-                    
-                    <pre><code>heroku accounts:set personal # or work&#x000A;</code></pre>
-                    
-                    <p>This will assign a Heroku account to the project by adding an 'account' variable
-                    to the project's git config file.</p>
-                    
-                    <h3>Celebrate</h3>
-                    
-                    <p>Hooray! Now we can switch Heroku accounts automatically. Awesome.</p>
-                    </body></html>
+                    home directory. (Passwords are not saved in plain text)</p><p>To assign a project to a specific Heroku account, we run the following
+                    command in the project root:</p><pre><code>heroku accounts:set personal # or work&#x000A;</code></pre><p>This will assign a Heroku account to the project by adding an 'account' variable
+                    to the project's git config file.</p><h3>Celebrate</h3><p>Hooray! Now we can switch Heroku accounts automatically. Awesome.</p>
                   </p>
                 </div>
               </div>
