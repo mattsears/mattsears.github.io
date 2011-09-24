@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html dir='ltr' lang='en-US' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-type' />
+    <title>Matt Sears | Print Stamps With Ruby!</title>
+    <meta content='Matt Sears, Matt, Sears' name='keywords' />
+    <meta author='Matt Sears' />
+    <link href='http://www.mattsears.com/feed.xml' rel='alternate' title='Feed for mattsears' type='application/atom+xml' />
+    <link href='/images/favicon.png' rel='shortcut icon' />
+    <link href='/style.css' media='all' rel='stylesheet' type='text/css' />
+    <!--[if IE 6]>
+      <link rel="stylesheet" href="css/ie6.css" type="text/css" media="all" />
+    <![endif]-->
+    <script charset='utf-8' src='/javascripts/jquery-1.4.2.min.js' type='text/javascript'></script>
+    <script charset='utf-8' src='/javascripts/cufon-yui.js' type='text/javascript'></script>
+    <script charset='utf-8' src='/javascripts/titillium_400_mod2.font.js' type='text/javascript'></script>
+    <script charset='utf-8' src='/javascripts/titillium_800_mod2.font.js' type='text/javascript'></script>
+    <script charset='utf-8' src='/javascripts/cross-fade.js' type='text/javascript'></script>
+    <script charset='utf-8' src='/javascripts/application.js' type='text/javascript'></script>
+  </head>
+  <body class='articles'>
+    <div class='page-bg'>&nbsp;</div>
+    <div id='header'>
+      <div class='shell'>
+        <div class='cl'>&nbsp;</div>
+        <a href='/'>
+          <h1 class='nocufon' id='logo'></h1>
+        </a>
+        <div class='right'>
+          <div class='cl'>&nbsp;</div>
+          <div id='navigation'>
+            <ul>
+              <li class='home-link'>
+                <a href='/'>Home</a>
+              </li>
+              <li class='divider'>/</li>
+              <li class='articles-link'>
+                <a href='/articles'>Articles</a>
+              </li>
+              <li class='divider'>/</li>
+              <li class='tumblr-link'>
+                <a href='http://mattsears.tumblr.com'>Notebook</a>
+              </li>
+              <li class='divider'>/</li>
+              <li class='about-link'>
+                <a href='/about'>About</a>
+              </li>
+              <li class='divider'>/</li>
+              <li class='contact-link'>
+                <a href='mailto:matt@mattsears.com'>
+                  Contact
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class='cl'>&nbsp;</div>
+        </div>
+        <div class='cl'>&nbsp;</div>
+      </div>
+    </div>
+    <div id='main'>
+      <div class='shell'>
+          <div id='content'>
+            <div id='content-top'></div>
+            <div class='posts'>
+              <div class='post'>
+                <div class='head'>
+                  <h2>
+                    <a href='/articles/2011/5/15/print-stamps-with-ruby'>
+                      Print Stamps With Ruby!
+                    </a>
+                    <span>
+                      <a class='dsq-comment-count comment-link commentslink' href='articles/2011/5/15/print-stamps-with-ruby#disqus_thread'></a>
+                    </span>
+                  </h2>
+                  <div class='cl'>&nbsp;</div>
+                </div>
+                <div class='body'>
+                  <p class='with-border'>
+                    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+                    <html><body>
+                    <p>I've just released <a href="https://github.com/mattsears/stamps">Stamps</a> - A Ruby gem for creating postage labels,
+                    calculate the shipping cost of packages, standardize domestic
+                    addresses via USPS CASS certified Address Matching Software, and track
+                    shipments using the Stamps.com Web Services API.</p>
+                    
+                    <h3>Quick Start</h3>
+                    
+                    <p>First, you will need to register for a (free) developer account at
+                    <a href="http://developer.stamps.com/developer">Stamps.com</a>. Once you receive
+                    your test credentials and integration id, just plug them into the
+                    configuration block:</p>
+                    
+                    <div class="highlight">
+                    <pre><span class="no">Stamps</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>&#x000A;  <span class="n">config</span><span class="o">.</span><span class="n">integration_id</span> <span class="o">=</span> <span class="s1">'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX'</span>&#x000A;  <span class="n">config</span><span class="o">.</span><span class="n">username</span>       <span class="o">=</span> <span class="s1">'STAMPS USERNAME'</span>&#x000A;  <span class="n">config</span><span class="o">.</span><span class="n">password</span>       <span class="o">=</span> <span class="s1">'STAMPS PASSWORD'</span>&#x000A;<span class="k">end</span></pre>
+                    </div>
+                    
+                    
+                    <p>For a simple test, we can call <code>Stamps.account</code> to retreive
+                    information about the account.  By default, Stamps will return all
+                    responses as a Hash.</p>
+                    
+                    <h3>Create a Stamp</h3>
+                    
+                    <p>First, we need to standardize the shipping address that complies with the USPS address
+                    formatting guidelines:</p>
+                    
+                    <div class="highlight">
+                    <pre><span class="n">standardized_address</span> <span class="o">=</span> <span class="no">Stamps</span><span class="o">.</span><span class="n">clean_address</span><span class="p">(</span>&#x000A;  <span class="ss">:address</span> <span class="o">=&gt;</span> <span class="p">{</span>&#x000A;    <span class="ss">:full_name</span> <span class="o">=&gt;</span> <span class="s1">'The White House'</span><span class="p">,</span>&#x000A;    <span class="ss">:address1</span>  <span class="o">=&gt;</span> <span class="s1">'1600 Pennsylvania Avenue, NW'</span><span class="p">,</span>&#x000A;    <span class="ss">:city</span>      <span class="o">=&gt;</span> <span class="s1">'Washington'</span><span class="p">,</span>&#x000A;    <span class="ss">:state</span>     <span class="o">=&gt;</span> <span class="s1">'DC'</span><span class="p">,</span>&#x000A;    <span class="ss">:zip_code</span>  <span class="o">=&gt;</span> <span class="s1">'20500'</span>&#x000A;<span class="p">})</span></pre>
+                    </div>
+                    
+                    
+                    <p>Now that we have a clean address we can create a new stamp.  The
+                    <code>Stamps.create!</code> takes the sender and receiver address along with parameters
+                    on the rate:</p>
+                    
+                    <div class="highlight">
+                    <pre><span class="n">stamp</span> <span class="o">=</span> <span class="no">Stamps</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span>&#x000A;    <span class="ss">:rate</span>          <span class="o">=&gt;</span> <span class="p">{</span>&#x000A;      <span class="ss">:from_zip_code</span> <span class="o">=&gt;</span> <span class="s1">'45440'</span><span class="p">,</span>&#x000A;      <span class="ss">:to_zip_code</span>   <span class="o">=&gt;</span> <span class="s1">'20500'</span><span class="p">,</span>&#x000A;      <span class="ss">:weight_oz</span>     <span class="o">=&gt;</span> <span class="s1">'6.5'</span><span class="p">,</span>&#x000A;      <span class="ss">:ship_date</span>      <span class="o">=&gt;</span> <span class="no">Date</span><span class="o">.</span><span class="n">today</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y-%m-%d'</span><span class="p">),</span>&#x000A;      <span class="ss">:package_type</span>   <span class="o">=&gt;</span> <span class="s1">'Package'</span><span class="p">,</span>&#x000A;      <span class="ss">:service_type</span>   <span class="o">=&gt;</span> <span class="s1">'US-FC'</span>  <span class="c1"># Flat-rate</span>&#x000A;    <span class="p">},</span>&#x000A;    <span class="ss">:to</span>            <span class="o">=&gt;</span> <span class="n">standardized_address</span><span class="p">,</span>&#x000A;    <span class="ss">:from</span> <span class="o">=&gt;</span> <span class="p">{</span>&#x000A;      <span class="ss">:full_name</span>   <span class="o">=&gt;</span> <span class="s1">'Littlelines'</span><span class="p">,</span>&#x000A;      <span class="ss">:address1</span>    <span class="o">=&gt;</span> <span class="s1">'50 Chestnut Street'</span><span class="p">,</span>&#x000A;      <span class="ss">:address2</span>    <span class="o">=&gt;</span> <span class="s1">'Suite 234'</span><span class="p">,</span>&#x000A;      <span class="ss">:city</span>        <span class="o">=&gt;</span> <span class="s1">'Beavervcreek'</span><span class="p">,</span>&#x000A;      <span class="ss">:state</span>       <span class="o">=&gt;</span> <span class="s1">'OH'</span><span class="p">,</span>&#x000A;      <span class="ss">:zip_code</span>    <span class="o">=&gt;</span> <span class="s1">'45440'</span>&#x000A;    <span class="p">}</span>&#x000A;<span class="p">)</span></pre>
+                    </div>
+                    
+                    
+                    <h3>Hooray!</h3>
+                    
+                    <p>That's it! Stamps will return a url of the stamp.  Print it and ship it!</p>
+                    
+                    <div class="highlight">
+                    <pre><span class="n">stamp</span><span class="o">[</span><span class="ss">:url</span><span class="o">]</span></pre>
+                    </div>
+                    
+                    
+                    <p>If you are interested in more detailed information, check out the repo
+                    on <a href="https://github.com/mattsears/stamps">Github</a>.</p>
+                    </body></html>
+                  </p>
+                </div>
+              </div>
+              <div class='post-bottom'>
+                <br />
+                <div id='disqus_thread'></div>
+                <script type='text/javascript'>
+                  //<![CDATA[
+                    var disqus_developer = 1;
+                  //]]>
+                </script>
+                <script type='text/javascript'>
+                  //<![CDATA[
+                    var disqus_shortname = 'mattsears'; // required: replace example with your forum shortname
+                    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+                    var disqus_identifier = "/articles/2011/5/15/print-stamps-with-ruby/";
+                    var disqus_url = "http://mattsears.com/articles/2011/5/15/print-stamps-with-ruby";
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                  //]]>
+                </script>
+                <noscript>
+                  Please enable JavaScript to view the
+                  <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a>
+                </noscript>
+              </div>
+            </div>
+          </div>
+          <div id='sidebar'>
+            <div class='get-in-touch'>
+              <div class='me'>
+                <img class='fade' src='/images/me.png' style='background: url(images/me!.png)' />
+              </div>
+              <p>
+                Hi. I'm Matt Sears, a web developer
+                <span class='amp'>&</span>
+                entrepreneur in Ohio. I run
+                <a href='http://littlelines.com' rel='external'>Littlelines,</a>
+                a distinguished web development and design firm.
+              </p>
+              <p>
+                I use this blog to share my ideas and as a way to learn.
+                Feel free to contact me via email or follow me on Twitter at
+                <a href='https://twitter.com/mattsears' rel='external'>
+                  @mattsears.
+                </a>
+              </p>
+            </div>
+            <div class='elsewhere'>
+              <h4>Connect</h4>
+              <ul>
+                <li>
+                  <a class='small-ico-external' href='https://twitter.com/mattsears' rel='external'>Twitter</a>
+                </li>
+                <li>
+                  <a class='small-ico-external' href='http://www.facebook.com/mattsears.me' rel='external'>Facebook</a>
+                </li>
+                <li>
+                  <a class='small-ico-external' href='http://www.linkedin.com/in/matthewsears' rel='external'>LinkedIn</a>
+                </li>
+                <li>
+                  <a class='small-ico-external' href='http://github.com/mattsears' rel='external'>Github</a>
+                </li>
+                <li>
+                  <a class='small-ico-external' href='https://plus.google.com/106286747861473847411' rel='external'>Google+</a>
+                </li>
+                <li>
+                  <a class='small-ico-external' href='http://forrst.me/mattsears.me' rel='external'>Forrst</a>
+                </li>
+                <li>
+                  <a class='small-ico-external' href='http://www.flickr.com/photos/matthewsears' rel='external'>Flickr</a>
+                </li>
+                <li class='last'>
+                  <a class='small-ico-external' href='http://mattsears.tumblr.com' rel='external'>Tumblr</a>
+                </li>
+              </ul>
+            </div>
+            <div class='recent-posts'>
+              <h4>Recent Posts</h4>
+              <ul>
+                <li>
+                  <a href='/articles/2011/5/15/print-stamps-with-ruby'>Print Stamps With Ruby!</a>
+                </li>
+                <li>
+                  <a href='/articles/2011/1/11/easy-multiple-account-management-for-heroku'>Easy Multiple Account Management for Heroku</a>
+                </li>
+                <li>
+                  <a href='/articles/2009/10/31/5-ruby-gems-for-concise-code'>5 Ruby Gems for Concise Code</a>
+                </li>
+                <li>
+                  <a href='/articles/2009/6/6/20-clojure-links-to-get-you-up-to-speed'>20 Clojure Links To Get You Up To Speed</a>
+                </li>
+                <li>
+                  <a href='/articles/2009/4/4/git-blogging-with-aerial'>Git blogging with Aerial</a>
+                </li>
+              </ul>
+            </div>
+            <div class='categories'>
+              <h4>Categories</h4>
+              <ul>
+                <li>
+                  <a href='/articles/tags/ruby'>ruby</a>
+                </li>
+                <li>
+                  <a href='/articles/tags/rails'>rails</a>
+                </li>
+                <li>
+                  <a href='/articles/tags/clojure'>clojure</a>
+                </li>
+                <li>
+                  <a href='/articles/tags/code'>code</a>
+                </li>
+                <li>
+                  <a href='/articles/tags/projects'>projects</a>
+                </li>
+                <li>
+                  <a href='/articles/tags/git'>git</a>
+                </li>
+                <li>
+                  <a href='/articles/tags/sinatra'>sinatra</a>
+                </li>
+                <li>
+                  <a href='/articles/tags/conference'>conference</a>
+                </li>
+                <li>
+                  <a href='/articles/tags/capistrano'>capistrano</a>
+                </li>
+                <li>
+                  <a href='/articles/tags/passenger'>passenger</a>
+                </li>
+                <li>
+                  <a href='/articles/tags/littlelines'>littlelines</a>
+                </li>
+                <li>
+                  <a href='/articles/tags/architecture'>architecture</a>
+                </li>
+                <li>
+                  <a href='/articles/tags/news'>news</a>
+                </li>
+              </ul>
+            </div>
+            <div class='archives'>
+              <h4>Archives</h4>
+              <ul>
+                <li>
+                  <a href='/articles/archives/2011/05'>May 2011 (1)</a>
+                </li>
+                <li>
+                  <a href='/articles/archives/2011/01'>January 2011 (1)</a>
+                </li>
+                <li>
+                  <a href='/articles/archives/2009/10'>October 2009 (1)</a>
+                </li>
+                <li>
+                  <a href='/articles/archives/2009/06'>June 2009 (1)</a>
+                </li>
+                <li>
+                  <a href='/articles/archives/2009/04'>April 2009 (1)</a>
+                </li>
+                <li>
+                  <a href='/articles/archives/2008/12'>December 2008 (1)</a>
+                </li>
+                <li>
+                  <a href='/articles/archives/2008/11'>November 2008 (2)</a>
+                </li>
+                <li>
+                  <a href='/articles/archives/2008/08'>August 2008 (1)</a>
+                </li>
+                <li>
+                  <a href='/articles/archives/2008/07'>July 2008 (5)</a>
+                </li>
+                <li>
+                  <a href='/articles/archives/2008/01'>January 2008 (1)</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class='cl'>&nbsp;</div>
+        </div>
+    </div>
+    <div id='footer'>
+      <div class='shell'>
+        <div class='left'>
+          <p>&copy; Copyright 2011 Matt Sears. All Rights Reserved.</p>
+        </div>
+        <p class='footer-navigation'>
+          Powered by
+          <a href='http://mattsears.github.com/aerial' rel='external'>aerial</a>
+          on
+          <a href='http://heroku.com' rel='external'>heroku</a>
+        </p>
+        <div class='cl'>&nbsp;</div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        Cufon.now();
+        //
+        (function() {
+          var links = document.getElementsByTagName('a');
+          var query = '?';
+          for(var i = 0; i < links.length; i++) {
+          if(links[i].href.indexOf('#disqus_thread') >= 0) {
+            query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+          }
+          }
+          document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/mattsears/get_num_replies.js' + query + '"></' + 'script>');
+        })();
+        //
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-2776418-3']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      //]]>
+    </script>
+  </body>
+</html>
