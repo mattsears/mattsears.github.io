@@ -1,0 +1,24 @@
+Title         : Print Stamps With Ruby!
+Tags          : ruby, rails
+Publish Date  : 2011-08-03 20:38:19
+Author        : Matt Sears
+
+TODO: Introduction
+
+### Rails Default
+TODO: Explain the current out-of-the-box way of doing it in Rails and why this is difficult.
+
+### Current Options
+TODO: List the current gems that can help us.
+
+1. [Rabl](https://github.com/nesquena/rabl)
+2. [Representative View](https://github.com/mdub/representative_view)
+3. [Draper](https://github.com/jcasimir/draper)
+4. [Tequila](https://github.com/inem/tequila)
+5. [JSON Builder](https://github.com/dewski/json_builder)
+6. [Representative](https://github.com/mdub/representative)
+7. [Argonaut](https://github.com/jbr/argonaut)
+8. [Tokamak](https://github.com/abril/tokamak)
+
+### Resources
+TODO: Provide links to other blogs on the subject
