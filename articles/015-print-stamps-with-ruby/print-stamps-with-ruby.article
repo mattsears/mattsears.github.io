@@ -14,11 +14,13 @@ First, you will need to register for a (free) developer account at
 your test credentials and integration id, just plug them into the
 configuration block:
 
-    Stamps.configure do |config|
-      config.integration_id = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX'
-      config.username       = 'STAMPS USERNAME'
-      config.password       = 'STAMPS PASSWORD'
-    end
+``` ruby
+  Stamps.configure do |config|
+    config.integration_id = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX'
+    config.username       = 'STAMPS USERNAME'
+    config.password       = 'STAMPS PASSWORD'
+  end
+```
 
 For a simple test, we can call `Stamps.account` to retreive
 information about the account.  By default, Stamps will return all
