@@ -27,8 +27,10 @@ One option is we can use a script such as Keith Gaddis
 over at the Collective Idea blog. With his [switcher](https://gist.github.com/511789) script, we can
 switch between two accounts like this:
 
-    ruby switcher.rb personal
-    ruby switcher.rb work
+``` bash
+ruby switcher.rb personal
+ruby switcher.rb work
+```
 
 This essentially swaps the credentials file (used by the Heroku gem
 for authentication) for the account you want to
@@ -43,17 +45,23 @@ this plugin, we can switch Heroku accounts automatically.
 
 To get started, we first install the plugin:
 
-    heroku plugins:install git://github.com/ddollar/heroku-accounts.git
+``` bash
+heroku plugins:install git://github.com/ddollar/heroku-accounts.git
+```
 
 The installation process will download the plugin from github and save
 it to the ``~/.heroku/plugins`` directory. Now, we can
 setup each of our Heroku accounts with ``add`` command:
 
-    heroku accounts:add work
+``` bash
+heroku accounts:add work
+```
 
 and for our personal account, we can run:
 
+``` bash
     heroku accounts:add personal
+```
 
 The ``add`` command will ask you for your Heroku email address and
 password for each account. The plugin will maintain
@@ -63,7 +71,9 @@ home directory. (Passwords are not saved in plain text)
 To assign a project to a specific Heroku account, we run the following
 command in the project root:
 
-    heroku accounts:set personal # or work
+``` bash
+heroku accounts:set personal # or work
+```
 
 This will assign a Heroku account to the project by adding an 'account' variable
 to the project's git config file.
