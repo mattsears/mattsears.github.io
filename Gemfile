@@ -17,4 +17,6 @@ group :development do
   gem 'aerial', :git => 'git://github.com/mattsears/aerial.git'
   #gem 'aerial', :path => '~/Workspace/aerial'
   gem 'heroku', '1.20.1'
+  gem 'guard-livereload'
+  gem 'guard-sass'
 end
