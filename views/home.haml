@@ -1,7 +1,7 @@
 - page_title 'Hello'
 .top-section
   #recent-articles
-    .box
+    .box.rounded-top
       %h3 Recent Articles
       -Aerial::Article.recent(:limit => 4).each do |article|
         .entry
@@ -18,24 +18,29 @@
         %img{:class => 'fade', :src => '/images/me.png', :style => 'background: url(images/me!.png)'}
       Hello. I'm Matt Sears, a software developer
       %span.amp &
-      entrepreneur currently living in Ohio. My career spans over 10 years of designing and developing software for the web. I specialize in Ruby on Rails development, but also enjoy learning new languages and technology.
+      entrepreneur currently living in Ohio. My career spans over 10 years of
+      designing and developing software for the web. I specialize in Ruby on
+      Rails development, but also enjoy learning new languages and technology.
     .cl &nbsp;
   #find-elsewhere
-    %h3 Elsewhere on the Interwebs
     %ul
       %li
-        %a{:href => "http://github.com/mattsears", :rel => "external"} Github
+        %a{:href => "http://github.com/mattsears", :rel => "external", 'original-title' => "Github"}
+          %span.github
       %li
-        %a{:href => "https://twitter.com/mattsears", :rel => "external"} Twitter
-    %ul
-      %li.linkedin
-        %a{:href => "http://www.linkedin.com/in/matthewsears", :rel => "external"} LinkedIn
+        %a{:href => "https://twitter.com/mattsears", :rel => "external", 'original-title' => "Twitter"}
+          %span.twitter
       %li
-        %a{:href => "http://www.facebook.com/mattsears.me", :rel => "external"} Facebook
-    %ul.last
+        %a{:href => "http://www.linkedin.com/in/matthewsears", :rel => "external", 'original-title' => "LinkedIn"}
+          %span.linkedin
       %li
-        %a{:href => "http://forrst.me/mattsears", :rel => "external"} Forrst
+        %a{:href => "http://www.facebook.com/mattsears.me", :rel => "external", 'original-title' => "Facebook"}
+          %span.facebook
       %li
-        %a{:href => "https://plus.google.com/106286747861473847411", :rel => "external"} Google+
+        %a{:href => "http://forrst.me/mattsears", :rel => "external", 'original-title' => "Forrst"}
+          %span.forrst
+      %li.last
+        %a{:href => "https://plus.google.com/106286747861473847411", :rel => "external", 'original-title' => "Google+"}
+          %span.google
 
   .cl &nbsp;

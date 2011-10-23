@@ -1,18 +1,19 @@
 - article = @article if @article
 - @body_class = 'articles'
-.post
+.post.rounded-top
   .head
     %h2
       %a{:href => "/#{article.permalink}"}
         = article.title
       %span
-        %a.dsq-comment-count.comment-link.commentslink{:href => "#{article.permalink}#disqus_thread"}
+        %a.dsq-comment-count.comment-link.commentslink{:href => "#{article.permalink}#disqus_thread", 'data-disqus-identifier' => "#{article.permalink}"}
     .cl &nbsp;
   .body
     %p.with-border
       ~ article.body_html
 .post-bottom
-  - if @article
+- if @article
+  .post-comments
     %br/
     #disqus_thread
     - if ENV['RACK_ENV'] != 'production'
