@@ -11,7 +11,6 @@ Cufon.replace("h2:not('.nocufon')", { fontFamily: 'Titillium-800' });
 Cufon.replace("h3:not('.nocufon')", { fontFamily: 'Titillium-400' });
 Cufon.replace(".box h3:not('.nocufon')", { fontFamily: 'Titillium-800' });
 Cufon.replace("h4:not('.nocufon')", { fontFamily: 'Titillium-400' });
-// Cufon.replace("#navigation a:not('.nocufon')", { fontFamily: 'Titillium-800' });
 
 $(document).ready(function(){
 
@@ -26,8 +25,14 @@ $(document).ready(function(){
       $(this).find('a').removeClass('active');
     }
   );
+
+  // Tooltips
+  $('#find-elsewhere ul li a').tipsy({gravity: 'n'});
+
   externalLinks();
 });
+
+
 
 // Make all 'external' links in a new window
 function externalLinks() {
