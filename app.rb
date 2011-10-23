@@ -37,7 +37,7 @@ module Aerial
 
     # Sassy!
     get '/style.css' do
-      scss(:style)
+      sass(:style)
     end
   end
 end
