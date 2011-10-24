@@ -16,6 +16,7 @@
     <script charset='utf-8' src='/javascripts/titillium_400_mod2.font.js' type='text/javascript'></script>
     <script charset='utf-8' src='/javascripts/titillium_800_mod2.font.js' type='text/javascript'></script>
     <script charset='utf-8' src='/javascripts/cross-fade.js' type='text/javascript'></script>
+    <script charset='utf-8' src='/javascripts/jquery.tipsy.js' type='text/javascript'></script>
     <script charset='utf-8' src='/javascripts/application.js' type='text/javascript'></script>
   </head>
   <body class='index'>
@@ -42,14 +43,14 @@
                 <a href='http://mattsears.tumblr.com'>Notebook</a>
               </li>
               <li class='divider'>/</li>
-              <li class='about-link'>
-                <a href='/about'>About</a>
+              <li class='work-link'>
+                <a href='/work'>
+                  Work
+                </a>
               </li>
               <li class='divider'>/</li>
-              <li class='contact-link'>
-                <a href='mailto:matt@mattsears.com'>
-                  Contact
-                </a>
+              <li class='about-link'>
+                <a href='/about'>About</a>
               </li>
             </ul>
           </div>
@@ -62,8 +63,18 @@
       <div class='shell'>
           <div class='top-section'>
             <div id='recent-articles'>
-              <div class='box'>
+              <div class='box rounded-top'>
                 <h3>Recent Articles</h3>
+                <div class='entry'>
+                  <h2>
+                    <a href='articles/2011/10/20/gaga-key-value-store'>Gaga: A Git-Backed Key/Value Store</a>
+                  </h2>
+                  <p>
+                    <p>Gaga originated from my winning entry in Codebrawl's <a href="http://codebrawl.com/contests/key-value-stores">Key/Value
+                    Store</a> contest. The challenge
+                    was to write the best key/value storage backend you...</p>
+                  </p>
+                </div>
                 <div class='entry'>
                   <h2>
                     <a href='articles/2011/5/15/print-stamps-with-ruby'>Print Stamps With Ruby!</a>
@@ -92,14 +103,6 @@
                     <p>At <a href="http://littlelines.com">Littlelines</a>, we have to write a lot of code under strict time constraints. We work in small teams which means...</p>
                   </p>
                 </div>
-                <div class='entry'>
-                  <h2>
-                    <a href='articles/2009/6/6/20-clojure-links-to-get-you-up-to-speed'>20 Clojure Links To Get You Up To Speed</a>
-                  </h2>
-                  <p>
-                    <p>Writing multi-threaded code is hard. If you've ever done concurrent programming, you'll <em>probably</em> agree. Clojure offers a compelling alternative to traditional object-oriented...</p>
-                  </p>
-                </div>
               </div>
               <div class='box-foot'></div>
             </div>
@@ -113,34 +116,43 @@
                 </div>
                 Hello. I'm Matt Sears, a software developer
                 <span class='amp'>&</span>
-                entrepreneur currently living in Ohio. My career spans over 10 years of designing and developing software for the web. I specialize in Ruby on Rails development, but also enjoy learning new languages and technology.
+                entrepreneur currently living in Ohio. My career spans over 10 years of
+                designing and developing software for the web. I specialize in Ruby on
+                Rails development, but also enjoy learning new languages and technology.
               </p>
               <div class='cl'>&nbsp;</div>
             </div>
             <div id='find-elsewhere'>
-              <h3>Elsewhere on the Interwebs</h3>
               <ul>
                 <li>
-                  <a href='http://github.com/mattsears' rel='external'>Github</a>
+                  <a href='http://github.com/mattsears' original-title='Github' rel='external'>
+                    <span class='github'></span>
+                  </a>
                 </li>
                 <li>
-                  <a href='https://twitter.com/mattsears' rel='external'>Twitter</a>
-                </li>
-              </ul>
-              <ul>
-                <li class='linkedin'>
-                  <a href='http://www.linkedin.com/in/matthewsears' rel='external'>LinkedIn</a>
+                  <a href='https://twitter.com/mattsears' original-title='Twitter' rel='external'>
+                    <span class='twitter'></span>
+                  </a>
                 </li>
                 <li>
-                  <a href='http://www.facebook.com/mattsears.me' rel='external'>Facebook</a>
-                </li>
-              </ul>
-              <ul class='last'>
-                <li>
-                  <a href='http://forrst.me/mattsears' rel='external'>Forrst</a>
+                  <a href='http://www.linkedin.com/in/matthewsears' original-title='LinkedIn' rel='external'>
+                    <span class='linkedin'></span>
+                  </a>
                 </li>
                 <li>
-                  <a href='https://plus.google.com/106286747861473847411' rel='external'>Google+</a>
+                  <a href='http://www.facebook.com/mattsears.me' original-title='Facebook' rel='external'>
+                    <span class='facebook'></span>
+                  </a>
+                </li>
+                <li>
+                  <a href='http://forrst.me/mattsears' original-title='Forrst' rel='external'>
+                    <span class='forrst'></span>
+                  </a>
+                </li>
+                <li class='last'>
+                  <a href='https://plus.google.com/106286747861473847411' original-title='Google+' rel='external'>
+                    <span class='google'></span>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -155,9 +167,9 @@
         </div>
         <p class='footer-navigation'>
           Powered by
-          <a href='http://mattsears.github.com/aerial' rel='external'>aerial</a>
+          <a href='http://mattsears.github.com/aerial' rel='external'>Aerial</a>
           on
-          <a href='http://heroku.com' rel='external'>heroku</a>
+          <a href='http://heroku.com' rel='external'>Heroku</a>
         </p>
         <div class='cl'>&nbsp;</div>
       </div>
@@ -166,16 +178,13 @@
       //<![CDATA[
         Cufon.now();
         //
-        (function() {
-          var links = document.getElementsByTagName('a');
-          var query = '?';
-          for(var i = 0; i < links.length; i++) {
-          if(links[i].href.indexOf('#disqus_thread') >= 0) {
-            query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
-          }
-          }
-          document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/mattsears/get_num_replies.js' + query + '"></' + 'script>');
-        })();
+        (function () {
+          var disqus_shortname = 'mattsears';
+          var s = document.createElement('script'); s.async = true;
+          s.type = 'text/javascript';
+          s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+          (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
         //
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', 'UA-2776418-3']);

@@ -16,6 +16,7 @@
     <script charset='utf-8' src='/javascripts/titillium_400_mod2.font.js' type='text/javascript'></script>
     <script charset='utf-8' src='/javascripts/titillium_800_mod2.font.js' type='text/javascript'></script>
     <script charset='utf-8' src='/javascripts/cross-fade.js' type='text/javascript'></script>
+    <script charset='utf-8' src='/javascripts/jquery.tipsy.js' type='text/javascript'></script>
     <script charset='utf-8' src='/javascripts/application.js' type='text/javascript'></script>
   </head>
   <body class='articles'>
@@ -42,14 +43,14 @@
                 <a href='http://mattsears.tumblr.com'>Notebook</a>
               </li>
               <li class='divider'>/</li>
-              <li class='about-link'>
-                <a href='/about'>About</a>
+              <li class='work-link'>
+                <a href='/work'>
+                  Work
+                </a>
               </li>
               <li class='divider'>/</li>
-              <li class='contact-link'>
-                <a href='mailto:matt@mattsears.com'>
-                  Contact
-                </a>
+              <li class='about-link'>
+                <a href='/about'>About</a>
               </li>
             </ul>
           </div>
@@ -63,14 +64,46 @@
           <div id='content'>
             <div id='content-top'></div>
             <div class='posts'>
-              <div class='post'>
+              <div class='post rounded-top'>
+                <div class='head'>
+                  <h2>
+                    <a href='/articles/2011/10/20/gaga-key-value-store'>
+                      Gaga: A Git-Backed Key/Value Store
+                    </a>
+                    <span>
+                      <a class='dsq-comment-count comment-link commentslink' data-disqus-identifier='articles/2011/10/20/gaga-key-value-store' href='articles/2011/10/20/gaga-key-value-store#disqus_thread'></a>
+                    </span>
+                  </h2>
+                  <div class='cl'>&nbsp;</div>
+                </div>
+                <div class='body'>
+                  <p class='with-border'>
+                    <p>Gaga originated from my winning entry in Codebrawl's <a href="http://codebrawl.com/contests/key-value-stores">Key/Value
+                    Store</a> contest. The challenge
+                    was to write the best key/value storage backend you can think of. Since Git is
+                    fast, reliable, and a great tool for storing source code, I was really
+                    interested in making an easy way to store key/values.</p><p>Built with <a href="https://github.com/mojombo/grit">Grit</a>, Gaga supports SET, GET, KEYS,
+                    and DELETE operations. And since it's Git, we can easily enhance it to include
+                    other awesome Git features such as branches, diffs, reverting, etc.</p><h2>Usage</h2><div class="highlight">
+                    <pre><span class="vi">@gaga</span> <span class="o">=</span> <span class="no">Gaga</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:repo</span> <span class="o">=&gt;</span> <span class="s1">'/path/to/repo'</span><span class="p">)</span>&#x000A;&#x000A;<span class="c1"># SET</span>&#x000A;<span class="vi">@gaga</span><span class="o">[</span><span class="s1">'lady'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"gaga"</span>&#x000A;&#x000A;<span class="c1"># GET</span>&#x000A;<span class="vi">@gaga</span><span class="o">[</span><span class="s1">'lady'</span><span class="o">]</span> <span class="c1">#=&gt; "gaga"</span>&#x000A;&#x000A;<span class="c1"># KEYS</span>&#x000A;<span class="vi">@gaga</span><span class="o">.</span><span class="n">keys</span>  <span class="c1">#=&gt; ['lady']</span>&#x000A;&#x000A;<span class="c1"># DELETE</span>&#x000A;<span class="vi">@gaga</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s1">'lady'</span><span class="p">)</span> <span class="c1">#=&gt; 'gaga'</span>&#x000A;&#x000A;<span class="c1"># Remove all items from the store</span>&#x000A;<span class="vi">@gaga</span><span class="o">.</span><span class="n">clear</span></pre>
+                    </div><p>That works pretty well. Now, we can harness the power of Git and enhance our data
+                    store. For example, we can get a history log for a specific key:</p><div class="highlight">
+                    <pre><span class="c1"># LOG</span>&#x000A;<span class="vi">@gaga</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">'lady'</span><span class="p">)</span>&#x000A;&#x000A;<span class="c1"># Produces:</span>&#x000A;<span class="o">[</span>&#x000A; <span class="p">{</span><span class="s2">"message"</span><span class="o">=&gt;</span><span class="s2">"all clear"</span><span class="p">,</span><span class="s2">"committer"</span><span class="o">=&gt;</span><span class="p">{</span><span class="s2">"name"</span><span class="o">=&gt;</span><span class="s2">"Matt Sears"</span><span class="p">,</span> <span class="s2">"email"</span><span class="o">=&gt;</span><span class="s2">"matt@mattsears.com"</span><span class="p">},</span> <span class="s2">"committed_date"</span><span class="o">=&gt;</span><span class="s2">"2011-09-05..."</span><span class="p">},</span>&#x000A; <span class="p">{</span><span class="s2">"message"</span><span class="o">=&gt;</span><span class="s2">"set 'lady' "</span><span class="p">,</span> <span class="s2">"committer"</span><span class="o">=&gt;</span><span class="p">{</span><span class="s2">"name"</span><span class="o">=&gt;</span><span class="s2">"Matt Sears"</span><span class="p">,</span> <span class="s2">"email"</span><span class="o">=&gt;</span><span class="s2">"matt@mattsears.com"</span><span class="p">},</span> <span class="s2">"committed_date"</span><span class="o">=&gt;</span><span class="s2">"2011-09-05..."</span><span class="p">}</span>&#x000A; <span class="p">{</span><span class="s2">"message"</span><span class="o">=&gt;</span><span class="s2">"delete 'lady' "</span><span class="p">,</span> <span class="s2">"committer"</span><span class="o">=&gt;</span><span class="p">{</span><span class="s2">"name"</span><span class="o">=&gt;</span><span class="s2">"Matt Sears"</span><span class="p">,</span> <span class="s2">"email"</span><span class="o">=&gt;</span><span class="s2">"matt@mattsears.com"</span><span class="p">},</span> <span class="s2">"committed_date"</span><span class="o">=&gt;</span><span class="s2">"2011-09-05..."</span><span class="p">}</span>&#x000A;<span class="o">]</span></pre>
+                    </div><p>This is just a start. There's still a lot things we can add.  If you are interested in more detailed information, check out the repo
+                    on <a href="https://github.com/mattsears/gaga">Github</a>.</p>
+                  </p>
+                </div>
+              </div>
+              <div class='post-bottom'></div>
+              
+              <div class='post rounded-top'>
                 <div class='head'>
                   <h2>
                     <a href='/articles/2011/5/15/print-stamps-with-ruby'>
                       Print Stamps With Ruby!
                     </a>
                     <span>
-                      <a class='dsq-comment-count comment-link commentslink' href='articles/2011/5/15/print-stamps-with-ruby#disqus_thread'></a>
+                      <a class='dsq-comment-count comment-link commentslink' data-disqus-identifier='articles/2011/5/15/print-stamps-with-ruby' href='articles/2011/5/15/print-stamps-with-ruby#disqus_thread'></a>
                     </span>
                   </h2>
                   <div class='cl'>&nbsp;</div>
@@ -101,17 +134,16 @@
                   </p>
                 </div>
               </div>
-              <div class='post-bottom'>
-              </div>
+              <div class='post-bottom'></div>
               
-              <div class='post'>
+              <div class='post rounded-top'>
                 <div class='head'>
                   <h2>
                     <a href='/articles/2011/1/11/easy-multiple-account-management-for-heroku'>
                       Easy Multiple Account Management for Heroku
                     </a>
                     <span>
-                      <a class='dsq-comment-count comment-link commentslink' href='articles/2011/1/11/easy-multiple-account-management-for-heroku#disqus_thread'></a>
+                      <a class='dsq-comment-count comment-link commentslink' data-disqus-identifier='articles/2011/1/11/easy-multiple-account-management-for-heroku' href='articles/2011/1/11/easy-multiple-account-management-for-heroku#disqus_thread'></a>
                     </span>
                   </h2>
                   <div class='cl'>&nbsp;</div>
@@ -144,17 +176,16 @@
                   </p>
                 </div>
               </div>
-              <div class='post-bottom'>
-              </div>
+              <div class='post-bottom'></div>
               
-              <div class='post'>
+              <div class='post rounded-top'>
                 <div class='head'>
                   <h2>
                     <a href='/articles/2009/10/31/5-ruby-gems-for-concise-code'>
                       5 Ruby Gems for Concise Code
                     </a>
                     <span>
-                      <a class='dsq-comment-count comment-link commentslink' href='articles/2009/10/31/5-ruby-gems-for-concise-code#disqus_thread'></a>
+                      <a class='dsq-comment-count comment-link commentslink' data-disqus-identifier='articles/2009/10/31/5-ruby-gems-for-concise-code' href='articles/2009/10/31/5-ruby-gems-for-concise-code#disqus_thread'></a>
                     </span>
                   </h2>
                   <div class='cl'>&nbsp;</div>
@@ -165,17 +196,16 @@
                   </p>
                 </div>
               </div>
-              <div class='post-bottom'>
-              </div>
+              <div class='post-bottom'></div>
               
-              <div class='post'>
+              <div class='post rounded-top'>
                 <div class='head'>
                   <h2>
                     <a href='/articles/2009/4/4/git-blogging-with-aerial'>
                       Git blogging with Aerial
                     </a>
                     <span>
-                      <a class='dsq-comment-count comment-link commentslink' href='articles/2009/4/4/git-blogging-with-aerial#disqus_thread'></a>
+                      <a class='dsq-comment-count comment-link commentslink' data-disqus-identifier='articles/2009/4/4/git-blogging-with-aerial' href='articles/2009/4/4/git-blogging-with-aerial#disqus_thread'></a>
                     </span>
                   </h2>
                   <div class='cl'>&nbsp;</div>
@@ -186,17 +216,16 @@
                   </p>
                 </div>
               </div>
-              <div class='post-bottom'>
-              </div>
+              <div class='post-bottom'></div>
               
-              <div class='post'>
+              <div class='post rounded-top'>
                 <div class='head'>
                   <h2>
                     <a href='/articles/2008/12/10/two-years-working-with-rails'>
                       Two+ Years Working with Rails
                     </a>
                     <span>
-                      <a class='dsq-comment-count comment-link commentslink' href='articles/2008/12/10/two-years-working-with-rails#disqus_thread'></a>
+                      <a class='dsq-comment-count comment-link commentslink' data-disqus-identifier='articles/2008/12/10/two-years-working-with-rails' href='articles/2008/12/10/two-years-working-with-rails#disqus_thread'></a>
                     </span>
                   </h2>
                   <div class='cl'>&nbsp;</div>
@@ -212,17 +241,16 @@
                   </p>
                 </div>
               </div>
-              <div class='post-bottom'>
-              </div>
+              <div class='post-bottom'></div>
               
-              <div class='post'>
+              <div class='post rounded-top'>
                 <div class='head'>
                   <h2>
                     <a href='/articles/2008/11/23/rubyconf-2008-wrap-up'>
                       RubyConf 2008 Wrap Up
                     </a>
                     <span>
-                      <a class='dsq-comment-count comment-link commentslink' href='articles/2008/11/23/rubyconf-2008-wrap-up#disqus_thread'></a>
+                      <a class='dsq-comment-count comment-link commentslink' data-disqus-identifier='articles/2008/11/23/rubyconf-2008-wrap-up' href='articles/2008/11/23/rubyconf-2008-wrap-up#disqus_thread'></a>
                     </span>
                   </h2>
                   <div class='cl'>&nbsp;</div>
@@ -245,17 +273,16 @@
                   </p>
                 </div>
               </div>
-              <div class='post-bottom'>
-              </div>
+              <div class='post-bottom'></div>
               
-              <div class='post'>
+              <div class='post rounded-top'>
                 <div class='head'>
                   <h2>
                     <a href='/articles/2008/8/24/erubycon-2008'>
                       erubycon 2008
                     </a>
                     <span>
-                      <a class='dsq-comment-count comment-link commentslink' href='articles/2008/8/24/erubycon-2008#disqus_thread'></a>
+                      <a class='dsq-comment-count comment-link commentslink' data-disqus-identifier='articles/2008/8/24/erubycon-2008' href='articles/2008/8/24/erubycon-2008#disqus_thread'></a>
                     </span>
                   </h2>
                   <div class='cl'>&nbsp;</div>
@@ -288,17 +315,16 @@
                   </p>
                 </div>
               </div>
-              <div class='post-bottom'>
-              </div>
+              <div class='post-bottom'></div>
               
-              <div class='post'>
+              <div class='post rounded-top'>
                 <div class='head'>
                   <h2>
                     <a href='/articles/2008/7/25/now-running-phusion-passenger'>
                       Now running Phusion Passenger
                     </a>
                     <span>
-                      <a class='dsq-comment-count comment-link commentslink' href='articles/2008/7/25/now-running-phusion-passenger#disqus_thread'></a>
+                      <a class='dsq-comment-count comment-link commentslink' data-disqus-identifier='articles/2008/7/25/now-running-phusion-passenger' href='articles/2008/7/25/now-running-phusion-passenger#disqus_thread'></a>
                     </span>
                   </h2>
                   <div class='cl'>&nbsp;</div>
@@ -314,14 +340,13 @@
                   </p>
                 </div>
               </div>
-              <div class='post-bottom'>
-              </div>
+              <div class='post-bottom'></div>
             </div>
           </div>
           <div id='sidebar'>
             <div class='get-in-touch'>
               <div class='me'>
-                <img class='fade' src='/images/me.png' style='background: url(images/me!.png)' />
+                <img class='fade' src='/images/me.png' style='background: url(/images/me!.png)' />
               </div>
               <p>
                 Hi. I'm Matt Sears, a web developer
@@ -371,6 +396,9 @@
               <h4>Recent Posts</h4>
               <ul>
                 <li>
+                  <a href='/articles/2011/10/20/gaga-key-value-store'>Gaga: A Git-Backed Key/Value Store</a>
+                </li>
+                <li>
                   <a href='/articles/2011/5/15/print-stamps-with-ruby'>Print Stamps With Ruby!</a>
                 </li>
                 <li>
@@ -382,9 +410,6 @@
                 <li>
                   <a href='/articles/2009/6/6/20-clojure-links-to-get-you-up-to-speed'>20 Clojure Links To Get You Up To Speed</a>
                 </li>
-                <li>
-                  <a href='/articles/2009/4/4/git-blogging-with-aerial'>Git blogging with Aerial</a>
-                </li>
               </ul>
             </div>
             <div class='categories'>
@@ -392,6 +417,9 @@
               <ul>
                 <li>
                   <a href='/articles/tags/ruby'>ruby</a>
+                </li>
+                <li>
+                  <a href='/articles/tags/git'>git</a>
                 </li>
                 <li>
                   <a href='/articles/tags/rails'>rails</a>
@@ -404,9 +432,6 @@
                 </li>
                 <li>
                   <a href='/articles/tags/projects'>projects</a>
-                </li>
-                <li>
-                  <a href='/articles/tags/git'>git</a>
                 </li>
                 <li>
                   <a href='/articles/tags/sinatra'>sinatra</a>
@@ -434,6 +459,9 @@
             <div class='archives'>
               <h4>Archives</h4>
               <ul>
+                <li>
+                  <a href='/articles/archives/2011/10'>October 2011 (1)</a>
+                </li>
                 <li>
                   <a href='/articles/archives/2011/05'>May 2011 (1)</a>
                 </li>
@@ -477,9 +505,9 @@
         </div>
         <p class='footer-navigation'>
           Powered by
-          <a href='http://mattsears.github.com/aerial' rel='external'>aerial</a>
+          <a href='http://mattsears.github.com/aerial' rel='external'>Aerial</a>
           on
-          <a href='http://heroku.com' rel='external'>heroku</a>
+          <a href='http://heroku.com' rel='external'>Heroku</a>
         </p>
         <div class='cl'>&nbsp;</div>
       </div>
@@ -488,16 +516,13 @@
       //<![CDATA[
         Cufon.now();
         //
-        (function() {
-          var links = document.getElementsByTagName('a');
-          var query = '?';
-          for(var i = 0; i < links.length; i++) {
-          if(links[i].href.indexOf('#disqus_thread') >= 0) {
-            query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
-          }
-          }
-          document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/mattsears/get_num_replies.js' + query + '"></' + 'script>');
-        })();
+        (function () {
+          var disqus_shortname = 'mattsears';
+          var s = document.createElement('script'); s.async = true;
+          s.type = 'text/javascript';
+          s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+          (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
         //
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', 'UA-2776418-3']);
