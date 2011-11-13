@@ -1,0 +1,70 @@
+Title         : Methods With Multiple Blocks
+Tags          : ruby
+Publish Date  : 2011-11-13 20:38:19
+Author        : Matt Sears
+
+Ruby blocks rock. They're so great, sometimes we want to pass multiple blocks to a method, but, Ruby doesn't allow this. Consider the classic example where we want to perform a block of code if an action succeeds and perform different code if an action fails.
+
+Fortunately, Ruby provides us the ability to modify itself. So with a couple
+lines of code we can achieve the above situation. In this case, let's add a `perform` method to the Proc class:
+
+```ruby
+class Proc
+  def perform(callable, *args)
+    self === Class.new do
+      method_name = callable.to_sym
+      define_method(method_name) { |&block| block.nil? ? true : block.call(*args) }
+      define_method("#{method_name}?") { true }
+      def method_missing(method_name, *args, &block) false; end
+    end.new
+  end
+end
+```
+
+This method will simply yield an anonymous Class with methods defined to handle our blocks. The first define_method will simply call the block if a block exists, otherwise true is returned. Undefined methods always return false.
+
+That's it!
+
+Example Usage:
+----------
+Let’s try it with something useful. Let’s say we’re writing something which needs to happen in an all-or-nothing, atomic fashion. Either the whole thing works, or none of it does.  A simple case is tweeting:
+
+```ruby
+def tweet(message, &block)
+  if Twitter.update(message)
+    block.perform :success
+  else
+    block.perform :failure, 'fail whale!'
+  end
+end
+```
+
+We call `perform` on the block and give it a name. Any name will work :success, :error, :fail!, etc.  Now we can provide a status if the tweet was successful or not.
+
+```ruby
+tweet "Ruby methods with multiple blocks. #lolruby" do |on|
+  on.success do
+    puts "Tweet successful!"
+  end
+  on.failure do |message|
+    puts "Error: #{message}"
+  end
+end
+```
+
+Output:
+
+```
+Tweet successful!
+```
+
+The nice thing here is that we can define our own DSL. We don't need to worry about making sure passing too many or unexpected blocks. We could have easily said `where.success` or `on.error` or `update.fail!`.
+
+Bonus: In addition to wrapping code in blocks, our `Proc#perform` method defines boolean style methods. So we could have call the tweet method like this if we wanted to:
+
+```ruby
+tweet "Ruby methods with multiple blocks. #lolruby" do |update|
+  puts "Tweet successful!" if update.success?
+  puts "Sorry, something went wrong." if update.failure?
+end
+```
