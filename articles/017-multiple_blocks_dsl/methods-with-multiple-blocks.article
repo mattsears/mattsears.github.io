@@ -1,6 +1,6 @@
-Title         : Simple callbacks using Procs in Ruby
+Title         : Simple Callbacks in Ruby
 Tags          : ruby
-Publish Date  : 2011-11-13 20:38:19
+Publish Date  : 2011-12-13 20:38:19
 Author        : Matt Sears
 
 Ruby blocks rock. They're so great, sometimes we want to pass multiple blocks to
@@ -10,7 +10,7 @@ if an action fails.
 
 Fortunately, Ruby provides us the ability to modify itself. So with a couple
 lines of code we can achieve the above situation. In this case, let's add a
-`perform` method to the Proc class:
+method called `perform` to the Proc class:
 
 ```ruby
 class Proc
@@ -26,13 +26,13 @@ end
 ```
 
 The above method simply yields an anonymous Class with methods defined to handle
-our callbacks. The first define_method will simply call the block if a block
+our callbacks. The first `define_method` will simply call the block if a block
 exists, otherwise true is returned. Undefined methods always return false.
 
 Notice we're using the `===` operand to invoke the block. Anything on the right side
 of `===` acts as the proc's parameter like `Proc#call`.  Normally, this is to
 allow a proc object to be a target of a `when` clause in case statements, but
-here were using it as a super simple way of invoking our anonymous class.
+here we're using it as a super simple way of invoking our anonymous class.
 
 Let’s try it with something useful. Let’s say we’re writing something which
 needs to happen in an all-or-nothing, atomic fashion. Either the whole thing
@@ -69,7 +69,8 @@ about passing too many or unexpected blocks. We could have easily
 said `where.success` or `on.error` or `update.fail!`. Also note the `on.failure`
 block includes a `status` parameter - this contains the exception message
 captured in the `tweet` method above. So if Twitter was down for whatever
-reason, the `on.failure` block would be invoked and printed 'Error: Twitter is down or being upgraded'.
+reason, the `on.failure` block would be invoked and printed 'Error: Twitter is
+down or being upgraded'.
 
 Bonus: In addition to wrapping code in blocks, our `Proc#perform` method defines
 boolean style methods. So we could have call the tweet method like this if we
@@ -81,3 +82,8 @@ tweet "Ruby methods with multiple blocks. #lolruby" do |update|
   puts "Sorry, something went wrong." if update.failure?
 end
 ```
+
+Procs are a fantastic Ruby concept and make the language much more
+expressive. When combined with good syntax highlighting, they also help
+differentiate code from strings. Unfortunately, they’re only going to get more
+confusing for newbies.
