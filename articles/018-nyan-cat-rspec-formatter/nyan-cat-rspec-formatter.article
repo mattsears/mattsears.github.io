@@ -1,0 +1,20 @@
+Title         : Nyan Cat RSpec Formatter
+Tags          : ruby, rspec
+Publish Date  : 2011-11-18 20:38:19
+Author        : Matt Sears
+
+This is my take on the Nyan Cat RSpec Formatter. It simply creates a rainbow trail of test results. It also counts the number of examples as they execute and highlights failed and pending specs.
+
+The rainbow changes colors as it runs. You must try it:
+
+
+```
+-_-_-_-_-_-_-_,------,
+_-_-_-_-_-_-_-|   /\_/\
+-_-_-_-_-_-_-~|__( ^ .^)
+_-_-_-_-_-_-_-""  ""
+```
+
+```
+rspec nyan_formatter_spec.rb --require ./nyan_formatter.rb  --format NyanFormatter
+```
