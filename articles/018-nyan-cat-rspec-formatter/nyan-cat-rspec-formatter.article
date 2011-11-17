@@ -15,7 +15,9 @@ _-_-_-_-_-_-_-|   /\_/\
 _-_-_-_-_-_-_-""  ""
 ```
 
--><iframe src="http://player.vimeo.com/video/32183098?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff" width="440" height="330" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe><-
+<center>
+  <iframe src="http://player.vimeo.com/video/32183098?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff" width="440" height="330" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe>
+<center>
 
 ```
 rspec nyan_formatter_spec.rb --require ./nyan_formatter.rb  --format NyanFormatter
