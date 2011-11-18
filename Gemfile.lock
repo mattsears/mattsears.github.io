@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/mattsears/aerial.git
-  revision: efb70fcdb8092f0b7eec7c84ab096504e3587712
+  revision: ca75004707c83d09d8a5d697f07da4d831a95f48
   specs:
     aerial (0.2.0)
       albino
