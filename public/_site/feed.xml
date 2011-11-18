@@ -9,7 +9,7 @@
     <description></description>
     <pubDate>Wed, 16 Nov 2011 20:38:19 +0000</pubDate>
     <item>
-      <title>Nyan Cat, RSpec Formatter</title>
+      <title>Nyan Cat RSpec Formatter</title>
       <link>http://example.orgarticles/2011/11/16/nyan-cat-rspec-formatter</link>
       <description>
         <![CDATA[<p>I watch a lot of tests run in a given day. So I figured why not make it more
@@ -23,14 +23,14 @@
         trail of test results. It counts the number of examples as they execute and
         highlights failed and pending specs. The rainbow changes colors as it runs and
         if all the specs pass, Nyan Cat falls asleep.  If there are any pending or
-        failing specs, Nyan cat is concerned and can't sleep.</p><p>Here's a short demo of Nyan Cat in action.</p><p>Installing Nyan Cat is easy. Just install the gem <code>nyan-cat-formatter</code> and simply put the options in your .rspec file:</p><pre><code>--format NyanCatFormatter
+        failing specs, Nyan cat is concerned and can't sleep.</p><p>Here's a short demo of Nyan Cat in action.</p><iframe src="http://player.vimeo.com/video/32241727?title=0&amp;byline=0&amp;portrait=0" width="660" height="495" frameborder="0" webkitallowfullscreen allowfullscreen></iframe><p>Installing Nyan Cat is easy. Just install the gem <code>nyan-cat-formatter</code> and simply put the options in your .rspec file:</p><pre><code>--format NyanCatFormatter
         </code></pre><p>Checkout the code on <a href="https://github.com/mattsears/nyan-cat-formatter">Github</a>
         and let me know how you like it.  If you run into any issues, please create an
         issue on Github and I will be sure to get it fixed. Of course you can always
         fork the project and send me a pull request.</p><p>Have fun!</p>]]>
       </description>
       <pubDate>Wed, 16 Nov 2011 20:38:19 +0000</pubDate>
-      <guid isPermaLink='false'>9a630a7c03dede962c20637f92a1277dd927dba9</guid>
+      <guid isPermaLink='false'>1485a0562e1d3ef2c031bff9b70a5f4c32efb4c0</guid>
     </item>
     <item>
       <title>Gaga: A Git-Backed Key/Value Store</title>
@@ -432,7 +432,7 @@
       <description>
         <![CDATA[<p>Sending emails with Rails via Gmail is a snap with Marc Chung's excellent plugin <a href="http://code.openrain.com/rails/action_mailer_tls">action_mailer_tls</a>. However, sometimes our production environment isn't using Gmail as a mail server and/or we just need an easy way to send email from our development environment for testing or demonstrating purposes.</p><p>Instead of installing the action_mailer_tls plugin and configuring each of our Rails apps, we can do a one-time setup of our local Postfix client to relay all SMTP outbound emails to our Gmail account. If your running a Mac OS Leopard or Linux, Postfix should already be installed. With a little configuration, we should be up and running in a couple minutes.</p><p>First create /etc/postfix/relay_password file with the server name, email account name and password as shown below. This configuration works with Gmail accounts as well as with Google Apps email accounts. I'm personally using my company's Google Apps with a special email account setup for outbound emails only.</p><pre><code>smtp.gmail.com    example@yourdomain.com:yourpassword
         </code></pre><p>Then tell Postfix about our google accounts information so it knows how and where to relay the email to. This can be done with the postmap command:</p><pre><code>$ postmap /etc/postfix/relay_password
-        </code></pre><p>Since Gmail requires a TLS (Transport Layer Security) connection for certificate-based authentication, we'll need to download a free root certificate from Verisign <a href="https://www.verisign.com/support/roots.html">https://www.verisign.com/support/roots.html</a> to authenticate our remote SMTP client.</p><pre><code>$ mkdir /etc/postfix/certs
+        </code></pre><p>Since Gmail requires a TLS (Transport Layer Security) connection for certificate-based authentication, we'll need to download a free root certificate from Verisign <a href="https://www.verisign.com/support/roots.html" rel="external"></a><a href="https://www.verisign.com/support/roots.html">https://www.verisign.com/support/roots.html</a> to authenticate our remote SMTP client.</p><pre><code>$ mkdir /etc/postfix/certs
         $ cd /etc/postfix/certs
         $ sudo cp roots.zip /etc/postfix/certs
         $ sudo unzip -j roots.zip
