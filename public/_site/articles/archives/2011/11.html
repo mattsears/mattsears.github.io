@@ -2,7 +2,7 @@
 <html dir='ltr' lang='en-US' xmlns='http://www.w3.org/1999/xhtml'>
   <head>
     <meta content='text/html; charset=utf-8' http-equiv='Content-type' />
-    <title>Matt Sears | 5 Ruby Gems for Concise Code</title>
+    <title>Matt Sears | Archives 2011</title>
     <meta content='Matt Sears, Matt, Sears' name='keywords' />
     <meta author='Matt Sears' />
     <link href='http://feeds.feedburner.com/mattsears' rel='alternate' title='Feed for mattsears' type='application/atom+xml' />
@@ -61,49 +61,32 @@
               <div class='post rounded-top'>
                 <div class='head'>
                   <h2>
-                    <a href='/articles/2009/10/31/5-ruby-gems-for-concise-code'>
-                      5 Ruby Gems for Concise Code
+                    <a href='/articles/2011/11/16/nyan-cat-rspec-formatter'>
+                      Nyan Cat, RSpec Formatter
                     </a>
                     <span>
-                      <a class='dsq-comment-count comment-link commentslink' data-disqus-identifier='articles/2009/10/31/5-ruby-gems-for-concise-code' href='articles/2009/10/31/5-ruby-gems-for-concise-code#disqus_thread'></a>
+                      <a class='dsq-comment-count comment-link commentslink' data-disqus-identifier='articles/2011/11/16/nyan-cat-rspec-formatter' href='articles/2011/11/16/nyan-cat-rspec-formatter#disqus_thread'></a>
                     </span>
                   </h2>
                   <div class='cl'>&nbsp;</div>
                 </div>
                 <div class='body'>
                   <p class='with-border'>
-                    <p>At <a href="http://littlelines.com">Littlelines</a>, we have to write a lot of code under strict time constraints. We work in small teams which means that writing clean and concise code is a necessity. When a Ruby library comes along that makes code easier to grasp in a hurry, test, and maintain - we use it. Here are some gems we have in our toolbox:</p><h2><a href="http://github.com/justinfrench/formtastic">Formtastic</a></h2><p>If you're developing wep apps, more than likely it will include html forms.  Forms can be a time-drain, not to mention very boring to build. Formtastic provides a more concise way of generating form views and includes inline error messages and is semantically rich.</p><h2><a href="http://github.com/giraffesoft/resource_controller">Resource  Controller</a></h2><p>Resource Controller hides away the RESTful controller boiler plate code and make your controllers skinny. Skinny controllers help you to consolidate your business logic into one place, thus saves time on maintenance and testing.</p><h2><a href="http://github.com/binarylogic/searchlogic">Search Logic</a></h2><p>Finding data can get messy. Sometimes we run into situations where we are concatenating strings to build SQL statements and this can lead to bugs. Searchlogic works by creating a number of named scopes that can be called on any ActiveRecord model. The best part, you can dynamically call scopes on associated classes and Searchlogic will take care of creating the necessary joins for you.</p><h2><a href="http://github.com/toastyapps/alchemist">Alchemist</a></h2><p>Occasionally, we work on projects dealing with conversions.  Alchemist is a Ruby library that does conversions for you and thus making your code more readable and easier to maintain. For example:</p><p>Instead of:</p><pre><code>miles = 8 * 1609.344 # converting meters to miles&#x000A;</code></pre><p>We can write:</p><pre><code>8.meters.to.miles&#x000A;</code></pre><p>Alchemist includes a staggering array of conversions including distance, mass, volume, and more.</p><h2><a href="http://andand.rubyforge.org/">andand</a></h2><p>andand is a handy gem that allows allows natural method chaining for methods that can return nil. This saves a lot of boilerplate code and improves readability. For example:</p><p>Instead of:</p><pre><code>@body = (article = Article.find_by_title('test')) &amp;&amp; article.body&#x000A;</code></pre><p>We can write this:</p><pre><code>@body = Article.find_by_title('test').andand.body&#x000A;</code></pre><p>This will call find on the Article class and sends 'body' if the result is not nil. In addition, our methods are guarded from NoMethodErrors is the result is nil.</p>
+                    <p>I watch a lot of tests run in a given day. So I figured why not make it more
+                    fun. Inspired by <a href="https://github.com/seattlerb/minitest">minitest</a>'s pride, and um
+                    cats? I came up with a <a href="http://www.youtube.com/watch?v=QH2-TGUlwu4">Nyan Cat</a>
+                    inspired RSpec formatter.</p><pre><code>-_-_-_-_-_-_-_,------,&#x000A;_-_-_-_-_-_-_-|   /\_/\&#x000A;-_-_-_-_-_-_-~|__( ^ .^)&#x000A;_-_-_-_-_-_-_-""  ""&#x000A;</code></pre><h2>Nyan Cat</h2><p>Much like <a href="https://github.com/kapoq/nyan">Nyan</a>, Nyan Cat simply creates a rainbow
+                    trail of test results. It counts the number of examples as they execute and
+                    highlights failed and pending specs. The rainbow changes colors as it runs and
+                    if all the specs pass, Nyan Cat falls asleep.  If there are any pending or
+                    failing specs, Nyan cat is concerned and can't sleep.</p><p>Here's a short demo of Nyan Cat in action.</p><p>Installing Nyan Cat is easy. Just install the gem <code>nyan-cat-formatter</code> and simply put the options in your .rspec file:</p><pre><code>--format NyanCatFormatter&#x000A;</code></pre><p>Checkout the code on <a href="https://github.com/mattsears/nyan-cat-formatter">Github</a>
+                    and let me know how you like it.  If you run into any issues, please create an
+                    issue on Github and I will be sure to get it fixed. Of course you can always
+                    fork the project and send me a pull request.</p><p>Have fun!</p>
                   </p>
                 </div>
               </div>
               <div class='post-bottom'></div>
-              <div class='post-comments'>
-                <br />
-                <div id='disqus_thread'></div>
-                <script type='text/javascript'>
-                  //<![CDATA[
-                    var disqus_developer = 1;
-                  //]]>
-                </script>
-                <script type='text/javascript'>
-                  //<![CDATA[
-                    var disqus_shortname = 'mattsears'; // required: replace example with your forum shortname
-                    // The following are highly recommended additional parameters. Remove the slashes in front to use.
-                    var disqus_identifier = "/articles/2009/10/31/5-ruby-gems-for-concise-code/";
-                    var disqus_url = "http://mattsears.com/articles/2009/10/31/5-ruby-gems-for-concise-code";
-                    /* * * DON'T EDIT BELOW THIS LINE * * */
-                    (function() {
-                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                    })();
-                  //]]>
-                </script>
-                <noscript>
-                  Please enable JavaScript to view the
-                  <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a>
-                </noscript>
-              </div>
             </div>
           </div>
           <div id='sidebar'>

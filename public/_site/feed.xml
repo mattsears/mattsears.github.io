@@ -7,7 +7,31 @@
     <ttl>40</ttl>
     <generator>Aerial</generator>
     <description></description>
-    <pubDate>Thu, 20 Oct 2011 20:38:19 +0000</pubDate>
+    <pubDate>Wed, 16 Nov 2011 20:38:19 +0000</pubDate>
+    <item>
+      <title>Nyan Cat, RSpec Formatter</title>
+      <link>http://example.orgarticles/2011/11/16/nyan-cat-rspec-formatter</link>
+      <description>
+        <![CDATA[<p>I watch a lot of tests run in a given day. So I figured why not make it more
+        fun. Inspired by <a href="https://github.com/seattlerb/minitest">minitest</a>'s pride, and um
+        cats? I came up with a <a href="http://www.youtube.com/watch?v=QH2-TGUlwu4">Nyan Cat</a>
+        inspired RSpec formatter.</p><pre><code>-_-_-_-_-_-_-_,------,
+        _-_-_-_-_-_-_-|   /\_/\
+        -_-_-_-_-_-_-~|__( ^ .^)
+        _-_-_-_-_-_-_-""  ""
+        </code></pre><h2>Nyan Cat</h2><p>Much like <a href="https://github.com/kapoq/nyan">Nyan</a>, Nyan Cat simply creates a rainbow
+        trail of test results. It counts the number of examples as they execute and
+        highlights failed and pending specs. The rainbow changes colors as it runs and
+        if all the specs pass, Nyan Cat falls asleep.  If there are any pending or
+        failing specs, Nyan cat is concerned and can't sleep.</p><p>Here's a short demo of Nyan Cat in action.</p><p>Installing Nyan Cat is easy. Just install the gem <code>nyan-cat-formatter</code> and simply put the options in your .rspec file:</p><pre><code>--format NyanCatFormatter
+        </code></pre><p>Checkout the code on <a href="https://github.com/mattsears/nyan-cat-formatter">Github</a>
+        and let me know how you like it.  If you run into any issues, please create an
+        issue on Github and I will be sure to get it fixed. Of course you can always
+        fork the project and send me a pull request.</p><p>Have fun!</p>]]>
+      </description>
+      <pubDate>Wed, 16 Nov 2011 20:38:19 +0000</pubDate>
+      <guid isPermaLink='false'>9a630a7c03dede962c20637f92a1277dd927dba9</guid>
+    </item>
     <item>
       <title>Gaga: A Git-Backed Key/Value Store</title>
       <link>http://example.orgarticles/2011/10/20/gaga-key-value-store</link>
