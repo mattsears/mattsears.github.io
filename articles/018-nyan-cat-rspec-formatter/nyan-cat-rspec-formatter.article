@@ -1,11 +1,12 @@
-Title         : Nyan Cat RSpec Formatter
+Title         : Nyan Cat, RSpec Formatter
 Tags          : ruby, rspec
 Publish Date  : 2011-11-16 20:38:19
 Author        : Matt Sears
 
-I watch a lot of tests run in a given day. So I figured why not make this more
+I watch a lot of tests run in a given day. So I figured why not make it more
 fun. Inspired by [minitest](https://github.com/seattlerb/minitest)'s pride, and um
-cats? I came up with a Nyan Cat inspired formatter.
+cats? I came up with a [Nyan Cat](http://www.youtube.com/watch?v=QH2-TGUlwu4)
+inspired RSpec formatter.
 
 ```
 -_-_-_-_-_-_-_,------,
@@ -17,7 +18,7 @@ _-_-_-_-_-_-_-""  ""
 Nyan Cat
 ----------
 
-The [Nyan Cat](http://www.youtube.com/watch?v=QH2-TGUlwu4) RSpec Formatter simply creates a rainbow
+Much like [Nyan](https://github.com/kapoq/nyan), Nyan Cat simply creates a rainbow
 trail of test results. It counts the number of examples as they execute and
 highlights failed and pending specs. The rainbow changes colors as it runs and
 if all the specs pass, Nyan Cat falls asleep.  If there are any pending or
@@ -25,9 +26,8 @@ failing specs, Nyan cat is concerned and can't sleep.
 
 Here's a short demo of Nyan Cat in action.
 
-<center>
   <iframe src="http://player.vimeo.com/video/32241727?title=0&amp;byline=0&amp;portrait=0" width="660" height="495" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe>
-</center>
+
 
 Installing Nyan Cat is easy. Just install the gem `nyan-cat-formatter` and simply put the options in your .rspec file:
 
