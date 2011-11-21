@@ -8,6 +8,13 @@ fun. Inspired by [minitest](https://github.com/seattlerb/minitest)'s pride, and 
 cats? I came up with a [Nyan Cat](http://www.youtube.com/watch?v=QH2-TGUlwu4)
 inspired RSpec formatter.
 
+Update: After last week's launch, Nyan Cat received a great response from the
+Ruby world. Over the weekend, I released version 0.0.2.  It includes a few bug
+fixes and some really cool enhancements. Most notably, Nyan Cat now spans
+multiple lines. In addition, it displays running totals of passing, pending,
+and failed specs. Thanks to everyone who contributed! Checkout the new
+screencast below.
+
 ```
 -_-_-_-_-_-_-_,------,
 _-_-_-_-_-_-_-|   /\_/\
