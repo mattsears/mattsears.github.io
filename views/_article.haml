@@ -6,12 +6,16 @@
       %a{:href => "/#{article.permalink}"}
         = article.title
       %span
-        %a.dsq-comment-count.comment-link.commentslink{:href => "#{article.permalink}#disqus_thread", 'data-disqus-identifier' => "#{article.permalink}"}
+        %a.dsq-comment-count.comment-link.commentslink{:href => "http://www.mattsears.com/#{article.permalink}#disqus_thread"}
     .cl &nbsp;
   .body
     %p.with-border
       ~ article.body_html
 .post-bottom
+  :javascript
+    var disqus_shortname = 'mattsears'; // required: replace example with your forum shortname
+    var disqus_identifier = "/#{article.permalink}/";
+    var disqus_url = "http://www.mattsears.com/#{article.permalink}";
 - if @article
   .post-comments
     %br/
@@ -20,10 +24,7 @@
       :javascript
         var disqus_developer = 1;
     :javascript
-      var disqus_shortname = 'mattsears'; // required: replace example with your forum shortname
       // The following are highly recommended additional parameters. Remove the slashes in front to use.
-      var disqus_identifier = "/#{@article.permalink}/";
-      var disqus_url = "http://mattsears.com/#{@article.permalink}";
       /* * * DON'T EDIT BELOW THIS LINE * * */
       (function() {
           var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
