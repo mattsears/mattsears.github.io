@@ -8,7 +8,7 @@
           %h2
             %a{:href => "#{article.permalink}"}=article.title
           %p
-            = blurb(article.body)
+            = blurb(article.body_html)
     .box-foot
   #splash
 .bottom-section
@@ -25,7 +25,7 @@
   #find-elsewhere
     %ul
       %li
-        %a{:href => "http://github.com/mattsears", :rel => "external", 'original-title' => "Github"}
+        %a{:href => "http://git.io/sears", :rel => "external", 'original-title' => "Github"}
           %span.github
       %li
         %a{:href => "https://twitter.com/mattsears", :rel => "external", 'original-title' => "Twitter"}
