@@ -1,11 +1,11 @@
-Title         : Simple Ruby Callbacks
+Title         : Ruby Blocks as Dynamic Callbacks
 Tags          : ruby
 Publish Date  : 2011-11-27 11:38:19
 Author        : Matt Sears
 
 Callbacks are a great technique for achieving simplicity and flexibility. Simply put,
 a callback is a block of code passed as an argument to a method. In Ruby, code
-blocks are everywhere and Ruby makes it trivial to pass a block of code into our
+blocks are everywhere and Ruby makes it trivial to pass a block of code to our
 methods. For example:
 
 ```ruby
@@ -22,7 +22,7 @@ classic case where we want a method to execute a block of code if an action
 succeeds or call different code if an action fails.
 
 In this article, I will demonstrate how we can pass multiple blocks to a method and
-with some metaprogramming, we can achieve a simple callback mechanism with just
+with some metaprogramming, we can achieve a dynamic callback mechanism with just
 a few lines of code.
 
 Let's add a method called `callback` to the Proc class:
@@ -40,16 +40,16 @@ class Proc
 end
 ```
 
-That's it! The above `Proc#callback` method simply yields an anonymous Class
-with methods defined to handle our callbacks. The first `define_method` will
-call the block if a block exists, otherwise true is returned. Undefined methods
-always return false.
+That's it! The above `Proc#callback` method simply yields an anonymous class
+with methods defined to handle our callbacks. This allows for the capability of
+creating and storing dynamic callbacks, which can later be looked up and
+executed as needed.
 
-Notice we're using the `===` operand to invoke the block. `Proc#===` is an alias
-for `Proc.call`. Anything on the right side of `===` acts as the proc's
-parameter. Normally, this is to allow a proc object to be a target of a `when`
-clause in case statements, but we're using it as a super simple way of
-invoking our anonymous class.
+Notice anything unusual? We're using the `===` operand to invoke the
+block. `Proc#===` is an alias for `Proc.call`. Anything on the right side of
+`===` acts as the proc's parameter. Normally, this is to allow a proc object to
+be a target of a `when` clause in case statements, but we're using it as a super
+simple way of invoking our anonymous class.
 
 Let’s try it with something useful. Let’s say we’re writing something which
 needs to happen in an all-or-nothing, atomic fashion. Either the whole thing
