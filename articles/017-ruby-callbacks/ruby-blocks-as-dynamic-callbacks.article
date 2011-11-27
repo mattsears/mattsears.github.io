@@ -5,7 +5,7 @@ Author        : Matt Sears
 
 Callbacks are a great technique for achieving simplicity and flexibility. Simply put,
 a callback is a block of code passed as an argument to a method. In Ruby, code
-blocks are everywhere and Ruby makes it trivial to pass a block of code to our
+blocks are everywhere and Ruby makes it trivial to pass a block of code to
 methods. For example:
 
 ```ruby
