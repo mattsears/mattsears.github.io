@@ -1,6 +1,6 @@
 Title         : Simple Ruby Callbacks
 Tags          : ruby
-Publish Date  : 2011-11-27 20:38:19
+Publish Date  : 2011-11-27 11:38:19
 Author        : Matt Sears
 
 Callbacks are a great technique for achieving power and flexibility in your Ruby applications. Simply put, a callback is a block of code passed as an argument to other methods, which decides when to call the block of code during some point in its operation. So, if you want some code to be executed as soon as the result is ready, you put that code into a method and pass that method as the callback argument.
