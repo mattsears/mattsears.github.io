@@ -61,11 +61,77 @@
               <div class='post rounded-top'>
                 <div class='head'>
                   <h2>
+                    <a href='/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks'>
+                      Ruby Blocks as Dynamic Callbacks
+                    </a>
+                    <span>
+                      <a class='dsq-comment-count comment-link commentslink' href='http://www.mattsears.com/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks#disqus_thread'></a>
+                    </span>
+                  </h2>
+                  <div class='cl'>&nbsp;</div>
+                </div>
+                <div class='body'>
+                  <p class='with-border'>
+                    <p>Callbacks are a great technique for achieving simplicity and flexibility. Simply put,
+                    a callback is a block of code passed as an argument to a method. In Ruby, code
+                    blocks are everywhere and Ruby makes it trivial to pass a block of code to
+                    methods. For example:</p><div class="highlight">
+                    <pre><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>&#x000A;  <span class="n">callback</span> <span class="o">=</span> <span class="n">block</span>&#x000A;  <span class="n">callback</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>&#x000A;<span class="k">end</span>&#x000A;&#x000A;<span class="n">foo</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">}</span> <span class="c1"># =&gt; 25</span></pre>
+                    </div><p>But what do we do when a method needs two blocks of code or more? Consider the
+                    classic case where we want a method to execute a block of code if an action
+                    succeeds or call different code if an action fails.</p><p>In this article, I will demonstrate how we can pass multiple blocks to a method and
+                    with some metaprogramming, we can achieve a dynamic callback mechanism with just
+                    a few lines of code.</p><p>Let's add a method called <code>callback</code> to the Proc class:</p><div class="highlight">
+                    <pre><span class="k">class</span> <span class="nc">Proc</span>&#x000A;  <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">callable</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>&#x000A;    <span class="nb">self</span> <span class="o">===</span> <span class="no">Class</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span>&#x000A;      <span class="n">method_name</span> <span class="o">=</span> <span class="n">callable</span><span class="o">.</span><span class="n">to_sym</span>&#x000A;      <span class="n">define_method</span><span class="p">(</span><span class="n">method_name</span><span class="p">)</span> <span class="p">{</span> <span class="o">|&amp;</span><span class="n">block</span><span class="o">|</span> <span class="n">block</span><span class="o">.</span><span class="n">nil?</span> <span class="p">?</span> <span class="kp">true</span> <span class="p">:</span> <span class="n">block</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="p">}</span>&#x000A;      <span class="n">define_method</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">method_name</span><span class="si">}</span><span class="s2">?"</span><span class="p">)</span> <span class="p">{</span> <span class="kp">true</span> <span class="p">}</span>&#x000A;      <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span> <span class="kp">false</span><span class="p">;</span> <span class="k">end</span>&#x000A;    <span class="k">end</span><span class="o">.</span><span class="n">new</span>&#x000A;  <span class="k">end</span>&#x000A;<span class="k">end</span></pre>
+                    </div><p>That's it! The above <code>Proc#callback</code> method simply yields an anonymous class
+                    with methods defined to handle our callbacks. This allows for the capability of
+                    creating and storing dynamic callbacks, which can later be looked up and
+                    executed as needed.</p><p>Notice anything unusual? We're using the <code>===</code> operand to invoke the
+                    block. <code>Proc#===</code> is an alias for <code>Proc.call</code>. Anything on the right side of
+                    <code>===</code> acts as the proc's parameter. Normally, this is to allow a proc object to
+                    be a target of a <code>when</code> clause in case statements, but we're using it as a super
+                    simple way of invoking our anonymous class.</p><p>Let&rsquo;s try it with something useful. Let&rsquo;s say we&rsquo;re writing something which
+                    needs to happen in an all-or-nothing, atomic fashion. Either the whole thing
+                    works, or none of it does.  A simple case is tweeting:</p><div class="highlight">
+                    <pre><span class="k">def</span> <span class="nf">tweet</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>&#x000A;  <span class="no">Twitter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>&#x000A;  <span class="n">block</span><span class="o">.</span><span class="n">callback</span> <span class="ss">:success</span>&#x000A;<span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>&#x000A;  <span class="n">block</span><span class="o">.</span><span class="n">callback</span> <span class="ss">:failure</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">message</span>&#x000A;<span class="k">end</span></pre>
+                    </div><p>The <code>tweet</code> method accepts a message string and &amp;block parameters. We call
+                    <code>callback</code> on the block and give it a name. Any name will work :success, :error,
+                    :fail!, whatever. In addition, we can pass arguments to the blocks (more on that
+                    later). Now we can provide a status if the tweet was successful or not:</p><div class="highlight">
+                    <pre><span class="n">tweet</span> <span class="s2">"Ruby methods with multiple blocks. #lolruby"</span> <span class="k">do</span> <span class="o">|</span><span class="n">on</span><span class="o">|</span>&#x000A;  <span class="n">on</span><span class="o">.</span><span class="n">success</span> <span class="k">do</span>&#x000A;    <span class="nb">puts</span> <span class="s2">"Tweet successful!"</span>&#x000A;  <span class="k">end</span>&#x000A;  <span class="n">on</span><span class="o">.</span><span class="n">failure</span> <span class="k">do</span> <span class="o">|</span><span class="n">status</span><span class="o">|</span>&#x000A;    <span class="nb">puts</span> <span class="s2">"Error: </span><span class="si">#{</span><span class="n">status</span><span class="si">}</span><span class="s2">"</span>&#x000A;  <span class="k">end</span>&#x000A;<span class="k">end</span></pre>
+                    </div><p>The advantage here is that we define our own mini DSL. We don't need to worry
+                    about passing too many or unexpected blocks. We could have easily said
+                    <code>where.success</code> or <code>on.error</code> or <code>update.fail!</code>. Also note the <code>on.failure</code>
+                    block includes a <code>status</code> parameter - this contains the exception message
+                    captured in the <code>tweet</code> method above. So if Twitter was down for whatever
+                    reason, the <code>on.failure</code> block would be invoked and printed 'Error: Twitter is
+                    down or being upgraded'.</p><p>Bonus: In addition to wrapping code in blocks, our <code>Proc#callback</code> method
+                    defines boolean style methods. So we could have call the tweet method like this
+                    if we wanted to:</p><div class="highlight">
+                    <pre><span class="n">tweet</span> <span class="s2">"Ruby methods with multiple blocks. #lolruby"</span> <span class="k">do</span> <span class="o">|</span><span class="n">update</span><span class="o">|</span>&#x000A;  <span class="nb">puts</span> <span class="s2">"Tweet successful!"</span> <span class="k">if</span> <span class="n">update</span><span class="o">.</span><span class="n">success?</span>&#x000A;  <span class="nb">puts</span> <span class="s2">"Sorry, something went wrong."</span> <span class="k">if</span> <span class="n">update</span><span class="o">.</span><span class="n">failure?</span>&#x000A;<span class="k">end</span></pre>
+                    </div><p>Put the <code>Proc#callback</code> method in a utility library and your code will look neat and tidy.</p><p>As always, I welcome your thoughts and feedback. Let me know what you think of
+                    the techniques shown here, or share your own favorite code block tricks.</p>
+                  </p>
+                </div>
+              </div>
+              <div class='post-bottom'>
+                <script type='text/javascript'>
+                  //<![CDATA[
+                    var disqus_shortname = 'mattsears'; // required: replace example with your forum shortname
+                    var disqus_identifier = "/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks/";
+                    var disqus_url = "http://www.mattsears.com/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks";
+                  //]]>
+                </script>
+              </div>
+              
+              <div class='post rounded-top'>
+                <div class='head'>
+                  <h2>
                     <a href='/articles/2011/11/16/nyan-cat-rspec-formatter'>
                       Nyan Cat RSpec Formatter
                     </a>
                     <span>
-                      <a class='dsq-comment-count comment-link commentslink' data-disqus-identifier='articles/2011/11/16/nyan-cat-rspec-formatter' href='articles/2011/11/16/nyan-cat-rspec-formatter#disqus_thread'></a>
+                      <a class='dsq-comment-count comment-link commentslink' href='http://www.mattsears.com/articles/2011/11/16/nyan-cat-rspec-formatter#disqus_thread'></a>
                     </span>
                   </h2>
                   <div class='cl'>&nbsp;</div>
@@ -94,7 +160,15 @@
                   </p>
                 </div>
               </div>
-              <div class='post-bottom'></div>
+              <div class='post-bottom'>
+                <script type='text/javascript'>
+                  //<![CDATA[
+                    var disqus_shortname = 'mattsears'; // required: replace example with your forum shortname
+                    var disqus_identifier = "/articles/2011/11/16/nyan-cat-rspec-formatter/";
+                    var disqus_url = "http://www.mattsears.com/articles/2011/11/16/nyan-cat-rspec-formatter";
+                  //]]>
+                </script>
+              </div>
               
               <div class='post rounded-top'>
                 <div class='head'>
@@ -103,7 +177,7 @@
                       Gaga: A Git-Backed Key/Value Store
                     </a>
                     <span>
-                      <a class='dsq-comment-count comment-link commentslink' data-disqus-identifier='articles/2011/10/20/gaga-key-value-store' href='articles/2011/10/20/gaga-key-value-store#disqus_thread'></a>
+                      <a class='dsq-comment-count comment-link commentslink' href='http://www.mattsears.com/articles/2011/10/20/gaga-key-value-store#disqus_thread'></a>
                     </span>
                   </h2>
                   <div class='cl'>&nbsp;</div>
@@ -126,7 +200,15 @@
                   </p>
                 </div>
               </div>
-              <div class='post-bottom'></div>
+              <div class='post-bottom'>
+                <script type='text/javascript'>
+                  //<![CDATA[
+                    var disqus_shortname = 'mattsears'; // required: replace example with your forum shortname
+                    var disqus_identifier = "/articles/2011/10/20/gaga-key-value-store/";
+                    var disqus_url = "http://www.mattsears.com/articles/2011/10/20/gaga-key-value-store";
+                  //]]>
+                </script>
+              </div>
               
               <div class='post rounded-top'>
                 <div class='head'>
@@ -135,7 +217,7 @@
                       Print Stamps With Ruby!
                     </a>
                     <span>
-                      <a class='dsq-comment-count comment-link commentslink' data-disqus-identifier='articles/2011/5/15/print-stamps-with-ruby' href='articles/2011/5/15/print-stamps-with-ruby#disqus_thread'></a>
+                      <a class='dsq-comment-count comment-link commentslink' href='http://www.mattsears.com/articles/2011/5/15/print-stamps-with-ruby#disqus_thread'></a>
                     </span>
                   </h2>
                   <div class='cl'>&nbsp;</div>
@@ -166,7 +248,15 @@
                   </p>
                 </div>
               </div>
-              <div class='post-bottom'></div>
+              <div class='post-bottom'>
+                <script type='text/javascript'>
+                  //<![CDATA[
+                    var disqus_shortname = 'mattsears'; // required: replace example with your forum shortname
+                    var disqus_identifier = "/articles/2011/5/15/print-stamps-with-ruby/";
+                    var disqus_url = "http://www.mattsears.com/articles/2011/5/15/print-stamps-with-ruby";
+                  //]]>
+                </script>
+              </div>
               
               <div class='post rounded-top'>
                 <div class='head'>
@@ -175,7 +265,7 @@
                       Easy Multiple Account Management for Heroku
                     </a>
                     <span>
-                      <a class='dsq-comment-count comment-link commentslink' data-disqus-identifier='articles/2011/1/11/easy-multiple-account-management-for-heroku' href='articles/2011/1/11/easy-multiple-account-management-for-heroku#disqus_thread'></a>
+                      <a class='dsq-comment-count comment-link commentslink' href='http://www.mattsears.com/articles/2011/1/11/easy-multiple-account-management-for-heroku#disqus_thread'></a>
                     </span>
                   </h2>
                   <div class='cl'>&nbsp;</div>
@@ -208,27 +298,15 @@
                   </p>
                 </div>
               </div>
-              <div class='post-bottom'></div>
-              
-              <div class='post rounded-top'>
-                <div class='head'>
-                  <h2>
-                    <a href='/articles/2009/10/31/5-ruby-gems-for-concise-code'>
-                      5 Ruby Gems for Concise Code
-                    </a>
-                    <span>
-                      <a class='dsq-comment-count comment-link commentslink' data-disqus-identifier='articles/2009/10/31/5-ruby-gems-for-concise-code' href='articles/2009/10/31/5-ruby-gems-for-concise-code#disqus_thread'></a>
-                    </span>
-                  </h2>
-                  <div class='cl'>&nbsp;</div>
-                </div>
-                <div class='body'>
-                  <p class='with-border'>
-                    <p>At <a href="http://littlelines.com">Littlelines</a>, we have to write a lot of code under strict time constraints. We work in small teams which means that writing clean and concise code is a necessity. When a Ruby library comes along that makes code easier to grasp in a hurry, test, and maintain - we use it. Here are some gems we have in our toolbox:</p><h2><a href="http://github.com/justinfrench/formtastic">Formtastic</a></h2><p>If you're developing wep apps, more than likely it will include html forms.  Forms can be a time-drain, not to mention very boring to build. Formtastic provides a more concise way of generating form views and includes inline error messages and is semantically rich.</p><h2><a href="http://github.com/giraffesoft/resource_controller">Resource  Controller</a></h2><p>Resource Controller hides away the RESTful controller boiler plate code and make your controllers skinny. Skinny controllers help you to consolidate your business logic into one place, thus saves time on maintenance and testing.</p><h2><a href="http://github.com/binarylogic/searchlogic">Search Logic</a></h2><p>Finding data can get messy. Sometimes we run into situations where we are concatenating strings to build SQL statements and this can lead to bugs. Searchlogic works by creating a number of named scopes that can be called on any ActiveRecord model. The best part, you can dynamically call scopes on associated classes and Searchlogic will take care of creating the necessary joins for you.</p><h2><a href="http://github.com/toastyapps/alchemist">Alchemist</a></h2><p>Occasionally, we work on projects dealing with conversions.  Alchemist is a Ruby library that does conversions for you and thus making your code more readable and easier to maintain. For example:</p><p>Instead of:</p><pre><code>miles = 8 * 1609.344 # converting meters to miles&#x000A;</code></pre><p>We can write:</p><pre><code>8.meters.to.miles&#x000A;</code></pre><p>Alchemist includes a staggering array of conversions including distance, mass, volume, and more.</p><h2><a href="http://andand.rubyforge.org/">andand</a></h2><p>andand is a handy gem that allows allows natural method chaining for methods that can return nil. This saves a lot of boilerplate code and improves readability. For example:</p><p>Instead of:</p><pre><code>@body = (article = Article.find_by_title('test')) &amp;&amp; article.body&#x000A;</code></pre><p>We can write this:</p><pre><code>@body = Article.find_by_title('test').andand.body&#x000A;</code></pre><p>This will call find on the Article class and sends 'body' if the result is not nil. In addition, our methods are guarded from NoMethodErrors is the result is nil.</p>
-                  </p>
-                </div>
+              <div class='post-bottom'>
+                <script type='text/javascript'>
+                  //<![CDATA[
+                    var disqus_shortname = 'mattsears'; // required: replace example with your forum shortname
+                    var disqus_identifier = "/articles/2011/1/11/easy-multiple-account-management-for-heroku/";
+                    var disqus_url = "http://www.mattsears.com/articles/2011/1/11/easy-multiple-account-management-for-heroku";
+                  //]]>
+                </script>
               </div>
-              <div class='post-bottom'></div>
             </div>
           </div>
           <div id='sidebar'>
@@ -284,6 +362,9 @@
               <h4>Recent Posts</h4>
               <ul>
                 <li>
+                  <a href='/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks'>Ruby Blocks as Dynamic Callbacks</a>
+                </li>
+                <li>
                   <a href='/articles/2011/11/16/nyan-cat-rspec-formatter'>Nyan Cat RSpec Formatter</a>
                 </li>
                 <li>
@@ -294,9 +375,6 @@
                 </li>
                 <li>
                   <a href='/articles/2011/1/11/easy-multiple-account-management-for-heroku'>Easy Multiple Account Management for Heroku</a>
-                </li>
-                <li>
-                  <a href='/articles/2009/10/31/5-ruby-gems-for-concise-code'>5 Ruby Gems for Concise Code</a>
                 </li>
               </ul>
             </div>
@@ -348,7 +426,7 @@
               <h4>Archives</h4>
               <ul>
                 <li>
-                  <a href='/articles/archives/2011/11'>November 2011 (1)</a>
+                  <a href='/articles/archives/2011/11'>November 2011 (2)</a>
                 </li>
                 <li>
                   <a href='/articles/archives/2011/10'>October 2011 (1)</a>
