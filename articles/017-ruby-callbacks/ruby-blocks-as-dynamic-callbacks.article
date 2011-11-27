@@ -102,4 +102,4 @@ end
 Put the `Proc#callback` method in a utility library and your code will look neat and tidy.
 
 As always, I welcome your thoughts and feedback. Let me know what you think of
-the techniques shown here, or share your own personal favorite code block trick.
+the techniques shown here, or share your own favorite code block tricks.
