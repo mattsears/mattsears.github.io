@@ -10,7 +10,7 @@
     <pubDate>Sun, 27 Nov 2011 11:38:19 +0000</pubDate>
     <item>
       <title>Ruby Blocks as Dynamic Callbacks</title>
-      <link>http://example.orgarticles/2011/11/27/ruby-blocks-as-dynamic-callbacks</link>
+      <link>http://www.mattsears.com/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks</link>
       <description>
         <![CDATA[<p>Callbacks are a great technique for achieving simplicity and flexibility. Simply put,
         a callback is a block of code passed as an argument to a method. In Ruby, code
@@ -91,7 +91,7 @@
     </item>
     <item>
       <title>Nyan Cat RSpec Formatter</title>
-      <link>http://example.orgarticles/2011/11/16/nyan-cat-rspec-formatter</link>
+      <link>http://www.mattsears.com/articles/2011/11/16/nyan-cat-rspec-formatter</link>
       <description>
         <![CDATA[<p>I watch a lot of tests run in a given day. So I figured why not make it more
         fun. Inspired by <a href="https://github.com/seattlerb/minitest">minitest</a>'s pride, and um
@@ -123,7 +123,7 @@
     </item>
     <item>
       <title>Gaga: A Git-Backed Key/Value Store</title>
-      <link>http://example.orgarticles/2011/10/20/gaga-key-value-store</link>
+      <link>http://www.mattsears.com/articles/2011/10/20/gaga-key-value-store</link>
       <description>
         <![CDATA[<p>Gaga originated from my winning entry in Codebrawl's <a href="http://codebrawl.com/contests/key-value-stores">Key/Value
         Store</a> contest. The challenge
@@ -169,7 +169,7 @@
     </item>
     <item>
       <title>Print Stamps With Ruby!</title>
-      <link>http://example.orgarticles/2011/5/15/print-stamps-with-ruby</link>
+      <link>http://www.mattsears.com/articles/2011/5/15/print-stamps-with-ruby</link>
       <description>
         <![CDATA[<p>I've just released <a href="https://github.com/mattsears/stamps">Stamps</a> - A Ruby gem for creating postage labels,
         calculate the shipping cost of packages, standardize domestic
@@ -231,7 +231,7 @@
     </item>
     <item>
       <title>Easy Multiple Account Management for Heroku</title>
-      <link>http://example.orgarticles/2011/1/11/easy-multiple-account-management-for-heroku</link>
+      <link>http://www.mattsears.com/articles/2011/1/11/easy-multiple-account-management-for-heroku</link>
       <description>
         <![CDATA[<p>Recently, I migrated all of my personal and <a href="http://littlelines.com">business</a> sites
         to <a href="http://heroku.com">Heroku</a>. Heroku, as you may know, is a fantastic
@@ -268,7 +268,7 @@
     </item>
     <item>
       <title>5 Ruby Gems for Concise Code</title>
-      <link>http://example.orgarticles/2009/10/31/5-ruby-gems-for-concise-code</link>
+      <link>http://www.mattsears.com/articles/2009/10/31/5-ruby-gems-for-concise-code</link>
       <description>
         <![CDATA[<p>At <a href="http://littlelines.com">Littlelines</a>, we have to write a lot of code under strict time constraints. We work in small teams which means that writing clean and concise code is a necessity. When a Ruby library comes along that makes code easier to grasp in a hurry, test, and maintain - we use it. Here are some gems we have in our toolbox:</p><h2><a href="http://github.com/justinfrench/formtastic">Formtastic</a></h2><p>If you're developing wep apps, more than likely it will include html forms.  Forms can be a time-drain, not to mention very boring to build. Formtastic provides a more concise way of generating form views and includes inline error messages and is semantically rich.</p><h2><a href="http://github.com/giraffesoft/resource_controller">Resource  Controller</a></h2><p>Resource Controller hides away the RESTful controller boiler plate code and make your controllers skinny. Skinny controllers help you to consolidate your business logic into one place, thus saves time on maintenance and testing.</p><h2><a href="http://github.com/binarylogic/searchlogic">Search Logic</a></h2><p>Finding data can get messy. Sometimes we run into situations where we are concatenating strings to build SQL statements and this can lead to bugs. Searchlogic works by creating a number of named scopes that can be called on any ActiveRecord model. The best part, you can dynamically call scopes on associated classes and Searchlogic will take care of creating the necessary joins for you.</p><h2><a href="http://github.com/toastyapps/alchemist">Alchemist</a></h2><p>Occasionally, we work on projects dealing with conversions.  Alchemist is a Ruby library that does conversions for you and thus making your code more readable and easier to maintain. For example:</p><p>Instead of:</p><pre><code>miles = 8 * 1609.344 # converting meters to miles
         </code></pre><p>We can write:</p><pre><code>8.meters.to.miles
@@ -281,7 +281,7 @@
     </item>
     <item>
       <title>20 Clojure Links To Get You Up To Speed</title>
-      <link>http://example.orgarticles/2009/6/6/20-clojure-links-to-get-you-up-to-speed</link>
+      <link>http://www.mattsears.com/articles/2009/6/6/20-clojure-links-to-get-you-up-to-speed</link>
       <description>
         <![CDATA[<p>Writing multi-threaded code is hard. If you've ever done concurrent programming, you'll <em>probably</em> agree. Clojure offers a compelling alternative to traditional object-oriented approaches to programming and has garnered much attention from the Ruby community because of it's elegant design that lets you get right to the essence of a problem.</p><h2>What is Clojure?</h2><p>Simply put, Clojure is a functional programming language for the Java Virtual Machine with several powerful features for building concurrent applications. In addition, Clojure is fast, robust, and a powerful general-purpose programming language. A dialect of Lisp, Clojure embraces traditional code-as-data philosophy and a powerful macro system, plus some syntactic sugar tailored to Java.</p><p>Now that <a href="http://clojure.blogspot.com/2009/05/clojure-10.html">version 1.0</a> is out and Stuart Halloway's new book <a href="http://www.pragprog.com/titles/shcloj/programming-clojure">Programming Clojure</a> just dropped, I've rounded up some of the best articles and tutorials on Clojure to you get you up to speed quickly.</p><h2>Tutorials and Links</h2><ul>
         <li><p><a href="http://java.ociweb.com/mark/clojure/article.html">A Clojure Tutorial</a> by R. Mark Volkmann</p></li>
@@ -317,7 +317,7 @@
     </item>
     <item>
       <title>Git blogging with Aerial</title>
-      <link>http://example.orgarticles/2009/4/4/git-blogging-with-aerial</link>
+      <link>http://www.mattsears.com/articles/2009/4/4/git-blogging-with-aerial</link>
       <description>
         <![CDATA[<p>Over the last few years, I have grown tired of maintaining, migrating, and upgrading blog software, so I've decided to roll my own with Ruby code. In doing so, I wanted to keep things as simple as possible with a basic set of features: articles, pages, comments, rss, etc. What I didn't want is a SQL database or an administration tool. I wanted to write articles in my text editor of choice (Emacs), in <a href="http://daringfireball.net/projects/markdown/">Markdown</a> format, and versioned with <a href="http://git-scm.com/">Git</a>. So I've ported this site from Mephisto to my own custom creation. I call it Aerial.</p><p>Much inspiration for Aerial has come from <a href="http://github.com/karmi/marley">Marley</a>, a minimal flat-file blog engine written in Sinatra. Like Marley, Aerial is built with <a href="http://www.sinatrarb.com/">Sinatra</a> and uses plain text files. Unlike Marley, Aerial doesn't use a SQL database and uses <a href="http://github.com/mojombo/grit">Grit</a> to retrieve article and comment files from a Git repository.</p><h2>So how does it work?</h2><p>Articles and comments are stored as plain text files in a local Git directory. Aerial parses each file and converts them the Article and Comment objects with their own set of attributes such as title, body, tags, and author. For example, this article looks something like this:</p><pre><code>Title      : Git blogging with Aerial
         Tags       : projects, ruby, git, sinatra
@@ -339,7 +339,7 @@
     </item>
     <item>
       <title>Two+ Years Working with Rails</title>
-      <link>http://example.orgarticles/2008/12/10/two-years-working-with-rails</link>
+      <link>http://www.mattsears.com/articles/2008/12/10/two-years-working-with-rails</link>
       <description>
         <![CDATA[<p>Update: I thought I should give a little background on how I got started with Rails - when I was attending the SDWest conference in March 2006.  I was at the Jolt Awards, and saw @d2h receive the award for the best web development tool for Rails 1.0.  I downloaded Rails that night in the hotel room and was hooked.</p><p>This week marks the two year anniversary when I delivered my first professional Rails app.  Today, I decided to take a look back at the  code of that first project and see what's improved over the past two years.  The result - not bad, but there were a couple areas that stood out. Here are a few:</p><ol>
         <li>The controllers in that first project were out of control. Not sure why, maybe coming from the J2EE world, my first instinct was to cram everything into the controller. It was apparent that the concept of REST wasn't completely baked into my brain yet. Not to mention the concept of fat models, skinny controllers.</li>
@@ -353,7 +353,7 @@
     </item>
     <item>
       <title>RubyConf 2008 Wrap Up</title>
-      <link>http://example.orgarticles/2008/11/23/rubyconf-2008-wrap-up</link>
+      <link>http://www.mattsears.com/articles/2008/11/23/rubyconf-2008-wrap-up</link>
       <description>
         <![CDATA[<p>This month I headed down to Orlando, Florida for RubyConf 2008. It kicked off with a delightful (and touching) keynote by Matz. He walked through his own programming history with languages including the language he got started with BASIC (the same language I started with). Matz talked about the growing community and a statistic from Gartner that says there are over a million Ruby developers and will grow to 4 million by 2012, which is amazing. He finished up by saying that Ruby is all about love, and included a slide that said "I love you all".  Below are couple highlights from each day.</p><blockquote>
         <p><img src="http://farm4.static.flickr.com/3007/3012059619_54ca460d75.jpg" alt="Alt text" title="The Keynote Audience">
@@ -374,7 +374,7 @@
     </item>
     <item>
       <title>Quick git add, commit, push, and deploy</title>
-      <link>http://example.orgarticles/2008/11/8/quick-git-add-commit-push-and-deploy</link>
+      <link>http://www.mattsears.com/articles/2008/11/8/quick-git-add-commit-push-and-deploy</link>
       <description>
         <![CDATA[<p>Last week, I was preparing a presentation and found myself doing a lot of quick fixes and deployments to prepare a web application for a demonstration.  I thought instead of running the following four commands each time:</p><pre><code>git add .
         git commit -a -m 'A description of the change'
@@ -436,7 +436,7 @@
     </item>
     <item>
       <title>erubycon 2008</title>
-      <link>http://example.orgarticles/2008/8/24/erubycon-2008</link>
+      <link>http://www.mattsears.com/articles/2008/8/24/erubycon-2008</link>
       <description>
         <![CDATA[<p>Last week I made a short drive to Columbus for the erubycon conference presented by the <a href="http://theedgecase.com">EdgeCase</a> crew.  The three day conference, hosted by Microsoft, was an event to demonstrate Ruby's role in the enterprise.  Having worked in the Enterprise for six years, I was very excited to learn more about how Ruby can change the Enterprise.</p><blockquote>
         <p><img src="http://farm4.static.flickr.com/3165/2782317715_0541ef31ee.jpg" alt="Alt text" title="erubycon">
@@ -467,7 +467,7 @@
     </item>
     <item>
       <title>Now running Phusion Passenger</title>
-      <link>http://example.orgarticles/2008/7/25/now-running-phusion-passenger</link>
+      <link>http://www.mattsears.com/articles/2008/7/25/now-running-phusion-passenger</link>
       <description>
         <![CDATA[<p>Just finished making some major changes to this site.  First thing you might noticed are the changes to the design. In effort to simplify things a bit, I modified a <a href="http://www.quotedprintable.com/pages/scribbish">Scribbish</a> theme to my own liking.  Is it too geeky? The awesome portrait you see at the top right was created by <a href="http://papertelevision.com" title="Paper Television">Josh</a>.  Nailed it.</p><p>Here is a rundown of the changes made:</p><ol>
         <li>Upgraded to Ubuntu 8.04 Hardy Heron</li>
@@ -481,21 +481,21 @@
     </item>
     <item>
       <title>Littlelines featured at Freshbooks</title>
-      <link>http://example.orgarticles/2008/7/13/littlelines-featured-at-freshbooks</link>
+      <link>http://www.mattsears.com/articles/2008/7/13/littlelines-featured-at-freshbooks</link>
       <description><![CDATA[<p>Josh and I were interviewed by Freshbooks for their "FreshFaces" blog.  Freshbooks is a great tool for keeping track of invoices, so we were pretty excited to talk to them.</p><p>The article can be seen  <a href="http://www.freshbooks.com/blog/2008/04/16/fresh-faces-matt-josh-sears">here</a>.</p>]]></description>
       <pubDate>Sun, 13 Jul 2008 23:07:01 +0000</pubDate>
       <guid isPermaLink='false'>f8e80249a060ad0af4027d1f46394dc961da726b</guid>
     </item>
     <item>
       <title>LinkedIn shares it's communication architecture</title>
-      <link>http://example.orgarticles/2008/7/13/linkedin-shares-it-s-communication-architecture</link>
+      <link>http://www.mattsears.com/articles/2008/7/13/linkedin-shares-it-s-communication-architecture</link>
       <description><![CDATA[<p>I was just reading LinkedIn's presentation on it's architecture and it was like walking down memory lane. I worked with almost the same architecture at <a href="http://www.lexisnexis.com">LexisNexis</a>. We also used Java, Solaris, Tomcat (Websphere mostly), Oracle, JMS and the cached was implemented with C++. Ah, the good ol' days.</p>]]></description>
       <pubDate>Sun, 13 Jul 2008 22:52:33 +0000</pubDate>
       <guid isPermaLink='false'>b3b2fa75b1b3acf560c2663c1ad23d66dab51fc0</guid>
     </item>
     <item>
       <title>SD West</title>
-      <link>http://example.orgarticles/2008/7/13/sd-west</link>
+      <link>http://www.mattsears.com/articles/2008/7/13/sd-west</link>
       <description>
         <![CDATA[<p>Really late on this, but here are some snapshots of the Software Development conference in Santa Clara, California. I had a really good time, except I was sick for a couple days. I concentrated mostly on design patterns, generics, C++, Java, and vomiting. :-)</p><blockquote>
         <p><img src="http://farm4.static.flickr.com/3227/2665584462_f8139d5182.jpg?v=0" alt="Alt text" title="Thai Restaurant in Sunnyvale, CA"></p>
@@ -510,14 +510,14 @@
     </item>
     <item>
       <title>Finally, MattSears.com</title>
-      <link>http://example.orgarticles/2008/7/13/finally-mattsears-com</link>
+      <link>http://www.mattsears.com/articles/2008/7/13/finally-mattsears-com</link>
       <description><![CDATA[<p>After a decade of waiting, I finally nabbed the mattsears.com domain name. I almost forgot about it until Godaddy sent me an email last week that said it was Pending deletion. Though, I have to admit that I'm not really excite about it as I thought I would be. I guess it's because I've been using matthewsears.com for a couple years now and excepted using my full name instead, but it's cool that I have both now.</p>]]></description>
       <pubDate>Sun, 13 Jul 2008 20:38:19 +0000</pubDate>
       <guid isPermaLink='false'>08c2049da3f440bccf68dac63b8008aad1622066</guid>
     </item>
     <item>
       <title>Relay outbound SMTP email to Gmail</title>
-      <link>http://example.orgarticles/2008/1/8/relay-outbound-smtp-email-to-gmail</link>
+      <link>http://www.mattsears.com/articles/2008/1/8/relay-outbound-smtp-email-to-gmail</link>
       <description>
         <![CDATA[<p>Sending emails with Rails via Gmail is a snap with Marc Chung's excellent plugin <a href="http://code.openrain.com/rails/action_mailer_tls">action_mailer_tls</a>. However, sometimes our production environment isn't using Gmail as a mail server and/or we just need an easy way to send email from our development environment for testing or demonstrating purposes.</p><p>Instead of installing the action_mailer_tls plugin and configuring each of our Rails apps, we can do a one-time setup of our local Postfix client to relay all SMTP outbound emails to our Gmail account. If your running a Mac OS Leopard or Linux, Postfix should already be installed. With a little configuration, we should be up and running in a couple minutes.</p><p>First create /etc/postfix/relay_password file with the server name, email account name and password as shown below. This configuration works with Gmail accounts as well as with Google Apps email accounts. I'm personally using my company's Google Apps with a special email account setup for outbound emails only.</p><pre><code>smtp.gmail.com    example@yourdomain.com:yourpassword
         </code></pre><p>Then tell Postfix about our google accounts information so it knows how and where to relay the email to. This can be done with the postmap command:</p><pre><code>$ postmap /etc/postfix/relay_password
