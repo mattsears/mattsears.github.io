@@ -566,6 +566,23 @@ a.more-black {
       padding-top: 5px; }
     #sidebar .elsewhere li {
       padding: 5px 0; }
+  #sidebar .rubyrags {
+    padding: 5px;
+    background-color: ghostWhite;
+    border: 1px solid #dedede;
+    margin: 0 0 10px 0;
+    width: 170px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-align: center; }
+    #sidebar .rubyrags a:hover {
+      text-decoration: underline; }
+    #sidebar .rubyrags h2 {
+      font-size: 14px;
+      margin-bottom: 2px; }
+    #sidebar .rubyrags p {
+      line-height: 15px; }
   #sidebar li.last {
     padding-bottom: 0 !important; }
   #sidebar .elsewhere a {
@@ -582,6 +599,9 @@ a.more-black {
 
 .small-ico-external {
   background-image: url(/images/ico-external.png); }
+
+.small-ico-twitter {
+  background-image: url(/images/ico-twitter.png); }
 
 #footer {
   height: 110px;
