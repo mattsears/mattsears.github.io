@@ -3,12 +3,12 @@ Tags          : ruby
 Publish Date  : 2011-12-10 20:38:19
 Author        : Matt Sears
 
-[MiniTest](https://github.com/seattlerb/minitest) is a small and fast unit
-testing framework. Shipped with Ruby 1.9, MiniTest supports a complete suite of
-testing capabilities such as TDD, BDD, mocking, and benchmarking.
+[MiniTest](https://github.com/seattlerb/minitest), as the name suggests, is a
+small and fast unit testing framework. Shipped with Ruby 1.9, MiniTest supports
+a complete suite of testing capabilities such as TDD, BDD, mocking, and benchmarking.
 
-This quick reference aims to guide you through MiniTest's main concepts and
-provide real examples to get you started quickly. Let's start with
+This quick reference aims to demonstrate MiniTest's main concepts and
+provide real world examples to get you acquainted quickly. Let's start with
 MiniTest::Spec.
 
 ## MiniTest::Spec ##
