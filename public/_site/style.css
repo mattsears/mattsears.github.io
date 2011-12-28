@@ -67,6 +67,9 @@ h3 {
 h4 {
   font-size: 18px; }
 
+ol {
+  margin: 10px 0 10px 20px; }
+
 .nocufon {
   letter-spacing: 0 !important; }
 
@@ -652,6 +655,21 @@ a.more-black {
 
 .tipsy-west {
   background-position: left center; }
+
+table {
+  margin: 10px 0 20px 0; }
+  table td {
+    border-bottom: 1px solid #dddddd !important;
+    padding: 0.2em 1em !important; }
+  table code {
+    background-color: ghostWhite !important;
+    border: 1px solid #dedede !important;
+    color: #444444 !important;
+    font-size: 90% !important;
+    line-height: 1.5em !important;
+    margin: 1em 0px !important;
+    overflow: auto !important;
+    padding: 0 !important; }
 
 /* Syntax Highlighting */
 .highlight {

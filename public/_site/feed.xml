@@ -7,7 +7,266 @@
     <ttl>40</ttl>
     <generator>Aerial</generator>
     <description></description>
-    <pubDate>Sun, 27 Nov 2011 11:38:19 +0000</pubDate>
+    <pubDate>Sat, 10 Dec 2011 20:38:19 +0000</pubDate>
+    <item>
+      <title>Minitest Quick Reference</title>
+      <link>http://www.mattsears.com/articles/2011/12/10/minitest-quick-reference</link>
+      <description>
+        <![CDATA[<p><a href="https://github.com/seattlerb/minitest">MiniTest</a>, as the name suggests, is a
+        small and fast unit testing framework. Shipped with Ruby 1.9, MiniTest supports
+        a complete suite of testing capabilities such as TDD, BDD, mocking, and benchmarking.</p><p>This quick reference aims to demonstrate MiniTest's main concepts and
+        provide real world examples to get you acquainted quickly. Let's start with
+        MiniTest::Spec.</p><h2>MiniTest::Spec</h2><p>Provides RSpec-like matchers and contexts right out of the box.</p><div class="highlight">
+        <pre><span class="nb">require</span> <span class="s1">'minitest/autorun'</span>
+        
+        <span class="n">describe</span> <span class="no">Hipster</span><span class="p">,</span> <span class="s2">"Demonstration of MiniTest"</span> <span class="k">do</span>
+          <span class="n">before</span> <span class="k">do</span>
+            <span class="vi">@hipster</span> <span class="o">=</span> <span class="no">Hipster</span><span class="o">.</span><span class="n">new</span>
+          <span class="k">end</span>
+        
+          <span class="n">after</span> <span class="k">do</span>
+            <span class="vi">@hipster</span><span class="o">.</span><span class="n">destroy!</span>
+          <span class="k">end</span>
+        
+          <span class="n">subject</span> <span class="k">do</span>
+            <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">tap</span> <span class="k">do</span> <span class="o">|</span><span class="n">attributes</span><span class="o">|</span>
+              <span class="n">attributes</span> <span class="o">&lt;&lt;</span> <span class="s2">"silly hats"</span>
+              <span class="n">attributes</span> <span class="o">&lt;&lt;</span> <span class="s2">"skinny jeans"</span>
+            <span class="k">end</span>
+          <span class="k">end</span>
+        
+          <span class="n">let</span><span class="p">(</span><span class="ss">:list</span><span class="p">)</span> <span class="p">{</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span> <span class="p">}</span>
+        
+          <span class="n">describe</span> <span class="s2">"when asked about the font"</span> <span class="k">do</span>
+            <span class="n">it</span> <span class="s2">"should be helvetica"</span> <span class="k">do</span>
+              <span class="vi">@hipster</span><span class="o">.</span><span class="n">preferred_font</span><span class="o">.</span><span class="n">must_equal</span> <span class="s2">"helvetica"</span>
+            <span class="k">end</span>
+          <span class="k">end</span>
+        
+          <span class="n">describe</span> <span class="s2">"when asked about mainstream"</span> <span class="k">do</span>
+            <span class="n">it</span> <span class="s2">"won't be mainstream"</span> <span class="k">do</span>
+              <span class="vi">@hipster</span><span class="o">.</span><span class="n">mainstream?</span><span class="o">.</span><span class="n">wont_equal</span> <span class="kp">true</span>
+            <span class="k">end</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+        </pre>
+        </div><h3>Matchers (must | wont)</h3><p>In most cases you can switch between <code>must</code> for positive expectations and <code>wont</code>
+        for negative expectations.</p><table>
+        <thead><tr>
+        <td align="left">Assertion</td>
+        <td align="left">Examples</td>
+        </tr></thead>
+        <tbody>
+        <tr>
+        <td align="left"><code>must_be</code></td>
+        <td align="left"><code>list.size.must_be :==, 0</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>must_be_close_to</code></td>
+        <td align="left"><code>subject.size.must_be_close_to 1,1</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>must_be_empty</code></td>
+        <td align="left"><code>list.must_be_empty</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>must_be_instance_of</code></td>
+        <td align="left"><code>list.must_be_instance_of Array</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>must_be_kind_of</code></td>
+        <td align="left"><code>list.must_be_kind_of Enumerable</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>must_be_nil</code></td>
+        <td align="left"><code>list.first.must_be_nil</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>must_be_same_as</code></td>
+        <td align="left"><code>subject.must_be_same_as subject</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>must_be_silent</code></td>
+        <td align="left"><code>proc { "no stdout or stderr" }.must_be_silent</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>must_be_within_epsilon</code></td>
+        <td align="left"><code>subject.size.must_be_within_epsilon 1,1</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>must_equal</code></td>
+        <td align="left"><code>subject.size.must_equal 2</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>must_include</code></td>
+        <td align="left"><code>subject.must_include "skinny jeans"</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>must_match</code></td>
+        <td align="left"><code>subject.first.must_match /silly/</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>must_output</code></td>
+        <td align="left"><code>proc { print "#{subject.size}!" }.must_output "2!"</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>must_respond_to</code></td>
+        <td align="left"><code>subject.must_respond_to :count</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>must_raise</code></td>
+        <td align="left"><code>proc { subject.foo }.must_raise NoMethodError</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>must_send</code></td>
+        <td align="left"><code>subject.must_send [subject, :values_at, 0]</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>must_throw</code></td>
+        <td align="left"><code>proc { throw :done if subject.any? }.must_throw :done</code></td>
+        </tr>
+        </tbody>
+        </table>
+        <h2>MiniTest::Unit::TestCase</h2><p>Provides a rich set of assertions to make your tests clean and readable.</p><div class="highlight">
+        <pre><span class="nb">require</span> <span class="s1">'minitest/autorun'</span>
+        
+        <span class="k">class</span> <span class="nc">TestHipster</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+          <span class="k">def</span> <span class="nf">setup</span>
+            <span class="vi">@hipster</span> <span class="o">=</span> <span class="no">Hipster</span><span class="o">.</span><span class="n">new</span>
+            <span class="vi">@list</span>    <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span>
+            <span class="vi">@subject</span> <span class="o">=</span> <span class="o">[</span><span class="s2">"silly hats"</span><span class="p">,</span> <span class="s2">"skinny jeans"</span><span class="o">]</span>
+          <span class="k">end</span>
+        
+          <span class="k">def</span> <span class="nf">teardown</span>
+            <span class="vi">@hipster</span><span class="o">.</span><span class="n">destroy!</span>
+          <span class="k">end</span>
+        
+          <span class="k">def</span> <span class="nf">test_for_helvetica_font</span>
+            <span class="n">assert_equal</span> <span class="s2">"helvetica!"</span><span class="p">,</span> <span class="vi">@hipster</span><span class="o">.</span><span class="n">preferred_font</span>
+          <span class="k">end</span>
+        
+          <span class="k">def</span> <span class="nf">test_not_mainstream</span>
+            <span class="n">refute</span> <span class="vi">@hipster</span><span class="o">.</span><span class="n">mainstream?</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+        </pre>
+        </div><h3>Assertions (assert | refute)</h3><p>Toggle between <code>assert</code> for positive assertions and <code>refute</code> for negative assertions.</p><table>
+        <thead><tr>
+        <td align="left">Assertion</td>
+        <td align="left">Example</td>
+        </tr></thead>
+        <tbody>
+        <tr>
+        <td align="left"><code>assert</code></td>
+        <td align="left"><code>assert @subject.any?, "empty subjects"</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_block</code></td>
+        <td align="left"><code>assert_block { @subject.any? }</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_empty</code></td>
+        <td align="left"><code>assert_empty @list</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_equal</code></td>
+        <td align="left"><code>assert_equal 2, @subject.size</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_in_delta</code></td>
+        <td align="left"><code>assert_in_delta @subject.size, 1,1</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_in_epsilon</code></td>
+        <td align="left"><code>assert_in_epsilon @subject.size, 1, 1</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_include</code></td>
+        <td align="left"><code>assert_include "skinny jeans", @subject</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_instance_of</code></td>
+        <td align="left"><code>assert_instance_of Array, @list</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_kind_of</code></td>
+        <td align="left"><code>assert_kind_of Enumerable, @list</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_match</code></td>
+        <td align="left"><code>assert_match @subject.first, /silly/</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_nil</code></td>
+        <td align="left"><code>assert_nil @list.first</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_operator</code></td>
+        <td align="left"><code>assert_operator @list.size, :== , 0</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_output</code></td>
+        <td align="left"><code>assert_output("Size: 2") { print "Size: #{@subject.size}"}</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_raises</code></td>
+        <td align="left"><code>assert_raises(NoMethodError) { @subject.foo }</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_respond_to</code></td>
+        <td align="left"><code>assert_respond_to @subject, :count</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_same</code></td>
+        <td align="left"><code>assert_same @subject, @subject, "It's the same object silly"</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_send</code></td>
+        <td align="left"><code>assert_send [@subject, :values_at, 0]</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_silent</code></td>
+        <td align="left"><code>assert_silent { "no stdout or stderr" }</code></td>
+        </tr>
+        <tr>
+        <td align="left"><code>assert_throws</code></td>
+        <td align="left"><code>assert_throws(:error,'is empty') {throw :error if @subject.any?}</code></td>
+        </tr>
+        </tbody>
+        </table>
+        <h2>MiniTest::Mock</h2><p>A simple and clean mock system. There two essential methods at our disposal:
+        <code>expect</code> and <code>verify</code>.</p><div class="highlight">
+        <pre><span class="nb">require</span> <span class="s1">'minitest/autorun'</span>
+        
+        <span class="n">describe</span> <span class="no">Twitter</span> <span class="k">do</span>
+          <span class="n">before</span> <span class="k">do</span>
+            <span class="vi">@twitter</span> <span class="o">=</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Mock</span><span class="o">.</span><span class="n">new</span>
+            <span class="vi">@twitter</span><span class="o">.</span><span class="n">expect</span> <span class="ss">:update</span><span class="p">,</span> <span class="kp">true</span><span class="p">,</span> <span class="o">[</span><span class="s2">"#lolruby"</span><span class="o">]</span>
+          <span class="k">end</span>
+        
+          <span class="n">describe</span> <span class="s2">"#update"</span> <span class="k">do</span>
+            <span class="n">describe</span> <span class="s2">"when tweeting"</span> <span class="k">do</span>
+              <span class="n">it</span> <span class="s2">"should update the user's status"</span> <span class="k">do</span>
+                <span class="vi">@twitter</span><span class="o">.</span><span class="n">update</span> <span class="s2">"#lolruby"</span>
+                <span class="n">assert</span> <span class="vi">@twitter</span><span class="o">.</span><span class="n">verify</span>
+              <span class="k">end</span>
+            <span class="k">end</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+        </pre>
+        </div><h2>Resources</h2><ol>
+        <li><a href="https://github.com/seattlerb/minitest">MiniTest on Github</a></li>
+        <li><a href="http://docs.seattlerb.org/minitest">MiniTest Rdoc</a></li>
+        <li><a href="http://metaskills.net/2011/03/26/using-minitest-spec-with-rails">Using MiniTest::Spec with Rails</a></li>
+        <li><a href="http://www.rubyinside.com/a-minitestspec-tutorial-elegant-spec-style-testing-that-comes-with-ruby-5354.html">Ruby Inside: A MiniTest::Spec Tutorial: Elegant Spec-Style Testing That Comes With Ruby</a></li>
+        </ol>
+        <p>I hope you found this quick guide valuable. Please let me know if you'd like
+        to see anything else included and feel free to ask questions or give feedback
+        in the comments section.</p>]]>
+      </description>
+      <pubDate>Sat, 10 Dec 2011 20:38:19 +0000</pubDate>
+      <guid isPermaLink='false'>5af6ef8a8294acc633cc7b791c8ef39a02511973</guid>
+    </item>
     <item>
       <title>Ruby Blocks as Dynamic Callbacks</title>
       <link>http://www.mattsears.com/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks</link>
