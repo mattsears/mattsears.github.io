@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/mattsears/aerial.git
-  revision: ca75004707c83d09d8a5d697f07da4d831a95f48
+  revision: f720f295493a9dbf7e70f790788cc231dfc0c6db
   specs:
     aerial (0.2.0)
       albino
@@ -8,7 +8,7 @@ GIT
       haml
       html_truncator
       nokogiri
-      redcarpet
+      redcarpet (= 1.17.2)
       sinatra
       thin
       thor
@@ -20,7 +20,7 @@ GEM
     albino (1.3.3)
       posix-spawn (>= 0.3.6)
     configuration (1.3.1)
-    daemons (1.1.4)
+    daemons (1.1.5)
     diff-lcs (1.1.3)
     em-websocket (0.3.1)
       addressable (>= 2.1.1)
@@ -42,7 +42,7 @@ GEM
     heroku (1.20.1)
       launchy (~> 0.3.2)
       rest-client (>= 1.4.0, < 1.7.0)
-    html_truncator (0.2.3)
+    html_truncator (0.3.0)
       nokogiri (~> 1.4)
     launchy (0.3.7)
       configuration (>= 0.0.5)
