@@ -3,16 +3,17 @@ Tags          : ruby
 Publish Date  : 2011-12-10 20:38:19
 Author        : Matt Sears
 
-Minitest as the name suggests is a small unit testing framework.  Introduced in
-Ruby 1.9, minitest is incredibly fast and supports a complete suite of testing
-capabilities such as TDD, BDD, mocking, and benchmarking.
+[MiniTest](https://github.com/seattlerb/minitest) a great unit testing
+framework.  Introduced in Ruby 1.9's standard library, MiniTest is incredibly
+fast and supports a complete suite of testing capabilities such as TDD, BDD,
+mocking, and benchmarking.
 
-This article is meant to be a reference guide to get off the ground
-running quickly. Let's start with MiniTest::Spec.
+This quick reference aims to guide you through Minitest's main concepts and
+provide real examples to get you started quickly. Let's start with MiniTest::Spec.
 
 ## MiniTest::Spec ##
-Hooks onto minitest/unit and seamlessly bridges test assertions over to spec
-expectations.
+
+Provides RSpec-like matchers and contexts right out of the box.
 
 ```ruby
 require 'minitest/autorun'
@@ -37,15 +38,7 @@ describe Hipster, "Demonstration of MiniTest" do
 
   describe "when asked about the font" do
     it "should be helvetica" do
-      @hipster.what_about_the_font?.must_equal "helvetica"
-    end
-
-    it "what about Tahoma" do
-      skip "that is so mainstream"
-    end
-
-    it "" do
-      fail ""
+      @hipster.preferred_font.must_equal "helvetica"
     end
   end
 
@@ -53,12 +46,13 @@ describe Hipster, "Demonstration of MiniTest" do
     it "won't be mainstream" do
       @hipster.mainstream?.wont_equal true
     end
-
   end
 end
 ```
 
-### Matchers (must || wont) ###
+### Matchers (must | wont) ###
+In most cases you can switch between `must` for positive expectations and `wont`
+for negative expectations.
 
 Assertion                | Examples
 :------------------------|:----------------------------------------------------|
@@ -99,7 +93,7 @@ class TestHipster < MiniTest::Unit::TestCase
   end
 
   def test_for_helvetica_font
-    assert_equal "helvetica!", @hipster.what_about_the_font?
+    assert_equal "helvetica!", @hipster.preferred_font
   end
 
   def test_not_mainstream
@@ -108,7 +102,8 @@ class TestHipster < MiniTest::Unit::TestCase
 end
 ```
 
-### Assertions (assert || refute)
+### Assertions (assert | refute)
+Toggle between `assert` for positive assertions and `refute` for negative assertions.
 
 Assertion            | Example
 :--------------------|:----------------------------------------------------------|
@@ -156,5 +151,12 @@ describe Twitter do
 end
 ```
 
-That is all. I welcome your thoughts and feedback. Please let me know if you
-would like to see anything else included.
+## Resources
+1. [MiniTest on Github](https://github.com/seattlerb/minitest)
+2. [MiniTest Rdoc](http://docs.seattlerb.org/minitest)
+3. [Using MiniTest::Spec with Rails](http://metaskills.net/2011/03/26/using-minitest-spec-with-rails)
+4. [Ruby Inside: A MiniTest::Spec Tutorial: Elegant Spec-Style Testing That Comes With Ruby](http://www.rubyinside.com/a-minitestspec-tutorial-elegant-spec-style-testing-that-comes-with-ruby-5354.html)
+
+I hope you found this post valuable. Please let me know if you would like to
+see anything else included and feel free to ask questions and give feedback in the
+comments section.
