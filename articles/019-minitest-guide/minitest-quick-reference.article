@@ -134,19 +134,28 @@ A simple and clean mock system. There two essential methods at our disposal:
 ```ruby
 require 'minitest/autorun'
 
-describe Twitter do
-  before do
-    @twitter = MiniTest::Mock.new
-    @twitter.expect :update, true, ["#lolruby"]
+class Twipster
+  def initialize(twitter)
+    # A Ruby wrapper for the Twitter API
+    @twitter = twitter
   end
 
-  describe "#update" do
-    describe "when tweeting" do
-      it "should update the user's status" do
-        @twitter.update "#lolruby"
-        assert @twitter.verify
-      end
-    end
+  def submit(tweet)
+    @twitter.update("#{tweet} #lolhipster")
+  end
+end
+
+describe Twipster, "Make every tweet a hipster tweet." do
+  before do
+    @twitter  = MiniTest::Mock.new
+    @twipster = Twipster.new(@twitter)
+  end
+
+  it "should append a #lolhipster hashtag and update Twitter with our status" do
+    tweet = "Skyrim? Too mainstream."
+    @twitter.expect :update, true, ["#{tweet} #lolhipster"]
+    @twipster.submit(tweet)
+    assert @twitter.verify # verifies tweet and hashtag was passed to `@twitter.update`
   end
 end
 ```
