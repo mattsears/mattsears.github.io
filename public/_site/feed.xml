@@ -238,19 +238,28 @@
         <code>expect</code> and <code>verify</code>.</p><div class="highlight">
         <pre><span class="nb">require</span> <span class="s1">'minitest/autorun'</span>
         
-        <span class="n">describe</span> <span class="no">Twitter</span> <span class="k">do</span>
-          <span class="n">before</span> <span class="k">do</span>
-            <span class="vi">@twitter</span> <span class="o">=</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Mock</span><span class="o">.</span><span class="n">new</span>
-            <span class="vi">@twitter</span><span class="o">.</span><span class="n">expect</span> <span class="ss">:update</span><span class="p">,</span> <span class="kp">true</span><span class="p">,</span> <span class="o">[</span><span class="s2">"#lolruby"</span><span class="o">]</span>
+        <span class="k">class</span> <span class="nc">Twipster</span>
+          <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">twitter</span><span class="p">)</span>
+            <span class="c1"># A Ruby wrapper for the Twitter API</span>
+            <span class="vi">@twitter</span> <span class="o">=</span> <span class="n">twitter</span>
           <span class="k">end</span>
         
-          <span class="n">describe</span> <span class="s2">"#update"</span> <span class="k">do</span>
-            <span class="n">describe</span> <span class="s2">"when tweeting"</span> <span class="k">do</span>
-              <span class="n">it</span> <span class="s2">"should update the user's status"</span> <span class="k">do</span>
-                <span class="vi">@twitter</span><span class="o">.</span><span class="n">update</span> <span class="s2">"#lolruby"</span>
-                <span class="n">assert</span> <span class="vi">@twitter</span><span class="o">.</span><span class="n">verify</span>
-              <span class="k">end</span>
-            <span class="k">end</span>
+          <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="n">tweet</span><span class="p">)</span>
+            <span class="vi">@twitter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">tweet</span><span class="si">}</span><span class="s2"> #lolhipster"</span><span class="p">)</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+        
+        <span class="n">describe</span> <span class="no">Twipster</span><span class="p">,</span> <span class="s2">"Make every tweet a hipster tweet."</span> <span class="k">do</span>
+          <span class="n">before</span> <span class="k">do</span>
+            <span class="vi">@twitter</span>  <span class="o">=</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Mock</span><span class="o">.</span><span class="n">new</span>
+            <span class="vi">@twipster</span> <span class="o">=</span> <span class="no">Twipster</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="vi">@twitter</span><span class="p">)</span>
+          <span class="k">end</span>
+        
+          <span class="n">it</span> <span class="s2">"should append a #lolhipster hashtag and update Twitter with our status"</span> <span class="k">do</span>
+            <span class="n">tweet</span> <span class="o">=</span> <span class="s2">"Skyrim? Too mainstream."</span>
+            <span class="vi">@twitter</span><span class="o">.</span><span class="n">expect</span> <span class="ss">:update</span><span class="p">,</span> <span class="kp">true</span><span class="p">,</span> <span class="o">[</span><span class="s2">"</span><span class="si">#{</span><span class="n">tweet</span><span class="si">}</span><span class="s2"> #lolhipster"</span><span class="o">]</span>
+            <span class="vi">@twipster</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">tweet</span><span class="p">)</span>
+            <span class="n">assert</span> <span class="vi">@twitter</span><span class="o">.</span><span class="n">verify</span> <span class="c1"># verifies tweet and hashtag was passed to `@twitter.update`</span>
           <span class="k">end</span>
         <span class="k">end</span>
         </pre>
@@ -265,7 +274,7 @@
         in the comments section.</p>]]>
       </description>
       <pubDate>Sat, 10 Dec 2011 20:38:19 +0000</pubDate>
-      <guid isPermaLink='false'>5af6ef8a8294acc633cc7b791c8ef39a02511973</guid>
+      <guid isPermaLink='false'>96394f8ab93f70b2e9cbf939b88b446ce9fa7102</guid>
     </item>
     <item>
       <title>Ruby Blocks as Dynamic Callbacks</title>
