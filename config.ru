@@ -18,6 +18,7 @@ if env == :production
     rewrite '/', '/_site/index.html'
     rewrite '/feed', '/_site/feed.xml'
     rewrite %r{^/(.*\.)(css|xml)}, '/_site/$1$2'
+    rewrite %r{^/(?!email)(.*)}, '/_site/$1.html'
     rewrite %r{^/(?!email)(.*)\?(.*)}, '/_site/$1.html?$2'
   end
   use Rack::StaticIfPresent, :urls => ["/"], :root => "public"
