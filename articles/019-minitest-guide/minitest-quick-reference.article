@@ -112,7 +112,7 @@ Assertion            | Example
 `assert_equal`       | `assert_equal 2, @subject.size`
 `assert_in_delta`    | `assert_in_delta @subject.size, 1,1`
 `assert_in_epsilon`  | `assert_in_epsilon @subject.size, 1, 1`
-`assert_include`     | `assert_include "skinny jeans", @subject`
+`assert_includes`    | `assert_includes @subject, "skinny jeans"`
 `assert_instance_of` | `assert_instance_of Array, @list`
 `assert_kind_of`     | `assert_kind_of Enumerable, @list`
 `assert_match`       | `assert_match @subject.first, /silly/`
