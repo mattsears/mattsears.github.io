@@ -181,8 +181,8 @@
         <td align="left"><code>assert_in_epsilon @subject.size, 1, 1</code></td>
         </tr>
         <tr>
-        <td align="left"><code>assert_include</code></td>
-        <td align="left"><code>assert_include "skinny jeans", @subject</code></td>
+        <td align="left"><code>assert_includes</code></td>
+        <td align="left"><code>assert_includes @subject, "skinny jeans"</code></td>
         </tr>
         <tr>
         <td align="left"><code>assert_instance_of</code></td>
@@ -274,7 +274,7 @@
         in the comments section.</p>]]>
       </description>
       <pubDate>Sat, 10 Dec 2011 20:38:19 +0000</pubDate>
-      <guid isPermaLink='false'>96394f8ab93f70b2e9cbf939b88b446ce9fa7102</guid>
+      <guid isPermaLink='false'>5d8380631013d21d1a1665ec827bc33304543128</guid>
     </item>
     <item>
       <title>Ruby Blocks as Dynamic Callbacks</title>
