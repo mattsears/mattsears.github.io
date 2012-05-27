@@ -194,7 +194,7 @@ body.index #navigation li.home-link a {
 
 .about-me {
   width: 670px;
-  padding: 10px 15px 10px 15px;
+  padding: 10px 15px 20px 15px;
   height: 100%;
   position: relative;
   background-color: white; }
@@ -203,13 +203,14 @@ body.index #navigation li.home-link a {
     height: 200px;
     float: left;
     margin-top: 3px;
-    margin-right: 10px; }
+    margin-right: 20px; }
   .about-me h3 {
+    margin-top: 20px;
     padding: 10px 0; }
   .about-me p.first {
     padding: 0; }
   .about-me p {
-    padding: 5px 0 5px 0; }
+    padding: 0 0 5px 0; }
 
 .work {
   width: 670px;
@@ -261,7 +262,7 @@ body.index #navigation li.home-link a {
     display: inline;
     width: 540px;
     position: relative;
-    margin-top: 5px;
+    margin-top: 10px;
     margin-left: 5px; }
 
 .box {
@@ -272,7 +273,8 @@ body.index #navigation li.home-link a {
   color: #444444; }
 
 .box-foot {
-  height: 13px;
+  height: 10px;
+  margin-top: -5px;
   background: transparent url("/images/box-bottom.png") 0 -4px no-repeat; }
 
 .amp {
@@ -280,10 +282,10 @@ body.index #navigation li.home-link a {
   font-style: italic; }
 
 .me {
-  width: 70px;
-  height: 70px;
+  width: 100px;
+  height: 100px;
   float: left;
-  margin: 3px 5px 0 0; }
+  margin: -10px 5px 0 0; }
 
 #splash {
   width: 340px;
@@ -303,7 +305,7 @@ body.index #navigation li.home-link a {
     font-weight: normal; }
   #recent-articles .box {
     min-height: 315px;
-    padding-bottom: 2px;
+    padding-bottom: 8px;
     margin-top: 10px; }
   #recent-articles .entry {
     padding: 5px 0;
@@ -334,7 +336,7 @@ body.index #navigation li.home-link a {
     #find-elsewhere ul li {
       float: left;
       height: 50px;
-      margin: 15px 11px 0 0; }
+      margin: 25px 11px 0 0; }
       #find-elsewhere ul li.last {
         margin-right: 0; }
       #find-elsewhere ul li a {
@@ -404,10 +406,19 @@ a.more-black {
   padding-top: 0; }
 
 .rounded-top {
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   -webkit-border-top-left-radius: 5px;
   -webkit-border-top-right-radius: 5px;
   -moz-border-radius-topleft: 5px;
   -moz-border-radius-topright: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-bottomright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px; }
 
@@ -482,8 +493,11 @@ a.more-black {
     font: normal normal normal 12px/normal Monaco, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace; }
 
 .post-bottom {
-  height: 30px;
+  height: 20px;
   width: 700px;
+  z-index: 100;
+  padding-top: 10px;
+  margin-top: -5px;
   background: url(/images/bg-post-bottom.png) 0 -4px no-repeat; }
 
 .post-comments {
@@ -520,7 +534,7 @@ a.more-black {
   margin-top: 10px; }
 
 #sidebar {
-  width: 180px;
+  width: 185px;
   float: right;
   display: inline;
   padding-top: 1px; }
@@ -552,9 +566,13 @@ a.more-black {
       font-weight: bold; }
     #sidebar .get-in-touch p {
       margin-bottom: 10px; }
-  #sidebar .img-matt {
-    float: left;
-    margin: 0 10px 0 0; }
+    #sidebar .get-in-touch .me {
+      height: 90px;
+      padding: 0;
+      margin: 0; }
+      #sidebar .get-in-touch .me img {
+        padding: 0;
+        margin: 0; }
   #sidebar .btn-subscribe {
     padding: 25px 0 25px 40px;
     background: url(/images/btn-subscribe.gif) no-repeat 0 center;
