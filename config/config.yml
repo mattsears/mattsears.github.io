@@ -1,8 +1,0 @@
-title: "Matt Sears"
-subtitle: ""
-name:  "mattsears"
-author: "Matt Sears"
-email:  "matt@mattsears.com"
-
-static:
-  dir: "public/_site"

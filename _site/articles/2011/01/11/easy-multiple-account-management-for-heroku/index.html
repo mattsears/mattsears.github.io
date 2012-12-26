@@ -1,0 +1,392 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]> ><! <![endif]-->
+<html class='no-js' lang='en'>
+  <!-- <![endif] -->
+  <head>
+    <meta charset='utf-8' />
+    <meta content='width=device-width, initial-scale=1.0' name='viewport' />
+    <title>Matt Sears | Easy Multiple Account Management for Heroku</title>
+    <meta content='Matt Sears, Matt, Sears' name='keywords' />
+    <meta author='Matt Sears' />
+    <link href='http://feeds.feedburner.com/mattsears' rel='alternate' title='Feed for mattsears' type='application/atom+xml' />
+    <link href='/stylesheets/app.css' rel='stylesheet' />
+    <link href='/webfonts/ss-social.css' rel='stylesheet' />
+    <link href='/images/favicon.png' rel="shortcut icon" />
+    <script src='/javascripts/foundation/modernizr.foundation.js'></script>
+  </head>
+  <body>
+    <nav>
+      <div class='row'>
+      </div>
+    </nav>
+    <div class='row'>
+      <div class='twelve columns centered'>
+        <div class="row">
+  <div class="ten column centered">
+    <article>
+      <header class="text-center">
+        <a href='/'>
+          <img src='/images/matt-sears.png' title='Matt Sears' alt='Matt Sears' width='100' height='100' class="me">
+        </a>
+        <h2>
+          <a href="articles/2011/01/11/easy-multiple-account-management-for-heroku">Easy Multiple Account Management for Heroku</a>
+        </h2>
+        <h5>
+          Written by <a href="#">Matt</a> on January 11, 2011
+          /
+          <span>
+            <a class='dsq-comment-count comment-link commentslink' href='http://www.mattsears.com/articles/2011/12/10/minitest-quick-reference#disqus_thread'></a>
+          </span>
+        </h5>
+      </header>
+      <div class="row">
+        <div class="ten column centered">
+          <p>Recently, I migrated all of my personal and <a href="http://littlelines.com">business</a> sites
+to <a href="http://heroku.com">Heroku</a>. Heroku, as you may know, is a fantastic
+service for hosting ruby applications. Oh, and it&#39;s free!</p>
+
+<p>Like a lot of folks, I keep work and personal items such
+as email, bank accounts, github, etc in separate accounts.
+Heroku doesn&#39;t really place nice with multiple accounts.</p>
+
+<p>So how to do we effectively manage multiple Heroku accounts?</p>
+
+<h4>Prerequitites</h4>
+
+<p>The following assumes you are on the Mac OS or *nix system, own
+multiple Heroku accounts, and have installed the Heroku gem. I should
+also be point out that you will need to create separate ssh
+public keys for each account.</p>
+
+<h4>Custom Ruby Script</h4>
+
+<p>One option is we can use a script such as Keith Gaddis
+<a href="http://collectiveidea.com/blog/archives/2010/08/06/heroku-ing-with-multiple-personalities">describes</a>
+over at the Collective Idea blog. With his <a href="https://gist.github.com/511789">switcher</a> script, we can
+switch between two accounts like this:</p>
+<div class="highlight"><pre><code class="text">ruby switcher.rb personal
+ruby switcher.rb work
+</code></pre>
+</div>
+
+<p>This essentially swaps the credentials file (used by the Heroku gem
+for authentication) for the account you want to
+use. This works well enough, however this can be tedious especially if
+you switch between work and personal projects frequently.</p>
+
+<h4>Enter Heroku Accounts Plugin</h4>
+
+<p>David Dollar of Heroku recently released an official Heroku
+plugin called <a href="https://github.com/ddollar/heroku-accounts">heroku-accounts</a>. With
+this plugin, we can switch Heroku accounts automatically.</p>
+
+<p>To get started, we first install the plugin:</p>
+<div class="highlight"><pre><code class="text">heroku plugins:install git://github.com/ddollar/heroku-accounts.git
+</code></pre>
+</div>
+
+<p>The installation process will download the plugin from github and save
+it to the <code>~/.heroku/plugins</code> directory. Now, we can
+setup each of our Heroku accounts with <code>add</code> command:</p>
+<div class="highlight"><pre><code class="text">heroku accounts:add work
+</code></pre>
+</div>
+
+<p>and for our personal account, we can run:</p>
+<div class="highlight"><pre><code class="text">heroku accounts:add personal
+</code></pre>
+</div>
+
+<p>The <code>add</code> command will ask you for your Heroku email address and
+password for each account. The plugin will maintain
+your account credentials in the <code>~/.heroku/accounts</code> folder in your
+home directory. (Passwords are not saved in plain text)</p>
+
+<p>To assign a project to a specific Heroku account, we run the following
+command in the project root:</p>
+<div class="highlight"><pre><code class="text">heroku accounts:set personal # or work
+</code></pre>
+</div>
+
+<p>This will assign a Heroku account to the project by adding an &#39;account&#39; variable
+to the project&#39;s git config file.</p>
+
+<h4>Celebrate</h4>
+
+<p>Hooray! Now we can switch Heroku accounts automatically. Awesome.</p>
+
+        </div>
+      </div>
+    </article>
+
+    <div class="ten column centered">
+      <div id='disqus_thread'></div>
+      <script type='text/javascript'>
+        //<![CDATA[
+          var disqus_developer = 1;
+        //]]>
+      </script>
+      <script type='text/javascript'>
+        //<![CDATA[
+          var disqus_shortname = 'mattsears'
+          var disqus_identifier = "articles/2011/01/11/easy-multiple-account-management-for-heroku";
+          var disqus_url = "http://www.mattsears.com/articles/2011/01/11/easy-multiple-account-management-for-heroku";
+
+          (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+          }());
+
+          // The following are highly recommended additional parameters. Remove the slashes in front to use.
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        //]]>
+
+      </script>
+      <noscript>
+        Please enable JavaScript to view the
+        <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a>
+      </noscript>
+    </div>
+
+  </div>
+
+</div>
+
+
+        <section class='explore'>
+          <div class='row'>
+            <div class='ten columns centered'>
+              <h5 class='text-center capitalize'>
+                Explore articles from my blog
+              </h5>
+            </div>
+          </div>
+          <div class='row categories'>
+            <div class='six columns text-center centered'>
+              <ul class='no-bullet'>
+
+                <li>
+                  <a href='/tags/git.html'>
+                    Git
+                  </a>
+                </li>
+
+                <li>
+                  <a href='/tags/ruby.html'>
+                    Ruby
+                  </a>
+                </li>
+
+                <li>
+                  <a href='/tags/clojure.html'>
+                    Clojure
+                  </a>
+                </li>
+
+                <li>
+                  <a href='/tags/rspec.html'>
+                    Rspec
+                  </a>
+                </li>
+
+                <li>
+                  <a href='/tags/minitest.html'>
+                    Minitest
+                  </a>
+                </li>
+
+              </ul>
+            </div>
+          </div>
+
+          <div class='row'>
+            <div class='six columns centered'>
+              <form action="http://google.com/search" method="get">
+                <fieldset role="search">
+                  <input type="hidden" name="q" value="site:mattsears.com" />
+                  <input class="search" type="text" name="q" results="0"
+                  placeholder="... or search this site for (via Google)"/>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <section class='browse'>
+          <div class='row'>
+            <div class='ten columns centered'>
+              <div class='row'>
+                <div class='six mobile-four columns'>
+                  <h5>
+                    <b>
+                      New here?
+                    </b>
+                    Start with our best hits:
+                  </h5>
+                  <hr />
+
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/12/10/minitest-quick-reference'>
+                        Minitest Quick Reference
+                      </a>
+                    </div>
+                  </div>
+
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/11/16/nyan-cat-rspec-formatter'>
+                        Nyan Cat RSpec Formatter
+                      </a>
+                    </div>
+                  </div>
+
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks'>
+                        Ruby Blocks as Dynamic Callbacks
+                      </a>
+                    </div>
+                  </div>
+
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2009/06/06/20-clojure-links-to-get-you-up-to-speed'>
+                        20 Clojure Links To Get You Up To Speed
+                      </a>
+                    </div>
+                  </div>
+
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/10/12/gaga-key-value-store'>
+                        Gaga, A Git-Backed Key/Value Store
+                      </a>
+                    </div>
+                  </div>
+
+                </div>
+                <div class='six mobile-four columns'>
+                  <h5>
+                    <b>
+                      Back again?
+                    </b>
+                    Catch up on our latest posts:
+                  </h5>
+                  <hr />
+
+                  
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/12/10/minitest-quick-reference'>
+                        Minitest Quick Reference
+                      </a>
+                    </div>
+                  </div>
+                  
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks'>
+                        Ruby Blocks as Dynamic Callbacks
+                      </a>
+                    </div>
+                  </div>
+                  
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/11/16/nyan-cat-rspec-formatter'>
+                        Nyan Cat RSpec Formatter
+                      </a>
+                    </div>
+                  </div>
+                  
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/10/12/gaga-key-value-store'>
+                        Gaga, A Git-Backed Key/Value Store
+                      </a>
+                    </div>
+                  </div>
+                  
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/05/15/print-stamps-with-ruby'>
+                        Print Stamps With Ruby!
+                      </a>
+                    </div>
+                  </div>
+                  
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <footer class='row text-center'>
+          <div class='twelve columns'>
+            <div class='row'>
+              <div class='twelve columns'>
+                <p>
+                  You should follow me on
+                  <a href="https://twitter.com/mattsears" rel="external">Twitter</a>
+                  and subscribe to
+                  my <a href='http://feeds.feedburner.com/mattsears'>RSS</a>
+                  feed. Trust me.
+                  <br />
+                  Copyright &copy; 2012 Matt Sears.
+                </p>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        var _gauges = _gauges || [];
+        (function() {
+          var t   = document.createElement('script');
+          t.type  = 'text/javascript';
+          t.async = true;
+          t.id    = 'gauges-tracker';
+          t.setAttribute('data-site-id', '4fb913d1f5a1f50be2000073');
+          t.src = '//secure.gaug.es/track.js';
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(t, s);
+        })();
+      //]]>
+    </script>
+    <script src='/javascripts/foundation/jquery.js'></script>
+    <script src='/javascripts/foundation/jquery.cookie.js'></script>
+    <script src='/javascripts/foundation/jquery.event.move.js'></script>
+    <script src='/javascripts/foundation/jquery.event.swipe.js'></script>
+    <script src='/javascripts/foundation/jquery.foundation.alerts.js'></script>
+    <script src='/javascripts/foundation/jquery.foundation.buttons.js'></script>
+    <script src='/javascripts/foundation/jquery.foundation.forms.js'></script>
+    <script src='/javascripts/foundation/jquery.foundation.mediaQueryToggle.js'></script>
+    <script src='/javascripts/foundation/jquery.foundation.navigation.js'></script>
+    <script src='/javascripts/foundation/jquery.foundation.topbar.js'></script>
+    <script src='/javascripts/foundation/jquery.placeholder.js'></script>
+    <script src='/javascripts/foundation/app.js'></script>
+  </body>
+</html>
