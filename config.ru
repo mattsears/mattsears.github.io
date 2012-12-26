@@ -13,7 +13,8 @@ use Rack::StaticCache, :urls => [
 use Rack::Rewrite do
   # Permanently move posts to the articles directory
   r301 %r{^/(\d{4})\/(\d+)\/(\d+)\/(.*)}, '/articles/$1/$2/$3/$4'
-  r301 %r{^/(\d{4})\/(\d{1})\/(\d{1})\/(.*)}, '/articles/$1/0$2/0$3/$4'
+  r301 %r{^/articles/(\d{4})\/(\d{1})\/(\d{1})\/(.*)}, '/articles/$1/0$2/0$3/$4'
+
   rewrite '/feed', '/feed.xml'
   rewrite '/articles', '/articles.html'
   rewrite '/articles/', '/articles.html'
