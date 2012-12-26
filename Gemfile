@@ -7,6 +7,7 @@ group :production do
 end
 
 group :development do
+  gem 'heroku'
   gem 'jekyll'
   gem 'haml'
   gem 'hpricot'
