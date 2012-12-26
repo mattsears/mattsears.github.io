@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 group :production do
-  gem 'rack-jekyll'
+  gem 'rack-jekyll', :require => 'rack/jekyll'
 end
 
 group :development do
