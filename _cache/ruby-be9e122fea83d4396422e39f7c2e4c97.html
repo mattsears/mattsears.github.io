@@ -1,0 +1,18 @@
+<div class="highlight"><pre><code class="ruby"><span class="vi">@gaga</span> <span class="o">=</span> <span class="no">Gaga</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:repo</span> <span class="o">=&gt;</span> <span class="s1">&#39;/path/to/repo&#39;</span><span class="p">)</span>
+
+<span class="c1"># SET</span>
+<span class="vi">@gaga</span><span class="o">[</span><span class="s1">&#39;lady&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;gaga&quot;</span>
+
+<span class="c1"># GET</span>
+<span class="vi">@gaga</span><span class="o">[</span><span class="s1">&#39;lady&#39;</span><span class="o">]</span> <span class="c1">#=&gt; &quot;gaga&quot;</span>
+
+<span class="c1"># KEYS</span>
+<span class="vi">@gaga</span><span class="o">.</span><span class="n">keys</span>  <span class="c1">#=&gt; [&#39;lady&#39;]</span>
+
+<span class="c1"># DELETE</span>
+<span class="vi">@gaga</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s1">&#39;lady&#39;</span><span class="p">)</span> <span class="c1">#=&gt; &#39;gaga&#39;</span>
+
+<span class="c1"># Remove all items from the store</span>
+<span class="vi">@gaga</span><span class="o">.</span><span class="n">clear</span>
+</code></pre>
+</div>

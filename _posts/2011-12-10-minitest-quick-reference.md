@@ -1,0 +1,172 @@
+---
+layout: post
+title: Minitest Quick Reference
+tags: [ruby, minitest]
+---
+
+[MiniTest](https://github.com/seattlerb/minitest), as the name suggests, is a
+small and fast unit testing framework. Shipped with Ruby 1.9, MiniTest supports
+a complete suite of testing capabilities such as TDD, BDD, mocking, and benchmarking.
+
+This quick reference aims to demonstrate MiniTest's main concepts and
+provide real world examples to get you acquainted quickly. Let's start with
+MiniTest::Spec.
+
+### MiniTest::Spec
+
+Provides RSpec-like matchers and contexts right out of the box.
+
+```ruby
+require 'minitest/autorun'
+
+describe Hipster, "Demonstration of MiniTest" do
+  before do
+    @hipster = Hipster.new
+  end
+
+  after do
+    @hipster.destroy!
+  end
+
+  subject do
+    Array.new.tap do |attributes|
+      attributes << "silly hats"
+      attributes << "skinny jeans"
+    end
+  end
+
+  let(:list) { Array.new }
+
+  describe "when asked about the font" do
+    it "should be helvetica" do
+      @hipster.preferred_font.must_equal "helvetica"
+    end
+  end
+
+  describe "when asked about mainstream" do
+    it "won't be mainstream" do
+      @hipster.mainstream?.wont_equal true
+    end
+  end
+end
+```
+
+#### Matchers (must | wont)
+In most cases you can switch between `must` for positive expectations and `wont`
+for negative expectations.
+
+Assertion                | Examples
+:------------------------|:----------------------------------------------------|
+`must_be`                | `list.size.must_be :==, 0`
+`must_be_close_to`       | `subject.size.must_be_close_to 1,1`
+`must_be_empty`          | `list.must_be_empty`
+`must_be_instance_of`    | `list.must_be_instance_of Array`
+`must_be_kind_of`        | `list.must_be_kind_of Enumerable`
+`must_be_nil`            | `list.first.must_be_nil`
+`must_be_same_as`        | `subject.must_be_same_as subject`
+`must_be_silent`         | `proc { "no stdout or stderr" }.must_be_silent`
+`must_be_within_epsilon` | `subject.size.must_be_within_epsilon 1,1`
+`must_equal`             | `subject.size.must_equal 2`
+`must_include`           | `subject.must_include "skinny jeans"`
+`must_match`             | `subject.first.must_match /silly/`
+`must_output`            | `proc { print "#{subject.size}!" }.must_output "2!"`
+`must_respond_to`        | `subject.must_respond_to :count`
+`must_raise`             | `proc { subject.foo }.must_raise NoMethodError`
+`must_send`              | `subject.must_send [subject, :values_at, 0]`
+`must_throw`             | `proc { throw :done if subject.any? }.must_throw :done`
+
+### MiniTest::Unit::TestCase
+Provides a rich set of assertions to make your tests clean and readable.
+
+```ruby
+require 'minitest/autorun'
+
+class TestHipster < MiniTest::Unit::TestCase
+  def setup
+    @hipster = Hipster.new
+    @list    = Array.new
+    @subject = ["silly hats", "skinny jeans"]
+  end
+
+  def teardown
+    @hipster.destroy!
+  end
+
+  def test_for_helvetica_font
+    assert_equal "helvetica!", @hipster.preferred_font
+  end
+
+  def test_not_mainstream
+    refute @hipster.mainstream?
+  end
+end
+```
+
+#### Assertions (assert | refute)
+Toggle between `assert` for positive assertions and `refute` for negative assertions.
+
+Assertion            | Example
+:--------------------|:----------------------------------------------------------|
+`assert`             | `assert @subject.any?, "empty subjects"`
+`assert_block`       | `assert_block { @subject.any? }`
+`assert_empty`       | `assert_empty @list`
+`assert_equal`       | `assert_equal 2, @subject.size`
+`assert_in_delta`    | `assert_in_delta @subject.size, 1,1`
+`assert_in_epsilon`  | `assert_in_epsilon @subject.size, 1, 1`
+`assert_includes`    | `assert_includes @subject, "skinny jeans"`
+`assert_instance_of` | `assert_instance_of Array, @list`
+`assert_kind_of`     | `assert_kind_of Enumerable, @list`
+`assert_match`       | `assert_match @subject.first, /silly/`
+`assert_nil`         | `assert_nil @list.first`
+`assert_operator`    | `assert_operator @list.size, :== , 0`
+`assert_output`      | `assert_output("Size: 2") { print "Size: #{@subject.size}"}`
+`assert_raises`      | `assert_raises(NoMethodError) { @subject.foo }`
+`assert_respond_to`  | `assert_respond_to @subject, :count`
+`assert_same`        | `assert_same @subject, @subject, "It's the same object silly"`
+`assert_send`        | `assert_send [@subject, :values_at, 0]`
+`assert_silent`      | `assert_silent { "no stdout or stderr" }`
+`assert_throws`      | `assert_throws(:error,'is empty') {throw :error if @subject.any?}`
+
+## MiniTest::Mock
+A simple and clean mock system. There two essential methods at our disposal:
+`expect` and `verify`.
+
+
+```ruby
+require 'minitest/autorun'
+
+class Twipster
+  def initialize(twitter)
+    # A Ruby wrapper for the Twitter API
+    @twitter = twitter
+  end
+
+  def submit(tweet)
+    @twitter.update("#{tweet} #lolhipster")
+  end
+end
+
+describe Twipster, "Make every tweet a hipster tweet." do
+  before do
+    @twitter  = MiniTest::Mock.new
+    @twipster = Twipster.new(@twitter)
+  end
+
+  it "should append a #lolhipster hashtag and update Twitter with our status" do
+    tweet = "Skyrim? Too mainstream."
+    @twitter.expect :update, true, ["#{tweet} #lolhipster"]
+    @twipster.submit(tweet)
+    assert @twitter.verify # verifies tweet and hashtag was passed to `@twitter.update`
+  end
+end
+```
+
+### Resources
+1. [MiniTest on Github](https://github.com/seattlerb/minitest)
+2. [MiniTest Rdoc](http://docs.seattlerb.org/minitest)
+3. [Using MiniTest::Spec with Rails](http://metaskills.net/2011/03/26/using-minitest-spec-with-rails)
+4. [Ruby Inside: A MiniTest::Spec Tutorial: Elegant Spec-Style Testing That Comes With Ruby](http://www.rubyinside.com/a-minitestspec-tutorial-elegant-spec-style-testing-that-comes-with-ruby-5354.html)
+
+I hope you found this quick guide valuable. Please let me know if you'd like
+to see anything else included and feel free to ask questions or give feedback
+in the comments section.

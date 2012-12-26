@@ -1,0 +1,37 @@
+---
+layout: default
+---
+
+<section class="tags">
+  <div class="row">
+    <div class="ten column centered">
+      <div class="row">
+        <div class="three column centered text-center">
+          <a href='/'>
+            <img src='/images/matt-sears.png' title='Matt Sears' alt='Matt Sears' width='100' height='100' class="me">
+          </a>
+        </div>
+      </div>
+      <br/>
+      <div class="row">
+        <div class="seven columns centered text-center">
+          <h4>
+            Here some articles I wrote about on <b>{{ page.tag | capitalize }}</b>
+          </h4>
+          <hr />
+        </div>
+      </div>
+      <br/>
+
+      {% for post in page.posts %}
+      <div class="row">
+        <div class="seven columns centered starry">
+          <i class="foundicon-heart"></i>
+          <a href="/{{ post.url }}">{{ post.title }}</a>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
