@@ -15,7 +15,8 @@ use Rack::Rewrite do
   r301 %r{^/(\d{4})\/(\d+)\/(\d+)\/(.*)}, '/articles/$1/$2/$3/$4'
   rewrite '/feed', '/feed.xml'
   rewrite '/articles', '/articles.html'
-  #rewrite %r{^/(?!email)(.*)\?(.*)}, '/_site/$1.html?$2'
+  rewrite '/articles/', '/articles.html'
+  rewrite '/about', '/'
   rewrite %r{^/tags/(?!email)(.*)}, '/tags/$1.html'
 end
 # use Rack::StaticIfPresent, :urls => ["/"], :root => "_site"
