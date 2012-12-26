@@ -5,6 +5,7 @@ group :production do
 end
 
 group :development do
+  gem 'rack-jekyll'
   gem 'heroku'
   gem 'jekyll'
   gem 'haml'

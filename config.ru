@@ -1,8 +1,4 @@
-#!/usr/bin/env ruby
-require "rubygems"
-require "bundler/setup"
+require 'bundler'
+Bundler.require(:default, :production)
 
-require "rack-jekyll"
 run Rack::Jekyll.new
-
-
