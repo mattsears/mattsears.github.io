@@ -12,13 +12,13 @@ use Rack::StaticCache, :urls => [
 
 use Rack::Rewrite do
   # Permanently move posts to the articles directory
-  r301 %r{^/(\d{4})\/(\d+)\/(\d+)\/(.*)}, '/articles/$1/$2/$3/$4'
-  rewrite '/', '/_site/index.html'
-  rewrite '/feed', '/_site/feed.xml'
-  rewrite %r{^/(.*\.)(css|xml)}, '/_site/$1$2'
-  rewrite %r{^/(?!email)(.*)\?(.*)}, '/_site/$1.html?$2'
-  rewrite %r{^/(?!email)(.*)}, '/_site/$1.html'
+  # r301 %r{^/(\d{4})\/(\d+)\/(\d+)\/(.*)}, '/articles/$1/$2/$3/$4'
+  #rewrite '/', '/_site/index.html'
+  #rewrite '/feed', '/_site/feed.xml'
+  #rewrite %r{^/(.*\.)(css|xml)}, '/_site/$1$2'
+  #rewrite %r{^/(?!email)(.*)\?(.*)}, '/_site/$1.html?$2'
+  #rewrite %r{^/(?!email)(.*)}, '/_site/$1.html'
 end
-use Rack::StaticIfPresent, :urls => ["/"], :root => "_site"
+# use Rack::StaticIfPresent, :urls => ["/"], :root => "_site"
 run Rack::Jekyll.new
 
