@@ -1,11 +1,13 @@
 source "https://rubygems.org"
 
 group :production do
-  gem 'rack-jekyll', :require => 'rack/jekyll'
+  gem 'rack-contrib'
+  gem 'rack-rewrite'
+  gem 'rack-static-if-present'
+  gem 'rack-jekyll'
 end
 
 group :development do
-  gem 'rack-jekyll'
   gem 'heroku'
   gem 'jekyll'
   gem 'haml'
