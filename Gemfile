@@ -4,6 +4,7 @@ group :production do
   gem 'rack-contrib'
   gem 'rack-rewrite'
   gem 'rack-static-if-present'
+  gem 'rack-jekyll'
 end
 
 group :development do
