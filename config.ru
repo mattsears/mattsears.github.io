@@ -19,7 +19,6 @@ use Rack::Rewrite do
   rewrite %r{^/(?!email)(.*)\?(.*)}, '/_site/$1.html?$2'
   rewrite %r{^/(?!email)(.*)}, '/_site/$1.html'
 end
-use Rack::StaticIfPresent, :urls => ["/"], :root => "public"
-
+use Rack::StaticIfPresent, :urls => ["/"], :root => "_site"
 run Rack::Jekyll.new
 
