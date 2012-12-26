@@ -32,7 +32,7 @@ task :deploy do
   exit unless proceed == 'y' || proceed == 'Y'
 
   puts ">> Pushing to heroku"
-  system "heroku maintenance:on -a mattsears"
+  # system "heroku maintenance:on -a mattsears"
   system "git push heroku master"
-  system "heroku maintenance:off -a mattsears"
+  # system "heroku maintenance:off -a mattsears"
 end
