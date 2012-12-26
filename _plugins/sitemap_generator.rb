@@ -67,7 +67,7 @@ module Jekyll
     end
 
     def location_on_server(my_url)
-      "#{my_url}#{url}"
+      "#{my_url}/#{url}"
     end
   end
 
