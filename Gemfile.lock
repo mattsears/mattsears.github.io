@@ -32,8 +32,6 @@ GEM
       kramdown (~> 0.13)
       liquid (~> 2.3)
       maruku (~> 0.5)
-    jekyll-tagging (0.4.0)
-      ruby-nuggets
     kramdown (0.14.1)
     launchy (2.1.2)
       addressable (~> 2.3)
@@ -81,7 +79,6 @@ DEPENDENCIES
   heroku
   hpricot
   jekyll
-  jekyll-tagging
   rack-contrib
   rack-jekyll
   rack-rewrite
@@ -89,5 +86,6 @@ DEPENDENCIES
   rake
   rdiscount
   redcarpet
+  ruby-nuggets
   sass
   zurb-foundation

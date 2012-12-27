@@ -19,7 +19,7 @@ use Rack::Rewrite do
   rewrite '/articles', '/articles.html'
   rewrite '/articles/', '/articles.html'
   rewrite '/about', '/'
-  rewrite %r{^/articles/tags/(?!email)(.*)}, '/articles/tags/$1.html'
+  # rewrite %r{^/articles/tags/(?!email)(.*)}, '/articles/tags/$1.html'
 end
 # use Rack::StaticIfPresent, :urls => ["/"], :root => "_site"
 run Rack::Jekyll.new

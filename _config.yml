@@ -10,7 +10,7 @@ paginate: 3
 paginate_file: articles.html
 
 tag_page_layout: tag
-tag_page_dir: articles/tags
+tag_page_dir: articles/tags/
 
 markdown: redcarpet2
 

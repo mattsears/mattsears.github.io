@@ -18,5 +18,5 @@ group :development do
   gem 'rake'
   gem 'zurb-foundation'
   gem 'compass'
-  gem 'jekyll-tagging'
+  gem 'ruby-nuggets'
 end
