@@ -10,6 +10,8 @@ gem 'middleman-syntax'
 
 group :production do
   gem 'rack-contrib'
+  gem 'rack-rewrite'
+  gem 'rack-static-if-present'
   gem 'thin'
   gem 'dalli'
   gem 'rack-cache'
