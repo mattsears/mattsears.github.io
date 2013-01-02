@@ -1,22 +1,22 @@
-source "https://rubygems.org"
+source :rubygems
+
+gem "middleman", "~>3.0.7"
+gem "middleman-blog"
+gem 'pony'
+gem 'zurb-foundation'
+gem 'redcarpet'
+gem 'builder'
+gem 'middleman-syntax'
 
 group :production do
   gem 'rack-contrib'
-  gem 'rack-rewrite'
-  gem 'rack-static-if-present'
-  gem 'rack-jekyll'
+  gem 'thin'
+  gem 'dalli'
+  gem 'rack-cache'
 end
 
 group :development do
-  gem 'heroku'
-  gem 'jekyll'
   gem 'haml'
-  gem 'hpricot'
-  gem 'rdiscount'
-  gem 'redcarpet'
   gem 'sass'
-  gem 'rake'
-  gem 'zurb-foundation'
-  gem 'compass'
-  gem 'ruby-nuggets'
+  gem 'coffee-script'
 end

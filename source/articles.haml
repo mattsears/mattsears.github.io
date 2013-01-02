@@ -1,0 +1,39 @@
+---
+title: Articles
+pageable: true
+---
+
+.row
+  .seven.columns.centered
+    %header.text-center
+      %a{href: '/'}
+        %img{src: "/images/matt-sears.png", width: '100', height: '100', class: 'me' }/
+      %h3
+        Matt Sears
+
+- page_articles.each do |article|
+  .row
+    .ten.column.centered
+      %article
+        %header.text-center
+          %h2
+            %a{:href => article.url}
+              = article.title
+          %h5
+            Written by
+            %a{:href => "#"} Matt
+            on
+            \/
+            = article.date.strftime('%b %e')
+        .row
+          .ten.column.centered
+            = article.body
+            %hr/
+
+.row.ten.columns.centered.paginator
+  .row.three.columns
+    - if next_page
+      = link_to '← Older posts', next_page
+  .row.three.columns.text-right
+    - if prev_page
+      = link_to 'Newer posts →', prev_page

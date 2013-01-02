@@ -1,0 +1,118 @@
+!!!
+/ paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/
+/[if IE 8] <html class="no-js lt-ie9" lang="en">
+/[if gt IE 8] ><!
+%html.no-js{:lang => "en"}
+  / <![endif]
+  %head
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+    %title= "Matt Sears | #{data.page.title}"
+    %meta{:content => "Matt Sears, Matt, Sears", :name => "keywords"}/
+    %meta{:author => "Matt Sears"}/
+    %link{:href => "http://feeds.feedburner.com/mattsears", :rel => "alternate", :title => "Feed for mattsears", :type => "application/atom+xml"}/
+    %link{:href => "/images/favicon.png", :rel => "shortcut icon"}/
+    %link{:href => "/fonts/ss-social.css", :rel => "stylesheet"}/
+    = stylesheet_link_tag "app"
+  %body
+    %nav
+      .row
+    .row
+      .twelve.columns.centered
+        = yield
+
+        %section.explore
+          .row
+            .ten.columns.centered
+              %h5.text-center.capitalize
+                Explore articles from my blog
+          .row.categories
+            .six.columns.text-center.centered
+              %ul.no-bullet
+                - blog.tags.each do |tag, articles|
+                  %li
+                    %a{:href => "/articles/tags/#{tag}"}
+                      = tag.capitalize
+                %li
+                  %a{:href => "/articles"} Everything
+          .row
+            .six.columns.centered
+              %form{:action => "http://google.com/search", :method => "get"}
+                %fieldset{:role => "search"}
+                  %input{:name => "q", :type => "hidden", :value => "site:mattsears.com"}/
+                  %input.search{:name => "q", :placeholder => "... or search this site (via Google)", :results => "0", :type => "text"}/
+        %section.browse
+          .row
+            .ten.columns.centered
+              .row
+                .six.mobile-four.columns
+                  %h5
+                    %b
+                      Popular:
+                    The most visited articles:
+                  %hr/
+                  %hr/
+                  .row
+                    .nine.columns.cell
+                      %a{:href => "/articles/2011/12/10/minitest-quick-reference"}
+                        Minitest Quick Reference
+                  %hr/
+                  .row
+                    .nine.columns.cell
+                      %a{:href => "/articles/2011/11/16/nyan-cat-rspec-formatter"}
+                        Nyan Cat RSpec Formatter
+                  %hr/
+                  .row
+                    .nine.columns.cell
+                      %a{:href => "/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks"}
+                        Ruby Blocks as Dynamic Callbacks
+                  %hr/
+                  .row
+                    .nine.columns.cell
+                      %a{:href => "/articles/2009/06/06/20-clojure-links-to-get-you-up-to-speed"}
+                        20 Clojure Links To Get You Up To Speed
+                  %hr/
+                  .row
+                    .nine.columns.cell
+                      %a{:href => "/articles/2011/10/12/gaga-key-value-store"}
+                        Gaga, A Git-Backed Key/Value Store
+                .six.mobile-four.columns
+                  %h5
+                    %b
+                      New:
+                    My most recent articles:
+                  %hr/
+                  - blog.articles[0...5].each do |article|
+                    %hr/
+                    .row
+                      .nine.columns.cell
+                        %a{:href => article.url}
+                          = article.title
+        %footer.row.text-center
+          .twelve.columns
+            .row
+              .twelve.columns
+                %p
+                  You should follow me on
+                  %a{:href => "https://twitter.com/mattsears", :rel => "external"} Twitter
+                  and subscribe to
+                  my
+                  %a{:href => "http://feeds.feedburner.com/mattsears"} RSS
+                  feed. Trust me.
+                  %br/
+                  Copyright © 2012 Matt Sears.
+    :javascript
+      //
+        var _gauges = _gauges || [];
+        (function() {
+          var t   = document.createElement('script');
+          t.type  = 'text/javascript';
+          t.async = true;
+          t.id    = 'gauges-tracker';
+          t.setAttribute('data-site-id', '4fb913d1f5a1f50be2000073');
+          t.src = '//secure.gaug.es/track.js';
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(t, s);
+        })();
+      //
+    = javascript_include_tag  "all"

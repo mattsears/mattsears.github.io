@@ -1,0 +1,367 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]> ><! <![endif]-->
+<html class='no-js' lang='en'>
+  <!-- <![endif] -->
+  <head>
+    <meta charset='utf-8' />
+    <meta content='width=device-width, initial-scale=1.0' name='viewport' />
+    <title>Matt Sears | Ruby Blocks as Dynamic Callbacks</title>
+    <meta content='Matt Sears, Matt, Sears' name='keywords' />
+    <meta author='Matt Sears' />
+    <link href='http://feeds.feedburner.com/mattsears' rel='alternate' title='Feed for mattsears' type='application/atom+xml' />
+    <link href='/images/favicon.png' rel='shortcut icon' />
+    <link href='/fonts/ss-social.css' rel='stylesheet' />
+    <link href="/stylesheets/app.css?1357088081" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <nav>
+      <div class='row'></div>
+    </nav>
+    <div class='row'>
+      <div class='twelve columns centered'>
+        <div class='row'>
+  <div class='ten column centered'>
+    <article>
+      <header class='text-center'>
+        <a href='/'>
+          <img alt='Matt Sears' class='me' height='100' src='/images/matt-sears.png' title='Matt Sears' width='100' />
+        </a>
+        <h2>
+          <a href='/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks'>
+            Ruby Blocks as Dynamic Callbacks
+          </a>
+        </h2>
+        <h5>
+          Written by
+          <a href='#'>Matt</a>
+          on
+          Nov 27
+          /
+          <span>
+            <a class='dsq-comment-count comment-link commentslink' href='http://www.mattsears.com/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks#disqus_thread'></a>
+          </span>
+        </h5>
+      </header>
+      <div class='row'>
+        <div class='ten column centered'>
+          <p>Callbacks are a great technique for achieving simplicity and flexibility. Simply put,
+a callback is a block of code passed as an argument to a method. In Ruby, code
+blocks are everywhere and Ruby makes it trivial to pass a block of code to
+methods. For example:</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+  <span class="n">callback</span> <span class="o">=</span> <span class="n">block</span>
+  <span class="n">callback</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">foo</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">}</span> <span class="c1"># =&gt; 25</span>
+</pre></div>
+<p>But what do we do when a method needs two blocks of code or more? Consider the
+classic case where we want a method to execute a block of code if an action
+succeeds or call different code if an action fails.</p>
+
+<p>In this article, I will demonstrate how we can pass multiple blocks to a method and
+with some metaprogramming, we can achieve a dynamic callback mechanism with just
+a few lines of code.</p>
+
+<p>Let&#39;s add a method called <code>callback</code> to the Proc class:</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Proc</span>
+  <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">callable</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="nb">self</span> <span class="o">===</span> <span class="no">Class</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span>
+      <span class="n">method_name</span> <span class="o">=</span> <span class="n">callable</span><span class="o">.</span><span class="n">to_sym</span>
+      <span class="n">define_method</span><span class="p">(</span><span class="n">method_name</span><span class="p">)</span> <span class="p">{</span> <span class="o">|&amp;</span><span class="n">block</span><span class="o">|</span> <span class="n">block</span><span class="o">.</span><span class="n">nil?</span> <span class="p">?</span> <span class="kp">true</span> <span class="p">:</span> <span class="n">block</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="p">}</span>
+      <span class="n">define_method</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">method_name</span><span class="si">}</span><span class="s2">?&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="kp">true</span> <span class="p">}</span>
+      <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span> <span class="kp">false</span><span class="p">;</span> <span class="k">end</span>
+    <span class="k">end</span><span class="o">.</span><span class="n">new</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+<p>That&#39;s it! The above <code>Proc#callback</code> method simply yields an anonymous class
+with methods defined to handle our callbacks. This allows for the capability of
+creating and storing dynamic callbacks, which can later be looked up and
+executed as needed.</p>
+
+<p>Notice anything unusual? We&#39;re using the <code>===</code> operand to invoke the
+block. <code>Proc#===</code> is an alias for <code>Proc.call</code>. Anything on the right side of
+<code>===</code> acts as the proc&#39;s parameter. Normally, this is to allow a proc object to
+be a target of a <code>when</code> clause in case statements, but we&#39;re using it as a super
+simple way of invoking our anonymous class.</p>
+
+<p>Let’s try it with something useful. Let’s say we’re writing something which
+needs to happen in an all-or-nothing, atomic fashion. Either the whole thing
+works, or none of it does.  A simple case is tweeting:</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">tweet</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+  <span class="no">Twitter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+  <span class="n">block</span><span class="o">.</span><span class="n">callback</span> <span class="ss">:success</span>
+<span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
+  <span class="n">block</span><span class="o">.</span><span class="n">callback</span> <span class="ss">:failure</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">message</span>
+<span class="k">end</span>
+</pre></div>
+<p>The <code>tweet</code> method accepts a message string and &amp;block parameters. We call
+<code>callback</code> on the block and give it a name. Any name will work :success, :error,
+:fail!, whatever. In addition, we can pass arguments to the blocks (more on that
+later). Now we can provide a status if the tweet was successful or not:</p>
+<div class="highlight"><pre><span class="n">tweet</span> <span class="s2">&quot;Ruby methods with multiple blocks. #lolruby&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">on</span><span class="o">|</span>
+  <span class="n">on</span><span class="o">.</span><span class="n">success</span> <span class="k">do</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Tweet successful!&quot;</span>
+  <span class="k">end</span>
+  <span class="n">on</span><span class="o">.</span><span class="n">failure</span> <span class="k">do</span> <span class="o">|</span><span class="n">status</span><span class="o">|</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Error: </span><span class="si">#{</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+<p>The advantage here is that we define our own mini DSL. We don&#39;t need to worry
+about passing too many or unexpected blocks. We could have easily said
+<code>where.success</code> or <code>on.error</code> or <code>update.fail!</code>. Also note the <code>on.failure</code>
+block includes a <code>status</code> parameter - this contains the exception message
+captured in the <code>tweet</code> method above. So if Twitter was down for whatever
+reason, the <code>on.failure</code> block would be invoked and printed &#39;Error: Twitter is
+down or being upgraded&#39;.</p>
+
+<p>Bonus: In addition to wrapping code in blocks, our <code>Proc#callback</code> method
+defines boolean style methods. So we could have call the tweet method like this
+if we wanted to:</p>
+<div class="highlight"><pre><span class="n">tweet</span> <span class="s2">&quot;Ruby methods with multiple blocks. #lolruby&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">update</span><span class="o">|</span>
+  <span class="nb">puts</span> <span class="s2">&quot;Tweet successful!&quot;</span> <span class="k">if</span> <span class="n">update</span><span class="o">.</span><span class="n">success?</span>
+  <span class="nb">puts</span> <span class="s2">&quot;Sorry, something went wrong.&quot;</span> <span class="k">if</span> <span class="n">update</span><span class="o">.</span><span class="n">failure?</span>
+<span class="k">end</span>
+</pre></div>
+<p>Put the <code>Proc#callback</code> method in a utility library and your code will look neat and tidy.</p>
+
+<p>As always, I welcome your thoughts and feedback. Let me know what you think of
+the techniques shown here, or share your own favorite code block tricks.</p>
+        </div>
+      </div>
+    </article>
+    <div class='ten column centered'>
+      <div id='disqus_thread'></div>
+      <script type='text/javascript'>
+        //<![CDATA[
+          var disqus_shortname = 'mattsears';
+          var disqus_identifier = "/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks";
+          var disqus_url = "http://www.mattsears.com/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks";
+          
+          (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+          }());
+          
+          // The following are highly recommended additional parameters. Remove the slashes in front to use.
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        //]]>
+      </script>
+      <noscript>
+        Please enable JavaScript to view the
+        <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a>
+      </noscript>
+    </div>
+  </div>
+</div>
+        <section class='explore'>
+          <div class='row'>
+            <div class='ten columns centered'>
+              <h5 class='text-center capitalize'>
+                Explore articles from my blog
+              </h5>
+            </div>
+          </div>
+          <div class='row categories'>
+            <div class='six columns text-center centered'>
+              <ul class='no-bullet'>
+                <li>
+                  <a href='/articles/tags/git'>
+                    Git
+                  </a>
+                </li>
+                <li>
+                  <a href='/articles/tags/ruby'>
+                    Ruby
+                  </a>
+                </li>
+                <li>
+                  <a href='/articles/tags/clojure'>
+                    Clojure
+                  </a>
+                </li>
+                <li>
+                  <a href='/articles/tags/rspec'>
+                    Rspec
+                  </a>
+                </li>
+                <li>
+                  <a href='/articles/tags/minitest'>
+                    Minitest
+                  </a>
+                </li>
+                <li>
+                  <a href='/articles'>Everything</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='six columns centered'>
+              <form action='http://google.com/search' method='get'>
+                <fieldset role='search'>
+                  <input name='q' type='hidden' value='site:mattsears.com' />
+                  <input class='search' name='q' placeholder='... or search this site (via Google)' results='0' type='text' />
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </section>
+        <section class='browse'>
+          <div class='row'>
+            <div class='ten columns centered'>
+              <div class='row'>
+                <div class='six mobile-four columns'>
+                  <h5>
+                    <b>
+                      Popular:
+                    </b>
+                    The most visited articles:
+                  </h5>
+                  <hr />
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/12/10/minitest-quick-reference'>
+                        Minitest Quick Reference
+                      </a>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/11/16/nyan-cat-rspec-formatter'>
+                        Nyan Cat RSpec Formatter
+                      </a>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks'>
+                        Ruby Blocks as Dynamic Callbacks
+                      </a>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2009/06/06/20-clojure-links-to-get-you-up-to-speed'>
+                        20 Clojure Links To Get You Up To Speed
+                      </a>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/10/12/gaga-key-value-store'>
+                        Gaga, A Git-Backed Key/Value Store
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class='six mobile-four columns'>
+                  <h5>
+                    <b>
+                      New:
+                    </b>
+                    My most recent articles:
+                  </h5>
+                  <hr />
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/12/10/minitest-quick-reference'>
+                        Minitest Quick Reference
+                      </a>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks'>
+                        Ruby Blocks as Dynamic Callbacks
+                      </a>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/11/16/nyan-cat-rspec-formatter'>
+                        Nyan Cat RSpec Formatter
+                      </a>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/10/12/gaga-key-value-store'>
+                        Gaga, A Git-Backed Key/Value Store
+                      </a>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/05/15/print-stamps-with-ruby'>
+                        Print Stamps With Ruby!
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <footer class='row text-center'>
+          <div class='twelve columns'>
+            <div class='row'>
+              <div class='twelve columns'>
+                <p>
+                  You should follow me on
+                  <a href='https://twitter.com/mattsears' rel='external'>Twitter</a>
+                  and subscribe to
+                  my
+                  <a href='http://feeds.feedburner.com/mattsears'>RSS</a>
+                  feed. Trust me.
+                  <br />
+                  Copyright © 2012 Matt Sears.
+                </p>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        //
+          var _gauges = _gauges || [];
+          (function() {
+            var t   = document.createElement('script');
+            t.type  = 'text/javascript';
+            t.async = true;
+            t.id    = 'gauges-tracker';
+            t.setAttribute('data-site-id', '4fb913d1f5a1f50be2000073');
+            t.src = '//secure.gaug.es/track.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t, s);
+          })();
+        //
+      //]]>
+    </script>
+    <script src="/javascripts/all.js?1357088078" type="text/javascript"></script>
+  </body>
+</html>
+

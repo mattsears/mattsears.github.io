@@ -1,8 +1,0 @@
-<div class="highlight"><pre><code class="text">$ mkdir /etc/postfix/certs
-$ cd /etc/postfix/certs
-$ sudo cp roots.zip /etc/postfix/certs
-$ sudo unzip -j roots.zip
-$ sudo openssl x509 -inform der -in ThawtePremiumServerCA.cer -out  ThawtePremiumServerCA.pem
-$ sudo c_rehash /etc/postfix/certs
-</code></pre>
-</div>

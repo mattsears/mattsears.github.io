@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]> ><! <![endif]-->
+<html class='no-js' lang='en'>
+  <!-- <![endif] -->
+  <head>
+    <meta charset='utf-8' />
+    <meta content='width=device-width, initial-scale=1.0' name='viewport' />
+    <title>Matt Sears | Gaga, A Git-Backed Key/Value Store</title>
+    <meta content='Matt Sears, Matt, Sears' name='keywords' />
+    <meta author='Matt Sears' />
+    <link href='http://feeds.feedburner.com/mattsears' rel='alternate' title='Feed for mattsears' type='application/atom+xml' />
+    <link href='/images/favicon.png' rel='shortcut icon' />
+    <link href='/fonts/ss-social.css' rel='stylesheet' />
+    <link href="/stylesheets/app.css?1357088081" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <nav>
+      <div class='row'></div>
+    </nav>
+    <div class='row'>
+      <div class='twelve columns centered'>
+        <div class='row'>
+  <div class='ten column centered'>
+    <article>
+      <header class='text-center'>
+        <a href='/'>
+          <img alt='Matt Sears' class='me' height='100' src='/images/matt-sears.png' title='Matt Sears' width='100' />
+        </a>
+        <h2>
+          <a href='/articles/2011/10/12/gaga-key-value-store'>
+            Gaga, A Git-Backed Key/Value Store
+          </a>
+        </h2>
+        <h5>
+          Written by
+          <a href='#'>Matt</a>
+          on
+          Oct 12
+          /
+          <span>
+            <a class='dsq-comment-count comment-link commentslink' href='http://www.mattsears.com/articles/2011/10/12/gaga-key-value-store#disqus_thread'></a>
+          </span>
+        </h5>
+      </header>
+      <div class='row'>
+        <div class='ten column centered'>
+          <p>Gaga originated from my winning entry in Codebrawl&#39;s <a href="http://codebrawl.com/contests/key-value-stores">Key/Value
+Store</a> contest. The challenge
+was to write the best key/value storage backend you can think of. Since Git is
+fast, reliable, and a great tool for storing source code, I was really
+interested in making an easy way to store key/values.</p>
+
+<p>Built with <a href="https://github.com/mojombo/grit">Grit</a>, Gaga supports SET, GET, KEYS,
+and DELETE operations. And since it&#39;s Git, we can easily enhance it to include
+other awesome Git features such as branches, diffs, reverting, etc.</p>
+
+<h4>Usage</h4>
+<div class="highlight"><pre><span class="vi">@gaga</span> <span class="o">=</span> <span class="no">Gaga</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:repo</span> <span class="o">=&gt;</span> <span class="s1">&#39;/path/to/repo&#39;</span><span class="p">)</span>
+
+<span class="c1"># SET</span>
+<span class="vi">@gaga</span><span class="o">[</span><span class="s1">&#39;lady&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;gaga&quot;</span>
+
+<span class="c1"># GET</span>
+<span class="vi">@gaga</span><span class="o">[</span><span class="s1">&#39;lady&#39;</span><span class="o">]</span> <span class="c1">#=&gt; &quot;gaga&quot;</span>
+
+<span class="c1"># KEYS</span>
+<span class="vi">@gaga</span><span class="o">.</span><span class="n">keys</span>  <span class="c1">#=&gt; [&#39;lady&#39;]</span>
+
+<span class="c1"># DELETE</span>
+<span class="vi">@gaga</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s1">&#39;lady&#39;</span><span class="p">)</span> <span class="c1">#=&gt; &#39;gaga&#39;</span>
+
+<span class="c1"># Remove all items from the store</span>
+<span class="vi">@gaga</span><span class="o">.</span><span class="n">clear</span>
+</pre></div>
+<p>That works pretty well. Now, we can harness the power of Git and enhance our data
+store. For example, we can get a history log for a specific key:</p>
+<div class="highlight"><pre><span class="c1"># LOG</span>
+<span class="vi">@gaga</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;lady&#39;</span><span class="p">)</span>
+
+<span class="c1"># Produces:</span>
+<span class="o">[</span>
+ <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;all clear&quot;</span><span class="p">,</span><span class="s2">&quot;committer&quot;</span><span class="o">=&gt;</span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Matt Sears&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;matt@mattsears.com&quot;</span><span class="p">},</span> <span class="s2">&quot;committed_date&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;2011-09-05...&quot;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;set &#39;lady&#39; &quot;</span><span class="p">,</span> <span class="s2">&quot;committer&quot;</span><span class="o">=&gt;</span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Matt Sears&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;matt@mattsears.com&quot;</span><span class="p">},</span> <span class="s2">&quot;committed_date&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;2011-09-05...&quot;</span><span class="p">}</span>
+ <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;delete &#39;lady&#39; &quot;</span><span class="p">,</span> <span class="s2">&quot;committer&quot;</span><span class="o">=&gt;</span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Matt Sears&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;matt@mattsears.com&quot;</span><span class="p">},</span> <span class="s2">&quot;committed_date&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;2011-09-05...&quot;</span><span class="p">}</span>
+<span class="o">]</span>
+</pre></div>
+<p>This is just a start. There&#39;s still a lot things we can add.  If you are interested in more detailed information, check out the repo
+on <a href="https://github.com/mattsears/gaga">Github</a>.</p>
+        </div>
+      </div>
+    </article>
+    <div class='ten column centered'>
+      <div id='disqus_thread'></div>
+      <script type='text/javascript'>
+        //<![CDATA[
+          var disqus_shortname = 'mattsears';
+          var disqus_identifier = "/articles/2011/10/12/gaga-key-value-store";
+          var disqus_url = "http://www.mattsears.com/articles/2011/10/12/gaga-key-value-store";
+          
+          (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+          }());
+          
+          // The following are highly recommended additional parameters. Remove the slashes in front to use.
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        //]]>
+      </script>
+      <noscript>
+        Please enable JavaScript to view the
+        <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a>
+      </noscript>
+    </div>
+  </div>
+</div>
+        <section class='explore'>
+          <div class='row'>
+            <div class='ten columns centered'>
+              <h5 class='text-center capitalize'>
+                Explore articles from my blog
+              </h5>
+            </div>
+          </div>
+          <div class='row categories'>
+            <div class='six columns text-center centered'>
+              <ul class='no-bullet'>
+                <li>
+                  <a href='/articles/tags/git'>
+                    Git
+                  </a>
+                </li>
+                <li>
+                  <a href='/articles/tags/ruby'>
+                    Ruby
+                  </a>
+                </li>
+                <li>
+                  <a href='/articles/tags/clojure'>
+                    Clojure
+                  </a>
+                </li>
+                <li>
+                  <a href='/articles/tags/rspec'>
+                    Rspec
+                  </a>
+                </li>
+                <li>
+                  <a href='/articles/tags/minitest'>
+                    Minitest
+                  </a>
+                </li>
+                <li>
+                  <a href='/articles'>Everything</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='six columns centered'>
+              <form action='http://google.com/search' method='get'>
+                <fieldset role='search'>
+                  <input name='q' type='hidden' value='site:mattsears.com' />
+                  <input class='search' name='q' placeholder='... or search this site (via Google)' results='0' type='text' />
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </section>
+        <section class='browse'>
+          <div class='row'>
+            <div class='ten columns centered'>
+              <div class='row'>
+                <div class='six mobile-four columns'>
+                  <h5>
+                    <b>
+                      Popular:
+                    </b>
+                    The most visited articles:
+                  </h5>
+                  <hr />
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/12/10/minitest-quick-reference'>
+                        Minitest Quick Reference
+                      </a>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/11/16/nyan-cat-rspec-formatter'>
+                        Nyan Cat RSpec Formatter
+                      </a>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks'>
+                        Ruby Blocks as Dynamic Callbacks
+                      </a>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2009/06/06/20-clojure-links-to-get-you-up-to-speed'>
+                        20 Clojure Links To Get You Up To Speed
+                      </a>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/10/12/gaga-key-value-store'>
+                        Gaga, A Git-Backed Key/Value Store
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class='six mobile-four columns'>
+                  <h5>
+                    <b>
+                      New:
+                    </b>
+                    My most recent articles:
+                  </h5>
+                  <hr />
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/12/10/minitest-quick-reference'>
+                        Minitest Quick Reference
+                      </a>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks'>
+                        Ruby Blocks as Dynamic Callbacks
+                      </a>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/11/16/nyan-cat-rspec-formatter'>
+                        Nyan Cat RSpec Formatter
+                      </a>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/10/12/gaga-key-value-store'>
+                        Gaga, A Git-Backed Key/Value Store
+                      </a>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class='row'>
+                    <div class='nine columns cell'>
+                      <a href='/articles/2011/05/15/print-stamps-with-ruby'>
+                        Print Stamps With Ruby!
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <footer class='row text-center'>
+          <div class='twelve columns'>
+            <div class='row'>
+              <div class='twelve columns'>
+                <p>
+                  You should follow me on
+                  <a href='https://twitter.com/mattsears' rel='external'>Twitter</a>
+                  and subscribe to
+                  my
+                  <a href='http://feeds.feedburner.com/mattsears'>RSS</a>
+                  feed. Trust me.
+                  <br />
+                  Copyright © 2012 Matt Sears.
+                </p>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        //
+          var _gauges = _gauges || [];
+          (function() {
+            var t   = document.createElement('script');
+            t.type  = 'text/javascript';
+            t.async = true;
+            t.id    = 'gauges-tracker';
+            t.setAttribute('data-site-id', '4fb913d1f5a1f50be2000073');
+            t.src = '//secure.gaug.es/track.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t, s);
+          })();
+        //
+      //]]>
+    </script>
+    <script src="/javascripts/all.js?1357088078" type="text/javascript"></script>
+  </body>
+</html>
+

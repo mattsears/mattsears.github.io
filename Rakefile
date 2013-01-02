@@ -1,15 +1,15 @@
 desc "Launch preview environment."
 task :server do
-  system("for i in ./_layouts/*.haml; do [ -e $i ] && haml $i ${i%.haml}.html; done & compass watch & jekyll --auto --pygments --server")
+  system "middleman server"
 end
 
 desc "Build site"
 task :build => [:clean] do |task, args|
-  system "jekyll"
+  system "middleman build"
 end
 
 task :clean do
-  system "rm -rf _site"
+  # system "rm -rf build"
 end
 
 def current_branch
