@@ -26,30 +26,28 @@ module Rack
   end
 end
 
-use Rack::TryStatic,
-    :root => "build",
-    :urls => %w[/],
-    :try => ['.html', 'index.html', '/index.html']
-
-use Rack::StaticCache, :urls => [
-  '/images', '/javascripts', '/stylesheets', '/favicon.gif',
-  '/robots.txt'
-], :root => "build"
-
 use Rack::Rewrite do
   # Permanently move posts to the articles directory
   r301 %r{^/(\d{4})\/(\d+)\/(\d+)\/(.*)}, '/articles/$1/$2/$3/$4'
   r301 %r{^/articles/(\d{4})\/(\d{1})\/(\d{1})\/(.*)}, '/articles/$1/0$2/0$3/$4'
+
   rewrite '/feed', '/feed.xml'
   rewrite '/articles', '/articles.html'
   rewrite '/articles/', '/articles.html'
   rewrite '/about', '/'
 end
 
-# Run your own Rack app here or use this one to serve 404 messages:
+use Rack::StaticCache, :urls => [
+  '/images', '/javascripts', '/stylesheets', '/favicon.gif', '/robots.txt'
+], :root => "build"
+
+use Rack::TryStatic,
+    :root => "build",
+    :urls => %w[/],
+    :try => ['.html', 'index.html', '/index.html']
 
 run lambda{ |env|
-  not_found_page = File.expand_path("../build/404.html", __FILE__)
+  not_found_page = File.expand_path("../build/404/index.html", __FILE__)
   if File.exist?(not_found_page)
     [ 404, { 'Content-Type'  => 'text/html'}, [File.read(not_found_page)] ]
   else

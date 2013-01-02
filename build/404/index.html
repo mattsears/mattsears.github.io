@@ -7,7 +7,7 @@
   <head>
     <meta charset='utf-8' />
     <meta content='width=device-width, initial-scale=1.0' name='viewport' />
-    <title>Matt Sears | Easy Multiple Account Management for Heroku</title>
+    <title>Matt Sears | Not Found :-(</title>
     <meta content='Matt Sears, Matt, Sears' name='keywords' />
     <meta author='Matt Sears' />
     <link href='http://feeds.feedburner.com/mattsears' rel='alternate' title='Feed for mattsears' type='application/atom+xml' />
@@ -21,128 +21,80 @@
     </nav>
     <div class='row'>
       <div class='twelve columns centered'>
-        <div class='row'>
-  <div class='ten column centered'>
-    <article>
-      <header class='text-center'>
-        <a href='/'>
-          <img alt='Matt Sears' class='me' height='100' src='/images/matt-sears.png' title='Matt Sears' width='100' />
-        </a>
-        <h2>
-          <a href='/articles/2011/01/11/easy-multiple-account-management-for-heroku'>
-            Easy Multiple Account Management for Heroku
-          </a>
-        </h2>
-        <h5>
-          Written by
-          <a href='#'>Matt</a>
-          on
-          Jan 11
-          /
-          <span>
-            <a class='dsq-comment-count comment-link commentslink' href='http://www.mattsears.com/articles/2011/01/11/easy-multiple-account-management-for-heroku#disqus_thread'></a>
-          </span>
-        </h5>
-      </header>
-      <div class='row'>
-        <div class='ten column centered'>
-          <p>Recently, I migrated all of my personal and <a href="http://littlelines.com">business</a> sites
-to <a href="http://heroku.com">Heroku</a>. Heroku, as you may know, is a fantastic
-service for hosting ruby applications. Oh, and it&#39;s free!</p>
-
-<p>Like a lot of folks, I keep work and personal items such
-as email, bank accounts, github, etc in separate accounts.
-Heroku doesn&#39;t really place nice with multiple accounts.</p>
-
-<p>So how to do we effectively manage multiple Heroku accounts?</p>
-
-<h4>Prerequitites</h4>
-
-<p>The following assumes you are on the Mac OS or *nix system, own
-multiple Heroku accounts, and have installed the Heroku gem. I should
-also be point out that you will need to create separate ssh
-public keys for each account.</p>
-
-<h4>Custom Ruby Script</h4>
-
-<p>One option is we can use a script such as Keith Gaddis
-<a href="http://collectiveidea.com/blog/archives/2010/08/06/heroku-ing-with-multiple-personalities">describes</a>
-over at the Collective Idea blog. With his <a href="https://gist.github.com/511789">switcher</a> script, we can
-switch between two accounts like this:</p>
-<div class="highlight"><pre><span class="n">ruby</span> <span class="n">switcher</span><span class="p">.</span><span class="n">rb</span> <span class="n">personal</span>
-<span class="n">ruby</span> <span class="n">switcher</span><span class="p">.</span><span class="n">rb</span> <span class="n">work</span>
-</pre></div>
-<p>This essentially swaps the credentials file (used by the Heroku gem
-for authentication) for the account you want to
-use. This works well enough, however this can be tedious especially if
-you switch between work and personal projects frequently.</p>
-
-<h4>Enter Heroku Accounts Plugin</h4>
-
-<p>David Dollar of Heroku recently released an official Heroku
-plugin called <a href="https://github.com/ddollar/heroku-accounts">heroku-accounts</a>. With
-this plugin, we can switch Heroku accounts automatically.</p>
-
-<p>To get started, we first install the plugin:</p>
-<div class="highlight"><pre><span class="n">heroku</span> <span class="n">plugins</span><span class="p">:</span><span class="n">install</span> <span class="n">git</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">ddollar</span><span class="o">/</span><span class="n">heroku</span><span class="o">-</span><span class="n">accounts</span><span class="p">.</span><span class="n">git</span>
-</pre></div>
-<p>The installation process will download the plugin from github and save
-it to the <code>~/.heroku/plugins</code> directory. Now, we can
-setup each of our Heroku accounts with <code>add</code> command:</p>
-<div class="highlight"><pre><span class="n">heroku</span> <span class="n">accounts</span><span class="p">:</span><span class="n">add</span> <span class="n">work</span>
-</pre></div>
-<p>and for our personal account, we can run:</p>
-<div class="highlight"><pre><span class="n">heroku</span> <span class="n">accounts</span><span class="p">:</span><span class="n">add</span> <span class="n">personal</span>
-</pre></div>
-<p>The <code>add</code> command will ask you for your Heroku email address and
-password for each account. The plugin will maintain
-your account credentials in the <code>~/.heroku/accounts</code> folder in your
-home directory. (Passwords are not saved in plain text)</p>
-
-<p>To assign a project to a specific Heroku account, we run the following
-command in the project root:</p>
-<div class="highlight"><pre><span class="n">heroku</span> <span class="n">accounts</span><span class="p">:</span><span class="n">set</span> <span class="n">personal</span> # <span class="n">or</span> <span class="n">work</span>
-</pre></div>
-<p>This will assign a Heroku account to the project by adding an &#39;account&#39; variable
-to the project&#39;s git config file.</p>
-
-<h4>Celebrate</h4>
-
-<p>Hooray! Now we can switch Heroku accounts automatically. Awesome.</p>
-        </div>
-      </div>
-    </article>
-    <div class='ten column centered'>
-      <div id='disqus_thread'></div>
-      <script type='text/javascript'>
-        //<![CDATA[
-          var disqus_shortname = 'mattsears';
-          var disqus_identifier = "/articles/2011/01/11/easy-multiple-account-management-for-heroku";
-          var disqus_url = "http://www.mattsears.com/articles/2011/01/11/easy-multiple-account-management-for-heroku";
-          
-          (function () {
-            var s = document.createElement('script'); s.async = true;
-            s.type = 'text/javascript';
-            s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-          }());
-          
-          // The following are highly recommended additional parameters. Remove the slashes in front to use.
-          /* * * DON'T EDIT BELOW THIS LINE * * */
-          (function() {
-              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-              dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-          })();
-        //]]>
-      </script>
-      <noscript>
-        Please enable JavaScript to view the
-        <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a>
-      </noscript>
-    </div>
-  </div>
-</div>
+        <section class='introduction'>
+          <div class='row'>
+            <div class='seven columns centered'>
+              <header class='text-center'>
+                <a href='/'>
+                  <img class='me' height='100' src='/images/matt-sears.png' width='100' />
+                </a>
+                <h3>
+                  Matt Sears
+                </h3>
+                <h5>
+                  I'm sorry, but that page could not be found :-(
+                </h5>
+              </header>
+            </div>
+          </div>
+        </section>
+        <section class='socialize'>
+          <div class='row'>
+            <div class='six columns centered'>
+              <h5 class='text-center capitalize'>
+                Elsewhere
+              </h5>
+            </div>
+          </div>
+          <div class='row elsewhere'>
+            <div class='eight columns centered'>
+              <div class='row'>
+                <div class='two columns text-center'>
+                  <a href='http://git.io/sears' rel='external'>
+                    <span class='ss-social-circle ss-octocat'>
+                      <div>Github</div>
+                    </span>
+                  </a>
+                </div>
+                <div class='two columns text-center'>
+                  <a href='http://www.facebook.com/mattsears.me' rel='external'>
+                    <span class='ss-social-circle ss-facebook'>
+                      <div>Facebook</div>
+                    </span>
+                  </a>
+                </div>
+                <div class='two columns text-center'>
+                  <a href='https://twitter.com/mattsears' rel='external'>
+                    <span class='ss-social-circle ss-twitter'>
+                      <div>Twitter</div>
+                    </span>
+                  </a>
+                </div>
+                <div class='two columns text-center'>
+                  <a href='http://www.linkedin.com/in/matthewsears' rel='external'>
+                    <span class='ss-social-circle ss-linkedin'>
+                      <div>LinkedIn</div>
+                    </span>
+                  </a>
+                </div>
+                <div class='two columns text-center'>
+                  <a href='http://mattsears.tumblr.com' rel='external'>
+                    <span class='ss-social-circle ss-tumblr'>
+                      <div>Tumblr</div>
+                    </span>
+                  </a>
+                </div>
+                <div class='two columns text-center'>
+                  <a href='mailto:matt@mattsears.com'>
+                    <span class='ss-social-circle ss-mail'>
+                      <div>Email</div>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
         <section class='explore'>
           <div class='row'>
             <div class='ten columns centered'>
@@ -342,4 +294,3 @@ to the project&#39;s git config file.</p>
     <script src="/javascripts/all.js?1357090071" type="text/javascript"></script>
   </body>
 </html>
-
