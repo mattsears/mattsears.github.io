@@ -3,9 +3,6 @@ require 'rack/contrib'
 require 'rack-rewrite'
 require 'rack-static-if-present'
 
-# require 'middleman/rack'
-# run Middleman.server
-
 module Rack
   class TryStatic
     def initialize(app, options)
