@@ -7,6 +7,7 @@ gem 'zurb-foundation'
 gem 'redcarpet'
 gem 'builder'
 gem 'middleman-syntax'
+gem 'middleman-livereload'
 
 group :production do
   gem 'rack-contrib'
