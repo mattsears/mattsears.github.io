@@ -5,6 +5,7 @@
 # git config --global core.excludesfile ~/.gitignore_global
 
 # Ignore build directory
+build
 
 # Ignore bundler config
 /.bundle
