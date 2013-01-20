@@ -27,6 +27,8 @@ use Rack::Rewrite do
   # Permanently move posts to the articles directory
   r301 %r{^/(\d{4})\/(\d+)\/(\d+)\/(.*)}, '/articles/$1/$2/$3/$4'
   r301 %r{^/articles/(\d{4})\/(\d{1})\/(\d{1})\/(.*)}, '/articles/$1/0$2/0$3/$4'
+
+  # Redirect the /feed so that Feeburner will still work.
   rewrite '/feed', '/feed.xml'
   rewrite '/about', '/'
 end
