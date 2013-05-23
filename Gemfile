@@ -1,7 +1,7 @@
 source :rubygems
 
-gem "middleman", "~>3.0.7"
-gem "middleman-blog"
+gem 'middleman', '~>3.0.7'
+gem 'middleman-blog'
 gem 'pony'
 gem 'zurb-foundation'
 gem 'redcarpet'
