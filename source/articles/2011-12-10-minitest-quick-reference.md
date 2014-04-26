@@ -3,6 +3,9 @@ title: Minitest Quick Reference
 tags: ruby, minitest
 ---
 
+UPDATE: I've added a new section on stubbing with MiniTest and a few
+helpful comments to the code samples.
+
 [MiniTest](https://github.com/seattlerb/minitest), as the name suggests, is a
 small and fast unit testing framework. Shipped with Ruby 1.9, MiniTest supports
 a complete suite of testing capabilities such as TDD, BDD, mocking, and benchmarking.
@@ -19,22 +22,33 @@ Provides RSpec-like matchers and contexts right out of the box.
 require 'minitest/autorun'
 
 describe Hipster, "Demonstration of MiniTest" do
+
+  # Runs codes before each expectation
   before do
     @hipster = Hipster.new
   end
 
+  # Runs code after each expectation
   after do
     @hipster.destroy!
   end
 
-  subject do
-    Array.new.tap do |attributes|
-      attributes << "silly hats"
-      attributes << "skinny jeans"
-    end
+  # Define accessors - lazily runs code when it's first used
+  let(:hipster) { Hipster.new}
+  let(:traits) { ["silly hats", "skinny jeans"] }
+  let(:labels) { Array.new }
+
+  # Even lazier accessor - assigns `subject` as the name for us
+  # this equivalent to let(:subject) { Hipster.new }
+  subject { Hipster.new }
+
+  it "#define" do
+    hipster.define.must_equal "you wouldn't understand"
   end
 
-  let(:list) { Array.new }
+  it "#walk?" do
+    skip "I prefer to skip"
+  end
 
   describe "when asked about the font" do
     it "should be helvetica" do
@@ -56,23 +70,23 @@ for negative expectations.
 
 Assertion                | Examples
 :------------------------|:----------------------------------------------------|
-`must_be`                | `list.size.must_be :==, 0`
-`must_be_close_to`       | `subject.size.must_be_close_to 1,1`
-`must_be_empty`          | `list.must_be_empty`
-`must_be_instance_of`    | `list.must_be_instance_of Array`
-`must_be_kind_of`        | `list.must_be_kind_of Enumerable`
-`must_be_nil`            | `list.first.must_be_nil`
-`must_be_same_as`        | `subject.must_be_same_as subject`
+`must_be`                | `labels.size.must_be :==, 0`
+`must_be_close_to`       | `traits.size.must_be_close_to 1,1`
+`must_be_empty`          | `labels.must_be_empty`
+`must_be_instance_of`    | `hipster.must_be_instance_of Hipster`
+`must_be_kind_of`        | `labels.must_be_kind_of Enumerable`
+`must_be_nil`            | `labels.first.must_be_nil`
+`must_be_same_as`        | `traits.must_be_same_as traits`
 `must_be_silent`         | `proc { "no stdout or stderr" }.must_be_silent`
-`must_be_within_epsilon` | `subject.size.must_be_within_epsilon 1,1`
-`must_equal`             | `subject.size.must_equal 2`
-`must_include`           | `subject.must_include "skinny jeans"`
-`must_match`             | `subject.first.must_match /silly/`
-`must_output`            | `proc { print "#{subject.size}!" }.must_output "2!"`
-`must_respond_to`        | `subject.must_respond_to :count`
-`must_raise`             | `proc { subject.foo }.must_raise NoMethodError`
-`must_send`              | `subject.must_send [subject, :values_at, 0]`
-`must_throw`             | `proc { throw :done if subject.any? }.must_throw :done`
+`must_be_within_epsilon` | `traits.size.must_be_within_epsilon 1,1`
+`must_equal`             | `traits.size.must_equal 2`
+`must_include`           | `traits.must_include "skinny jeans"`
+`must_match`             | `traits.first.must_match /silly/`
+`must_output`            | `proc { print "#{traits.size}!" }.must_output "2!"`
+`must_respond_to`        | `traits.must_respond_to :count`
+`must_raise`             | `proc { traits.foo }.must_raise NoMethodError`
+`must_send`              | `traits.must_send [traits, :values_at, 0]`
+`must_throw`             | `proc { throw Exception if traits.any? }.must_throw Exception`
 
 ### MiniTest::Unit::TestCase
 Provides a rich set of assertions to make your tests clean and readable.
@@ -83,8 +97,8 @@ require 'minitest/autorun'
 class TestHipster < MiniTest::Unit::TestCase
   def setup
     @hipster = Hipster.new
-    @list    = Array.new
-    @subject = ["silly hats", "skinny jeans"]
+    @labels  = Array.new
+    @traits  = ["silly hats", "skinny jeans"]
   end
 
   def teardown
@@ -106,27 +120,49 @@ Toggle between `assert` for positive assertions and `refute` for negative assert
 
 Assertion            | Example
 :--------------------|:----------------------------------------------------------|
-`assert`             | `assert @subject.any?, "empty subjects"`
-`assert_block`       | `assert_block { @subject.any? }`
-`assert_empty`       | `assert_empty @list`
-`assert_equal`       | `assert_equal 2, @subject.size`
-`assert_in_delta`    | `assert_in_delta @subject.size, 1,1`
-`assert_in_epsilon`  | `assert_in_epsilon @subject.size, 1, 1`
-`assert_includes`    | `assert_includes @subject, "skinny jeans"`
-`assert_instance_of` | `assert_instance_of Array, @list`
-`assert_kind_of`     | `assert_kind_of Enumerable, @list`
-`assert_match`       | `assert_match @subject.first, /silly/`
-`assert_nil`         | `assert_nil @list.first`
-`assert_operator`    | `assert_operator @list.size, :== , 0`
-`assert_output`      | `assert_output("Size: 2") { print "Size: #{@subject.size}"}`
-`assert_raises`      | `assert_raises(NoMethodError) { @subject.foo }`
-`assert_respond_to`  | `assert_respond_to @subject, :count`
-`assert_same`        | `assert_same @subject, @subject, "It's the same object silly"`
-`assert_send`        | `assert_send [@subject, :values_at, 0]`
+`assert`             | `assert @traits.any?, "empty subjects"`
+`assert_empty`       | `assert_empty @labels`
+`assert_equal`       | `assert_equal 2, @traits.size`
+`assert_in_delta`    | `assert_in_delta @traits.size, 1,1`
+`assert_in_epsilon`  | `assert_in_epsilon @traits.size, 1, 1`
+`assert_includes`    | `assert_includes @traits, "skinny jeans"`
+`assert_instance_of` | `assert_instance_of Hipster, @hipster`
+`assert_kind_of`     | `assert_kind_of Enumerable, @labels`
+`assert_match`       | `assert_match @traits.first, /silly/`
+`assert_nil`         | `assert_nil @labels.first`
+`assert_operator`    | `assert_operator @labels.size, :== , 0`
+`assert_output`      | `assert_output("Size: 2") { print "Size: #{@traits.size}"}`
+`assert_raises`      | `assert_raises(NoMethodError) { @traits.foo }`
+`assert_respond_to`  | `assert_respond_to @traits, :count`
+`assert_same`        | `assert_same @traits, @traits, "It's the same object silly"`
+`assert_send`        | `assert_send [@traits, :values_at, 0]`
 `assert_silent`      | `assert_silent { "no stdout or stderr" }`
-`assert_throws`      | `assert_throws(:error,'is empty') {throw :error if @subject.any?}`
+`assert_throws`      | `assert_throws(Exception,'is empty') {throw Exception if @traits.any?}`
 
-## MiniTest::Mock
+### MiniTest#stub
+Minitest provides a simple `stub` method we can use to return a pre-determined value.
+
+```ruby
+require 'minitest/autorun'
+
+describe Hipster, "Demonstrates stubbing with Minitest" do
+
+  let(:hipster) { Hipster.new }
+
+  it "trendy if time is now" do
+    assert hipster.trendy? DateTime.now
+  end
+
+  it "it is NOT trendy if 2 weeks has past" do
+    DateTime.stub :now, (Date.today.to_date - 14) do
+      refute hipster.trendy? DateTime.now
+    end
+  end
+end
+
+```
+
+### MiniTest::Mock
 A simple and clean mock system. There two essential methods at our disposal:
 `expect` and `verify`.
 
@@ -134,27 +170,30 @@ A simple and clean mock system. There two essential methods at our disposal:
 ```ruby
 require 'minitest/autorun'
 
+# Make all of our Twitter updates hip
 class Twipster
   def initialize(twitter)
-    # A Ruby wrapper for the Twitter API
-    @twitter = twitter
+    @twitter = twitter # A Twitter API client
   end
 
-  def submit(tweet)
-    @twitter.update("#{tweet} #lolhipster")
+  def tweet(message)
+    @twitter.update("#{message} #lolhipster")
   end
 end
 
+# Uses Mock#expect and Mock#verify
 describe Twipster, "Make every tweet a hipster tweet." do
   before do
-    @twitter  = MiniTest::Mock.new
-    @twipster = Twipster.new(@twitter)
+    @twitter  = MiniTest::Mock.new # Mock our Twitter API client
   end
 
+  let(:twipster) { Twipster.new(@twitter) }
+  let(:message) { "Skyrim? Too mainstream."}
+
   it "should append a #lolhipster hashtag and update Twitter with our status" do
-    tweet = "Skyrim? Too mainstream."
-    @twitter.expect :update, true, ["#{tweet} #lolhipster"]
-    @twipster.submit(tweet)
+    @twitter.expect :update, true, ["#{message} #lolhipster"]
+    @twipster.tweet(message)
+
     assert @twitter.verify # verifies tweet and hashtag was passed to `@twitter.update`
   end
 end
