@@ -17,3 +17,8 @@ gem 'rack-cache'
 gem 'haml'
 gem 'sass'
 gem 'coffee-script'
+
+
+gem 'minitest'
+gem 'pry'
+gem 'pry-nav'
