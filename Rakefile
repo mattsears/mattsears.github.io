@@ -8,6 +8,11 @@ task :build => [] do |task, args|
   system "middleman build"
 end
 
+desc "Deploy site"
+task :deploy => [] do |task, args|
+  Rake::Task["basic:deploy"].invoke
+end
+
 require 'statistrano'
 
 deployment = define_deployment "basic" do
