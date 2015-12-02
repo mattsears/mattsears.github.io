@@ -4,16 +4,14 @@ pageable: true
 ---
 
 .row
-  .seven.columns.centered
+  .large-7.columns.large-centered
     %header.text-center
       %a{href: '/'}
-        %img{src: "/images/matt-sears.png", width: '100', height: '100', class: 'me' }/
-      %h3
-        Matt Sears
+        %img{src: "/images/matt-sears.jpg", width: '200', height: '200', class: 'me' }/
 
 - page_articles.each do |article|
   .row
-    .ten.column.centered
+    .large-10.columns.large-centered
       %article
         %header.text-center
           %h2
@@ -26,14 +24,14 @@ pageable: true
             \/
             = article.date.strftime('%b %e')
         .row
-          .ten.column.centered
+          .large-10.column.large-centered
             = article.body
             %hr/
 
-.row.ten.columns.centered.paginator
-  .row.three.columns
+.row.large-10.columns.large-centered.paginator
+  .row.large-3.columns
     - if next_page
       = link_to '← Older posts', next_page
-  .row.three.columns.text-right
+  .row.large-3.columns.text-right
     - if prev_page
       = link_to 'Newer posts →', prev_page

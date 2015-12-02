@@ -1,56 +1,14 @@
-// Your custom settings file to override Foundation defaults
+
 @import "settings"
-// Comment out this import if you are customizing you imports below
 @import "foundation"
-@import "general_foundicons"
-// ----------------------------------------
-// Import specific parts of Foundation by commenting the import "foundation"
-// and uncommenting what you want below. You must uncomment the following if customizing
-
+// @import "general_foundicons"
 @import "compass/css3"
-// @import "foundation/settings";
-// @import "foundation/functions/all";
-
-// Control which mixins you have access too
-
-// @import "foundation/mixins/clearfix";
-// @import "foundation/mixins/css-triangle";
-@import "foundation/mixins/font-size"
-
-// Must include next two for semantic grid to work
-
-// @import "foundation/mixins/respond-to";
-// @import "foundation/mixins/semantic-grid";
-
-// @import "modular-scale";
-// @import "foundation/common/globals";
-
-// Must include the grid for any responsiveness
-
-// @import "foundation/components/grid";
-
-// Control which common styles get compiled
-
-// @import "foundation/common/typography";
-// @import "foundation/common/forms";
-
-// Control which components you get if customizing
-
-// @import "foundation/components/modules/buttons";
-// @import "foundation/components/modules/tabs";
-// @import "foundation/components/modules/ui";
-// @import "foundation/components/modules/topbar";
-// @import "foundation/components/modules/navbar";
-// @import "foundation/components/modules/orbit";
-// @import "foundation/components/modules/reveal";
-// @import "foundation/components/modules/offcanvas";
-
-// Media Queries Overrides
-// @import "foundation/components/modules/mqueries";
-
 @import "syntax_highlight"
+
 @import url(http://fonts.googleapis.com/css?family=Droid+Serif)
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans)
 @import url(http://fonts.googleapis.com/css?family=PT+Sans)
+
 
 .bb
   border: 1px solid blue
@@ -61,31 +19,35 @@
 
 img.me
   +border-radius(50%)
+  margin-bottom: 20px
 
 .cell
-  font-size: 1.3em
+  font-size: em-calc(1.3)
   margin: .5em 0
 
 .capitalize
   text-transform: uppercase
 
 .starry
-  font-size: 1.35em
+  font-size: em-calc(1.35em)
   line-height: 1.6em
   i
-    font-size: .8em
+    font-font-size: .8em
     margin: 0 .5em -5px 0
-    color: $borderColor
+    color: $border-color
 
 .paginator
-  border-top: 1px solid $borderColor
+  border-top: 1px solid $border-color
   padding: 2em 0 0 0
   a
-    +font-size(20)
-
+    font-size: em-calc(20)
 
 input[type="text"]
   font-size: 18px
+
+body
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
 
 nav
   margin-top: 1em
@@ -104,19 +66,21 @@ h6
   line-height: 1.5em
 
 article
-  font-family: $headerFontFamily
+  font-family: $header-font-family
   padding-bottom: 5em
   h2
     a
       color: #444
+      font-weight: 400
+      font-size: em-calc(24)
   h3,h4
     margin-top: 30px
   h5
     margin: 1em auto 1.8em
 
 p
-  font-size: 1.35em
-  line-height: 1.6em
+  font-size: 14pt
+  line-height: 1.7em
 
 hr
   margin: 0
@@ -126,18 +90,9 @@ footer
 
 section
   margin: 1em 0 3em 0
-  +respondTo(smallScreen)
-    margin: 0 0 0 0
-  +respondTo(mediumScreen)
-    margin: 0 0 1em 0
 
 section.introduction
-  +respondTo(smallScreen)
-    margin: 0 0 1em 0
-  +respondTo(mediumScreen)
-    margin: 0 0 3em 0
-  +respondTo(largeScreen)
-    margin: 0 0 5em 0
+  margin: 0 0 2em 0
 
   header
     h5
@@ -145,29 +100,22 @@ section.introduction
 
 section.socialize
   h5
-    border-bottom: 1px dotted $borderColor
+    border-bottom: 1px dotted $border-color
     padding-bottom: 0.8em
 
   .elsewhere
-    +respondTo(smallScreen)
-      padding-top: 2em
-    +respondTo(mediumScreen)
-      padding-top: 4em
-
+    padding-top: 0
     a
       +transition(color 0.25s ease-in)
       display: inline-block
       color: #444
       &:hover
-        color: $mainColor
+        color: $main-color
     span
-      font-size: 5em
-      +respondTo(smallScreen)
-        font-size: 7em
-      +respondTo(mediumScreen)
-        font-size: 5em
+      &.ss-social-circle
+        font-size: em-calc(70)
       div
-        font-size: 15px
+        font-size: 16px
         display: block
 
     .row
@@ -176,14 +124,14 @@ section.socialize
 
 section.explore
   h5
-    border-top: 1px solid $borderColor
+    border-top: 1px solid $border-color
     padding-top: 2.4em
   ul
     li
       line-height: 1.5em
       float: none
       display: inline
-      font-size: 1.5em
+      font-size: em-calc(1.5)
       margin: 0 5px
       &:after
         content: "  /"

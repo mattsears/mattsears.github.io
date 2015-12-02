@@ -1,9 +1,10 @@
 source :rubygems
 
 gem 'middleman', '~>3.0.7'
+gem "statistrano"
 gem 'middleman-blog'
 gem 'pony'
-gem 'zurb-foundation'
+gem 'zurb-foundation', '~> 4.0'
 gem 'redcarpet'
 gem 'builder'
 gem 'middleman-syntax'
@@ -17,6 +18,7 @@ gem 'rack-cache'
 gem 'haml'
 gem 'sass'
 gem 'coffee-script'
+gem 'mina'
 
 
 gem 'minitest'

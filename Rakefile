@@ -4,35 +4,20 @@ task :server do
 end
 
 desc "Build site"
-task :build => [:clean] do |task, args|
+task :build => [] do |task, args|
   system "middleman build"
 end
 
-task :clean do
-  # system "rm -rf build"
+require 'statistrano'
+
+deployment = define_deployment "basic" do
+  hostname   '107.170.125.62'
+  user       'deployer' # optional if remote is setup in .ssh/config
+  remote_dir '/home/deployer/apps/mattsears/current/public'
+  local_dir  'build'
+  build_task 'build' # optional if nothing needs to be built
+  rsync_flags '-aqz --delete-after' # optional, flags for rsync
+  check_git  false # optional, set to false if git shouldn't be checked
 end
 
-def current_branch
-  `git status`.split("\n").first.split(" ").last
-end
-
-desc "Deploy application to Production Heroku app"
-task :deploy do
-  if current_branch.nil? || current_branch == '' || current_branch != "master"
-    raise "You must be on the master branch to deploy to production!"
-    exit
-  end
-  puts "\n"
-  puts " ############################################################################"
-  puts " #\n # Are you REALLY sure you want to deploy to production?"
-  puts " #\n # Enter y/N + enter to continue\n #"
-  puts " ############################################################################"
-  puts "\n"
-  proceed = STDIN.gets[0..0] rescue nil
-  exit unless proceed == 'y' || proceed == 'Y'
-
-  puts ">> Pushing to heroku"
-  # system "heroku maintenance:on -a mattsears"
-  system "git push heroku master"
-  # system "heroku maintenance:off -a mattsears"
-end
+deployment.register_tasks
