@@ -1,0 +1,54 @@
+<p>Over the last few years, I have grown tired of maintaining, migrating, and upgrading blog software, so I&#39;ve decided to roll my own with Ruby code. In doing so, I wanted to keep things as simple as possible with a basic set of features: articles, pages, comments, rss, etc. What I didn&#39;t want is a SQL database or an administration tool. I wanted to write articles in my text editor of choice (Emacs), in <a href="http://daringfireball.net/projects/markdown/">Markdown</a> format, and versioned with <a href="http://git-scm.com/">Git</a>. So I&#39;ve ported this site from Mephisto to my own custom creation. I call it Aerial.</p>
+
+<p>Much inspiration for Aerial has come from <a href="http://github.com/karmi/marley">Marley</a>, a minimal flat-file blog engine written in Sinatra. Like Marley, Aerial is built with <a href="http://www.sinatrarb.com/">Sinatra</a> and uses plain text files. Unlike Marley, Aerial doesn&#39;t use a SQL database and uses <a href="http://github.com/mojombo/grit">Grit</a> to retrieve article and comment files from a Git repository.</p>
+
+<h4>So how does it work?</h4>
+
+<p>Articles and comments are stored as plain text files in a local Git directory. Aerial parses each file and converts them the Article and Comment objects with their own set of attributes such as title, body, tags, and author. For example, this article looks something like this:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>Title      : Git blogging with Aerial
+Tags       : projects, ruby, git, sinatra
+Published  : 03/28/2009
+Author     : Matt Sears
+
+Over the last few years...
+</code></pre></div>
+<p>Since Aerial reads the articles from the Git repository, the contents of article won&#39;t display in the browser unless the changes are committed to Git. Same goes for comments.</p>
+
+<h4>Working with remote repositories</h4>
+
+<p>Aerial uses local and remote Git repositories to sync data between the production web server and your local environment. For example, when comments are submitted on the production web server, they are checked for Spam via <a href="http://akismet.com/">Akismet</a> and saved to the same directory as the article. Then, the new comment file is added to the production web server&#39;s repository and pushed to the remote repository (Github in my case). To pull in user comments to our local environment, simply use the pull command:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>git pull
+</code></pre></div>
+<p>Now we have all the comments that users have submitted.</p>
+
+<h4>Getting Started</h4>
+
+<p>For Aerial to work, you&#39;ll need Git installed and the following RubyGems:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>sudo gem install sinatra grit rdiscount haml
+</code></pre></div>
+<p>Grab the <a href="http://github.com/mattsears/aerial">source code</a> from Github.</p>
+
+<p>A small configuration file in config/config.yml is used to store information about your blog. You can add your info now or leave it as is and it will still work. To setup and run Aerial, we need to run the boostrap Rake task:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>rake bootstrap
+</code></pre></div>
+<p>This will install the necessary directories (specified in the config.yml file), javascript files, and insert a sample article to get you started. If every goes smoothly, Aerial should be up and running at:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>http://localhost:4567
+</code></pre></div>
+<p>Keeping in spirit with minimalism, all the pages use <a href="http://haml.hamptoncatlin.com">Haml</a> for the templating engine. Of course, you may change this to the templating engine of your choice.</p>
+
+<h4>Creating new articles</h4>
+
+<p>Create a new folder in the app/articles directory.  You can name this folder anything you want, but it may be helpful to number them so they display in the order you want them to. For example, the folder for this articles looks like this:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>app/articles/011-introducing-aerial
+</code></pre></div>
+<p>Next, create a text file with the extension &#39;.article&#39; and save it to the new folder.  The &#39;.article&#39; file extension let&#39;s Aerial know that this file should be converted to an Article object.  The name of the article will be the article&#39;s permalink. Remember, the article will not display on the site until it&#39;s committed to the git repository. When the article is completed, we can push it to the remote repository with the push command:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>git push
+</code></pre></div>
+<p>Now, we&#39;re ready to deploy it.</p>
+
+<h4>Deployment</h4>
+
+<p>Deployment tasks are handled with <a href="http://rubyhitsquad.com/Vlad_the_Deployer.html">Vlad the Deployer</a>. A simple deployment script is located at config/deploy.rb. It assumes your running Apache and Phusions Passenger, but you can edit this file with your own settings. Future enhancements may include auto-syncing with post-receive hooks so that &#39;git push&#39; will make Aerial update itself, but for now we can deploy with a simple rake task:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>rake deploy
+</code></pre></div>
+<p>This is by no means a comprehensive introduction. If you have any questions or run into any problems, please drop me a line.</p>

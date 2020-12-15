@@ -1,0 +1,737 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]> ><! <![endif]-->
+<html class='no-js' lang='en'>
+  <!-- <![endif] -->
+  <head>
+    <meta charset='utf-8' />
+    <meta content='width=device-width, initial-scale=1.0' name='viewport' />
+    <title>Matt Sears | Ruby Blocks as Dynamic Callbacks</title>
+    <meta content='Matt Sears, Matt, Sears' name='keywords' />
+    <meta author='Matt Sears' />
+    <link href='http://feeds.feedburner.com/mattsears' rel='alternate' title='Feed for mattsears' type='application/atom+xml' />
+    <link href='/images/favicon.png' rel='shortcut icon' />
+    <link href='/fonts/ss-social.css' rel='stylesheet' />
+    <link href="/stylesheets/app.css?1449018083" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <nav>
+      <div class='row'></div>
+    </nav>
+    <div class='row'>
+      <div class='twelve columns centered'>
+        <div class='row'>
+  <div class='large-7 columns large-centered'>
+    <header class='text-center'>
+      <a href='/'>
+        <img class='me' height='200' src='/images/matt-sears.jpg' width='200' />
+      </a>
+    </header>
+  </div>
+</div>
+<div class='row'>
+  <div class='large-10 columns large-centered'>
+    <article>
+      <header class='text-center'>
+        <h2>
+          <a href='/articles/2013/12/17/a-guide-for-writing-maintainable-rails-tests'>
+            A Guide for Writing Maintainable Rails Tests
+          </a>
+        </h2>
+        <h5>
+          Written by
+          <a href='#'>Matt</a>
+          on
+          /
+          Dec 17
+        </h5>
+      </header>
+      <div class='row'>
+        <div class='large-10 column large-centered'>
+          <p><em>This article was originally published at
+<a href="http://littlelines.com/blog/2013/12/17/a-guide-for-writing-maintainable-rails-tests/">Littlelines</a>.</em></p>
+
+<p>Do you ever feel like you spend most of your day repairing tests in your Rails
+app? If you have been building Rails apps as long for as we have, then you know
+the importance of a robust test suite. Working with a brittle and slow tests can
+really make the most basic tasks difficult. This is especially true for large
+Rails apps that have been around for a few years. The good news is that we can
+fix this with a few helpful tips I&#39;ve picked up over the years that can keep
+your test suite running smoothly for the long-run.</p>
+
+<p>First, let&#39;s define what maintainable means. It can take on a lot meanings, but
+let&#39;s break it down into three categories:</p>
+
+<ol>
+<li><p><em>Tests should be reliable.</em> When we run our tests over and over; whether it&#39;s
+a single test or the entire test suite, we want them to consistently pass or
+even consistently fail. There&#39;s nothing more tedious than tracking down
+inconsistencies. I&#39;ve spent countless hours and sometimes days fixing tests
+that run fine in isolation, but fail when running the complete suite.</p></li>
+<li><p><em>Tests should be easy to write.</em> I confess, when I work with a Rails app that
+has slow or brittle tests, I skip writing new tests all together because I know
+it&#39;s too difficult or too time consuming setting up new tests. So it&#39;s
+critical that our test suite be straightforward enough to dive right in.</p></li>
+<li><p><em>Tests should be easy to understand.</em> When tests fail, we should be able to
+look at the test code and quickly understand why it&#39;s failing and how to
+fix it. The last thing we want to do is waste time staring at code wondering
+&quot;Why is this failing!&quot;.</p></li>
+</ol>
+
+<h2>The Test Environment</h2>
+
+<p>Now that we have an understanding of what maintainable tests mean, let&#39;s get
+started with a solid foundation - the test helpers. Here is what our
+<code>test_helper.rb</code> might look like:</p>
+<div class="highlight"><pre><span class="nb">require</span> <span class="s2">&quot;minitest/autorun&quot;</span>
+<span class="nb">require</span> <span class="s2">&quot;mocha/setup&quot;</span>
+<span class="nb">require</span> <span class="s1">&#39;simplecov&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;capybara/dsl&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;capybara/rails&#39;</span>
+
+<span class="no">SimpleCov</span><span class="o">.</span><span class="n">start</span>
+
+<span class="k">module</span> <span class="nn">TestHelper</span>
+  <span class="kp">include</span> <span class="ss">Capybara</span><span class="p">:</span><span class="ss">:DSL</span>
+
+  <span class="k">def</span> <span class="nf">setup</span>
+    <span class="no">DatabaseCleaner</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="ss">:truncation</span>
+    <span class="no">DatabaseCleaner</span><span class="o">.</span><span class="n">clean_with</span><span class="p">(</span><span class="ss">:truncation</span><span class="p">)</span>
+    <span class="no">DatabaseCleaner</span><span class="o">.</span><span class="n">start</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">teardown</span>
+    <span class="no">DatabaseCleaner</span><span class="o">.</span><span class="n">clean</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+<p>Nice and simple! Let&#39;s take a closer at the gems we&#39;re using:</p>
+
+<p><strong><a href="https://github.com/seattlerb/minitest">Minitest</a></strong> - I like to use MiniTest for
+writing tests because of its simplicity and it provides a complete set of
+testing facilities without the noise. Best of all it&#39;s shipped with Ruby 1.9.</p>
+
+<p><strong><a href="http://gofreerange.com/mocha/docs/">Mocha</a></strong> - When we absolutely <em>need</em> to
+mock or stub, I reach for Mocha since it&#39;s a good lightweight option. I found
+Mocha to be the least fussy when it comes to stubbing.</p>
+
+<p><strong><a href="https://github.com/colszowka/simplecov">SimpleCov</a></strong> is absolutely essential
+  for measuring our code coverage. Our road to lean and mean tests start by
+  knowing what has already been tested and what has yet to be tested.</p>
+
+<p><strong><a href="https://github.com/bmabey/database_cleaner">DatabaseCleaner</a></strong> To avoid
+banging our head against bizarre inconsistencies with the test database, we are
+going to call on the help from DatbaseCleaner, which ensures that we have a clean database
+state between tests.</p>
+
+<p><strong><a href="http://jnicklas.github.io/capybara">Capybara</a></strong> Capybara is an intuitive web browser
+simulation framework that allows us to test how a real user interacts with our web application. It
+also comes with a built-in DSL for describing user interactions. We&#39;ll use
+Capybara extensively for our acceptance tests.</p>
+
+<h2>Achieving Testing Zen</h2>
+
+<p>Now that we have a nice setup for our suite, we&#39;re ready to start adding
+tests. How we approach testing is important if we want to keep our test suite
+healthy. We want to write the minimal amount of code required to satisfy our
+test cases. The best way to do this is using the Top-Down approach. This brings
+us to our first tip.</p>
+
+<p><strong>Tip #1: Start at the top.</strong> Start with the acceptance tests and drive our
+  implementation at the user interface level. This can be a great way to
+  prototype our implementation, and starting at the top, we can cover a lot of
+  code with little tests. Once we are satisfied with our acceptance tests, we
+  can fill-in holes with unit tests for complete public interface coverage.</p>
+
+<p><strong>Tip #2: Use helper methods to keep your test DRY.</strong> To keep our tests nice and
+   neat, extract common setup scenarios into helper methods. For example, if we
+   know we have to log into the application to test our app, we can setup a
+   handy login method:</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">log_in_user</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+  <span class="no">User</span><span class="o">.</span><span class="n">stubs</span><span class="p">(</span><span class="ss">:authenticate</span><span class="p">)</span><span class="o">.</span><span class="n">returns</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+  <span class="n">visit</span> <span class="s2">&quot;/login&quot;</span>
+
+  <span class="n">within</span><span class="p">(</span><span class="s2">&quot;form&quot;</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">fill_in</span> <span class="s2">&quot;login&quot;</span><span class="p">,</span> <span class="ss">with</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">login</span>
+    <span class="n">fill_in</span> <span class="s2">&quot;password&quot;</span><span class="p">,</span> <span class="ss">with</span><span class="p">:</span> <span class="s2">&quot;anything&quot;</span>
+  <span class="k">end</span>
+  <span class="n">click_button</span> <span class="s2">&quot;Log in&quot;</span>
+<span class="k">end</span>
+</pre></div>
+<p><strong>Tip #3: Avoid Copy and Paste.</strong> Sometimes it&#39;s so easy to copy and paste code
+   from one test to another - especially our setup code. Before you copy and paste,
+   ask yourself &quot;Should I move this code to a helper method instead?&quot;.</p>
+
+<p><strong>Tip #4: Don&#39;t test what has already been tested.</strong> It may sound simple, but
+chances are you&#39;ve written tests for code that has already been tested without
+knowing it. I come across something like this quite often:</p>
+<div class="highlight"><pre><span class="n">describe</span> <span class="no">User</span> <span class="k">do</span>
+  <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">have_many</span><span class="p">(</span><span class="ss">:orders</span><span class="p">)}</span>
+<span class="k">end</span>
+</pre></div>
+<p>What exactly are we testing here? Are we just wanting to be extra sure that
+we&#39;ve spelled the <code>has_many :order</code> association correctly in the User
+model? ActiveRecord associations are well-tested by the Rails test suite, so
+there is not need to have this in our test suite.</p>
+
+<p><strong>Tip #6: Avoid Excessive use of mocks, stubs, and expectations.</strong> Too many
+   mocks and stubs can lead to unexpected results and expectations often serve
+   no benefit at all and almost always lock you to the internal implementation
+   of the thing you&#39;re testing, thus making tests brittle. I have seen many
+   projects use excessive mocks and often times it&#39;s not testing
+   anything. Prefer to use real data from the database. The downside of this of
+   course, is that our tests may be slower.</p>
+
+<p><strong>Tip #7: Makes tests fast enough.</strong> We&#39;re not focusing too much on speed. Don&#39;t get
+me wrong, if your tests are slow, you won&#39;t be encouraged to write them. So it&#39;s
+important to keep speed in mind. But in the end, the most important thing we
+want is a reliable, understandable code, even if they&#39;re not as fast as we&#39;d like
+them to be.</p>
+
+<p><strong>Tip #8: Keep context and describe blocks flat.</strong> Avoid deeply nested describe
+   contexts. For example:</p>
+<div class="highlight"><pre><span class="n">describe</span> <span class="s2">&quot;checking out&quot;</span> <span class="k">do</span>
+
+  <span class="n">describe</span> <span class="s2">&quot;add items in shopping cart&quot;</span> <span class="k">do</span>
+    <span class="n">before</span> <span class="k">do</span>
+      <span class="n">add_item_to_shopping_cart</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
+      <span class="n">click_link</span> <span class="s1">&#39;Checkout&#39;</span>
+    <span class="k">end</span>
+    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+
+    <span class="n">describe</span> <span class="s2">&quot;pay with credit card&quot;</span> <span class="k">do</span>
+      <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+<p>When go too deep in our describe blocks, it&#39;s easy to lose sight of the steps
+taken in the previous describe blocks. To compound the problem, we can&#39;t be sure
+of the database state either. Consider breaking describe blocks into separate
+tests or even separate files when deep nesting occurs. For our example above,
+we&#39;ll create a brand new test file for paying with credit card:</p>
+<div class="highlight"><pre><span class="n">describe</span> <span class="s2">&quot;paying with credit card&quot;</span> <span class="k">do</span>
+  <span class="n">before</span> <span class="k">do</span>
+    <span class="n">setup_shopping_cart_and_checkout</span>
+    <span class="n">fill_in_credit_card_fields</span>
+  <span class="k">end</span>
+
+  <span class="n">it</span> <span class="s1">&#39;checks for valid promotion codes&#39;</span> <span class="k">do</span>
+    <span class="n">fill_in</span> <span class="s2">&quot;promo_code&quot;</span><span class="p">,</span> <span class="ss">with</span><span class="p">:</span> <span class="s1">&#39;does not exists&#39;</span>
+    <span class="n">click_link</span> <span class="s1">&#39;Place Order&#39;</span>
+    <span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;Sorry, invalid promotion code&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+<p><strong>Tip #9: Only test public side effects.</strong> If a method changes the internal state, write
+  your assertions based on the side effects available to the public. Keep test
+  cases to external API - allows us to change internal implementation, while
+  ensuring the consumers of your class still work.</p>
+
+<p>And that is it! By following these tips, you&#39;re on your way to achieving a happy
+and health test suite. If you found this article helpful, you should also
+checkout:</p>
+
+<ol>
+<li><a href="http://robots.thoughtbot.com/practical-guide-to-user-testing/">Practical Guide to User Testing</a></li>
+<li><a href="http://blog.codeclimate.com/blog/2013/10/09/rails-testing-pyramid/">Rails Testing Pyramid</a></li>
+<li><a href="http://mattsears.com/articles/2011/12/10/minitest-quick-reference">Minitest Quick Reference</a></li>
+</ol>
+
+<p>Got any tips to share? Please leave them in the comments.</p>
+          <hr />
+        </div>
+      </div>
+    </article>
+  </div>
+</div>
+<div class='row'>
+  <div class='large-10 columns large-centered'>
+    <article>
+      <header class='text-center'>
+        <h2>
+          <a href='/articles/2011/12/10/minitest-quick-reference'>
+            Minitest Quick Reference
+          </a>
+        </h2>
+        <h5>
+          Written by
+          <a href='#'>Matt</a>
+          on
+          /
+          Dec 10
+        </h5>
+      </header>
+      <div class='row'>
+        <div class='large-10 column large-centered'>
+          <p>UPDATE: I&#39;ve added a new section on stubbing with MiniTest and a few
+helpful comments to the code samples.</p>
+
+<p><a href="https://github.com/seattlerb/minitest">MiniTest</a>, as the name suggests, is a
+small and fast unit testing framework. Shipped with Ruby 1.9, MiniTest supports
+a complete suite of testing capabilities such as TDD, BDD, mocking, and benchmarking.</p>
+
+<p>This quick reference aims to demonstrate MiniTest&#39;s main concepts and
+provide real world examples to get you acquainted quickly. Let&#39;s start with
+MiniTest::Spec.</p>
+
+<h3>MiniTest::Spec</h3>
+
+<p>Provides RSpec-like matchers and contexts right out of the box.</p>
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+
+<span class="n">describe</span> <span class="no">Hipster</span><span class="p">,</span> <span class="s2">&quot;Demonstration of MiniTest&quot;</span> <span class="k">do</span>
+
+  <span class="c1"># Runs codes before each expectation</span>
+  <span class="n">before</span> <span class="k">do</span>
+    <span class="vi">@hipster</span> <span class="o">=</span> <span class="no">Hipster</span><span class="o">.</span><span class="n">new</span>
+  <span class="k">end</span>
+
+  <span class="c1"># Runs code after each expectation</span>
+  <span class="n">after</span> <span class="k">do</span>
+    <span class="vi">@hipster</span><span class="o">.</span><span class="n">destroy!</span>
+  <span class="k">end</span>
+
+  <span class="c1"># Define accessors - lazily runs code when it&#39;s first used</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:hipster</span><span class="p">)</span> <span class="p">{</span> <span class="no">Hipster</span><span class="o">.</span><span class="n">new</span><span class="p">}</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:traits</span><span class="p">)</span> <span class="p">{</span> <span class="o">[</span><span class="s2">&quot;silly hats&quot;</span><span class="p">,</span> <span class="s2">&quot;skinny jeans&quot;</span><span class="o">]</span> <span class="p">}</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:labels</span><span class="p">)</span> <span class="p">{</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span> <span class="p">}</span>
+
+  <span class="c1"># Even lazier accessor - assigns `subject` as the name for us</span>
+  <span class="c1"># this equivalent to let(:subject) { Hipster.new }</span>
+  <span class="n">subject</span> <span class="p">{</span> <span class="no">Hipster</span><span class="o">.</span><span class="n">new</span> <span class="p">}</span>
+
+  <span class="n">it</span> <span class="s2">&quot;#define&quot;</span> <span class="k">do</span>
+    <span class="n">hipster</span><span class="o">.</span><span class="n">define</span><span class="o">.</span><span class="n">must_equal</span> <span class="s2">&quot;you wouldn&#39;t understand&quot;</span>
+  <span class="k">end</span>
+
+  <span class="n">it</span> <span class="s2">&quot;#walk?&quot;</span> <span class="k">do</span>
+    <span class="n">skip</span> <span class="s2">&quot;I prefer to skip&quot;</span>
+  <span class="k">end</span>
+
+  <span class="n">describe</span> <span class="s2">&quot;when asked about the font&quot;</span> <span class="k">do</span>
+    <span class="n">it</span> <span class="s2">&quot;should be helvetica&quot;</span> <span class="k">do</span>
+      <span class="vi">@hipster</span><span class="o">.</span><span class="n">preferred_font</span><span class="o">.</span><span class="n">must_equal</span> <span class="s2">&quot;helvetica&quot;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="n">describe</span> <span class="s2">&quot;when asked about mainstream&quot;</span> <span class="k">do</span>
+    <span class="n">it</span> <span class="s2">&quot;won&#39;t be mainstream&quot;</span> <span class="k">do</span>
+      <span class="vi">@hipster</span><span class="o">.</span><span class="n">mainstream?</span><span class="o">.</span><span class="n">wont_equal</span> <span class="kp">true</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+<h4>Matchers (must | wont)</h4>
+
+<p>In most cases you can switch between <code>must</code> for positive expectations and <code>wont</code>
+for negative expectations.</p>
+
+<table><thead>
+<tr>
+<th align="left">Assertion</th>
+<th align="left">Examples</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left"><code>must_be</code></td>
+<td align="left"><code>labels.size.must_be :==, 0</code></td>
+</tr>
+<tr>
+<td align="left"><code>must_be_close_to</code></td>
+<td align="left"><code>traits.size.must_be_close_to 1,1</code></td>
+</tr>
+<tr>
+<td align="left"><code>must_be_empty</code></td>
+<td align="left"><code>labels.must_be_empty</code></td>
+</tr>
+<tr>
+<td align="left"><code>must_be_instance_of</code></td>
+<td align="left"><code>hipster.must_be_instance_of Hipster</code></td>
+</tr>
+<tr>
+<td align="left"><code>must_be_kind_of</code></td>
+<td align="left"><code>labels.must_be_kind_of Enumerable</code></td>
+</tr>
+<tr>
+<td align="left"><code>must_be_nil</code></td>
+<td align="left"><code>labels.first.must_be_nil</code></td>
+</tr>
+<tr>
+<td align="left"><code>must_be_same_as</code></td>
+<td align="left"><code>traits.must_be_same_as traits</code></td>
+</tr>
+<tr>
+<td align="left"><code>must_be_silent</code></td>
+<td align="left"><code>proc { &quot;no stdout or stderr&quot; }.must_be_silent</code></td>
+</tr>
+<tr>
+<td align="left"><code>must_be_within_epsilon</code></td>
+<td align="left"><code>traits.size.must_be_within_epsilon 1,1</code></td>
+</tr>
+<tr>
+<td align="left"><code>must_equal</code></td>
+<td align="left"><code>traits.size.must_equal 2</code></td>
+</tr>
+<tr>
+<td align="left"><code>must_include</code></td>
+<td align="left"><code>traits.must_include &quot;skinny jeans&quot;</code></td>
+</tr>
+<tr>
+<td align="left"><code>must_match</code></td>
+<td align="left"><code>traits.first.must_match /silly/</code></td>
+</tr>
+<tr>
+<td align="left"><code>must_output</code></td>
+<td align="left"><code>proc { print &quot;#{traits.size}!&quot; }.must_output &quot;2!&quot;</code></td>
+</tr>
+<tr>
+<td align="left"><code>must_respond_to</code></td>
+<td align="left"><code>traits.must_respond_to :count</code></td>
+</tr>
+<tr>
+<td align="left"><code>must_raise</code></td>
+<td align="left"><code>proc { traits.foo }.must_raise NoMethodError</code></td>
+</tr>
+<tr>
+<td align="left"><code>must_send</code></td>
+<td align="left"><code>traits.must_send [traits, :values_at, 0]</code></td>
+</tr>
+<tr>
+<td align="left"><code>must_throw</code></td>
+<td align="left"><code>proc { throw Exception if traits.any? }.must_throw Exception</code></td>
+</tr>
+</tbody></table>
+
+<h3>MiniTest::Unit::TestCase</h3>
+
+<p>Provides a rich set of assertions to make your tests clean and readable.</p>
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+
+<span class="k">class</span> <span class="nc">TestHipster</span> <span class="o">&lt;</span> <span class="ss">MiniTest</span><span class="p">:</span><span class="ss">:Unit</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="k">def</span> <span class="nf">setup</span>
+    <span class="vi">@hipster</span> <span class="o">=</span> <span class="no">Hipster</span><span class="o">.</span><span class="n">new</span>
+    <span class="vi">@labels</span>  <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span>
+    <span class="vi">@traits</span>  <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;silly hats&quot;</span><span class="p">,</span> <span class="s2">&quot;skinny jeans&quot;</span><span class="o">]</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">teardown</span>
+    <span class="vi">@hipster</span><span class="o">.</span><span class="n">destroy!</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">test_for_helvetica_font</span>
+    <span class="n">assert_equal</span> <span class="s2">&quot;helvetica!&quot;</span><span class="p">,</span> <span class="vi">@hipster</span><span class="o">.</span><span class="n">preferred_font</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">test_not_mainstream</span>
+    <span class="n">refute</span> <span class="vi">@hipster</span><span class="o">.</span><span class="n">mainstream?</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+<h4>Assertions (assert | refute)</h4>
+
+<p>Toggle between <code>assert</code> for positive assertions and <code>refute</code> for negative assertions.</p>
+
+<table><thead>
+<tr>
+<th align="left">Assertion</th>
+<th align="left">Example</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left"><code>assert</code></td>
+<td align="left"><code>assert @traits.any?, &quot;empty subjects&quot;</code></td>
+</tr>
+<tr>
+<td align="left"><code>assert_empty</code></td>
+<td align="left"><code>assert_empty @labels</code></td>
+</tr>
+<tr>
+<td align="left"><code>assert_equal</code></td>
+<td align="left"><code>assert_equal 2, @traits.size</code></td>
+</tr>
+<tr>
+<td align="left"><code>assert_in_delta</code></td>
+<td align="left"><code>assert_in_delta @traits.size, 1,1</code></td>
+</tr>
+<tr>
+<td align="left"><code>assert_in_epsilon</code></td>
+<td align="left"><code>assert_in_epsilon @traits.size, 1, 1</code></td>
+</tr>
+<tr>
+<td align="left"><code>assert_includes</code></td>
+<td align="left"><code>assert_includes @traits, &quot;skinny jeans&quot;</code></td>
+</tr>
+<tr>
+<td align="left"><code>assert_instance_of</code></td>
+<td align="left"><code>assert_instance_of Hipster, @hipster</code></td>
+</tr>
+<tr>
+<td align="left"><code>assert_kind_of</code></td>
+<td align="left"><code>assert_kind_of Enumerable, @labels</code></td>
+</tr>
+<tr>
+<td align="left"><code>assert_match</code></td>
+<td align="left"><code>assert_match @traits.first, /silly/</code></td>
+</tr>
+<tr>
+<td align="left"><code>assert_nil</code></td>
+<td align="left"><code>assert_nil @labels.first</code></td>
+</tr>
+<tr>
+<td align="left"><code>assert_operator</code></td>
+<td align="left"><code>assert_operator @labels.size, :== , 0</code></td>
+</tr>
+<tr>
+<td align="left"><code>assert_output</code></td>
+<td align="left"><code>assert_output(&quot;Size: 2&quot;) { print &quot;Size: #{@traits.size}&quot;}</code></td>
+</tr>
+<tr>
+<td align="left"><code>assert_raises</code></td>
+<td align="left"><code>assert_raises(NoMethodError) { @traits.foo }</code></td>
+</tr>
+<tr>
+<td align="left"><code>assert_respond_to</code></td>
+<td align="left"><code>assert_respond_to @traits, :count</code></td>
+</tr>
+<tr>
+<td align="left"><code>assert_same</code></td>
+<td align="left"><code>assert_same @traits, @traits, &quot;It&#39;s the same object silly&quot;</code></td>
+</tr>
+<tr>
+<td align="left"><code>assert_send</code></td>
+<td align="left"><code>assert_send [@traits, :values_at, 0]</code></td>
+</tr>
+<tr>
+<td align="left"><code>assert_silent</code></td>
+<td align="left"><code>assert_silent { &quot;no stdout or stderr&quot; }</code></td>
+</tr>
+<tr>
+<td align="left"><code>assert_throws</code></td>
+<td align="left"><code>assert_throws(Exception,&#39;is empty&#39;) {throw Exception if @traits.any?}</code></td>
+</tr>
+</tbody></table>
+
+<h3>MiniTest#stub</h3>
+
+<p>Minitest provides a simple <code>stub</code> method we can use to return a pre-determined value.</p>
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+
+<span class="n">describe</span> <span class="no">Hipster</span><span class="p">,</span> <span class="s2">&quot;Demonstrates stubbing with Minitest&quot;</span> <span class="k">do</span>
+
+  <span class="n">let</span><span class="p">(</span><span class="ss">:hipster</span><span class="p">)</span> <span class="p">{</span> <span class="no">Hipster</span><span class="o">.</span><span class="n">new</span> <span class="p">}</span>
+
+  <span class="n">it</span> <span class="s2">&quot;trendy if time is now&quot;</span> <span class="k">do</span>
+    <span class="n">assert</span> <span class="n">hipster</span><span class="o">.</span><span class="n">trendy?</span> <span class="no">DateTime</span><span class="o">.</span><span class="n">now</span>
+  <span class="k">end</span>
+
+  <span class="n">it</span> <span class="s2">&quot;it is NOT trendy if 2 weeks has past&quot;</span> <span class="k">do</span>
+    <span class="no">DateTime</span><span class="o">.</span><span class="n">stub</span> <span class="ss">:now</span><span class="p">,</span> <span class="p">(</span><span class="no">Date</span><span class="o">.</span><span class="n">today</span><span class="o">.</span><span class="n">to_date</span> <span class="o">-</span> <span class="mi">14</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">refute</span> <span class="n">hipster</span><span class="o">.</span><span class="n">trendy?</span> <span class="no">DateTime</span><span class="o">.</span><span class="n">now</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+<h3>MiniTest::Mock</h3>
+
+<p>A simple and clean mock system. There two essential methods at our disposal:
+<code>expect</code> and <code>verify</code>.</p>
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+
+<span class="c1"># Make all of our Twitter updates hip</span>
+<span class="k">class</span> <span class="nc">Twipster</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">twitter</span><span class="p">)</span>
+    <span class="vi">@twitter</span> <span class="o">=</span> <span class="n">twitter</span> <span class="c1"># A Twitter API client</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">tweet</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="vi">@twitter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">message</span><span class="si">}</span><span class="s2"> #lolhipster&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Uses Mock#expect and Mock#verify</span>
+<span class="n">describe</span> <span class="no">Twipster</span><span class="p">,</span> <span class="s2">&quot;Make every tweet a hipster tweet.&quot;</span> <span class="k">do</span>
+  <span class="n">before</span> <span class="k">do</span>
+    <span class="vi">@twitter</span>  <span class="o">=</span> <span class="ss">MiniTest</span><span class="p">:</span><span class="ss">:Mock</span><span class="o">.</span><span class="n">new</span> <span class="c1"># Mock our Twitter API client</span>
+  <span class="k">end</span>
+
+  <span class="n">let</span><span class="p">(</span><span class="ss">:twipster</span><span class="p">)</span> <span class="p">{</span> <span class="no">Twipster</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="vi">@twitter</span><span class="p">)</span> <span class="p">}</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:message</span><span class="p">)</span> <span class="p">{</span> <span class="s2">&quot;Skyrim? Too mainstream.&quot;</span><span class="p">}</span>
+
+  <span class="n">it</span> <span class="s2">&quot;should append a #lolhipster hashtag and update Twitter with our status&quot;</span> <span class="k">do</span>
+    <span class="vi">@twitter</span><span class="o">.</span><span class="n">expect</span> <span class="ss">:update</span><span class="p">,</span> <span class="kp">true</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">message</span><span class="si">}</span><span class="s2"> #lolhipster&quot;</span><span class="o">]</span>
+    <span class="vi">@twipster</span><span class="o">.</span><span class="n">tweet</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="n">assert</span> <span class="vi">@twitter</span><span class="o">.</span><span class="n">verify</span> <span class="c1"># verifies tweet and hashtag was passed to `@twitter.update`</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+<h3>Resources</h3>
+
+<ol>
+<li><a href="https://github.com/seattlerb/minitest">MiniTest on Github</a></li>
+<li><a href="http://docs.seattlerb.org/minitest">MiniTest Rdoc</a></li>
+<li><a href="http://metaskills.net/2011/03/26/using-minitest-spec-with-rails">Using MiniTest::Spec with Rails</a></li>
+<li><a href="http://www.rubyinside.com/a-minitestspec-tutorial-elegant-spec-style-testing-that-comes-with-ruby-5354.html">Ruby Inside: A MiniTest::Spec Tutorial: Elegant Spec-Style Testing That Comes With Ruby</a></li>
+</ol>
+
+<p>I hope you found this quick guide valuable. Please let me know if you&#39;d like
+to see anything else included and feel free to ask questions or give feedback
+in the comments section.</p>
+          <hr />
+        </div>
+      </div>
+    </article>
+  </div>
+</div>
+<div class='row'>
+  <div class='large-10 columns large-centered'>
+    <article>
+      <header class='text-center'>
+        <h2>
+          <a href='/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks'>
+            Ruby Blocks as Dynamic Callbacks
+          </a>
+        </h2>
+        <h5>
+          Written by
+          <a href='#'>Matt</a>
+          on
+          /
+          Nov 27
+        </h5>
+      </header>
+      <div class='row'>
+        <div class='large-10 column large-centered'>
+          <p>Callbacks are a great technique for achieving simplicity and flexibility. Simply put,
+a callback is a block of code passed as an argument to a method. In Ruby, code
+blocks are everywhere and Ruby makes it trivial to pass a block of code to
+methods. For example:</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+  <span class="n">callback</span> <span class="o">=</span> <span class="n">block</span>
+  <span class="n">callback</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">foo</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">}</span> <span class="c1"># =&gt; 25</span>
+</pre></div>
+<p>But what do we do when a method needs two blocks of code or more? Consider the
+classic case where we want a method to execute a block of code if an action
+succeeds or call different code if an action fails.</p>
+
+<p>In this article, I will demonstrate how we can pass multiple blocks to a method and
+with some metaprogramming, we can achieve a dynamic callback mechanism with just
+a few lines of code.</p>
+
+<p>Let&#39;s add a method called <code>callback</code> to the Proc class:</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Proc</span>
+  <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">callable</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="nb">self</span> <span class="o">===</span> <span class="no">Class</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span>
+      <span class="n">method_name</span> <span class="o">=</span> <span class="n">callable</span><span class="o">.</span><span class="n">to_sym</span>
+      <span class="n">define_method</span><span class="p">(</span><span class="n">method_name</span><span class="p">)</span> <span class="p">{</span> <span class="o">|&amp;</span><span class="n">block</span><span class="o">|</span> <span class="n">block</span><span class="o">.</span><span class="n">nil?</span> <span class="p">?</span> <span class="kp">true</span> <span class="p">:</span> <span class="n">block</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="p">}</span>
+      <span class="n">define_method</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">method_name</span><span class="si">}</span><span class="s2">?&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="kp">true</span> <span class="p">}</span>
+      <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span> <span class="kp">false</span><span class="p">;</span> <span class="k">end</span>
+    <span class="k">end</span><span class="o">.</span><span class="n">new</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+<p>That&#39;s it! The above <code>Proc#callback</code> method simply yields an anonymous class
+with methods defined to handle our callbacks. This allows for the capability of
+creating and storing dynamic callbacks, which can later be looked up and
+executed as needed.</p>
+
+<p>Notice anything unusual? We&#39;re using the <code>===</code> operand to invoke the
+block. <code>Proc#===</code> is an alias for <code>Proc.call</code>. Anything on the right side of
+<code>===</code> acts as the proc&#39;s parameter. Normally, this is to allow a proc object to
+be a target of a <code>when</code> clause in case statements, but we&#39;re using it as a super
+simple way of invoking our anonymous class.</p>
+
+<p>Let’s try it with something useful. Let’s say we’re writing something which
+needs to happen in an all-or-nothing, atomic fashion. Either the whole thing
+works, or none of it does.  A simple case is tweeting:</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">tweet</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+  <span class="no">Twitter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+  <span class="n">block</span><span class="o">.</span><span class="n">callback</span> <span class="ss">:success</span>
+<span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
+  <span class="n">block</span><span class="o">.</span><span class="n">callback</span> <span class="ss">:failure</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">message</span>
+<span class="k">end</span>
+</pre></div>
+<p>The <code>tweet</code> method accepts a message string and &amp;block parameters. We call
+<code>callback</code> on the block and give it a name. Any name will work :success, :error,
+:fail!, whatever. In addition, we can pass arguments to the blocks (more on that
+later). Now we can provide a status if the tweet was successful or not:</p>
+<div class="highlight"><pre><span class="n">tweet</span> <span class="s2">&quot;Ruby methods with multiple blocks. #lolruby&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">on</span><span class="o">|</span>
+  <span class="n">on</span><span class="o">.</span><span class="n">success</span> <span class="k">do</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Tweet successful!&quot;</span>
+  <span class="k">end</span>
+  <span class="n">on</span><span class="o">.</span><span class="n">failure</span> <span class="k">do</span> <span class="o">|</span><span class="n">status</span><span class="o">|</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Error: </span><span class="si">#{</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+<p>The advantage here is that we define our own mini DSL. We don&#39;t need to worry
+about passing too many or unexpected blocks. We could have easily said
+<code>where.success</code> or <code>on.error</code> or <code>update.fail!</code>. Also note the <code>on.failure</code>
+block includes a <code>status</code> parameter - this contains the exception message
+captured in the <code>tweet</code> method above. So if Twitter was down for whatever
+reason, the <code>on.failure</code> block would be invoked and printed &#39;Error: Twitter is
+down or being upgraded&#39;.</p>
+
+<p>Bonus: In addition to wrapping code in blocks, our <code>Proc#callback</code> method
+defines boolean style methods. So we could have call the tweet method like this
+if we wanted to:</p>
+<div class="highlight"><pre><span class="n">tweet</span> <span class="s2">&quot;Ruby methods with multiple blocks. #lolruby&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">update</span><span class="o">|</span>
+  <span class="nb">puts</span> <span class="s2">&quot;Tweet successful!&quot;</span> <span class="k">if</span> <span class="n">update</span><span class="o">.</span><span class="n">success?</span>
+  <span class="nb">puts</span> <span class="s2">&quot;Sorry, something went wrong.&quot;</span> <span class="k">if</span> <span class="n">update</span><span class="o">.</span><span class="n">failure?</span>
+<span class="k">end</span>
+</pre></div>
+<p>Put the <code>Proc#callback</code> method in a utility library and your code will look neat and tidy.</p>
+
+<p>As always, I welcome your thoughts and feedback. Let me know what you think of
+the techniques shown here, or share your own favorite code block tricks.</p>
+          <hr />
+        </div>
+      </div>
+    </article>
+  </div>
+</div>
+<div class='row large-10 columns large-centered paginator'>
+  <div class='row large-3 columns'>
+    <a href="/articles/p2">← Older posts</a>
+  </div>
+  <div class='row large-3 columns text-right'>
+  </div>
+</div>
+        <footer class='row text-center'>
+          <div class='twelve columns'>
+            <div class='row'>
+              <div class='twelve columns'>
+                <p>
+                  Copyright © 2016 Matt Sears.
+                </p>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        //
+          var _gauges = _gauges || [];
+          (function() {
+            var t   = document.createElement('script');
+            t.type  = 'text/javascript';
+            t.async = true;
+            t.id    = 'gauges-tracker';
+            t.setAttribute('data-site-id', '4fb913d1f5a1f50be2000073');
+            t.src = '//secure.gaug.es/track.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t, s);
+          })();
+        //
+      //]]>
+    </script>
+    <script src="/javascripts/all.js?1463433978" type="text/javascript"></script>
+  </body>
+</html>
