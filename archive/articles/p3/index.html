@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]> ><! <![endif]-->
+<html class='no-js' lang='en'>
+  <!-- <![endif] -->
+  <head>
+    <meta charset='utf-8' />
+    <meta content='width=device-width, initial-scale=1.0' name='viewport' />
+    <title>Matt Sears | 20 Clojure Links To Get You Up To Speed</title>
+    <meta content='Matt Sears, Matt, Sears' name='keywords' />
+    <meta author='Matt Sears' />
+    <link href='http://feeds.feedburner.com/mattsears' rel='alternate' title='Feed for mattsears' type='application/atom+xml' />
+    <link href='/images/favicon.png' rel='shortcut icon' />
+    <link href='/fonts/ss-social.css' rel='stylesheet' />
+    <link href="/stylesheets/app.css?1449018083" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <nav>
+      <div class='row'></div>
+    </nav>
+    <div class='row'>
+      <div class='twelve columns centered'>
+        <div class='row'>
+  <div class='large-7 columns large-centered'>
+    <header class='text-center'>
+      <a href='/'>
+        <img class='me' height='200' src='/images/matt-sears.jpg' width='200' />
+      </a>
+    </header>
+  </div>
+</div>
+<div class='row'>
+  <div class='large-10 columns large-centered'>
+    <article>
+      <header class='text-center'>
+        <h2>
+          <a href='/articles/2011/01/11/easy-multiple-account-management-for-heroku'>
+            Easy Multiple Account Management for Heroku
+          </a>
+        </h2>
+        <h5>
+          Written by
+          <a href='#'>Matt</a>
+          on
+          /
+          Jan 11
+        </h5>
+      </header>
+      <div class='row'>
+        <div class='large-10 column large-centered'>
+          <p>Recently, I migrated all of my personal and <a href="http://littlelines.com">business</a> sites
+to <a href="http://heroku.com">Heroku</a>. Heroku, as you may know, is a fantastic
+service for hosting ruby applications. Oh, and it&#39;s free!</p>
+
+<p>Like a lot of folks, I keep work and personal items such
+as email, bank accounts, github, etc in separate accounts.
+Heroku doesn&#39;t really place nice with multiple accounts.</p>
+
+<p>So how to do we effectively manage multiple Heroku accounts?</p>
+
+<h4>Prerequitites</h4>
+
+<p>The following assumes you are on the Mac OS or *nix system, own
+multiple Heroku accounts, and have installed the Heroku gem. I should
+also be point out that you will need to create separate ssh
+public keys for each account.</p>
+
+<h4>Custom Ruby Script</h4>
+
+<p>One option is we can use a script such as Keith Gaddis
+<a href="http://collectiveidea.com/blog/archives/2010/08/06/heroku-ing-with-multiple-personalities">describes</a>
+over at the Collective Idea blog. With his <a href="https://gist.github.com/511789">switcher</a> script, we can
+switch between two accounts like this:</p>
+<div class="highlight"><pre><span class="n">ruby</span> <span class="n">switcher</span><span class="p">.</span><span class="n">rb</span> <span class="n">personal</span>
+<span class="n">ruby</span> <span class="n">switcher</span><span class="p">.</span><span class="n">rb</span> <span class="n">work</span>
+</pre></div>
+<p>This essentially swaps the credentials file (used by the Heroku gem
+for authentication) for the account you want to
+use. This works well enough, however this can be tedious especially if
+you switch between work and personal projects frequently.</p>
+
+<h4>Enter Heroku Accounts Plugin</h4>
+
+<p>David Dollar of Heroku recently released an official Heroku
+plugin called <a href="https://github.com/ddollar/heroku-accounts">heroku-accounts</a>. With
+this plugin, we can switch Heroku accounts automatically.</p>
+
+<p>To get started, we first install the plugin:</p>
+<div class="highlight"><pre><span class="n">heroku</span> <span class="n">plugins</span><span class="p">:</span><span class="n">install</span> <span class="n">git</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">ddollar</span><span class="o">/</span><span class="n">heroku</span><span class="o">-</span><span class="n">accounts</span><span class="p">.</span><span class="n">git</span>
+</pre></div>
+<p>The installation process will download the plugin from github and save
+it to the <code>~/.heroku/plugins</code> directory. Now, we can
+setup each of our Heroku accounts with <code>add</code> command:</p>
+<div class="highlight"><pre><span class="n">heroku</span> <span class="n">accounts</span><span class="p">:</span><span class="n">add</span> <span class="n">work</span>
+</pre></div>
+<p>and for our personal account, we can run:</p>
+<div class="highlight"><pre><span class="n">heroku</span> <span class="n">accounts</span><span class="p">:</span><span class="n">add</span> <span class="n">personal</span>
+</pre></div>
+<p>The <code>add</code> command will ask you for your Heroku email address and
+password for each account. The plugin will maintain
+your account credentials in the <code>~/.heroku/accounts</code> folder in your
+home directory. (Passwords are not saved in plain text)</p>
+
+<p>To assign a project to a specific Heroku account, we run the following
+command in the project root:</p>
+<div class="highlight"><pre><span class="n">heroku</span> <span class="n">accounts</span><span class="p">:</span><span class="n">set</span> <span class="n">personal</span> # <span class="n">or</span> <span class="n">work</span>
+</pre></div>
+<p>This will assign a Heroku account to the project by adding an &#39;account&#39; variable
+to the project&#39;s git config file.</p>
+
+<h4>Celebrate</h4>
+
+<p>Hooray! Now we can switch Heroku accounts automatically. Awesome.</p>
+          <hr />
+        </div>
+      </div>
+    </article>
+  </div>
+</div>
+<div class='row'>
+  <div class='large-10 columns large-centered'>
+    <article>
+      <header class='text-center'>
+        <h2>
+          <a href='/articles/2009/10/31/5-ruby-gems-for-concise-code'>
+            5 Ruby Gems for Concise Code
+          </a>
+        </h2>
+        <h5>
+          Written by
+          <a href='#'>Matt</a>
+          on
+          /
+          Oct 31
+        </h5>
+      </header>
+      <div class='row'>
+        <div class='large-10 column large-centered'>
+          <p>At <a href="http://littlelines.com">Littlelines</a>, we have to write a lot of code under strict time constraints. We work in small teams which means that writing clean and concise code is a necessity. When a Ruby library comes along that makes code easier to grasp in a hurry, test, and maintain - we use it. Here are some gems we have in our toolbox:</p>
+
+<h4><a href="http://github.com/justinfrench/formtastic">Formtastic</a></h4>
+
+<p>If you&#39;re developing wep apps, more than likely it will include html forms.  Forms can be a time-drain, not to mention very boring to build. Formtastic provides a more concise way of generating form views and includes inline error messages and is semantically rich.</p>
+
+<h4><a href="http://github.com/giraffesoft/resource_controller">Resource  Controller</a></h4>
+
+<p>Resource Controller hides away the RESTful controller boiler plate code and make your controllers skinny. Skinny controllers help you to consolidate your business logic into one place, thus saves time on maintenance and testing.</p>
+
+<h4><a href="http://github.com/binarylogic/searchlogic">Search Logic</a></h4>
+
+<p>Finding data can get messy. Sometimes we run into situations where we are concatenating strings to build SQL statements and this can lead to bugs. Searchlogic works by creating a number of named scopes that can be called on any ActiveRecord model. The best part, you can dynamically call scopes on associated classes and Searchlogic will take care of creating the necessary joins for you.</p>
+
+<h4><a href="http://github.com/toastyapps/alchemist">Alchemist</a></h4>
+
+<p>Occasionally, we work on projects dealing with conversions.  Alchemist is a Ruby library that does conversions for you and thus making your code more readable and easier to maintain. For example:</p>
+
+<p>Instead of:</p>
+<div class="highlight"><pre><span class="n">miles</span> <span class="p">=</span> 8 <span class="o">*</span> 1609<span class="p">.</span>344 # <span class="n">converting</span> <span class="n">meters</span> <span class="n">to</span> <span class="n">miles</span>
+</pre></div>
+<p>We can write:</p>
+<div class="highlight"><pre>8<span class="p">.</span><span class="n">meters</span><span class="p">.</span><span class="n">to</span><span class="p">.</span><span class="n">miles</span>
+</pre></div>
+<p>Alchemist includes a staggering array of conversions including distance, mass, volume, and more.</p>
+
+<h4><a href="http://andand.rubyforge.org/">andand</a></h4>
+
+<p>andand is a handy gem that allows allows natural method chaining for methods that can return nil. This saves a lot of boilerplate code and improves readability. For example:</p>
+
+<p>Instead of:</p>
+<div class="highlight"><pre><span class="p">@</span><span class="n">body</span> <span class="p">=</span> <span class="p">(</span><span class="n">article</span> <span class="p">=</span> <span class="n">Article</span><span class="p">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">))</span> <span class="o">&amp;&amp;</span> <span class="n">article</span><span class="p">.</span><span class="n">body</span>
+</pre></div>
+<p>We can write this:</p>
+<div class="highlight"><pre><span class="p">@</span><span class="n">body</span> <span class="p">=</span> <span class="n">Article</span><span class="p">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">).</span><span class="n">andand</span><span class="p">.</span><span class="n">body</span>
+</pre></div>
+<p>This will call find on the Article class and sends &#39;body&#39; if the result is not nil. In addition, our methods are guarded from NoMethodErrors is the result is nil.</p>
+          <hr />
+        </div>
+      </div>
+    </article>
+  </div>
+</div>
+<div class='row'>
+  <div class='large-10 columns large-centered'>
+    <article>
+      <header class='text-center'>
+        <h2>
+          <a href='/articles/2009/06/06/20-clojure-links-to-get-you-up-to-speed'>
+            20 Clojure Links To Get You Up To Speed
+          </a>
+        </h2>
+        <h5>
+          Written by
+          <a href='#'>Matt</a>
+          on
+          /
+          Jun  6
+        </h5>
+      </header>
+      <div class='row'>
+        <div class='large-10 column large-centered'>
+          <p>Writing multi-threaded code is hard. If you&#39;ve ever done concurrent programming, you&#39;ll <em>probably</em> agree. Clojure offers a compelling alternative to traditional object-oriented approaches to programming and has garnered much attention from the Ruby community because of it&#39;s elegant design that lets you get right to the essence of a problem.</p>
+
+<h4>What is Clojure?</h4>
+
+<p>Simply put, Clojure is a functional programming language for the Java Virtual Machine with several powerful features for building concurrent applications. In addition, Clojure is fast, robust, and a powerful general-purpose programming language. A dialect of Lisp, Clojure embraces traditional code-as-data philosophy and a powerful macro system, plus some syntactic sugar tailored to Java.</p>
+
+<p>Now that <a href="http://clojure.blogspot.com/2009/05/clojure-10.html">version 1.0</a> is out and Stuart Halloway&#39;s new book <a href="http://www.pragprog.com/titles/shcloj/programming-clojure">Programming Clojure</a> just dropped, I&#39;ve rounded up some of the best articles and tutorials on Clojure to you get you up to speed quickly.</p>
+
+<h4>Tutorials and Links</h4>
+
+<ul>
+<li><p><a href="http://java.ociweb.com/mark/clojure/article.html">A Clojure Tutorial</a> by R. Mark Volkmann</p></li>
+<li><p><a href="http://www.pragprog.com/titles/shcloj/programming-clojure">Programming Clojure book</a> by Stuart Halloway</p></li>
+<li><p><a href="http://blog.thinkrelevance.com/2008/09/16/pcl-clojure">Practical Common Lisp to Clojure</a> by Stuart Halloway</p></li>
+<li><p><a href="http://writingcoding.blogspot.com/2008/06/clojure-series-table-of-contents.html">Clojure Series: Table of Contents</a> by Eric Rochester</p></li>
+<li><p><a href="http://en.wikibooks.org/wiki/Learning_Clojure">Learning Clojure</a> via Wikibooks</p></li>
+<li><p><a href="http://en.wikibooks.org/wiki/Clojure_Programming/Examples/API_Examples">Clojure Programming/Examples/API Examples</a> via Wikibooks</p></li>
+<li><p><a href="http://en.wikibooks.org/wiki/Clojure_Programming/Tutorials_and_Tips">Clojure Programming/Tutorials and Tips</a> via Wikibooks</p></li>
+</ul>
+
+<h4>Screencasts, Videos, and Presentations</h4>
+
+<ul>
+<li><p><a href="http://peepcode.com/products/functional-programming-with-clojure">Functional Programming with Clojure</a> by Phil Hagelberg (PeepCode)</p></li>
+<li><p><a href="http://clojure.blip.tv">Clojure Series on Blip.tv</a> by Rich Hickey</p></li>
+<li><p><a href="http://www.youtube.com/view_play_list?p=AC43CFB134E85266">Intro to Clojure</a> by Brian Will (YouTube)</p></li>
+<li><p><a href="http://vimeo.com/2419596">Emacs with Clojure, Slime and Swank</a> by Seth Buntin (Vimeo)</p></li>
+</ul>
+
+<h4>Tools and Setup</h4>
+
+<ul>
+<li><p><a href="http://yusupov.com/blog/2009/basic-clojure-setup-part-1/">Basic Clojure Setup</a> by Telman Yusupov</p></li>
+<li><p><a href="http://mark.reid.name/sap/setting-up-clojure.html">Setting Up Clojure for Mac OS X Leopard</a> by Mark Reid</p></li>
+<li><p><a href="http://technomancy.us/126">Getting Emacs setup to write Clojure code</a> by Phil Hagelberg</p></li>
+<li><p><a href="http://github.com/nullstyle/clojure-tmbundle/tree/master">Textmate Bundle for Clojure code</a> by Scott Fleckenstein</p></li>
+<li><p><a href="http://www.vim.org/scripts/script.php?script_id=2501">VimClojure, a Vim plugin for Clojure</a></p></li>
+</ul>
+
+<h4>Documentation</h4>
+
+<ul>
+<li><p><a href="http://clojure.org">Official Clojure site</a></p></li>
+<li><p><a href="http://clojure.org/api">Official Clojure API</a></p></li>
+<li><p><a href="http://clj-doc.s3.amazonaws.com/tmp/doc-1116/index.html">Clojure Docs</a></p></li>
+<li><p><a href="http://java.ociweb.com/mark/clojure/ClojureCodingGuidelines.html">Clojure Coding Guidelines</a> by Mark Volkmann</p></li>
+</ul>
+          <hr />
+        </div>
+      </div>
+    </article>
+  </div>
+</div>
+<div class='row large-10 columns large-centered paginator'>
+  <div class='row large-3 columns'>
+    <a href="/articles/p4">← Older posts</a>
+  </div>
+  <div class='row large-3 columns text-right'>
+    <a href="/articles/p2">Newer posts →</a>
+  </div>
+</div>
+        <footer class='row text-center'>
+          <div class='twelve columns'>
+            <div class='row'>
+              <div class='twelve columns'>
+                <p>
+                  Copyright © 2016 Matt Sears.
+                </p>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        //
+          var _gauges = _gauges || [];
+          (function() {
+            var t   = document.createElement('script');
+            t.type  = 'text/javascript';
+            t.async = true;
+            t.id    = 'gauges-tracker';
+            t.setAttribute('data-site-id', '4fb913d1f5a1f50be2000073');
+            t.src = '//secure.gaug.es/track.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t, s);
+          })();
+        //
+      //]]>
+    </script>
+    <script src="/javascripts/all.js?1463433978" type="text/javascript"></script>
+  </body>
+</html>

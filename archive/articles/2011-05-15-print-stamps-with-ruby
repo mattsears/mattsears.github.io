@@ -1,0 +1,64 @@
+<p>I&#39;ve just released <a href="https://github.com/mattsears/stamps">Stamps</a> - A Ruby gem for creating postage labels,
+calculate the shipping cost of packages, standardize domestic
+addresses via USPS CASS certified Address Matching Software, and track
+shipments using the Stamps.com Web Services API.</p>
+
+<h4>Quick Start</h4>
+
+<p>First, you will need to register for a (free) developer account at
+<a href="http://developer.stamps.com/developer">Stamps.com</a>. Once you receive
+your test credentials and integration id, just plug them into the
+configuration block:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="no">Stamps</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">integration_id</span> <span class="o">=</span> <span class="s1">'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX'</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">username</span>       <span class="o">=</span> <span class="s1">'STAMPS USERNAME'</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">password</span>       <span class="o">=</span> <span class="s1">'STAMPS PASSWORD'</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>For a simple test, we can call <code>Stamps.account</code> to retreive
+information about the account.  By default, Stamps will return all
+responses as a Hash.</p>
+
+<h4>Create a Stamp</h4>
+
+<p>First, we need to standardize the shipping address that complies with the USPS address
+formatting guidelines:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">standardized_address</span> <span class="o">=</span> <span class="no">Stamps</span><span class="p">.</span><span class="nf">clean_address</span><span class="p">(</span>
+  <span class="ss">:address</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="ss">:full_name</span> <span class="o">=&gt;</span> <span class="s1">'The White House'</span><span class="p">,</span>
+    <span class="ss">:address1</span>  <span class="o">=&gt;</span> <span class="s1">'1600 Pennsylvania Avenue, NW'</span><span class="p">,</span>
+    <span class="ss">:city</span>      <span class="o">=&gt;</span> <span class="s1">'Washington'</span><span class="p">,</span>
+    <span class="ss">:state</span>     <span class="o">=&gt;</span> <span class="s1">'DC'</span><span class="p">,</span>
+    <span class="ss">:zip_code</span>  <span class="o">=&gt;</span> <span class="s1">'20500'</span>
+<span class="p">})</span>
+</code></pre></div>
+<p>Now that we have a clean address we can create a new stamp.  The
+<code>Stamps.create!</code> takes the sender and receiver address along with parameters
+on the rate:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">stamp</span> <span class="o">=</span> <span class="no">Stamps</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span>
+    <span class="ss">:rate</span>          <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="ss">:from_zip_code</span> <span class="o">=&gt;</span> <span class="s1">'45440'</span><span class="p">,</span>
+      <span class="ss">:to_zip_code</span>   <span class="o">=&gt;</span> <span class="s1">'20500'</span><span class="p">,</span>
+      <span class="ss">:weight_oz</span>     <span class="o">=&gt;</span> <span class="s1">'6.5'</span><span class="p">,</span>
+      <span class="ss">:ship_date</span>      <span class="o">=&gt;</span> <span class="no">Date</span><span class="p">.</span><span class="nf">today</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="s1">'%Y-%m-%d'</span><span class="p">),</span>
+      <span class="ss">:package_type</span>   <span class="o">=&gt;</span> <span class="s1">'Package'</span><span class="p">,</span>
+      <span class="ss">:service_type</span>   <span class="o">=&gt;</span> <span class="s1">'US-FC'</span>  <span class="c1"># Flat-rate</span>
+    <span class="p">},</span>
+    <span class="ss">:to</span>            <span class="o">=&gt;</span> <span class="n">standardized_address</span><span class="p">,</span>
+    <span class="ss">:from</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="ss">:full_name</span>   <span class="o">=&gt;</span> <span class="s1">'Littlelines'</span><span class="p">,</span>
+      <span class="ss">:address1</span>    <span class="o">=&gt;</span> <span class="s1">'50 Chestnut Street'</span><span class="p">,</span>
+      <span class="ss">:address2</span>    <span class="o">=&gt;</span> <span class="s1">'Suite 234'</span><span class="p">,</span>
+      <span class="ss">:city</span>        <span class="o">=&gt;</span> <span class="s1">'Beavervcreek'</span><span class="p">,</span>
+      <span class="ss">:state</span>       <span class="o">=&gt;</span> <span class="s1">'OH'</span><span class="p">,</span>
+      <span class="ss">:zip_code</span>    <span class="o">=&gt;</span> <span class="s1">'45440'</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div>
+<h4>Hooray!</h4>
+
+<p>That&#39;s it! Stamps will return a url of the stamp.  Print it and ship it!</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">stamp</span><span class="p">[</span><span class="ss">:url</span><span class="p">]</span>
+</code></pre></div>
+<p>If you are interested in more detailed information, check out the repo
+on <a href="https://github.com/mattsears/stamps">Github</a>.</p>

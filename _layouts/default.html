@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Matt Sears | {{ page.title }}</title>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}assets/css/main.css">
+  </head>
+  <body>
+    <div class="container max-w-4xl mx-auto">
+      {% include navigation.html %}
+      {{ content }}
+      {% include footer.html %}
+    </div>
+  </body>
+</html>
