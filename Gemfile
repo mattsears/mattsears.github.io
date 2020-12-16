@@ -16,7 +16,6 @@ gem "jekyll"
 gem 'sass'
 
 group :jekyll_plugins do
-  gem "github-pages"
   gem "jekyll-feed"
   gem "jekyll-paginate"
   gem "rouge"
