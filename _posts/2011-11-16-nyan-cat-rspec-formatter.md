@@ -6,9 +6,9 @@ categories: ruby
 ---
 
 I watch a lot of tests run in a given day. So I figured why not make it more
-fun. <!--more-->Inspired by [minitest](https://github.com/seattlerb/minitest)'s pride, and um
+fun. Inspired by [minitest](https://github.com/seattlerb/minitest)'s pride, and um
 cats? I came up with a [Nyan Cat](http://www.youtube.com/watch?v=QH2-TGUlwu4)
-inspired RSpec formatter.
+inspired RSpec formatter.<!--more-->
 
 Update: After last week's launch, Nyan Cat received a great response from the
 Ruby world. Over the weekend, I released version 0.0.2.  It includes a few bug

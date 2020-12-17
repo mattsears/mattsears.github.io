@@ -7,12 +7,18 @@
 }
 
 .post {
+
+  a {
+    color: #6366F1;
+  }
+
   p {
     margin: 0 0 1em 0;
   }
 
   pre {
     padding: 10px;
+    margin-bottom: 2em;
 
     code {
       font-size: 0.875rem;
@@ -21,6 +27,12 @@
         padding: 0
       }
     }
+
+  }
+
+  ol {
+    margin: 0 0 2em 2em;
+    list-style-type: decimal;
   }
 }
 

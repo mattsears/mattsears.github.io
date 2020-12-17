@@ -20,10 +20,10 @@
 
 title: Matt Sears
 email: matt@mattsears.com
+tagline: Hello! This is the personal website and blog of Matt Sears
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  I mostly write about technology and business since that's been my livelyhood for the past twenty years,
+  but I also write about my other interests including music, traveling, and other random topics.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://mattsears.com" # the base hostname & protocol for your site, e.g. http://example.com
 highlighter: rouge
@@ -32,6 +32,20 @@ excerpt_separator: <!--more-->
 permalink: /articles/:year/:month/:day/:title/
 paginate: 6
 paginate_path: "/articles/page:num/"
+logo: /assets/images/me.png
+
+social:
+  name: Matt Sears
+  links:
+    - https://www.linkedin.com/in/matthewsears
+    - https://github.com/mattsears
+    - https://instagram.com/mattsears
+
+picture:
+  # fast_build: development
+  source: "assets/images/fullsize"
+  output: "assets/images/generated"
+  suppress_warnings: false
 
 sass:
   style: compact # possible values: nested expanded compact compressed
@@ -41,6 +55,9 @@ sass:
 plugins:
   - jekyll-feed
   - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-picture-tag
 
 exclude:
   - .sass-cache/

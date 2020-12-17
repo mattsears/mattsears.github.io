@@ -6,10 +6,10 @@ categories: ruby
 ---
 
 UPDATE: I've added a new section on stubbing with MiniTest and a few
-helpful comments to the code samples.<!--more-->
+helpful comments to the code samples.
 
 [MiniTest](https://github.com/seattlerb/minitest), as the name suggests, is a
-small and fast unit testing framework. Shipped with Ruby 1.9, MiniTest supports
+small and fast unit testing framework.<!--more--> Shipped with Ruby 1.9, MiniTest supports
 a complete suite of testing capabilities such as TDD, BDD, mocking, and benchmarking.
 
 This quick reference aims to demonstrate MiniTest's main concepts and

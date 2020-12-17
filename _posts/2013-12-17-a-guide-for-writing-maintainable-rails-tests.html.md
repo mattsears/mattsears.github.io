@@ -6,8 +6,8 @@ categories: rails
 ---
 
 Do you ever feel like you spend most of your day repairing tests in your Rails
-app? <!--more-->If you have been building Rails apps as long for as we have, then you know
-the importance of a robust test suite. Working with a brittle and slow tests can
+app? If you have been building Rails apps as long for as we have, then you know
+the importance of a robust test suite.<!--more--> Working with a brittle and slow tests can
 really make the most basic tasks difficult. This is especially true for large
 Rails apps that have been around for a few years. The good news is that we can
 fix this with a few helpful tips I've picked up over the years that can keep

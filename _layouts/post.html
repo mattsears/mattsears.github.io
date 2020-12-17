@@ -1,20 +1,15 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Matt Sears | {{ page.title }}</title>
-    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
-  </head>
+  {% include head.html %}
   <body>
-    <div class="container max-w-4xl mx-auto">
+    <div class="container lg:max-w-6xl md:max-w-6xl  mx-auto">
       {% include navigation.html %}
-      <div class="relative py-16 bg-white overflow-hidden">
+      <div class="relative max-w-3xl py-16 bg-white overflow-hidden mx-auto">
         <div class="relative px-4 sm:px-6 lg:px-8">
           <div class="text-lg max-w-prose mx-auto">
             <h1 class="block text-center">
               <span class="text-base text-indigo-600  tracking-wide uppercase">Posted in </span>
-              <span class="text-base text-indigo-600 font-bold tracking-wide uppercase">Ruby</span>
+              <span class="text-base text-indigo-600 font-bold tracking-wide uppercase">{{ page.categories }}</span>
               <span class="mt-4 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                 {{ page.title }}
               </span>
@@ -30,7 +25,38 @@
           </div>
         </div>
       </div>
-      {% include footer.html %}
+      <div class="bg-white">
+        <div class="mx-auto border-t border-gray-400 py-12 px-4 max-w-2xl sm:px-6 lg:px-8 lg:py-10">
+          <div class="space-y-12">
+            <ul class="space-y-12 sm:divide-y sm:divide-gray-200 sm:space-y-0 sm:-mt-8 lg:gap-x-8 lg:space-y-0">
+              <li class="sm:p-8 rounded-lg">
+                <div class="space-y-4 sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:space-y-0">
+                  <!-- Image -->
+                  <div class="aspect-w-3 aspect-h-2 sm:aspect-w-3 sm:aspect-h-4">
+                    <img class="object-cover shadow-lg rounded-lg" src="/assets/images/me.png" alt="">
+                  </div>
+                  <div class="sm:col-span-2">
+                    <div class="space-y-4">
+                      <div class="text-lg leading-6 font-medium space-y-1">
+                        <h3>Matt Sears</h3>
+                        <p class="text-indigo-600">Engineer / Business / Design</p>
+                      </div>
+                      <div class="text-lg">
+                        <p class="text-gray-500">
+                          Thank you for checking out my website.
+                        </p>
+                      </div>
+                      <div class="flex space-x-3">
+                        {% include social_media_links.html %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

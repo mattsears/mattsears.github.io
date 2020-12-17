@@ -1,6 +1,4 @@
 - name: Home
   link: /
-- name: About
-  link: /about/
 - name: Journal
   link: /articles/
