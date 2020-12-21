@@ -7,7 +7,6 @@ author: Matt Sears
 categories: books
 ---
 
-
 I'm not a financial expert by any means, but I do dedicate a good amount of time
 managing my own money. In business school, one lesson that has always stuck with
 me is "Keep your eye on cash". A simple but powerful statement that has served

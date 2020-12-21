@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en">
   {% include head.html %}
-  <body>
-    <div class="container lg:max-w-6xl md:max-w-6xl  mx-auto">
+  <body class="text-gray-700 antialiased bg-white js-focus-visible">
+    <div class=" max-w-screen-xl mx-auto overflow-hidden ">
       {% include navigation.html %}
       <div class="relative max-w-3xl py-16 bg-white overflow-hidden mx-auto">
         <div class="relative px-4 sm:px-6 lg:px-8">
@@ -19,7 +19,7 @@
               <span class="text-base text-gray-800">|</span>
               <span class="text-base">{{ page.date | date: "%b %d, %Y" }} </span>
             </h2>
-            <div class="post mt-8 text-lg text-gray-700 leading-8">
+            <div class="post mt-8 text-lg leading-8">
               {{ content}}
             </div>
           </div>

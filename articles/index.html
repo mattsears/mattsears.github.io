@@ -10,10 +10,10 @@ title: Articles
         Journal
       </h2>
       <div class="mt-3 sm:mt-4 lg:grid lg:grid-cols-2 lg:gap-5 lg:items-center">
-        <p class="text-xl text-gray-500">
-          Get weekly articles in your inbox.
+        <p class="text-md md:text-xl text-gray-500 inline">
+          My articles, essays, and ramblings.
         </p>
-        <div class="indigo-500 ">
+        <div class="indigo-500 inline">
           <a href="{{ site.baseurl }}/feed.xml" class="flex float-right font-semibold text-indigo-600 inline hover:text-indigo-400">
             <span class="mr-2">Feed</span>
             <svg class="h-6 w-6 " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -26,7 +26,7 @@ title: Articles
 
     <div class="mt-6 pt-10 grid gap-16 lg:grid-cols-2 lg:gap-x-5 lg:gap-y-12">
       {% for post in paginator.posts %}
-      <div class="pb-10 ">
+      <div class="pb-10 pr-0 md:pr-10">
         <p class="text-sm text-gray-500">
           <time datetime="2020-01-29">{{ post.date | date: "%b %d, %Y" }}</time>
         </p>

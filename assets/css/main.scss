@@ -16,6 +16,11 @@
     margin: 0 0 1em 0;
   }
 
+  h4, h3 {
+    font-weight: 800;
+    margin: 1em 0;
+  }
+
   pre {
     padding: 10px;
     margin-bottom: 2em;
@@ -33,6 +38,24 @@
   ol {
     margin: 0 0 2em 2em;
     list-style-type: decimal;
+
+  }
+
+  table {
+    min-width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0 1em 0;
+
+    tr {
+      border-bottom: 1px solid #E5E7EB;
+      td {
+        padding: 1em 1em 1em 0;
+        white-space: nowrap;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        font-weight: 500;
+      }
+    }
   }
 }
 
