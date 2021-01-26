@@ -21,15 +21,22 @@
     margin: 1em 0;
   }
 
+
+  code {
+    font-size: 0.875rem;
+    background-color: #f6f8fa;
+  }
+
   pre {
     padding: 10px;
     margin-bottom: 2em;
+    line-height: 1.2rem;
 
     code {
       font-size: 0.875rem;
       span {
         margin: 0;
-        padding: 0
+        padding: 0;
       }
     }
 
