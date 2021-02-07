@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <title>Matt Sears | Creating a Rich Text Editor with Quill, Stimulus and Tailwind CSS</title>
+  <link rel="icon" href="/assets/images/me.png" type="image/x-icon" />
+  <link href="https://unpkg.com/tailwindcss@2.0.2/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Creating a Rich Text Editor with Quill, Stimulus and Tailwind CSS | Matt Sears</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Creating a Rich Text Editor with Quill, Stimulus and Tailwind CSS" />
+<meta name="author" content="Matt Sears" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Adding rich text editors to a project has a long history of friction and frustration in development. Whenever I’m asked to add a text editor, I naturally do whatever I can do to avoid them completely. That, or make sure I do extra meditation in preparation for weeks of pain." />
+<meta property="og:description" content="Adding rich text editors to a project has a long history of friction and frustration in development. Whenever I’m asked to add a text editor, I naturally do whatever I can do to avoid them completely. That, or make sure I do extra meditation in preparation for weeks of pain." />
+<link rel="canonical" href="https://mattsears.com/articles/2021/01/26/creating-a-simple-rich-text-editor-with-quill-stimulus-and-tailwind-css/" />
+<meta property="og:url" content="https://mattsears.com/articles/2021/01/26/creating-a-simple-rich-text-editor-with-quill-stimulus-and-tailwind-css/" />
+<meta property="og:site_name" content="Matt Sears" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-01-26T00:12:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Creating a Rich Text Editor with Quill, Stimulus and Tailwind CSS" />
+<script type="application/ld+json">
+{"description":"Adding rich text editors to a project has a long history of friction and frustration in development. Whenever I’m asked to add a text editor, I naturally do whatever I can do to avoid them completely. That, or make sure I do extra meditation in preparation for weeks of pain.","@type":"BlogPosting","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://mattsears.com/assets/images/me.png"},"name":"Matt Sears"},"url":"https://mattsears.com/articles/2021/01/26/creating-a-simple-rich-text-editor-with-quill-stimulus-and-tailwind-css/","headline":"Creating a Rich Text Editor with Quill, Stimulus and Tailwind CSS","datePublished":"2021-01-26T00:12:00+00:00","dateModified":"2021-01-26T00:12:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mattsears.com/articles/2021/01/26/creating-a-simple-rich-text-editor-with-quill-stimulus-and-tailwind-css/"},"author":{"@type":"Person","name":"Matt Sears"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+  <body class="text-gray-700 antialiased bg-white js-focus-visible">
+    <div class=" max-w-screen-xl mx-auto overflow-hidden ">
+      <nav class="relative flex space-x-10 justify-center sm:justify-end w-full px-10" aria-label="Tabs">
+  
+    <a href="/" class=" border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300  whitespace-nowrap py-4 px-1 border-b-2 font-medium text-md" aria-current="page">
+      Home
+    </a>
+  
+    <a href="/articles/" class=" border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300  whitespace-nowrap py-4 px-1 border-b-2 font-medium text-md" aria-current="page">
+      Journal
+    </a>
+  
+</nav>
+
+      <div class="relative max-w-3xl py-16 bg-white overflow-hidden mx-auto">
+        <div class="relative px-4 sm:px-6 lg:px-8">
+          <div class="text-lg max-w-prose mx-auto">
+            <h1 class="block text-center">
+              <span class="text-base text-indigo-600  tracking-wide uppercase">Posted in </span>
+              <span class="text-base text-indigo-600 font-bold tracking-wide uppercase">development</span>
+              <span class="mt-4 block text-3xl text-center leading-10 font-bold text-gray-900 sm:text-4xl">
+                Creating a Rich Text Editor with Quill, Stimulus and Tailwind CSS
+              </span>
+            </h1>
+            <h2 class="block text-center py-5">
+              <span class="text-base text-center text-indigo-600 font-semibold tracking-wide">Matt Sears</span>
+              <span class="text-base text-gray-800">|</span>
+              <span class="text-base">Jan 26, 2021 </span>
+            </h2>
+            <div class="post mt-8 text-lg leading-8">
+              <p>Adding rich text editors to a project has a long history of friction and
+frustration in development. Whenever I’m asked to add a text editor, I naturally
+do whatever I can do to avoid them completely. That, or make sure I do extra
+meditation in preparation for weeks of pain.<!--more--> Most problems range from plugins
+either doing too much - where it’s difficult to dissect into doing just what you
+need <em>or</em> doing too little finding yourself writing a bunch of extra code
+just to make it work for your project.</p>
+
+<p>With a recent Ruby on Rails project, I found a nice solution that’s working
+quite well so far. I found <a href="https://github.com/quilljs/quill">Quill</a> while
+searching for open source rich text editors. On the Readme file, it says <em>a modern rich
+text editor built for compatibility and extensibility</em> which is exactly what I’m
+looking for. In this post, I’m going to use
+<a href="https://stimulus.hotwire.dev/">Stimulus</a> and <a href="https://tailwindcss.com/">Tailwind
+CSS</a> to build a text editor that uses minimial
+javascript and looks natural in our application. In other words, it will look
+like we’ve build an editor from scratch. Check it out:</p>
+
+<p><img src="/assets/images/journal/rich-text-editor.gif" alt="Watch Rich Text Editor in action" />
+Quill’s file size is 47kb compressed and minified which is not too bad. I’m
+using Yarn in my project so installing is a simple as <code class="language-plaintext highlighter-rouge">yarn add quill</code>. Let’s
+create a Stimulus controller called <code class="language-plaintext highlighter-rouge">rich_editor_controller.s</code>:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Controller</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">stimulus</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Quill</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">quill</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="dl">"</span><span class="s2">./editor.scss</span><span class="dl">"</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="kd">extends</span> <span class="nx">Controller</span> <span class="p">{</span>
+
+  <span class="kd">static</span> <span class="nx">targets</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">container</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">hidden</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">toolbar</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">form</span><span class="dl">'</span><span class="p">];</span>
+
+  <span class="nx">connect</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">quillInit</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="cm">/**
+   * Fire up quill wyswig editor
+   */</span>
+  <span class="nx">quillInit</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">quill</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Quill</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">containerTarget</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">quillOption</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">_this</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+
+    <span class="c1">// While we type, copy the text to our hidden form field so it can be saved.</span>
+    <span class="nx">quill</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">text-change</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">delta</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">_this</span><span class="p">.</span><span class="nx">hiddenTarget</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">quill</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">;</span>
+    <span class="p">});</span>
+
+    <span class="c1">// Capture focus on and off events</span>
+    <span class="nx">quill</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">selection-change</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">range</span><span class="p">,</span> <span class="nx">oldRange</span><span class="p">,</span> <span class="nx">source</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">range</span> <span class="o">===</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="nx">oldRange</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">_this</span><span class="p">.</span><span class="nx">onFocusOut</span><span class="p">();</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">range</span> <span class="o">!==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="nx">oldRange</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span>
+        <span class="nx">_this</span><span class="p">.</span><span class="nx">onFocus</span><span class="p">();</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="cm">/**
+   * Fires when the editor receives focus
+   */</span>
+  <span class="nx">onFocus</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Add a border and reveal the toolbar</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="dl">"</span><span class="s2">border-gray-200</span><span class="dl">"</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">toolbarTarget</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="dl">"</span><span class="s2">opacity-100</span><span class="dl">"</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="cm">/**
+   * Fires when the editor loses focus
+   */</span>
+  <span class="nx">onFocusOut</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Hide the border and toolbar</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="dl">"</span><span class="s2">border-gray-200</span><span class="dl">"</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">toolbarTarget</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="dl">"</span><span class="s2">opacity-100</span><span class="dl">"</span><span class="p">);</span>
+
+    <span class="c1">// Submit the form to save our updates</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">formTarget</span><span class="p">.</span><span class="nx">requestSubmit</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Quill configuration options</span>
+  <span class="kd">get</span> <span class="nx">quillOption</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="na">modules</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">toolbar</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">toolbarTarget</span>
+      <span class="p">},</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This is all the javascript we need to get a basic text editor and with an added
+bonus of saving our updates to the database by submitting the form whenever the
+editor loses focus. The above Stimulus controller is performing three main
+functions:</p>
+
+<ol>
+  <li>Using Quill to convert the text into html and assigning it to a hidden form field.</li>
+  <li>Submitting the form when the editor loses focus so our updates are saved.</li>
+  <li>Hiding and revealing the text editor controls for a better user experience.</li>
+</ol>
+
+<p>One important things to note, we’re not importing any themes or css from Quill. We’re
+going to use our own css and icons so our text editor blends in naturally with our
+application. Let’s create some html for our text editor:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">data-controller=</span><span class="s">"rich-editor"</span>
+     <span class="na">class=</span><span class="s">"border border-white hover:border-gray-200 rounded-lg p-3"</span><span class="nt">&gt;</span>
+
+  <span class="cp">&lt;%=</span> <span class="n">form_with</span><span class="p">(</span><span class="ss">model: </span><span class="n">user</span><span class="p">,</span> <span class="ss">data: </span><span class="p">{</span><span class="ss">rich_editor_target: </span><span class="s1">'form'</span><span class="p">}</span><span class="s2">") do |f| </span><span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span><span class="s2"> f.hidden_field user.description, data: { rich_editor_target: "</span><span class="n">hidden</span><span class="s2">" } </span><span class="cp">%&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"prose max-w-none"</span> <span class="na">data-rich-editor-target=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span><span class="s2"> raw(user.description) </span><span class="cp">%&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+
+    <span class="c">&lt;!-- Toolbar --&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"divide-x divide-gray-200 opacity-0"</span> <span class="na">data-rich-editor-target=</span><span class="s">"toolbar"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"editor-toolbar-button ql-bold "</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span><span class="s2"> inline_svg_tag "</span><span class="n">bold</span><span class="p">.</span><span class="nf">svg</span><span class="s2">", class: 'editor-toolbar-icon' </span><span class="cp">%&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"editor-toolbar-button ql-italic"</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span><span class="s2"> inline_icon :italic,'editor-toolbar-icon' </span><span class="cp">%&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"editor-toolbar-button ql-underline"</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span><span class="s2"> inline_svg_tag "</span><span class="n">underline</span><span class="p">.</span><span class="nf">svg</span><span class="s2">", class: 'editor-toolbar-icon' </span><span class="cp">%&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"editor-toolbar-button ql-strike"</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span><span class="s2"> inline_svg_tag "</span><span class="n">strike</span><span class="p">.</span><span class="nf">svg</span><span class="s2">", class: 'editor-toolbar-icon' </span><span class="cp">%&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"editor-toolbar-button ql-list"</span> <span class="na">value=</span><span class="s">"bullet"</span> <span class="na">type=</span><span class="s">"button"</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span><span class="s2"> inline_svg_tag "</span><span class="n">bullet_list</span><span class="p">.</span><span class="nf">svg</span><span class="s2">", class: 'editor-toolbar-icon' </span><span class="cp">%&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"editor-toolbar-button ql-list"</span> <span class="na">value=</span><span class="s">"ordered"</span> <span class="na">type=</span><span class="s">"button"</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span><span class="s2"> inline_svg_tag "</span><span class="n">ordered_list</span><span class="p">.</span><span class="nf">svg</span><span class="s2">", class: 'editor-toolbar-icon' </span><span class="cp">%&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"editor-toolbar-button ql-blockquote"</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span><span class="s2"> inline_svg_tag "</span><span class="n">block_quote</span><span class="p">.</span><span class="nf">svg</span><span class="s2">", class: 'editor-toolbar-icon' </span><span class="cp">%&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"editor-toolbar-button ql-code-block"</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span><span class="s2"> inline_svg_tag "</span><span class="n">code_block</span><span class="p">.</span><span class="nf">svg</span><span class="s2">", class: 'editor-toolbar-icon' </span><span class="cp">%&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="cp">&lt;%</span><span class="s2"> end </span><span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<p>As you can see above, we have a hidden form field that will store the html, a
+place for the editor itself, and a toolbar. In this case, we’re using our text
+editor to allow our users to format a description about themselves. I found some
+icons using <a href="https://iconduck.com/">Icon Duck</a> to build our toolbar with and I’m
+using <a href="https://github.com/jamesmartin/inline_svg">inline_svg</a> to render the
+icons inline with the html. By adding Quill specific classes e.g. <code class="language-plaintext highlighter-rouge">ql-bold</code>,
+<code class="language-plaintext highlighter-rouge">ql-italic</code>, <code class="language-plaintext highlighter-rouge">ql-blockquote</code> to the buttons, it lets Quill know where to assign
+the functions to perform those actions. Our final step is to apply a little
+Tailwind CSS to <code class="language-plaintext highlighter-rouge">editor.scss</code> that will style our text.</p>
+
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">.ql-container</span> <span class="p">{</span>
+  <span class="k">@apply</span> <span class="nt">whitespace-pre-wrap</span> <span class="nt">p-0</span><span class="p">;</span>
+
+  <span class="nt">ol</span> <span class="p">{</span>
+    <span class="k">@apply</span> <span class="nt">list-inside</span> <span class="nt">list-decimal</span> <span class="nt">py-3</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nt">ul</span> <span class="p">{</span>
+    <span class="k">@apply</span> <span class="nt">list-inside</span> <span class="nt">list-disc</span> <span class="nt">py-3</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nt">blockquote</span> <span class="p">{</span>
+    <span class="k">@apply</span> <span class="nt">bg-gray-50</span> <span class="nt">border-l</span> <span class="nt">border-indigo-200</span> <span class="nt">p-2</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nt">pre</span> <span class="p">{</span>
+    <span class="k">@apply</span> <span class="nt">bg-gray-50</span> <span class="nt">p-2</span> <span class="nt">my-2</span> <span class="nt">text-sm</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@layer</span> <span class="nt">components</span> <span class="p">{</span>
+  <span class="nc">.editor-toolbar-button</span> <span class="p">{</span>
+    <span class="k">@apply</span> <span class="nt">hover</span><span class="nd">:bg-gray-100</span> <span class="nt">rounded-md</span> <span class="nt">p-2</span><span class="p">;</span>
+
+    <span class="k">&amp;</span><span class="nc">.ql-active</span> <span class="p">{</span>
+      <span class="k">@apply</span> <span class="nt">bg-gray-100</span><span class="p">;</span>
+    <span class="p">}</span>
+
+  <span class="p">}</span>
+  <span class="nc">.editor-toolbar-icon</span><span class="p">{</span>
+    <span class="k">@apply</span> <span class="nt">w-3</span> <span class="nt">h-3</span> <span class="nt">text-gray-400</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We now have a pretty good text editor and it looks natural in our
+application. Next step will be extending the controller to add more features
+like adding @Mentions and Emojis that I will cover in future posts.</p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white">
+        <div class="mx-auto border-t border-gray-400 py-12 px-4 max-w-2xl sm:px-6 lg:px-8 lg:py-10">
+          <div class="space-y-12">
+            <ul class="space-y-12 sm:divide-y sm:divide-gray-200 sm:space-y-0 sm:-mt-8 lg:gap-x-8 lg:space-y-0">
+              <li class="sm:p-8 rounded-lg">
+                <div class="space-y-4 sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:space-y-0">
+                  <!-- Image -->
+                  <div class="aspect-w-3 aspect-h-2 sm:aspect-w-3 sm:aspect-h-4">
+                    <img class="object-cover shadow-lg rounded-lg" src="/assets/images/me.png" alt="">
+                  </div>
+                  <div class="sm:col-span-2">
+                    <div class="space-y-4">
+                      <div class="text-lg leading-6 font-medium space-y-1">
+                        <h3>Matt Sears</h3>
+                        <p class="text-indigo-600">Engineer / Business / Design</p>
+                      </div>
+                      <div class="text-lg">
+                        <p class="text-gray-500">
+                          Thank you for checking out my website.
+                        </p>
+                      </div>
+                      <div class="flex space-x-3">
+                        <a href="https://instagram.com/mattsears" target="_blank" class="text-gray-400 hover:text-gray-300">
+  <span class="sr-only">Instagram</span>
+  <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
+  </svg>
+</a>
+<a href="https://github.com/mattsears" target="_blank" class="text-gray-400 hover:text-gray-300">
+  <span class="sr-only">GitHub</span>
+  <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+  </svg>
+</a>
+<a href="https://linkedin.com/in/matthewsears" target="_blank" class="text-gray-400 hover:text-gray-300">
+  <span class="sr-only">LinkedIn</span>
+  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+    <path fill-rule="evenodd" d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z" clip-rule="evenodd" />
+  </svg>
+</a>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

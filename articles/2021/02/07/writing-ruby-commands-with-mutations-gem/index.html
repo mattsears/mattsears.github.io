@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <title>Matt Sears | Forget Service Objects, Write Command Objects in Ruby</title>
+  <link rel="icon" href="/assets/images/me.png" type="image/x-icon" />
+  <link href="https://unpkg.com/tailwindcss@2.0.2/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Forget Service Objects, Write Command Objects in Ruby | Matt Sears</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Forget Service Objects, Write Command Objects in Ruby" />
+<meta name="author" content="Matt Sears" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I mostly write about technology and business since that’s been my livelyhood for the past twenty years, but I also write about my other interests including music, traveling, and other random topics." />
+<meta property="og:description" content="I mostly write about technology and business since that’s been my livelyhood for the past twenty years, but I also write about my other interests including music, traveling, and other random topics." />
+<link rel="canonical" href="https://mattsears.com/articles/2021/02/07/writing-ruby-commands-with-mutations-gem/" />
+<meta property="og:url" content="https://mattsears.com/articles/2021/02/07/writing-ruby-commands-with-mutations-gem/" />
+<meta property="og:site_name" content="Matt Sears" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-02-07T21:53:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Forget Service Objects, Write Command Objects in Ruby" />
+<script type="application/ld+json">
+{"description":"I mostly write about technology and business since that’s been my livelyhood for the past twenty years, but I also write about my other interests including music, traveling, and other random topics.","@type":"BlogPosting","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://mattsears.com/assets/images/me.png"},"name":"Matt Sears"},"url":"https://mattsears.com/articles/2021/02/07/writing-ruby-commands-with-mutations-gem/","headline":"Forget Service Objects, Write Command Objects in Ruby","datePublished":"2021-02-07T21:53:00+00:00","dateModified":"2021-02-07T21:53:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mattsears.com/articles/2021/02/07/writing-ruby-commands-with-mutations-gem/"},"author":{"@type":"Person","name":"Matt Sears"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+  <body class="text-gray-700 antialiased bg-white js-focus-visible">
+    <div class=" max-w-screen-xl mx-auto overflow-hidden ">
+      <nav class="relative flex space-x-10 justify-center sm:justify-end w-full px-10" aria-label="Tabs">
+  
+    <a href="/" class=" border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300  whitespace-nowrap py-4 px-1 border-b-2 font-medium text-md" aria-current="page">
+      Home
+    </a>
+  
+    <a href="/articles/" class=" border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300  whitespace-nowrap py-4 px-1 border-b-2 font-medium text-md" aria-current="page">
+      Journal
+    </a>
+  
+</nav>
+
+      <div class="relative max-w-3xl py-16 bg-white overflow-hidden mx-auto">
+        <div class="relative px-4 sm:px-6 lg:px-8">
+          <div class="text-lg max-w-prose mx-auto">
+            <h1 class="block text-center">
+              <span class="text-base text-indigo-600  tracking-wide uppercase">Posted in </span>
+              <span class="text-base text-indigo-600 font-bold tracking-wide uppercase">development</span>
+              <span class="mt-4 block text-3xl text-center leading-10 font-bold text-gray-900 sm:text-4xl">
+                Forget Service Objects, Write Command Objects in Ruby
+              </span>
+            </h1>
+            <h2 class="block text-center py-5">
+              <span class="text-base text-center text-indigo-600 font-semibold tracking-wide">Matt Sears</span>
+              <span class="text-base text-gray-800">|</span>
+              <span class="text-base">Feb 07, 2021 </span>
+            </h2>
+            <div class="post mt-8 text-lg leading-8">
+              <p>The term “service object” can mean different things depending on who you talk to
+or what project you inherited, hence why I put them in quotes. Since there’s not
+really a “Rails Way” to put business logic, it was common to shove everything
+into Active Record models. When that went awry, the concept of service objects
+came onto the scene and provided a pathway for storing domain logic in plain
+Ruby objects. <!--more--></p>
+
+<p>Then something went terribly wrong with service objects - they got <em>too
+fancy</em>. Sadly, there’s whole host of libraries designed to organize domain
+logic, but lose sight on what makes Ruby great - <em>readability</em>. Libraries like
+<a href="https://dry-rb.org/">dry-rb</a> that attempt to organize domain logic in a
+standard way, but end up making the code much more difficult to understand IMHO.</p>
+
+<p>I much prefer the concept of Command objects. Command closely aligns with
+<em>procedure</em>. After all, that’s all we’re doing anyway - in between the controller
+and the models, we’re running procedures, or commands, and returning the
+result. I’m going to show you how I use command objects in my Rails apps
+with the help from <a href="https://github.com/cypriss/mutations">Mutations</a>, a gem that
+takes a somewhat hands-off approach to composing business logic by <em>not</em> obscuring
+business logic with fancy abstractions, rather it merely providing helpful tools to
+write clear business operations in ruby objects.</p>
+
+<p>Let’s say you’ve been assigned a new project. The project has a page that
+allows you to search and sort a list of users from the database. To your horror,
+you discover the following code:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">UsersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="n">sql</span> <span class="o">=</span> <span class="s2">"active=true"</span>
+    <span class="n">sql</span> <span class="o">+=</span> <span class="s2">"order by </span><span class="si">#{</span><span class="n">params</span><span class="p">[</span><span class="ss">:order_by</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="ss">:order_by</span><span class="p">]</span>
+    <span class="n">sql</span> <span class="o">+=</span> <span class="s2">"and name=</span><span class="si">#{</span><span class="n">params</span><span class="p">[</span><span class="ss">:name</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="ss">:name</span><span class="p">]</span>
+    <span class="n">sql</span> <span class="o">+=</span> <span class="s2">"and email=</span><span class="si">#{</span><span class="n">params</span><span class="p">[</span><span class="ss">:email</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="ss">:email</span><span class="p">]</span>
+    <span class="vi">@users</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+
+    <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">html</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">json</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>We’ve probably all seen code like this (and much worse) time and time again. We not only have business logic in
+our controllers, it’s also not flexible, not secure, hard to test, and
+definitely error-prone. Let’s clean this up by calling our new a command object instead.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">UsersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="n">search</span> <span class="o">=</span> <span class="no">Users</span><span class="o">::</span><span class="no">Search</span><span class="p">.</span><span class="nf">run</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+      <span class="k">if</span> <span class="n">search</span><span class="p">.</span><span class="nf">success?</span>
+        <span class="vi">@users</span> <span class="o">=</span> <span class="n">search</span><span class="p">.</span><span class="nf">result</span>
+        <span class="nb">format</span><span class="p">.</span><span class="nf">html</span>
+        <span class="nb">format</span><span class="p">.</span><span class="nf">json</span>
+      <span class="k">else</span>
+        <span class="n">render</span> <span class="n">search</span><span class="p">.</span><span class="nf">errors</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Much cleaner and readable. We’ve replaced all the ugly forged sql code with just one line, a command called
+<code class="language-plaintext highlighter-rouge">Users::Search.run(params)</code>. This Ruby object will contain all the code
+necessary to search users based on the arguments we send to it and return the results. By the way, I
+organize command objects in Rails projects like this:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>app/commands/users/create.rb
+app/commands/users/delete.rb
+app/commands/users/search.rb
+...
+</code></pre></div></div>
+
+<p>It’s pretty clear what these commands do and we can even read it backwards,
+<em>search users command in application</em> and <em>create user command in application</em>,
+and it’s still obvious what these objects do.</p>
+
+<p>For our user search, we have a couple options on how we
+search for users in our database. We could use a 500 horsepower engine like
+<a href="https://www.elastic.co/elasticsearch/">Elastic Search</a>, but we’re going to keep
+it simple and use ActiveRecord for now. The nice thing about using a command
+object, is that it hides the implementation from our caller. So all the code
+that calls <code class="language-plaintext highlighter-rouge">Users::Search.run(params)</code> (i.e. Api controllers, background jobs,
+rake tasks, whatever) won’t need to change. This could be important if later we decide to
+search for users using Elastic Search instead. Here’s what our command object
+looks like:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># /app/commands/users/search.rb</span>
+
+<span class="k">class</span> <span class="nc">Users::Search</span> <span class="o">&lt;</span> <span class="no">Mutations</span><span class="o">::</span><span class="no">Command</span>
+  <span class="no">VALID_EMAIL_REGEX</span> <span class="o">=</span> <span class="sr">/\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i</span>
+
+  <span class="n">optional</span> <span class="k">do</span>
+    <span class="n">string</span>  <span class="ss">:name</span>
+    <span class="n">string</span>  <span class="ss">:email</span><span class="p">,</span> <span class="ss">matches: </span><span class="no">VALID_EMAIL_REGEX</span>
+    <span class="n">string</span>  <span class="ss">:order_by</span>
+    <span class="n">string</span>  <span class="ss">:direction</span><span class="p">,</span> <span class="ss">in: </span><span class="sx">%w(desc asc)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">execute</span>
+    <span class="n">build_scope</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+
+  <span class="k">def</span> <span class="nf">build_scope</span>
+    <span class="n">scope</span> <span class="o">=</span> <span class="n">search_names</span><span class="p">(</span><span class="no">User</span><span class="p">)</span>
+    <span class="n">scope</span> <span class="o">=</span> <span class="n">search_emails</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
+    <span class="n">scope</span> <span class="o">=</span> <span class="n">sort_users</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
+    <span class="n">scope</span><span class="p">.</span><span class="nf">all</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">search_names</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">scope</span> <span class="k">unless</span> <span class="nb">name</span>
+
+    <span class="n">scope</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">name: </span><span class="nb">name</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">search_emails</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">scope</span> <span class="k">unless</span> <span class="n">email</span>
+
+    <span class="n">scope</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">email: </span><span class="n">email</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">sort_users</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">scope</span> <span class="k">unless</span> <span class="n">order_by</span>
+
+    <span class="n">scope</span><span class="p">.</span><span class="nf">order</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">order_by</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">sort_direction</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Let’s breaks this down. First, we’re inheriting from <code class="language-plaintext highlighter-rouge">Mutations::Command</code> class which
+gives us the nice set of tools. Most notably the <code class="language-plaintext highlighter-rouge">optional</code> block that allows us
+define all the parameters that we will accept. Conversely, we could force the
+caller to pass in certain parameters with the <code class="language-plaintext highlighter-rouge">required</code> block. In these
+blocks, we can also validate and sanitize the input so if anything unexpected is
+passed to our command object, Mutations will declare it failed. For example,
+let’s try to run the command with an improper email address:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;</span> search <span class="o">=</span> Users::Search.run<span class="o">(</span>email: <span class="s1">'wrong@format'</span><span class="o">)</span>
+<span class="o">&gt;&gt;</span> search.success?
+<span class="nb">false</span>
+<span class="o">&gt;&gt;</span> search.errors.message
+<span class="o">{</span>
+  <span class="s2">"email"</span> <span class="o">=&gt;</span> <span class="s2">"Email isn't in the right format"</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Another cool thing about the arguments we pass in, is that they become more or
+less variables that we have access to during the execution. For example,
+<code class="language-plaintext highlighter-rouge">email</code>, and <code class="language-plaintext highlighter-rouge">name</code> have values that we can use anywhere in our class. In this
+case, we’re searching the database for users based on information we sent
+in. We’re doing this by building our ActiveRecord
+<a href="https://guides.rubyonrails.org/active_record_querying.html#scopes">scopes</a>
+dynamically - chaining scopes if our (optional) parameters have values.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">execute</code> method is where we put the code that we want to run when
+<code class="language-plaintext highlighter-rouge">Users::Search.run</code> is called. Mutations stays out of our way here, giving us
+the freedom to do what we want in this method. There’s no fancy DSL that we have
+to follow and no binding BS. The result of this method will be assigned to a
+variable called <code class="language-plaintext highlighter-rouge">result</code>. In our case, we’re building ActiveRecord scopes and at
+the end, returning <code class="language-plaintext highlighter-rouge">scope</code>. Let’s see it in action.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>search <span class="o">=</span> Users::Search.run<span class="o">(</span>name: <span class="s1">'Matt'</span>, order_by: <span class="s1">'created_at'</span>,
+  direction: <span class="s1">'desc'</span><span class="o">)</span>
+
+<span class="o">&gt;&gt;</span> search.result
+<span class="o">[</span><span class="c">#&lt;User:0x00007fa2ccd234hC&gt;,&lt;User:0x00007fa2ccd123sac&gt;, &lt;User:0x00007fa2ccdsad9w&gt;]</span>
+
+<span class="o">&gt;&gt;</span> search.result.class
+User::ActiveRecord_Relation &lt; ActiveRecord::Relation
+
+<span class="o">&gt;&gt;</span> search.result.to_sql
+<span class="s2">"SELECT </span><span class="se">\"</span><span class="s2">users</span><span class="se">\"</span><span class="s2">.* FROM </span><span class="se">\"</span><span class="s2">users</span><span class="se">\"</span><span class="s2"> WHERE </span><span class="se">\"</span><span class="s2">users</span><span class="se">\"</span><span class="s2">.</span><span class="se">\"</span><span class="s2">name</span><span class="se">\"</span><span class="s2"> = 'Matt'
+    ORDER BY created_at desc
+</span></code></pre></div></div>
+
+<p>Service objects may have their place, but I much rather see a project with a set
+of commands that clearly defines intent both in logic and in naming.</p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white">
+        <div class="mx-auto border-t border-gray-400 py-12 px-4 max-w-2xl sm:px-6 lg:px-8 lg:py-10">
+          <div class="space-y-12">
+            <ul class="space-y-12 sm:divide-y sm:divide-gray-200 sm:space-y-0 sm:-mt-8 lg:gap-x-8 lg:space-y-0">
+              <li class="sm:p-8 rounded-lg">
+                <div class="space-y-4 sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:space-y-0">
+                  <!-- Image -->
+                  <div class="aspect-w-3 aspect-h-2 sm:aspect-w-3 sm:aspect-h-4">
+                    <img class="object-cover shadow-lg rounded-lg" src="/assets/images/me.png" alt="">
+                  </div>
+                  <div class="sm:col-span-2">
+                    <div class="space-y-4">
+                      <div class="text-lg leading-6 font-medium space-y-1">
+                        <h3>Matt Sears</h3>
+                        <p class="text-indigo-600">Engineer / Business / Design</p>
+                      </div>
+                      <div class="text-lg">
+                        <p class="text-gray-500">
+                          Thank you for checking out my website.
+                        </p>
+                      </div>
+                      <div class="flex space-x-3">
+                        <a href="https://instagram.com/mattsears" target="_blank" class="text-gray-400 hover:text-gray-300">
+  <span class="sr-only">Instagram</span>
+  <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
+  </svg>
+</a>
+<a href="https://github.com/mattsears" target="_blank" class="text-gray-400 hover:text-gray-300">
+  <span class="sr-only">GitHub</span>
+  <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+  </svg>
+</a>
+<a href="https://linkedin.com/in/matthewsears" target="_blank" class="text-gray-400 hover:text-gray-300">
+  <span class="sr-only">LinkedIn</span>
+  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+    <path fill-rule="evenodd" d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z" clip-rule="evenodd" />
+  </svg>
+</a>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
