@@ -10,7 +10,7 @@ I'm very grateful for Shopify and all that it has given to the Rails community
 over the years. Shopify _is_ a Rails application after all. When I ran a
 consulting firm, clients would sometimes raise the question about Rails'
 performance history. My go-to response was "Shopify runs on Rails" so what
-performance issues?
+performance issues? <!--more-->
 
 It's a wonderful platform that has provided a clear and straightforward path for
 millions of business owners to sell their goods and services online. They have
