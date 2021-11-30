@@ -146,15 +146,14 @@ class Draft < ApplicationRecord
   validates :object, presence: true
 
   def reify
-    without_identity_map do
-      attrs = ActiveSupport::JSON.decode(object)
-      attrs.each do |key, value|
-        if draftable.respond_to?("#{key}=") && !key.end_with?("_count")
-          draftable.send("#{key}=", value)
-        end
+    attrs = ActiveSupport::JSON.decode(object)
+
+    attrs.each do |key, value|
+      if draftable.respond_to?("#{key}=") && !key.end_with?("_count")
+        draftable.send("#{key}=", value)
       end
-      draftable
     end
+    draftable
   end
 end
 ~~~
