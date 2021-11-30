@@ -63,7 +63,7 @@ exclude:
   - .sass-cache/
   - .jekyll-cache/
   - CHANGELOG.md
-  - CNAME
+  - CHEATSHEET.md
   - Gemfile
   - Gemfile.lock
   - LICENSE
