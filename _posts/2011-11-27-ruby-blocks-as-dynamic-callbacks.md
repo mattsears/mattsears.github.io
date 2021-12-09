@@ -6,9 +6,9 @@ categories: ruby
 ---
 
 Callbacks are a great technique for achieving simplicity and flexibility. Simply put,
-a callback is a block of code passed as an argument to a method.<!--more-->  In Ruby, code
+a callback is a block of code passed as an argument to a method.  In Ruby, code
 blocks are everywhere and Ruby makes it trivial to pass a block of code to
-methods.For example:
+methods.<!--more--> For example:
 
 ```ruby
 def foo(bar, &block)

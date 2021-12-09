@@ -6,9 +6,9 @@ categories: ruby
 ---
 
 I've just released [Stamps](https://github.com/mattsears/stamps) - A Ruby gem for creating postage labels,
-calculate the shipping cost of packages, standardize domestic<!--more-->
+calculate the shipping cost of packages, standardize domestic
 addresses via USPS CASS certified Address Matching Software, and track
-shipments using the Stamps.com Web Services API.
+shipments using the Stamps.com Web Services API.<!--more-->
 
 #### Quick Start
 First, you will need to register for a (free) developer account at

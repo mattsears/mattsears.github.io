@@ -5,11 +5,20 @@ date:   2009-06-06 14:46:34 -0800
 categories: clojure
 ---
 
-Writing multi-threaded code is hard. If you've ever done concurrent programming, you'll *probably* agree. Clojure offers <!--more-->a compelling alternative to traditional object-oriented approaches to programming and has garnered much attention from the Ruby community because of it's elegant design that lets you get right to the essence of a problem.
+Writing multi-threaded code is hard. If you've ever done concurrent programming,
+you'll *probably* agree. Clojure offers a compelling alternative to
+traditional object-oriented approaches to programming and has garnered much
+attention from the Ruby community because of it's elegant design that lets you
+get right to the essence of a problem.<!--more-->
 
 #### What is Clojure?
 
-Simply put, Clojure is a functional programming language for the Java Virtual Machine with several powerful features for building concurrent applications. In addition, Clojure is fast, robust, and a powerful general-purpose programming language. A dialect of Lisp, Clojure embraces traditional code-as-data philosophy and a powerful macro system, plus some syntactic sugar tailored to Java.
+Simply put, Clojure is a functional programming language for the Java Virtual
+Machine with several powerful features for building concurrent applications. In
+addition, Clojure is fast, robust, and a powerful general-purpose programming
+language. A dialect of Lisp, Clojure embraces traditional code-as-data
+philosophy and a powerful macro system, plus some syntactic sugar tailored to
+Java.
 
 Now that [version 1.0](http://clojure.blogspot.com/2009/05/clojure-10.html) is out and Stuart Halloway's new book [Programming Clojure](http://www.pragprog.com/titles/shcloj/programming-clojure) just dropped, I've rounded up some of the best articles and tutorials on Clojure to you get you up to speed quickly.
 

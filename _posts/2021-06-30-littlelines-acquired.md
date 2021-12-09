@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Littlelines Acquired
+title: Littlelines Acquired!
 description: ''
 author: Matt Sears
 categories: news

@@ -7,9 +7,9 @@ categories: ruby
 
 Gaga originated from my winning entry in Codebrawl's [Key/Value
 Store](http://codebrawl.com/contests/key-value-stores) contest. The challenge
-was to write the best key/value storage backend you can think of.<!--more--> Since Git is
+was to write the best key/value storage backend you can think of. Since Git is
 fast, reliable, and a great tool for storing source code, I was really
-interested in making an easy way to store key/values.
+interested in making an easy way to store key/values.<!--more-->
 
 Built with [Grit](https://github.com/mojombo/grit), Gaga supports SET, GET, KEYS,
 and DELETE operations. And since it's Git, we can easily enhance it to include

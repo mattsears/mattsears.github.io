@@ -49,7 +49,7 @@ title: Articles
   </div>
 </div>
 
-<div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+<div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between mb-20">
   <div>
     {% include footer.html %}
   </div>
@@ -67,11 +67,11 @@ title: Articles
 
       {% for page in (1..paginator.total_pages) %}
       {% if page == paginator.page %}
-      <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+      <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-gray-100 text-sm font-medium text-gray-700 hover:bg-gray-50">
         {{ page }}
       </a>
       {% elsif page == 1 %}
-      <a href="{{ '/' | relative_url }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+      <a href="{{ '/articles' | relative_url }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
         {{ page }}
       </a>
       {% else %}

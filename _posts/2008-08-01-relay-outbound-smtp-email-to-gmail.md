@@ -5,9 +5,17 @@ date:   2008-08-01 14:46:34 -0800
 categories: ruby
 ---
 
-Sending emails with Rails via Gmail is a snap with Marc Chung's excellent plugin [action_mailer_tls](http://code.openrain.com/rails/action_mailer_tls). However<!--more-->, sometimes our production environment isn't using Gmail as a mail server and/or we just need an easy way to send email from our development environment for testing or demonstrating purposes.
+Sending emails with Rails via Gmail is a snap with Marc Chung's excellent plugin
+[action_mailer_tls](http://code.openrain.com/rails/action_mailer_tls). However
+sometimes our production environment isn't using Gmail as a mail server and/or
+we just need an easy way to send email from our development environment for
+testing or demonstrating purposes. <!--more-->
 
-Instead of installing the action_mailer_tls plugin and configuring each of our Rails apps, we can do a one-time setup of our local Postfix client to relay all SMTP outbound emails to our Gmail account. If your running a Mac OS Leopard or Linux, Postfix should already be installed. With a little configuration, we should be up and running in a couple minutes.
+Instead of installing the action_mailer_tls plugin and configuring each of our
+Rails apps, we can do a one-time setup of our local Postfix client to relay all
+SMTP outbound emails to our Gmail account. If your running a Mac OS Leopard or
+Linux, Postfix should already be installed. With a little configuration, we
+should be up and running in a couple minutes.
 
 First create /etc/postfix/relay_password file with the server name, email account name and password as shown below. This configuration works with Gmail accounts as well as with Google Apps email accounts. I'm personally using my company's Google Apps with a special email account setup for outbound emails only.
 

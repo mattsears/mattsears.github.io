@@ -6,11 +6,11 @@ categories: rails
 ---
 
 Recently, I migrated all of my personal and [business](http://littlelines.com) sites
-to [Heroku](http://heroku.com). Heroku, as you may know, is a fantastic<!--more-->
+to [Heroku](http://heroku.com). Heroku, as you may know, is a fantastic
 service for hosting ruby applications. Oh, and it's free!
 
 Like a lot of folks, I keep work and personal items such
-as email, bank accounts, github, etc in separate accounts.
+as email, bank accounts, github, etc in separate accounts. <!--more-->
 Heroku doesn't really place nice with multiple accounts.
 
 So how to do we effectively manage multiple Heroku accounts?

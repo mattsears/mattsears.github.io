@@ -1,15 +1,33 @@
 ---
 title: Git blogging with Aerial
-tags: git, ruby
+layout: post
+categories: ruby
 ---
 
-Over the last few years, I have grown tired of maintaining, migrating, and upgrading blog software, so I've decided to roll my own with Ruby code.<!--more--> In doing so, I wanted to keep things as simple as possible with a basic set of features: articles, pages, comments, rss, etc. What I didn't want is a SQL database or an administration tool. I wanted to write articles in my text editor of choice (Emacs), in [Markdown](http://daringfireball.net/projects/markdown/) format, and versioned with [Git](http://git-scm.com/). So I've ported this site from Mephisto to my own custom creation. I call it Aerial.
+Over the last few years, I have grown tired of maintaining, migrating, and
+upgrading blog software, so I've decided to roll my own with Ruby
+code. In doing so, I wanted to keep things as simple as possible with
+a basic set of features: articles, pages, comments, rss, etc. What I didn't want
+is a SQL database or an administration tool. I wanted to write articles in my
+text editor of choice (Emacs), in
+[Markdown](http://daringfireball.net/projects/markdown/) format, and versioned
+with [Git](http://git-scm.com/).<!--more--> So I've ported this site from Mephisto to my
+own custom creation. I call it Aerial.
 
-Much inspiration for Aerial has come from [Marley](http://github.com/karmi/marley), a minimal flat-file blog engine written in Sinatra. Like Marley, Aerial is built with [Sinatra](http://www.sinatrarb.com/) and uses plain text files. Unlike Marley, Aerial doesn't use a SQL database and uses [Grit](http://github.com/mojombo/grit) to retrieve article and comment files from a Git repository.
+Much inspiration for Aerial has come from
+[Marley](http://github.com/karmi/marley), a minimal flat-file blog engine
+written in Sinatra. Like Marley, Aerial is built with
+[Sinatra](http://www.sinatrarb.com/) and uses plain text files. Unlike Marley,
+Aerial doesn't use a SQL database and uses
+[Grit](http://github.com/mojombo/grit) to retrieve article and comment files
+from a Git repository.
 
 #### So how does it work?
 
-Articles and comments are stored as plain text files in a local Git directory. Aerial parses each file and converts them the Article and Comment objects with their own set of attributes such as title, body, tags, and author. For example, this article looks something like this:
+Articles and comments are stored as plain text files in a local Git
+directory. Aerial parses each file and converts them the Article and Comment
+objects with their own set of attributes such as title, body, tags, and
+author. For example, this article looks something like this:
 
     Title      : Git blogging with Aerial
     Tags       : projects, ruby, git, sinatra

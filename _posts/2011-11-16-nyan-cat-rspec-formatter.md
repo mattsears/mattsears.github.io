@@ -8,10 +8,10 @@ categories: ruby
 I watch a lot of tests run in a given day. So I figured why not make it more
 fun. Inspired by [minitest](https://github.com/seattlerb/minitest)'s pride, and um
 cats? I came up with a [Nyan Cat](http://www.youtube.com/watch?v=QH2-TGUlwu4)
-inspired RSpec formatter.<!--more-->
+inspired RSpec formatter.
 
 Update: After last week's launch, Nyan Cat received a great response from the
-Ruby world. Over the weekend, I released version 0.0.2.  It includes a few bug
+Ruby world. Over the weekend, I released version 0.0.2. <!--more-->  It includes a few bug
 fixes and some really cool enhancements. Most notably, Nyan Cat now spans
 multiple lines. In addition, it displays running totals of passing, pending,
 and failed specs. Thanks to everyone who contributed! Checkout the new
