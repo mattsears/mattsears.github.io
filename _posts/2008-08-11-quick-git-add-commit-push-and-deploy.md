@@ -81,7 +81,7 @@ simply run the Capistrano deploy command and not require a description for the
 changes.
 
 To use this script, copy and paste the above function to the end of your
-~/.bash_profile file. To run it, simply run the 'push' command.
+`~/.bash_profile` file. To run it, simply run the 'push' command.
 
 ~~~shell
 push "The description for the committed changes."
