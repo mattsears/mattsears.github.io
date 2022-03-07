@@ -172,7 +172,7 @@ specifically that touches that code _or_ remove the code if it's not being used.
 the code isn't touched, it means it's not being used and I can remove the code all together keeping
 the project nice and tidy.
 
-### Conclusion
+<hr/>
 
 There are quite a few other tools that I didn't mention, but the above seven tools form a solid base on
 what I use every day for Ruby/Rails development. I've enjoyed this particular setup for over a

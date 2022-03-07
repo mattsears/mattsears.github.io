@@ -4,11 +4,57 @@
 
 @import "github_syntax_highlight";
 
+.number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3.5rem;
+  position: relative;
+  width: 5.75rem;
+  height: 5.75rem;
+  margin-left: auto;
+  margin-right: auto;
+  background: url("/assets/images/circle.svg") center center no-repeat;
+  background-size: auto;
+  background-size: 100% auto;
+}
+
+.number {
+  font-family: 'Covered By Your Grace', cursive;
+  color: #ebb44c;
+}
+
+
+.highlighter {
+  background-image: linear-gradient(-100deg, rgba(242, 186, 72, 0.3), rgba(242, 186, 72, 0.7) 95%, rgba(242, 186, 72, 0.1));
+  border-radius: 13% 0.2rem 20% 0.2rem;
+}
+
+hr {
+  display: block;
+  height: 0;
+  margin: 2rem 0;
+  margin-right: 0px;
+  margin-left: 0px;
+  padding: 0;
+  border: 0;
+  border-top-color: currentcolor;
+  border-top-style: none;
+  border-top-width: 0px;
+  border-top: 1px solid #D8D8D8;
+  border-top-width: 1px;
+  width: 6rem;
+  border-top-width: 3px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .bb {
   border: 1px solid blue !important;
 }
 
 .post {
+
 
   a {
     color: #6366F1;
