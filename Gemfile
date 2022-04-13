@@ -14,6 +14,7 @@ gem "jekyll"
 # gem "github-pages", group: :jekyll_plugins
 # If you have any plugins, put them here!
 gem 'sass'
+gem 'prettier'
 
 group :jekyll_plugins do
   gem 'jekyll-sitemap'
