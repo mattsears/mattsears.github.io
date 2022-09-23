@@ -4,35 +4,33 @@ title: Hello
 ---
 
 <div class="overflow-hidden">
-  <div class="relative max-w-7xl mx-auto pt-3 px-4 sm:px-6 lg:px-8 md:pl-0">
-    <div class="relative lg:grid lg:grid-cols-4 lg:gap-x-8 mt-10">
+  <div class="relative max-w-2xl mx-auto pt-3 px-4 sm:px-6 lg:px-8 md:pl-0">
+    <div class="relative lg:grid lg:grid-cols-2 lg:gap-x-8 mt-10">
       <div class="lg:col-span-2 pr-0 md:pr-10">
-        <div class="sm:flex text-center md:text-left">
-          <div class="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
-            <img class="mx-auto md:mx-0 h-48 w-48 rounded-full" src="/assets/images/me.png" alt="Me">
+        <div class="sm:flex text-center md:text-center">
+          <div class="mb-auto flex-shrink-0 sm:mb-0 sm:m-auto">
+            <img class="mx-auto  h-48 w-48 rounded-full" src="/assets/images/me.png" alt="Me">
           </div>
+          {% comment %}
           <div class="pt-4">
-            <h2 class="mb-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            <h2 class="mb-2 text-4xl tracking-tight text-gray-900 sm:text-4xl" style="font-family: 'Open Sans', serif;">
               Matt Sears <br />
             </h2>
-            <p class="text-indigo-400 leading-10 text-3xl font-medium">Thoughts, Ideas &amp; Other Ramblings</p>
+            <p class="text-indigo-400 leading-10 text-3xl font-medium">Artist, Rubyist &amp; Other Ramblings</p>
           </div>
+          {% endcomment %}
+
         </div>
-        <p class="mt-10 text-lg">
-          Hello and welcome to my website. I started this site a long long time
-          ago with a goal of sharing what I've learned over the years and that's
-          still my goal.
+        <!-- I'm an entrepreneur by passion and generalist by nature. I've dabbled in product management, design, coding. My current obsession is with becoming great at marketing.
+        -->
+        <p class="mt-5 text-lg ">
+          Life is an adventure. My adventure has been mostly in technology, leadership, and business
+          for the past twenty years. I dabble in other interests including art, music, travel,
+          and general wander.
         </p>
         <p class="mt-5 text-lg ">
-          I mostly write about technology, leadership, and business since that's been my
-          livelyhood and my biggest focus for the past twenty years. I also
-          write about my other interests including music, traveling, and other
-          random topics.
-        </p>
-        <p class="mt-5 text-lg ">
-          When I'm not writing, I like to contribute to open source projects as
-          much as possible and I'm working on a new venture building software
-          that helps people in their daily lives. You can follow along with my progess
+          I'm currently working on a new venture building organizations
+          that help people with their daily lives. You can follow along with my progess
           by checking out my journal <a href="/articles" class="text-indigo-500 underline">here</a>.
         </p>
         <p class="mt-5 text-lg">
@@ -41,21 +39,27 @@ title: Hello
             Get in touch.
           </a>
         </p>
-        <p class="pt-8 pb-5">
-          <img class="h-20 pl-2" src="/assets/images/johnhancock.png" alt="Me">
-        </p>
 
-        <p class="flex space-x-3">
-          <span class="text-base text-gray-400">
+        <div class="pt-8 pb-5 grid justify-items-end">
+          <div class="class">
+            <img class="h-20 pl-2" src="/assets/images/johnhancock.png" alt="Me">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2">
+          <div class="flex space-x-1 justify-start items-start">
+            {% include social_media_links.html %}
+          </div>
+          <div class="text-base text-gray-400 flex justify-end items-end">
             &copy; {{ "now" | date: "%Y" }} Matt Sears
-          </span>
-          {% include social_media_links.html %}
-        </p>
+          </div>
+        </div>
 
-        <div class="border-b border-gray-200 w-2/5 pt-6"></div>
+        <div class="border-b border-gray-200 pt-6"></div>
       </div>
 
-      <div class="sm:space-y-0 lg:col-span-2 ">
+      {% comment %}
+      <div class="sm:space-y-0 lg:col-span-2 bb ">
         <span class="my-4 inline-flex items-center px-3 py-1  text-md font-medium text-black highlighter">
           Latest
         </span>
@@ -81,6 +85,8 @@ title: Hello
         </div>
         {% endfor %}
       </div>
+      {% endcomment %}
+
     </div>
   </div>
 </div>

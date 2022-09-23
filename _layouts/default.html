@@ -4,7 +4,9 @@
   <body class="antialiased bg-white text-gray-500 js-focus-visible">
     <div class="max-w-screen-xl mx-auto overflow-hidden ">
       <header class="relative z-10 max-w-screen-lg xl:max-w-screen-xl mx-auto">
-        {% include navigation.html %}
+        {% if page.url != "/" %}
+          {% include navigation.html %}
+        {% endif %}
       </header>
       {{ content }}
     </div>
