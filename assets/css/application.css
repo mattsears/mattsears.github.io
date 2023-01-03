@@ -1,0 +1,212 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.bb { border: 1px border dashed blue; }
+
+
+
+pre[class*='highlight'] {
+  @apply text-zinc-100;
+}
+
+.highlight {
+  line-height: 1.75em;
+  margin: 0;
+  overflow: auto;
+  width: 100%;
+  word-wrap: break-word;
+  padding: 20px;
+}
+
+.highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+
+
+/* Teals */
+.highlight .mf,
+.highlight .mh,
+.highlight .il,
+.highlight .mi,
+.highlight .mo,
+.highlight .m,
+.highlight .mb,
+.highlight .mx,
+.highlight .vc,
+.highlight .vg,
+.highlight .vi,
+.highlight .vm,
+.highlight .nv,
+.highlight .no,
+.highlight .nn {
+  @apply text-teal-300;
+}
+
+/* Pinks */
+.highlight .sb,
+.highlight .sc,
+.highlight .sd,
+.highlight .s2,
+.highlight .se,
+.highlight .sh,
+.highlight .si,
+.highlight .sx,
+.highlight .s1,
+.highlight .s,
+.highlight .dl,
+.highlight .k,
+.highlight .cm,
+.highlight .nt {
+  @apply text-pink-400;
+}
+
+/* Blues */
+.highlight .nf,
+.highlight .p,
+.highlight .sr,
+.highlight .n {
+  @apply text-sky-200 font-semibold;
+}
+
+/* Grays */
+.highlight .cm,
+.highlight .c1,
+.highlight .c,
+.highlight .ch,
+.highlight .cd,
+.highlight .cpf,
+.highlight .vi {
+  @apply text-zinc-300;
+}
+
+.highlight .cs,
+.highlight .cp {
+  @apply text-zinc-300 font-semibold italic;
+}
+
+ /* Dark Gray */
+.highlight .c1 {
+  @apply text-zinc-500;
+}
+
+/* Reds */
+.highlight .err,
+.highlight .gr,
+.highlight .gt {
+  @apply text-red-500;
+}
+
+.highlight .ne,
+.highlight .fm,
+.highlight .nl {
+  @apply text-red-500 font-semibold italic;
+}
+
+/* .highlight .gd { */
+/*   color: #000000; */
+/*   /\* background-color: #ffdddd; *\/ */
+/* } */
+/* .highlight .ge { */
+/*   color: #000000; */
+/*   font-style: italic; */
+/* } */
+/* .highlight .gh { */
+/*   color: #999999; */
+/* } */
+/* .highlight .gi { */
+/*   color: #000000; */
+/*   /\* background-color: #ddffdd; *\/ */
+/* } */
+/* .highlight .go { */
+/*   color: #888888; */
+/* } */
+/* .highlight .gp { */
+/*   color: #555555; */
+/* } */
+/* .highlight .gs { */
+/*   font-weight: bold; */
+/* } */
+/* .highlight .gu { */
+/*   color: #aaaaaa; */
+/* } */
+/* .highlight .k { */
+/*   @apply text-white; */
+/* } */
+/* .highlight .kc { */
+/*   color: #000000; */
+/*   font-weight: bold; */
+/* } */
+/* .highlight .kd { */
+/*   color: #000000; */
+/*   font-weight: bold; */
+/* } */
+/* .highlight .kn { */
+/*   color: #000000; */
+/*   font-weight: bold; */
+/* } */
+/* .highlight .kp { */
+/*   color: #000000; */
+/*   font-weight: bold; */
+/* } */
+/* .highlight .kr { */
+/*   color: #000000; */
+/*   font-weight: bold; */
+/* } */
+/* .highlight .kt { */
+/*   color: #445588; */
+/*   font-weight: bold; */
+/* } */
+/* .highlight .k, .highlight .kv { */
+/*   @apply text-white font-bold; */
+/* } */
+/* .highlight .sa { */
+/*   color: #000000; */
+/*   font-weight: bold; */
+/* } */
+/* .highlight .sr { */
+/*   color: #009926; */
+/* } */
+/* .highlight .ss { */
+/*   color: #990073; */
+/* } */
+/* .highlight .na { */
+/*   color: #008080; */
+/* } */
+/* .highlight .bp { */
+/*   color: #999999; */
+/* } */
+/* .highlight .nb { */
+/*   color: #0086B3; */
+/* } */
+
+/* .highlight .nc { */
+/*   @apply font-bold text-pink-400; */
+/* } */
+
+/* .highlight .no { */
+/*   color: #008080; */
+/* } */
+/* .highlight .nd { */
+/*   color: #3c5d5d; */
+/*   font-weight: bold; */
+/* } */
+/* .highlight .ni { */
+/*   color: #800080; */
+/* } */
+/* .highlight .nn { */
+/*   color: #555555; */
+/* } */
+/* .highlight .nt { */
+/*   color: #000080; */
+/* } */
+/* .highlight .ow { */
+/*   color: #000000; */
+/*   font-weight: bold; */
+/* } */
+/* .highlight .o { */
+/*   color: #000000; */
+/*   font-weight: bold; */
+/* } */
+/* .highlight .w { */
+/*   color: #bbbbbb; */
+/* } */

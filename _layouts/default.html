@@ -1,14 +1,23 @@
 <!doctype html>
-<html>
+<html class="h-full antialiased js-focus-visible" style="--header-position: sticky; --content-offset: 0px; --header-height: 64px; --header-mb: 0px; --avatar-image-transform: translate3d(0.0021551724137931078rem, 0, 0) scale(0.9924568965517242); --avatar-border-transform: translate3d(-0.2167434601664685rem, 0, 0) scale(1.7643678160919543); --avatar-border-opacity: 0; --header-top: 0px; --avatar-top: 0px;">
   {% include head.html %}
-  <body class="antialiased bg-white text-gray-500 js-focus-visible">
-    <div class="max-w-screen-xl mx-auto overflow-hidden ">
-      <header class="relative z-10 max-w-screen-lg xl:max-w-screen-xl mx-auto">
-        {% if page.url != "/" %}
-          {% include navigation.html %}
+  <body class="flex h-full flex-col bg-zinc-50 dark:bg-black">
+    <div id="__next">
+      <div class="fixed inset-0 flex justify-center sm:px-8">
+        <div class="flex w-full max-w-7xl lg:px-8"><div class="w-full bg-white ring-1 ring-zinc-100 dark:bg-zinc-900 dark:ring-zinc-300/20"></div></div>
+      </div>
+      <div class="relative">
+        {% if page.url == '/' %}
+          {% include header.html %}
+        {% else %}
+          {% include header_condensed.html %}
         {% endif %}
-      </header>
-      {{ content }}
+        <div style="height: var(--content-offset);"></div>
+        <main>
+          {{ content }}
+        </main>
+        {% include footer.html %}
+      </div>
     </div>
   </body>
 </html>

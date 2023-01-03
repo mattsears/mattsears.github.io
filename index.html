@@ -1,92 +1,109 @@
 ---
 layout: default
-title: Hello
+title: ''
 ---
 
-<div class="overflow-hidden">
-  <div class="relative max-w-2xl mx-auto pt-3 px-4 sm:px-6 lg:px-8 md:pl-0">
-    <div class="relative lg:grid lg:grid-cols-2 lg:gap-x-8 mt-10">
-      <div class="lg:col-span-2 pr-0 md:pr-10">
-        <div class="sm:flex text-center md:text-center">
-          <div class="mb-auto flex-shrink-0 sm:mb-0 sm:m-auto">
-            <img class="mx-auto  h-48 w-48 rounded-full" src="/assets/images/me.png" alt="Me">
-          </div>
-          {% comment %}
-          <div class="pt-4">
-            <h2 class="mb-2 text-4xl tracking-tight text-gray-900 sm:text-4xl" style="font-family: 'Open Sans', serif;">
-              Matt Sears <br />
-            </h2>
-            <p class="text-indigo-400 leading-10 text-3xl font-medium">Artist, Rubyist &amp; Other Ramblings</p>
-          </div>
-          {% endcomment %}
-
-        </div>
-        <!-- I'm an entrepreneur by passion and generalist by nature. I've dabbled in product management, design, coding. My current obsession is with becoming great at marketing.
-        -->
-        <p class="mt-5 text-lg ">
-          Life is an adventure. My adventure has been mostly in technology, leadership, and business
-          for the past twenty years. I dabble in other interests including art, music, travel,
-          and general wander.
-        </p>
-        <p class="mt-5 text-lg ">
-          I'm currently working on a new venture building organizations
-          that help people with their daily lives. You can follow along with my progess
-          by checking out my journal <a href="/articles" class="text-indigo-500 underline">here</a>.
-        </p>
-        <p class="mt-5 text-lg">
-          Currently I'm available for business coaching, product strategy, speaking, mentoring, and angel investing.
-          <a href="#" class="cryptedmail text-indigo-500 underline" data-name="matt" data-domain="mattsears" data-tld="com" onclick="window.location.href = 'mailto:' + this.dataset.name + '@' + this.dataset.domain + '.' + this.dataset.tld; return false;">
-            Get in touch.
-          </a>
-        </p>
-
-        <div class="pt-8 pb-5 grid justify-items-end">
-          <div class="class">
-            <img class="h-20 pl-2" src="/assets/images/johnhancock.png" alt="Me">
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2">
-          <div class="flex space-x-1 justify-start items-start">
-            {% include social_media_links.html %}
-          </div>
-          <div class="text-base text-gray-400 flex justify-end items-end">
-            &copy; {{ "now" | date: "%Y" }} Matt Sears
-          </div>
-        </div>
-
-        <div class="border-b border-gray-200 pt-6"></div>
-      </div>
-
-      {% comment %}
-      <div class="sm:space-y-0 lg:col-span-2 bb ">
-        <span class="my-4 inline-flex items-center px-3 py-1  text-md font-medium text-black highlighter">
-          Latest
-        </span>
-        {% for post in site.posts limit:3 %}
-        <div class="py-5">
-          <p class="text-sm text-gray-500">
-            <time datetime="2020-01-29">{{ post.date | date: "%b %d, %Y" }}</time>
+<div class="mt-9 sm:px-8">
+  <div class="mx-auto max-w-7xl lg:px-8">
+    <div class="relative px-4 sm:px-8 lg:px-12">
+      <div class="mx-auto max-w-2xl lg:max-w-5xl">
+        <div class="max-w-2xl">
+          <h1
+            class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+            Entrepreneur, rubyist, artist, designer, haberdasher.
+          </h1>
+          <p class="mt-6 text-base text-zinc-600 dark:text-zinc-400">
+            Life is an adventure. My adventure has been mostly in technology,
+            leadership, art, and business for over twenty years. I'm the founder of
+            <a
+              class="text-teal-500 transition group-hover:text-teal-500 dark:text-zinc-200"
+              href="https://madesteady.com"
+              target="_new"
+              >Steady Co</a >, where we develop solutions that empower everyday people to build
+            business on their own.
           </p>
-          <a href="{{ post.url }}" class="mt-2 block">
-            <p class="text-xl font-semibold text-gray-900">
-              {{ post.title }}
-            </p>
-            <p class="mt-3 text-base text-gray-500">
-              {{ post.excerpt | strip_html | truncate: 300 }}
-            </p>
-          </a>
-          <div class="mt-3">
-            <a href="{{ post.url }}" class="inline-flex text-base font-semibold text-indigo-600 hover:text-indigo-500">
-              Read more
-            </a>
-          </div>
-          <div class="border-b border-gray-200 w-2/5 pt-6"></div>
         </div>
-        {% endfor %}
       </div>
-      {% endcomment %}
-
+    </div>
+  </div>
+</div>
+<div class="mt-16 sm:mt-20">
+  <div class="-my-4 flex justify-center overflow-hidden py-4">
+    <div
+      class="overflow-hiddenbg-zinc-100 relative aspect-[9/10] w-44 flex-none dark:bg-zinc-800 sm:w-80">
+      <img
+        alt=""
+        sizes="(min-width: 640px) 18rem, 11rem"
+        src="/assets/images/me-desk.jpg"
+        decoding="async"
+        class="absolute inset-0 h-full w-full object-cover"
+        loading="lazy"
+        style="color: transparent"
+        width="666"
+        height="666" />
+    </div>
+    <div
+      class="relative aspect-[9/10] w-44 flex-none overflow-hidden bg-zinc-100 dark:bg-zinc-800 sm:w-80">
+      <img
+        alt=""
+        sizes="(min-width: 640px) 18rem, 11rem"
+        src="/assets/images/me-conference.jpg"
+        decoding="async"
+        data-nimg="future"
+        class="absolute inset-0 h-full w-full object-cover"
+        loading="lazy"
+        style="color: transparent"
+        width="2000"
+        height="2000" />
+    </div>
+    <div
+      class="relative aspect-[9/10] w-44 flex-none overflow-hidden bg-zinc-100 dark:bg-zinc-800 sm:w-72">
+      <img
+        alt=""
+        sizes="(min-width: 640px) 18rem, 11rem"
+        src="/assets/images/desk-art.jpg"
+        decoding="async"
+        data-nimg="future"
+        class="absolute inset-0 h-full w-full object-cover"
+        loading="lazy"
+        style="color: transparent"
+        width="2400"
+        height="3000" />
+    </div>
+    <div
+      class="relative aspect-[9/10] w-44 flex-none overflow-hidden bg-zinc-100 dark:bg-zinc-800 sm:w-72">
+      <img
+        alt=""
+        sizes="(min-width: 640px) 18rem, 11rem"
+        src="/assets/images/me-and-cameron.jpg"
+        decoding="async"
+        data-nimg="future"
+        class="absolute inset-0 h-full w-full object-cover"
+        loading="lazy"
+        style="color: transparent"
+        width="1365"
+        height="1365" />
+    </div>
+  </div>
+</div>
+<div class="mt-24 sm:px-8 md:mt-28">
+  <div class="mx-auto max-w-7xl lg:px-8">
+    <div class="relative px-4 sm:px-8 lg:px-12">
+      <div class="mx-auto max-w-2xl lg:max-w-5xl">
+        <div class="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
+          <div class="flex flex-col gap-6">
+            <p class="mt-6 text-base text-zinc-600 dark:text-zinc-400">
+              I'm very committed to giving back to the community I so much love.
+              Currently I'm available for business coaching, product strategy,
+              speaking, mentoring, and angel investing. If interested, please
+              feel free to reach out. {% include social_media_links.html %}
+            </p>
+          </div>
+          <div class="space-y-10 lg:pl-16 xl:pl-24">
+            {% include newsletter.html %}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

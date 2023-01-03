@@ -1,7 +1,104 @@
 ---
 layout: default
-title: Articles
+title: Journal
 ---
+
+<div class="sm:px-8 mt-16 sm:mt-32">
+  <div class="mx-auto max-w-7xl lg:px-8">
+    <div class="relative px-4 sm:px-8 lg:px-12">
+      <div class="mx-auto max-w-2xl lg:max-w-5xl">
+        <header class="max-w-2xl">
+          <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">Writing on life, business, art & other random topics.</h1>
+          <p class="mt-6 text-base text-zinc-600 dark:text-zinc-400">All of my long-form thoughts on tech, leadership, product design, and more, collected in chronological order.</p>
+        </header>
+        <div class="mt-16 sm:mt-20">
+          <div class="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40">
+            <div class="flex max-w-3xl flex-col space-y-16">
+              {% for post in paginator.posts %}
+              <article class="md:grid md:grid-cols-4 md:items-baseline">
+                <div class="md:col-span-3 group relative flex flex-col items-start">
+                  <h2 class="text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
+                    <div class="absolute -inset-y-6 -inset-x-4 z-0 scale-95 bg-zinc-50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 dark:bg-zinc-800/50 sm:-inset-x-6 sm:rounded-2xl"></div>
+                    <a href="{{ post.url }}">
+                      <span class="absolute -inset-y-6 -inset-x-4 z-20 sm:-inset-x-6 sm:rounded-2xl"></span>
+                      <span class="relative z-10">{{ post.title }}</span>
+                    </a>
+                  </h2>
+                  <time class="md:hidden relative z-10 order-first mb-3 flex items-center text-sm text-zinc-400 dark:text-zinc-500 pl-3.5" datetime="{{ post.date | date: '%Y-%m-%d' }}">
+                    <span class="absolute inset-y-0 left-0 flex items-center" aria-hidden="true">
+                      <span class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
+                    </span>{{ post.date | date: "%b %d, %Y" }}</time>
+                  <p class="relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                    {{ post.excerpt | strip_html }}
+                  </p>
+                  <div aria-hidden="true" class="relative z-10 mt-4 flex items-center text-sm font-medium text-teal-500">Read article <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" class="ml-1 h-4 w-4 stroke-current">
+                    <path d="M6.75 5.75 9.25 8l-2.5 2.25" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
+                  </div>
+                </div>
+                <time class="mt-1 hidden md:block relative z-10 order-first mb-3 flex items-center text-sm text-zinc-400 dark:text-zinc-500" datetime="{{ post.date | date: '%Y-%m-%d' }}">
+                  {{ post.date | date: "%b %d, %Y" }}
+                </time>
+              </article>
+              {% endfor %}
+            </div>
+
+          </div>
+        </div>
+
+        <div class="mt-16 align-center text-center">
+          <nav class="relative z-0 inline-flex shadow-sm -space-x-px mx-auto " aria-label="Pagination">
+            {% if paginator.previous_page %}
+            <a href="{{ paginator.previous_page_path | relative_url }}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+              <!-- Heroicon name: chevron-left -->
+              <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </a>
+
+            {% else %}
+
+            <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+              <!-- Heroicon name: chevron-left -->
+              <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </a>
+            {% endif %}
+
+            {% for page in (1..paginator.total_pages) %}
+            {% if page == paginator.page %}
+            <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-gray-100 text-sm font-medium text-gray-700 hover:bg-gray-50">
+              {{ page }}
+            </a>
+            {% elsif page == 1 %}
+            <a href="{{ '/articles' | relative_url }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+              {{ page }}
+            </a>
+            {% else %}
+            <a href="{{ site.paginate_path | relative_url | replace: ':num', page }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+              {{ page }}
+            </a>
+            {% endif %}
+            {% endfor %}
+
+            {% if paginator.next_page %}
+            <a href="{{ paginator.next_page_path | relative_url }}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+              <span class="sr-only">Next</span>
+              <!-- Heroicon name: chevron-right -->
+              <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+            </a>
+            {% endif %}
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% comment %}
 
 <div class="bg-white pb-20">
   <div class="relative divide-y-2 divide-gray-200  max-w-7xl mx-auto pt-3 px-4 sm:px-6 lg:px-8 md:pl-0">
@@ -47,7 +144,9 @@ title: Articles
       {% endfor %}
     </div>
   </div>
+
 </div>
+
 
 <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between mb-20">
   <div>
@@ -93,3 +192,5 @@ title: Articles
     </nav>
   </div>
 </div>
+
+{% endcomment %}
