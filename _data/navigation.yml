@@ -2,7 +2,7 @@
   link: /
 - name: About
   link: /about/
-- name: Work
-  link: /work/
+# - name: Work
+#   link: /work/
 - name: Journal
   link: /articles/

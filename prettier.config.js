@@ -4,4 +4,5 @@ module.exports = {
   semi: false,
   bracketSameLine: true,
   trailingComma: "es5",
+  htmlWhitespaceSensitivity: "ignore",
 }
