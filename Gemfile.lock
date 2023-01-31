@@ -119,7 +119,7 @@ DEPENDENCIES
   jekyll-paginate
   jekyll-seo-tag
   jekyll-sitemap
-  jekyll_picture_tag
+  jekyll_picture_tag (~> 1.6)
   prettier
   rouge
   sass
