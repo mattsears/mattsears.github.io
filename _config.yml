@@ -58,6 +58,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
   - jekyll_picture_tag
+  - jekyll-picture-tag
 
 exclude:
   - .sass-cache/
