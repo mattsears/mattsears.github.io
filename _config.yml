@@ -24,7 +24,7 @@ tagline: Hello! This is the personal website and blog of Matt Sears
 description: >- # this means to ignore newlines until "baseurl:"
   I mostly write about technology and business since that's been my livelyhood for the past twenty years,
   but I also write about my other interests including music, traveling, and other random topics.
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://mattsears.com" # the base hostname & protocol for your site, e.g. http://example.com
 highlighter: rouge
 github_username: mattsears
