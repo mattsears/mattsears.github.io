@@ -57,7 +57,6 @@ plugins:
   - jekyll-paginate
   - jekyll-sitemap
   - jekyll-seo-tag
-  - jekyll_picture_tag
   - jekyll-picture-tag
 
 exclude:

@@ -15,6 +15,9 @@ gem "jekyll"
 # If you have any plugins, put them here!
 gem 'sass'
 gem 'prettier'
+
+gem 'jekyll_picture_tag', '~> 1.6'
+
 group :jekyll_plugins do
   gem 'jekyll-sitemap'
   gem "jekyll-feed"
