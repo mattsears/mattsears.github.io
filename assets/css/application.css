@@ -4,8 +4,6 @@
 
 .bb { border: 1px border dashed blue; }
 
-
-
 pre[class*='highlight'] {
   @apply text-zinc-100;
 }

@@ -2,7 +2,7 @@
 
 ### Development:
 
-1. Still love with Rails
+1. Still love with Rails ❌
 1. How to become a 5x programmer?  - organization, less code, future proof?
 1. How to really scale your web application
 1. To gem or not to gem ✅
@@ -19,7 +19,7 @@ customize code on the interface.
 1. Reflect on employee development and track record e.g. Chris, David, Jesse, Beth
 1. How I ran a successful company for 14 years.
 
-" Survivor mentality"
+"Survivor mentality"
 "Destruction in the face of progress, is not only possible, but an efficient way to get rid of excess"
 "Growth in the mist of loss"
 
