@@ -1,0 +1,1395 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://mattsears.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://mattsears.com/" rel="alternate" type="text/html" /><updated>2023-01-31T17:49:46+00:00</updated><id>https://mattsears.com/feed.xml</id><title type="html">Matt Sears</title><subtitle>I mostly write about technology and business since that's been my livelyhood for the past twenty years, but I also write about my other interests including music, traveling, and other random topics.</subtitle><entry><title type="html">Defensive Development</title><link href="https://mattsears.com/articles/2023/01/31/defensive-software/" rel="alternate" type="text/html" title="Defensive Development" /><published>2023-01-31T17:08:00+00:00</published><updated>2023-01-31T17:08:00+00:00</updated><id>https://mattsears.com/articles/2023/01/31/defensive-software</id><content type="html" xml:base="https://mattsears.com/articles/2023/01/31/defensive-software/">&lt;p&gt;Much like &lt;a href=&quot;https://en.wikipedia.org/wiki/Defensive_driving&quot;&gt;Defensive Driving&lt;/a&gt;, in which Wikipedia
+describes “anticipating dangerous situations, despite adverse conditions or the mistakes of others
+when operating a motor vehicle”, defensive development is building software that anticipates future
+“one-off” features and deployments by having tools to solve problems already in production. &lt;!--more--&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;w-full m-auto&quot; src=&quot;/assets/images/generated/chess-match-800-4c3c49fc2.jpg&quot; srcset=&quot;/assets/images/generated/chess-match-400-4c3c49fc2.jpg 400w, /assets/images/generated/chess-match-600-4c3c49fc2.jpg 600w, /assets/images/generated/chess-match-800-4c3c49fc2.jpg 800w, /assets/images/generated/chess-match-1000-4c3c49fc2.jpg 1000w&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;When I was a technical leader at a big tech company, releasing software to production was a big deal
+involving many people and procedures - taking days sometimes weeks. It was particularly important to
+have all the i’s dotted and t’s crossed, otherwise it may take another week to deploy another
+release. In some cases, a small bug would slip through or even something smaller like a word
+misspelled that would have to wait until the following week or petition for an emergency release.&lt;/p&gt;
+
+&lt;p&gt;Another common scenario is an outside department in the company needs a special “view” to the
+application so that they can gain access to the software for their own purposes. They typically
+would request our team to build a separate section just for them tying up our resources just to
+build this special feature instead of focusing on our own customer needs. Does this sound
+familiar?&lt;/p&gt;
+
+&lt;p&gt;Over many years of taking feature requests working with customers and external teams, you begin to
+realize a common set of requests users always ask for post-production. In this post, I want to share
+with you what I typically like to include with every piece of software I ship in order to anticipate
+future requests and reduce the need to deploy special releases.&lt;/p&gt;
+
+&lt;h4 id=&quot;1-administration-tool&quot;&gt;1. Administration Tool&lt;/h4&gt;
+
+&lt;p&gt;By far the best and obvious way to make updates in production without re-deploying code is having an
+administration tool in place. This can be for development team eyes only or even allow customers to
+make updates as well. In Ruby On Rails applications, there are already a few great plugins that
+makes it very easy. Here’s just a few examples that have helped my team:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Updating production database records like user information.&lt;/li&gt;
+  &lt;li&gt;Revoking user accounts or permissions.&lt;/li&gt;
+  &lt;li&gt;Removing fake or test account data.&lt;/li&gt;
+  &lt;li&gt;Changing the price of subscription plans.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;2-a-private-api&quot;&gt;2. A Private API&lt;/h4&gt;
+
+&lt;p&gt;Building an API in the software can be pretty simple to include. Again, for Ruby on Rails apps,
+there are gems that make this simple. Having just a simple API in place and pay big dividends down
+the road. When asked to get a special “access” in a lot of cases, you can just provide the API
+endpoints and connection details and they can build their own application themselves.&lt;/p&gt;
+
+&lt;h4 id=&quot;3-managed-tool-for-error-logging&quot;&gt;3. Managed Tool for Error Logging&lt;/h4&gt;
+
+&lt;p&gt;If I had a nickel for every time I got an email saying “the website was down last night” and then
+spending hours trying to figure out what happened, well, I’d have a lot of nickels. Having a way to
+search log files is a crucial way to track down issues or even false alarms. A lot of the time it’s
+the hosting provider having network issues. Tools like &lt;a href=&quot;https://www.datadoghq.com&quot;&gt;DataDog&lt;/a&gt; gives
+you the ability to track down errors and when they occur. If anything, it’s been a great way to
+point out there weren’t any issues at all and we can move on to the next task.&lt;/p&gt;
+
+&lt;h4 id=&quot;4-healthcheck-aka-smoketest-page&quot;&gt;4. Healthcheck (aka Smoketest) Page&lt;/h4&gt;
+
+&lt;p&gt;This is one of the oldest and my personal favorite trick. Often times I will build a page in the application
+that only I can get to (i.e. /smoketest) that will give me a basic vitals of the system. For
+example:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;First and foremost, make sure the application is still running.&lt;/li&gt;
+  &lt;li&gt;Show the number of active users to make sure the application is database connection is fine.&lt;/li&gt;
+  &lt;li&gt;Display the status of connection to third-party api’s to check the connection is working.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;When getting that dreaded email saying “something’s wrong with the site”, I’ll check the smoketest
+page first to make sure all is working or quickly determine the issue.&lt;/p&gt;
+
+&lt;h4 id=&quot;5-routine-maintenance-task-page&quot;&gt;5. Routine Maintenance Task Page&lt;/h4&gt;
+
+&lt;p&gt;Similar to the administration tool, having a section in the application where the development team
+can queue routine maintenance tasks i.e. Rake tasks, is a great time saver. The folks at
+Shopify have a gem for this called &lt;a href=&quot;https://github.com/Shopify/maintenance_tasks&quot;&gt;Maintenance Tasks&lt;/a&gt;
+that works great. Here are some examples of maintenance tasks I’ve used in production before:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Deleting inactive user records to clean up the database.&lt;/li&gt;
+  &lt;li&gt;Clearing production cache assets to make sure all cached assets are up-to-date.&lt;/li&gt;
+  &lt;li&gt;Re-running scheduled tasks in case there was an outage from the night before.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;After your the application has been in production a while and you’ve implemented tools like listed
+above, you’ll notice fewer and fewer emergency releases and having more to time focus on adding
+value your customers will love.&lt;/p&gt;</content><author><name></name></author><summary type="html">Much like Defensive Driving, in which Wikipedia describes “anticipating dangerous situations, despite adverse conditions or the mistakes of others when operating a motor vehicle”, defensive development is building software that anticipates future “one-off” features and deployments by having tools to solve problems already in production.</summary></entry><entry><title type="html">Wanderment</title><link href="https://mattsears.com/articles/2022/12/30/wanderment/" rel="alternate" type="text/html" title="Wanderment" /><published>2022-12-30T18:22:00+00:00</published><updated>2022-12-30T18:22:00+00:00</updated><id>https://mattsears.com/articles/2022/12/30/wanderment</id><content type="html" xml:base="https://mattsears.com/articles/2022/12/30/wanderment/">&lt;p&gt;I’ve always been a walker as for as I can remember. By “walker”, I don’t mean just hiking, but
+rather just walk-out-the door walker. I walked to school, I walk to work, I walk
+to get coffee, I walk anywhere and everywhere I can. I make it a point to walk the streets because
+for me to feel grounded, it requires my feet on the ground. &lt;!--more--&gt;&lt;/p&gt;
+
+&lt;p&gt;Since having issues with my &lt;a href=&quot;/articles/2021/08/30/taking-care-of-your-vision&quot;&gt;eyesight&lt;/a&gt; last year,
+walking has turned into something more. Walking as a pastime, walking without aim, walking with no
+destination. A state of no path to find a path, it’s what I call  &lt;em&gt;wanderment&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;w-full m-auto&quot; src=&quot;/assets/images/generated/wanderment-one-800-0e7f7796d.jpeg&quot; srcset=&quot;/assets/images/generated/wanderment-one-400-0e7f7796d.jpeg 400w, /assets/images/generated/wanderment-one-600-0e7f7796d.jpeg 600w, /assets/images/generated/wanderment-one-800-0e7f7796d.jpeg 800w, /assets/images/generated/wanderment-one-1000-0e7f7796d.jpeg 1000w&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I’ve walked more in the past year than I have ever walked before in my life. Since being forced to
+severely reduce my screen time, I’ve gone back back outside and it has made me see earth and life in
+a different way (ironically). I just so happen to live in a beautiful part of the country with
+mountains, beaches, and city buildings, all within a few miles, so it was only natural that I walk
+every square inch.&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;w-full m-auto&quot; src=&quot;/assets/images/generated/wanderment-two-800-b73ce79d0.jpeg&quot; srcset=&quot;/assets/images/generated/wanderment-two-400-b73ce79d0.jpeg 400w, /assets/images/generated/wanderment-two-600-b73ce79d0.jpeg 600w, /assets/images/generated/wanderment-two-800-b73ce79d0.jpeg 800w, /assets/images/generated/wanderment-two-1000-b73ce79d0.jpeg 1000w&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Wanderment has become a large part of my therapy. Along the way, I’ve discovered some amazing
+benefits. Not just obvious physical benefits, but a substantial increase in levels of
+emotional and spiritual energy too. Here are just a few:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Reduces anxiety&lt;/strong&gt;. Reductions in anxiety are subtle, but noticeable. During difficult times, just
+getting outside and walking for a few blocks (aimlessly) improves my mood and it’s my go-to way to
+feel better.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Clears out the cobwebs in the brain&lt;/strong&gt;. I’ve noticed a increased level of function in my
+brain. Walking aimlessly without a goal, mission, or purpose, allows my brain to think about other
+things. Things I’ve not had time or energy to think about before.&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;w-full m-auto&quot; src=&quot;/assets/images/generated/wanderment-three-800-ec5af209e.jpeg&quot; srcset=&quot;/assets/images/generated/wanderment-three-400-ec5af209e.jpeg 400w, /assets/images/generated/wanderment-three-600-ec5af209e.jpeg 600w, /assets/images/generated/wanderment-three-800-ec5af209e.jpeg 800w, /assets/images/generated/wanderment-three-1000-ec5af209e.jpeg 1000w&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Creativity boost&lt;/strong&gt;. Related to cleaning out the cobwebs in the ol’ brain, having some extra space
+in the brain leaves room for creative ideas to naturally sneak in. Through many walks, I’ve
+come up with ideas, solved long-standing problems, and lofty goals seem more attainable.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Getting closer to calm&lt;/strong&gt;. Most days, it’s completely chaos in my head. With all that’s happening in
+  the world and the internal pressures relationships, career, family, etc., it can be all
+  overwhelming. Wanderment, allows me to take a break from all that noise and re-center myself. I
+  can focus on what’s really important in life.&lt;/p&gt;
+
+&lt;p&gt;We can go a little further. Here are a few activities I like to do that have greatly benefited me
+and how I get the most out of wanderment. &lt;em&gt;Take time to listen to nature.&lt;/em&gt; Find a nice place to take
+break. Stop and just listen to what’s happening around you. Listen the birds, the leaves, the waves,
+etc. &lt;em&gt;Feel the earth.&lt;/em&gt; Sit on the ground, dig your feet into the sand, brush your hands on over the
+grass. &lt;em&gt;Deep breaths.&lt;/em&gt;  Smell the salty air, feel the wind in your face.&lt;/p&gt;
+
+&lt;p&gt;Getting lost in the world, as it seems, has set me on a path to finding myself. I haven’t arrived by
+any means, but I feel like I’m in the right direction.&lt;/p&gt;</content><author><name></name></author><summary type="html">I’ve always been a walker as for as I can remember. By “walker”, I don’t mean just hiking, but rather just walk-out-the door walker. I walked to school, I walk to work, I walk to get coffee, I walk anywhere and everywhere I can. I make it a point to walk the streets because for me to feel grounded, it requires my feet on the ground.</summary></entry><entry><title type="html">Maintainable Rails: A Rails Engine Strategy</title><link href="https://mattsears.com/articles/2022/09/12/standardizing-your-stack-with-rails-engines/" rel="alternate" type="text/html" title="Maintainable Rails: A Rails Engine Strategy" /><published>2022-09-12T15:11:00+00:00</published><updated>2022-09-12T15:11:00+00:00</updated><id>https://mattsears.com/articles/2022/09/12/standardizing-your-stack-with-rails-engines</id><content type="html" xml:base="https://mattsears.com/articles/2022/09/12/standardizing-your-stack-with-rails-engines/">&lt;p&gt;If you’ve ever worked for a company or organization that runs multiple Rails applications, you’ve
+most likely seen these projects using different sets of plugins, front-end frameworks, coding
+techniques, test frameworks, etc. etc. Ultimately having a ton of technical debt leading to
+heavy context switching slowing progress to a crawl. Most of the time it’s inevitable
+because keeping multiple applications up-to-date and consistent is a daunting task.&lt;!--more--&gt;&lt;/p&gt;
+
+&lt;p&gt;I’ve seen this countless times in my career when running a consulting company and when I worked for
+a big IT company. In this article, I want to share with you one technique I use to help &lt;em&gt;pay down
+the technical debt and pave a path forward&lt;/em&gt; to a more sound development team using &lt;a href=&quot;https://guides.rubyonrails.org/engines.html&quot;&gt;Rails Engines&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;quick-intro-to-rails-engines&quot;&gt;Quick intro to Rails Engines&lt;/h4&gt;
+
+&lt;p&gt;The term “engine” can be confusing because it’s not really anything different than what we’ve
+already been working with. A Rails Engine is a Rails application with some special options that
+allow us to “hook” into it. I think of it as a Rails module (like a Ruby module) that we’re adding
+to our code, but instead of getting additional Ruby methods, we can a whole web application at our disposal.&lt;/p&gt;
+
+&lt;p&gt;This means we can pack a whole bunch of common/shared functionality into our engine including
+models, controllers, views, and even assets like Javascript, CSS, and image assets.&lt;/p&gt;
+
+&lt;p&gt;Let’s kicks things off with an example engine. Let’s say our company wants to build an engine called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CompanyStack&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;rails plugin new company_stack &lt;span class=&quot;nt&quot;&gt;--mountable&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We’re going to isolate our engine so that we can namespace our ruby code to avoid any collisions in
+naming. This will help our engine be independent from any application that uses it. It’s important
+to think of our engine as completely separate from any application that uses it. Combined with the
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--mountable&lt;/code&gt; option (above), using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;isolate_namespace&lt;/code&gt; will provide independence we need:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# lib/company_stack/engine.rb&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;CompanyStack&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Engine&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Rails&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Engine&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;isolate_namespace&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;CompanyStack&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we can include our engine in our Rails application’s Gemfile:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;company_stack&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;path: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;../path/to/company_stack&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Let’s say our company has a few Rails applications in production. Upper management is
+complaining about the amount of time it takes to ship code. Some of our new engineers
+aren’t as familiar with older versions of Rails so it’s more difficult to assign
+team members to projects. Our senior engineers are complaining about the sheer amount of redundant
+code across our projects. Our Devops team wants to upgrade our servers, but can’t because some
+applications can’t run on newer versions of Ruby, SSL, Postgres, etc etc. Sound familiar?&lt;/p&gt;
+
+&lt;p&gt;What are our goals with making our development team more efficient?&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Reduce the overall development churn so we can ship new features faster.&lt;/li&gt;
+  &lt;li&gt;Provide a clear direction on our company’s official technical stack.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;using-rails-engines-to-define-our-organization-stack&quot;&gt;Using Rails Engines to Define Our Organization Stack&lt;/h4&gt;
+
+&lt;p&gt;Do we know our company’s official technology stack? We hope that it’s Ruby, but what about
+the gems and libraries we should be using? This is crucial in keeping our applications
+consistent. How many times have we come across a project that uses Rspec and another one using
+Minitest? It’s important to define what and how we should be writing our applications so
+that we can keep our code consistent and reduce the context switching. A good place to start is the
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gemspec&lt;/code&gt; file in our engine:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# /company_stack.gemspec&lt;/span&gt;
+
+&lt;span class=&quot;no&quot;&gt;Gem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Specification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;add_dependency&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'rails'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&amp;gt;= 7.0.3.1'&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;add_dependency&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'turbo-rails'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'~&amp;gt; 1.0.1'&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;add_dependency&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'hotwire-rails'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'~&amp;gt; 0.1.3'&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;add_dependency&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'pg'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&amp;gt;= 1.3.5'&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;add_dependency&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'view_component'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'~&amp;gt; 2.53.0'&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;add_dependency&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'redis'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'~&amp;gt; 4.8'&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;add_dependency&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'cssbundling-rails'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'~&amp;gt; 1.1.1'&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;add_dependency&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'jsbundling-rails'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'~&amp;gt; 1.0.2'&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;add_dependency&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'bcrypt'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'~&amp;gt; 3.1.18'&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;add_dependency&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'puma, '&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;5.6&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Here we are defining that Rails 7 with Hotwire, Postgres, Redis, and Puma as our official stack. We
+can include additional gems like Mintest, Devise, Sidekiq - you name it. This is taken from my own
+company’s official stack and it means all Rails applications that includes the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CompanyStack&lt;/code&gt; engine
+must be written with these tools - no Rspec, no Mysql, no fancy Javascript libraries unless
+officially approved. If your company’s Rails applications are older, then it most likely makes sense
+require lesser versions of Rails, say 6 and up until everything is caught up.&lt;/p&gt;
+
+&lt;h4 id=&quot;central-place-for-shared-and-common-code&quot;&gt;Central Place for Shared and Common Code&lt;/h4&gt;
+
+&lt;p&gt;Once we have our engine installed on our Rails applications, we can begin to explore ways to reduce
+code redundancy. Of course, each application is unique, but there will always be cases of common
+code. For example, most applications has a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;User&lt;/code&gt; model and that can be one area to extract common
+functionality.&lt;/p&gt;
+
+&lt;p&gt;Here’s a simplified example: We’ve looked at a few of our Rails applications and we’ve noticed that
+we’re authenticating the User in multiple ways. As an organization, it would be nice that all our
+projects authenticate the same way so we know that our applications are secure and up-to-date. We’ll
+create a Concern in our engine that authenticates a user using email and password.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# /app/models/concern/company_stack/users/auth&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;CompanyStack&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Users::Utils&lt;/span&gt;
+    &lt;span class=&quot;kp&quot;&gt;extend&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveSupport&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Concern&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;class_methods&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;login&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;login&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+         &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now, all we have to do is include the Concern in our Rails application and we instantly have a way
+to authenticate user records. Eventually, we can remove the old code from the application and just
+use the engine to authenticate our users.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationRecord&lt;/span&gt;
+  &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;CompanyStack&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Users&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Authentication&lt;/span&gt;
+  &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;CompanyStack&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Users&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Utils&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;..&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; current_user = User.login(&quot;mattsears&quot;, &quot;******&quot;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This is a very simplified example, but hopefully it illustrates the potential in using Rails engines
+as a way to cut down technical debt. The nice thing about using Concerns, is that our applications
+aren’t required to use the new authentication until they’re ready i.e. including &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;include
+CompanyStack::Users::Authentication&lt;/code&gt; in our User model. The additional bonus is we don’t have to
+rewrite the user authentication for any new applications we create.&lt;/p&gt;
+
+&lt;p&gt;We’re not just restricted to sharing Ruby code either, we can share assets like Javascript and
+stylesheets as well. At my company, our official front-end stack is
+&lt;a href=&quot;https://hotwired.dev&quot;&gt;Hotwired&lt;/a&gt; and &lt;a href=&quot;https://tailwindcss.com&quot;&gt;TailwindCSS&lt;/a&gt; and so we can include
+these libraries in our engine’s asset pipeline.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// package.json (in CompanyStack)&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;dependencies&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;@hotwired/stimulus&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;3.0.1&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;@hotwired/turbo-rails&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;^7.1.1&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;@rails/actioncable&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;^6.1.5&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;@rails/activestorage&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;^6.1.5&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;esbuild&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;^0.15.6&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;postcss&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;^8.4.6&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;postcss-flexbugs-fixes&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;^5.0.2&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;postcss-import&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;^14.0.2&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;postcss-nesting&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;^10.1.2&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;postcss-preset-env&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;^7.3.1&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;tailwindcss&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;^3.0.20&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+  &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;scripts&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;build:css&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;tailwindcss --postcss -i ./app/assets/stylesheets/company_static/application.css -o ./app/assets/builds/company_stack/application.css&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;esbuild app/javascript/*.* --minify --bundle --outdir=app/assets/builds/company_stack&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Speaking of asset pipelines, we can also include custom stylesheets for example, that match our
+company brand &lt;em&gt;and/or&lt;/em&gt; we can also include Stimulus controllers that provide common Javascript
+functions. Now, all we have to do is include the assets in our applications layouts:&lt;/p&gt;
+
+&lt;div class=&quot;language-erb highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;lang=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- CompanyStack Engine's assets --&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stylesheet_link_tag&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'company_stack/application'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;media: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'all'&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;javascript_include_tag&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'company_stack/application'&lt;/span&gt;  &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- This application's assets --&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stylesheet_link_tag&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'application'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;media: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'all'&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;javascript_include_tag&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'application'&lt;/span&gt;  &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+    ...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And now our Rails application includes all of our company’s official front-end stack and is ready
+to take advantage of all the code that has already been written - keeping our Rails applications not
+only using less code, but looking consistent too.&lt;/p&gt;
+
+&lt;p&gt;We don’t have to stop here either, we can include application helpers, background workers, view
+components, and more in our engine.&lt;/p&gt;
+
+&lt;h4 id=&quot;in-review&quot;&gt;In Review&lt;/h4&gt;
+
+&lt;p&gt;Hopefully I’ve illustrated the power as using with Rails Engines as an overall strategy to help your
+organization get on the right track with more maintainable applications.  For my company, we’ve been
+using this strategy for a while and it has paid a lot of dividends and I think it can help you’re
+team too.&lt;/p&gt;</content><author><name></name></author><category term="ruby" /><summary type="html">If you’ve ever worked for a company or organization that runs multiple Rails applications, you’ve most likely seen these projects using different sets of plugins, front-end frameworks, coding techniques, test frameworks, etc. etc. Ultimately having a ton of technical debt leading to heavy context switching slowing progress to a crawl. Most of the time it’s inevitable because keeping multiple applications up-to-date and consistent is a daunting task.</summary></entry><entry><title type="html">The Joy of Side Projects</title><link href="https://mattsears.com/articles/2022/04/13/the-joy-of-side-projects/" rel="alternate" type="text/html" title="The Joy of Side Projects" /><published>2022-04-13T17:05:00+00:00</published><updated>2022-04-13T17:05:00+00:00</updated><id>https://mattsears.com/articles/2022/04/13/the-joy-of-side-projects</id><content type="html" xml:base="https://mattsears.com/articles/2022/04/13/the-joy-of-side-projects/">&lt;p&gt;Have you ever got excited about an idea and wish you could do, but never have the time to start?
+This has been my personal dilemma for as long as I can remember - that trapped feeling working on a
+other people’s ideas to pay the bills while daydreaming about working on my own stuff. Over the past
+few years, I’ve been working on few techniques to help break through this quandary.&lt;!--more--&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Pick a project that gives you the most energy.&lt;/li&gt;
+  &lt;li&gt;Only work on what will ship with version one.&lt;/li&gt;
+  &lt;li&gt;Run the project like you’re part of a team.&lt;/li&gt;
+  &lt;li&gt;Enjoy your work.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;follow-your-energy&quot;&gt;Follow Your Energy&lt;/h4&gt;
+
+&lt;p&gt;I’m at a certain age where I’ve been around the block a few times. New technology and tools don’t
+excite me as much as they used to. No longer can I slug through a boring project with the energy
+gained from learning a new programming language or framework. Don’t get me wrong, I
+still enjoy learning new things, but I’ve learned to love mastering my current set of tools even
+more. I can start a new project knowing exactly how it should be built - like a lumber jack and a
+sharp axe, I know how to chop this tree down. This paired with a new brand new idea, I have all the
+energy I need.&lt;/p&gt;
+
+&lt;h4 id=&quot;bare-minimum-prototype&quot;&gt;Bare Minimum Prototype&lt;/h4&gt;
+
+&lt;p&gt;Ideas have a way of spreading like wildfire. The key here is keeping a list of everything you want
+your project to accomplish. Now cut that list to the bare minimum for the initial release and
+that’s what you will work on first. The rest goes into the backlog. Whenever you get a new idea, put
+it in the backlog so you don’t keep that idea in your head. Getting your first working prototype
+deployed to production is the hardest part of any project. Having too many ideas stored in your
+brain kills momentum and can cause you to second-guess decisions.&lt;/p&gt;
+
+&lt;h4 id=&quot;project-management-for-one&quot;&gt;Project Management for One&lt;/h4&gt;
+
+&lt;p&gt;Now that you have your tasks separated into a backlog, we can plan out our project. Even if I’m the
+only one working on the project, I still use a fancy project management tool to keep track of
+progress. I could easily work off some note cards or a spreadsheet, but I still queue my tasks in a
+software tools build for teams. Tools like Github Project, Jira, or in my case, Asana which I’ve
+used for years while running a consulting firm. Why you may ask? For starters, it feels more
+familiar to me and it’s proven successful in previous projects, but most of all, it keeps me
+accountable to myself. I assign a task to myself with a deadline, and this gives me a complete
+roadmap. Asana sends me a few reminders when things are due and I can tick them off one-by-one. I
+promise you, at the end of the week, you will feel proud seeing the list of complete tasks.&lt;/p&gt;
+
+&lt;h4 id=&quot;its-not-a-race&quot;&gt;It’s Not a Race&lt;/h4&gt;
+
+&lt;p&gt;Truly rewarding work is work you are proud of, not how fast you do it. As I always say, you will be
+remembered for the work you put into this world, not that you got it done &lt;em&gt;on time&lt;/em&gt;. Deadlines
+come and go, but the work is what persists in time. So it’s okay that you missed that target date so
+long as you are enjoying the process. That is the joy of side-projects after all. Make your side
+projects fun and you will complete them every time.&lt;/p&gt;</content><author><name></name></author><category term="misc" /><summary type="html">Have you ever got excited about an idea and wish you could do, but never have the time to start? This has been my personal dilemma for as long as I can remember - that trapped feeling working on a other people’s ideas to pay the bills while daydreaming about working on my own stuff. Over the past few years, I’ve been working on few techniques to help break through this quandary.</summary></entry><entry><title type="html">Favorite Tools for Working in Ruby / Rails</title><link href="https://mattsears.com/articles/2022/02/28/favorite-tools-for-working-in-ruby-and-rails/" rel="alternate" type="text/html" title="Favorite Tools for Working in Ruby / Rails" /><published>2022-02-28T00:00:00+00:00</published><updated>2022-02-28T00:00:00+00:00</updated><id>https://mattsears.com/articles/2022/02/28/favorite-tools-for-working-in-ruby-and-rails</id><content type="html" xml:base="https://mattsears.com/articles/2022/02/28/favorite-tools-for-working-in-ruby-and-rails/">&lt;p&gt;Over at the Shopify Enginneer Twitter account, an interesting question was posted that got me
+thinking about my favorite and most used Ruby/Rails tools. It’s nice to see what other devs are
+using so I thought I would share with you what I use the most on a daily basis. In a lot of cases,
+I’ve been using the same tools for over a decade.&lt;!--more--&gt;&lt;/p&gt;
+
+&lt;center class=&quot;py-4&quot;&gt;
+&lt;blockquote class=&quot;twitter-tweet&quot;&gt;&lt;p lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;What are your favorite tools for working in &lt;a href=&quot;https://twitter.com/hashtag/Ruby?src=hash&amp;amp;ref_src=twsrc%5Etfw&quot;&gt;#Ruby&lt;/a&gt; or &lt;a href=&quot;https://twitter.com/rails?ref_src=twsrc%5Etfw&quot;&gt;@Rails&lt;/a&gt;?&lt;/p&gt;&amp;mdash; Shopify Engineering (@ShopifyEng) &lt;a href=&quot;https://twitter.com/ShopifyEng/status/1493608793950896131?ref_src=twsrc%5Etfw&quot;&gt;February 15, 2022&lt;/a&gt;&lt;/blockquote&gt; &lt;script async=&quot;&quot; src=&quot;https://platform.twitter.com/widgets.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+&lt;/center&gt;
+
+&lt;h3 id=&quot;1-emacs&quot;&gt;1. Emacs&lt;/h3&gt;
+
+&lt;p&gt;Those who know me, could have guessed this one. I’ve been a Emacs users for over twenty years - ever
+since starting out programming in Perl all those years ago. Since then, I’ve customized and
+maintained my &lt;a href=&quot;https://github.com/mattsears/emacs&quot;&gt;configuration&lt;/a&gt; for web development and more
+specifically for Ruby / Rails development.&lt;/p&gt;
+
+&lt;h3 id=&quot;2-tmux-with-tmuxinator&quot;&gt;2. Tmux with Tmuxinator&lt;/h3&gt;
+
+&lt;p&gt;I live in the terminal all day long - writing, coding, notes and
+more. &lt;a href=&quot;https://github.com/tmuxinator/tmuxinator&quot;&gt;Tmuxinator&lt;/a&gt; is by far the most used Ruby gem in my
+arsenal and helps me manages all my Tmux sessions with a simple YAML configuration file. Each Tmux
+session is a project more-or-less and inside each session I have windows and panes usually dedicated
+to a single task or context. Let’s take a look at an example, here is a Tmuxinator configuration for
+a typical Ruby on Rails project:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;ss&quot;&gt;name: &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;duper&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;project&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;root: &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/Workspace/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;active&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;duper&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;windows:
+  &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;editor: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;emacsclient&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;README&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;md&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;shell: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;clear&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;console: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rails&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;testing:
+      layout: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;even&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;horizontal&lt;/span&gt;
+      &lt;span class=&quot;ss&quot;&gt;panes:
+        &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;emacsclient&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test_helper&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;rb&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bundle&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;guard&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;logs: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tail&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;development&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;log&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;workers: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dev&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;When I run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tmuxinator super-duper-project&lt;/code&gt; in the terminal, Tmuxinator fires up Tmux and creates six windows in the
+project directory:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;em&gt;editor&lt;/em&gt;: Starts and Emacs session by opening up README.md file to get things started.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;shell&lt;/em&gt;: Used for mostly running &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rake&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rails&lt;/code&gt; commands.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;console&lt;/em&gt;: Starts a Rails console session for code exploration.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;testing&lt;/em&gt;: Starts an Emacs session in the test directory and splits the window with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;guard&lt;/code&gt; that
+watches for changes in test files and runs tests automatically as I update the code.&lt;/li&gt;
+  &lt;li&gt;logs: Tails the development log so I can see requests and errors.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;workers:&lt;/em&gt; Runs commands in the Procfile.dev file like the Rails server, yarn, and background workers.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Here is another configuration for this very website. I use Jekyll for this blog and have three
+windows setup. With command &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tmuxinator website&lt;/code&gt;, I can jump right into the project, run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bundle exec jekyll draft &quot;My new draft&quot;&lt;/code&gt;, in the shell window, start the
+Jekyll server, and start writing.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# ~/.tmuxinator/website.yml&lt;/span&gt;
+
+&lt;span class=&quot;ss&quot;&gt;name: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;website&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;root: &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/Workspace/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;active&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;website&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;windows:
+  &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;editor: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;emacsclient&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;README&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;md&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;shell:
+  &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;server: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bundle&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jekyll&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;serve&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;drafts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;livereload&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;livereload_port&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8888&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;3-minitest&quot;&gt;3. Minitest&lt;/h3&gt;
+
+&lt;p&gt;I’ve written many times about &lt;a href=&quot;https://github.com/seattlerb/minitest&quot;&gt;Minitest&lt;/a&gt; and it’s been my
+standard testing framework for a long, long time. It’s strength is it’s simplicity, which results in
+a simpler test suite. Having a simple and straightforward test suite is crucial for long-term
+success. Here is an example of a simple, yet beautiful test:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# frozen_string_literal: true&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'test_helper'&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DateTimeHelperTest&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveSupport&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;TestCase&lt;/span&gt;
+  &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;DateTimeHelper&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;let&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:date_range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;subject&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;format_date_range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;date_range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;describe&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'with no range at all'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'does not format date'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;assert_equal&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Anytime'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;subject&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;describe&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'with a date range on the same day'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;let&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:date_range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;DateTime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2022&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;DateTime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2022&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'formats the date range on same day'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;assert_equal&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Oct 12, 2022 08:00am - 09:00am'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;subject&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;4-guard&quot;&gt;4. Guard&lt;/h3&gt;
+
+&lt;p&gt;As I mentioned in my Tmuxinator config above, I run
+&lt;a href=&quot;https://github.com/guard/guard&quot;&gt;Guard&lt;/a&gt; continuously in the background. Specifically, it watches for
+any changes to the code and runs related tests. Here is a real example Guardfile I have in most
+projects:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# frozen_string_literal: true&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ignore&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;%r{.git&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\/&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;*}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+       &lt;span class=&quot;sr&quot;&gt;%r{public&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\/&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;.*}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+       &lt;span class=&quot;sr&quot;&gt;%r{solr&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\/&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;.*}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+       &lt;span class=&quot;sr&quot;&gt;%r{vendor&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\/&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;.*}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+       &lt;span class=&quot;sr&quot;&gt;%r{tmp&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\/&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;.*}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+       &lt;span class=&quot;sr&quot;&gt;%r{log&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\/&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;.*}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+       &lt;span class=&quot;sr&quot;&gt;%r{coverage&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\/&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;.*}&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;guard&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;:minitest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;spring: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'bin/rails test'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;all_on_start: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;all_after_pass: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;grace_period: &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;3.0&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;watch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;%r{^app/(.+)&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\.&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;rb$}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;test/&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;_test.rb&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;watch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;%r{^app/controllers/(.+)_controller&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\.&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;rb$}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;test/integration/&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;_test.rb&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;watch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;%r{^app/views/(.+)_mailer/.+}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;test/mailers/&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;_mailer_test.rb&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;watch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;%r{^test/test_helper&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\.&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;rb$}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'test'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;watch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;%r{^test/.+_test&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\.&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;rb$}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When any tests fail, I’m immediately notified and I hop into the ‘testing’ tmux pane and can see
+which tests are failing and fix it fast.&lt;/p&gt;
+
+&lt;h3 id=&quot;5-amazing-print--pry&quot;&gt;5. Amazing Print / Pry&lt;/h3&gt;
+
+&lt;p&gt;At the same time as I’m fixing tests or writing new tests, each time I save a file, Guard re-runs
+the test giving me instant feedback. A lot of the time, I need to see what is being returned and
+&lt;a href=&quot;https://github.com/amazing-print/amazing_print&quot;&gt;Amazing Print&lt;/a&gt; comes in handy for this reason. I
+can simply add the line &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ap subject&lt;/code&gt; to the test and save the file. Guard will rerun the test and
+amazing print will print the results in full color. If I need to dig deeper, I can also drop in
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;binding.pry&lt;/code&gt;, and Guard will “suspend” execution and let me &lt;a href=&quot;https://pry.github.io/&quot;&gt;Pry&lt;/a&gt; open the
+code for a closer look.&lt;/p&gt;
+
+&lt;h3 id=&quot;6-rubycop&quot;&gt;6. Rubycop&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://docs.rubocop.org/rubocop/1.25/index.html&quot;&gt;Rubocop&lt;/a&gt; is a
+static code analyzer and code formatter that helps me make sure I’m keeping inline with &lt;a href=&quot;https://rubystyle.guide/&quot;&gt;best
+practices&lt;/a&gt; thus increasing code health and maintainability. I have Rubocop
+integrated with my Emacs config that allows me to see in real-time any violations and/or
+recommendations on how the code could be written better. Plus paired with extensions like
+rubocop-rails, rubocop-performance and rubocop-minitest, I can get recommendations immediately for
+specific libraries and frameworks.&lt;/p&gt;
+
+&lt;h3 id=&quot;7-simplecov&quot;&gt;7. Simplecov&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/simplecov-ruby/simplecov&quot;&gt;SimpleCov&lt;/a&gt; let’s me see how well my tests are covering
+the application code. SimplCov produces results in a very well organized html page where I can see pieces
+of code that didn’t get “touched” marked in a shade of red. I can write tests
+specifically that touches that code &lt;em&gt;or&lt;/em&gt; remove the code if it’s not being used. It some cases, if
+the code isn’t touched, it means it’s not being used and I can remove the code all together keeping
+the project nice and tidy.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;There are quite a few other tools that I didn’t mention, but the above seven tools form a solid base on
+what I use every day for Ruby/Rails development. I’ve enjoyed this particular setup for over a
+decade and will mostly like continue this setup for the next decade.&lt;/p&gt;</content><author><name></name></author><category term="ruby" /><summary type="html">Over at the Shopify Enginneer Twitter account, an interesting question was posted that got me thinking about my favorite and most used Ruby/Rails tools. It’s nice to see what other devs are using so I thought I would share with you what I use the most on a daily basis. In a lot of cases, I’ve been using the same tools for over a decade.</summary></entry><entry><title type="html">2021: A Year In Review</title><link href="https://mattsears.com/articles/2021/12/31/2022-a-year-in-review/" rel="alternate" type="text/html" title="2021: A Year In Review" /><published>2021-12-31T00:00:00+00:00</published><updated>2021-12-31T00:00:00+00:00</updated><id>https://mattsears.com/articles/2021/12/31/2022-a-year-in-review</id><content type="html" xml:base="https://mattsears.com/articles/2021/12/31/2022-a-year-in-review/">&lt;p&gt;For many of us, this past year has presented us with quite a few challenges. For
+many personally, it’s been a few ups and a few downs both professionally and
+personally. The affects of the pandemic continued to roll on this year much
+like 2020. For much of the past year, it seemed like the movie Groundhog day -
+wake up, walk to my office, work on something, and then go home. For this post,
+I thought I’d shine a spotlight on a couple highlights and some
+lowlights.&lt;!--more--&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;company-acquisition-complete&quot;&gt;Company Acquisition Complete&lt;/h4&gt;
+
+&lt;p&gt;First and foremost, my consulting company of fourteen years was
+&lt;a href=&quot;/articles/2021/06/30/littlelines-acquired/&quot;&gt;acquired&lt;/a&gt; and completed the full
+turn-over in June. I am so incredibly proud that the transition was a huge
+success and I can’t be more excited about the results. It was a great learning
+experience to know what it means to prepare, negotiate, and plan for a
+acquisition successfully.&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;w-full m-auto&quot; src=&quot;/assets/images/generated/me-at-hybridconf-800-828f7861b.jpg&quot; srcset=&quot;/assets/images/generated/me-at-hybridconf-400-828f7861b.jpg 400w, /assets/images/generated/me-at-hybridconf-600-828f7861b.jpg 600w, /assets/images/generated/me-at-hybridconf-800-828f7861b.jpg 800w, /assets/images/generated/me-at-hybridconf-1000-828f7861b.jpg 1000w&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Running and operating a technology consulting company over the past 14 years has
+been the biggest journey of my life. I could have never imagined what the
+company evolved to when I first decided to quit my “big tech” job and
+venture out on my own. I’ve learned a tremendous amount, not only in all
+aspects of business, but in interpersonal skills, leadership, how to roll with
+the punches and the importance of celebrating milestones just to name a few.&lt;/p&gt;
+
+&lt;h4 id=&quot;peace-out-eyesight&quot;&gt;Peace out Eyesight&lt;/h4&gt;
+
+&lt;p&gt;Now for the lowlight of the year, in early summer, my eye vision suddenly
+started &lt;a href=&quot;/articles/2021/08/30/taking-care-of-your-vision/&quot;&gt;failing&lt;/a&gt; in a big
+way - no doubt from heavy screen use from the pandemic. I was forced off all screens
+for what felt like an eternity. I’m so thankful as I sit here and write this
+post in my beloved Emacs, that I’m back armed with my new glasses ready to
+work. It’s a life-altering event to say the least. I’ve joined the exclusive
+club of people that are always looking for their glasses.&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;w-full m-auto&quot; src=&quot;/assets/images/generated/me-at-beach-2021-800-8a24133f2.jpg&quot; srcset=&quot;/assets/images/generated/me-at-beach-2021-400-8a24133f2.jpg 400w, /assets/images/generated/me-at-beach-2021-600-8a24133f2.jpg 600w, /assets/images/generated/me-at-beach-2021-800-8a24133f2.jpg 800w, /assets/images/generated/me-at-beach-2021-1000-8a24133f2.jpg 1000w&quot; /&gt;&lt;/p&gt;
+
+&lt;p class=&quot;w-full  text-center text-sm italic&quot;&gt;
+  Relaxing at the beach in the San Juan islands
+&lt;/p&gt;
+
+&lt;p&gt;The positive side effect of losing temporary eyesight is that it forced me off
+the screens (and also social-media) and back in touch with the analog
+life. Getting back to nature, I gained a real appreciation for the gifts that
+have been here all along. I spent many days at the beach, hiking,
+paddle-boarding and road trips. Not being tethered to my phone all the time
+was absolutely liberating. Even though I’ve gained my eyesight back, I
+continue to spend less time online and more time being present in real life.&lt;/p&gt;
+
+&lt;h4 id=&quot;hotwire-ruby-on-rails-view-components-and-tailwind-css&quot;&gt;Hotwire, Ruby on Rails, View Components, and Tailwind CSS&lt;/h4&gt;
+
+&lt;p&gt;Most posts this past year have been about these topics and most of the year I
+spent writing and learning on what I called the &lt;a href=&quot;/articles/2021/03/30/hotwire-view-component-tailwind-css-a-new-era-in-ruby-on-rails-development/&quot;&gt;new
+era&lt;/a&gt;
+of Ruby on Rails development. It is fantastic. Many thanks to the fine
+folks at Basecamp and Rails team for ushering in a new way of writing Rails
+applications. Those that know me, know I’ve never been a fan of writing SPA apps and the amount of
+JavaScript required is absurd. So when Hotwire and Turbo were released, it was a
+very welcome addition.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/generated/hotwire-new-era-800-cf7135b6d.jpg&quot; srcset=&quot;/assets/images/generated/hotwire-new-era-400-cf7135b6d.jpg 400w, /assets/images/generated/hotwire-new-era-600-cf7135b6d.jpg 600w, /assets/images/generated/hotwire-new-era-800-cf7135b6d.jpg 800w, /assets/images/generated/hotwire-new-era-1000-cf7135b6d.jpg 1000w&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Paired with &lt;a href=&quot;https://viewcomponent.org/&quot;&gt;ViewComponents&lt;/a&gt;, it feels like another
+natural addition to the Rails toolbox. Throw in
+&lt;a href=&quot;https://stimulus.hotwired.dev/&quot;&gt;Stimulus&lt;/a&gt; and &lt;a href=&quot;https://tailwindcss.com/&quot;&gt;Tailwind
+CSS&lt;/a&gt;, it feels like discovering the joy of web
+development all over again.&lt;/p&gt;
+
+&lt;h4 id=&quot;favorite-books-and-podcasts&quot;&gt;Favorite books and podcasts&lt;/h4&gt;
+
+&lt;p&gt;I’ve written about a &lt;a href=&quot;/articles/2021/04/25/two-simple-books-to-wealth/&quot;&gt;couple
+books&lt;/a&gt; on finance that have
+really affect my outlook on investing in a very positive way. In addition to
+these books, I’ve listened to many many books and podcasts while my eyesight was
+on hiatus. Here are just a few of my favorite this year.&lt;/p&gt;
+
+&lt;h4 id=&quot;books&quot;&gt;Books&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.amazon.com/Notes-Nervous-Planet-Matt-Haig/dp/014313342X&quot;&gt;Notes on a Nervous Planet&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.amazon.com/Traction-Get-Grip-Your-Business/dp/1936661837&quot;&gt;Traction: Get a Grip on Your Business&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.amazon.com/Unfu-Yourself-Your-Head-into/dp/0062803832&quot;&gt;Unfu*k Yourself: Get Out of Your Head and into Your Life&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.amazon.com/Psychology-Money-Timeless-lessons-happiness/dp/0857197681&quot;&gt;The Psychology of Money: Timeless lessons on wealth, greed, and happiness&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/generated/notes-on-nervous-planet-2021-800-9320f3dea.jpg&quot; srcset=&quot;/assets/images/generated/notes-on-nervous-planet-2021-400-9320f3dea.jpg 400w, /assets/images/generated/notes-on-nervous-planet-2021-600-9320f3dea.jpg 600w, /assets/images/generated/notes-on-nervous-planet-2021-800-9320f3dea.jpg 800w, /assets/images/generated/notes-on-nervous-planet-2021-1000-9320f3dea.jpg 1000w&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;podcasts&quot;&gt;Podcasts&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://slate.com/podcasts/one-year/s1/1977&quot;&gt;One Year&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://microconfpodcast.com/&quot;&gt;MicroConf On Air&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://officeladies.com/&quot;&gt;Office Ladies&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.rework.fm/&quot;&gt;The Rework Podcast&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;what-i-look-forward-to-in-2022&quot;&gt;What I look forward to in 2022&lt;/h4&gt;
+
+&lt;p&gt;I generally don’t set new year resolutions or any new year goals for that
+matter. I believe that should be done throughout the year. But, what I like to
+do is set intentions for the year in hopes to shape and navigate the year to
+come. So this year, I want to set an intention to focus on mental and physical
+health first and foremost.&lt;/p&gt;
+
+&lt;p&gt;I really look forward to doing what I love to do. For work, this
+means creating and building things from my own ideas in hopes it will help people in
+their own lives and businesses. For my mental well-being, I want to continue
+connecting with nature and continue my exercise regiment. Last, but not least, I
+want to make new and stronger connections to friends and loved ones in this
+new year. I’m really hopeful we all can make stronger connections again this year.&lt;/p&gt;
+
+&lt;p&gt;Happy New Year everyone! I hope you all have a happy and healthy 2020.&lt;/p&gt;</content><author><name></name></author><category term="misc" /><summary type="html">For many of us, this past year has presented us with quite a few challenges. For many personally, it’s been a few ups and a few downs both professionally and personally. The affects of the pandemic continued to roll on this year much like 2020. For much of the past year, it seemed like the movie Groundhog day - wake up, walk to my office, work on something, and then go home. For this post, I thought I’d shine a spotlight on a couple highlights and some lowlights.</summary></entry><entry><title type="html">To Gem Or Not To Gem</title><link href="https://mattsears.com/articles/2021/11/29/to-gem-or-not-to-gem/" rel="alternate" type="text/html" title="To Gem Or Not To Gem" /><published>2021-11-29T23:21:00+00:00</published><updated>2021-11-29T23:21:00+00:00</updated><id>https://mattsears.com/articles/2021/11/29/to-gem-or-not-to-gem</id><content type="html" xml:base="https://mattsears.com/articles/2021/11/29/to-gem-or-not-to-gem/">&lt;p&gt;When it comes to running a Rails project for the long-term, one strong indicator
+for success is gem &lt;em&gt;decision&lt;/em&gt;. I’ve worked on dozens and dozens of Rails
+applications during my time as a consultant and often times a client’s project
+would be either be suffering from poor performance or is too difficult to
+maintain and progress has slowed down to crawl. &lt;!--more--&gt;The first thing I typically
+looked at is the Gemfile. It’s more common than not that there are &lt;em&gt;too many&lt;/em&gt;
+gems.&lt;/p&gt;
+
+&lt;p&gt;This is especially true for new Rails developers - too eager to reach for a gem
+for every new feature they write. When there are too many gems, the app will run
+slower since there are more lines of code to process. Why is this? Typically gem
+authors need to accommodate for a variety of factors. Factors like Ruby
+versions, database types, or web frameworks like Sinatra. What this means is
+there is a lot of extra code in that gem that will never be used by our
+application. Many times, I’ve seen a Rails app just use on method from a single
+gem!&lt;/p&gt;
+
+&lt;h3 id=&quot;three-questions-i-ask-when-deciding-to-use-a-gem-or-not&quot;&gt;Three questions I ask when deciding to use a gem or not:&lt;/h3&gt;
+
+&lt;h4 id=&quot;1-is-it-currently-being-maintained&quot;&gt;1. Is it currently being maintained?&lt;/h4&gt;
+
+&lt;p&gt;Take a look at the source code on Github or Gitlab. What is the date of the last
+commit? Does the author explicitly state that the gem is no longer maintained?
+If there hasn’t been a commit in the last year, it’s most likely not being
+updated. So we can’t expect bug fixes or security updates in the near future. It
+will may also mean that we risk preventing other gems from being updated. For
+example, running &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bundle update&lt;/code&gt; on our Rails project may not run since the
+unmaintained gem depends on other older gem versions.&lt;/p&gt;
+
+&lt;h4 id=&quot;2-what-is-the-size-of-the-gem&quot;&gt;2. What is the size of the gem?&lt;/h4&gt;
+
+&lt;p&gt;How big is the project? What other gems does it depend on? Browse through
+the source and get a rough idea about the amount of code. There might be a lot
+of code to handle a variety of environments &lt;em&gt;or&lt;/em&gt; it may not be as organized or
+designed well. Why is this important? More gems means more Ruby and more Ruby
+means a slower running app.&lt;/p&gt;
+
+&lt;h4 id=&quot;3-how-much-of-the-gem-do-we-need-to-utilize&quot;&gt;3. How much of the gem do we need to utilize?&lt;/h4&gt;
+
+&lt;p&gt;What do I need from this gem to get our feature complete? Do we just need one or
+two small things to get the job done or do we need something more comprehensive like
+&lt;a href=&quot;https://github.com/heartcombo/devise&quot;&gt;Devise&lt;/a&gt; or
+&lt;a href=&quot;https://viewcomponent.org&quot;&gt;ViewComponents&lt;/a&gt;. Obviously, if we need a gem that is
+more comprehensive, then we should use the gem. A gem like ViewComponents is a
+large project and would require a lot of code to mimic the functionality and
+it’s more or less closer to the core of our application.&lt;/p&gt;
+
+&lt;h3 id=&quot;case-study&quot;&gt;Case Study&lt;/h3&gt;
+
+&lt;p&gt;I recently had the need for the ability to save a &lt;em&gt;draft&lt;/em&gt; of data before saving
+it to the real database record. Simply put, I need to stash a set of data that
+mocked my real ActiveRecord model’s schema and save it to a database until the
+users decides to publish it.&lt;/p&gt;
+
+&lt;p&gt;After some searching, I found a couple gems that do exactly what I
+need. However, none of them have been updated in the last year. The most popular
+of the gems is actively looking for a new maintainer and it has a bunch of
+overly complicated code that I most likely will never need. In my case, I only
+need to save a draft and publish the draft - that’s it.&lt;/p&gt;
+
+&lt;p&gt;If you haven’t guessed by now, I’ve decided not to use any gem and write my own
+code to do what I need. I’m going to approach this as a reusable code in
+case we want to use drafts in our other models. I’ve also looked at the source
+code of the gems to get ideas and use them in my own code.&lt;/p&gt;
+
+&lt;p&gt;Let’s create a concern called &lt;em&gt;Draftable&lt;/em&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# apps/models/concerns/draftable&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Draftable&lt;/span&gt;
+ &lt;span class=&quot;kp&quot;&gt;extend&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveSupport&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Concern&lt;/span&gt;
+
+ &lt;span class=&quot;n&quot;&gt;included&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;has_one&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:draft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;as: :draftable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;dependent: :destroy&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+ &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;has_draft?&lt;/span&gt;
+   &lt;span class=&quot;no&quot;&gt;Draft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;exists?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;draftable_id: &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+ &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;save_draft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;false&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;new_record?&lt;/span&gt;
+
+   &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;has_draft?&lt;/span&gt;
+     &lt;span class=&quot;n&quot;&gt;update_draft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
+     &lt;span class=&quot;n&quot;&gt;create_draft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+ &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;publish!&lt;/span&gt;
+   &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;transaction&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+     &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;attributes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;draft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;reify&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;attributes&lt;/span&gt;
+     &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;
+     &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;reload&lt;/span&gt;
+     &lt;span class=&quot;n&quot;&gt;draft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;destroy&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+ &lt;span class=&quot;kp&quot;&gt;private&lt;/span&gt;
+
+ &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;create_draft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;with_transaction_returning_status&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+     &lt;span class=&quot;n&quot;&gt;draft&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Draft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;
+     &lt;span class=&quot;n&quot;&gt;draft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveSupport&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;encode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;attributes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+     &lt;span class=&quot;n&quot;&gt;draft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;draftable_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;
+     &lt;span class=&quot;n&quot;&gt;draft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;draftable_type&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt;
+     &lt;span class=&quot;n&quot;&gt;draft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+ &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;update_draft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;with_transaction_returning_status&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+     &lt;span class=&quot;n&quot;&gt;values&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveSupport&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;decode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;draft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+     &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+       &lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to_s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;
+     &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+     &lt;span class=&quot;n&quot;&gt;draft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveSupport&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;encode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+     &lt;span class=&quot;n&quot;&gt;draft&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We’ve made this concern so that any model can have a &lt;em&gt;draft&lt;/em&gt;. Here, we’re
+storing data in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;object&lt;/code&gt; field using JSON objects. We do this with a
+polymorphic relationship to a Draft model:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# app/model/draft.rb&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Draft&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationRecord&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;belongs_to&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:draftable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;polymorphic: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;validates&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;presence: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;reify&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;attrs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveSupport&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;decode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;attrs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;draftable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;respond_to?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;=&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;end_with?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;_count&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;draftable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;=&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;draftable&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we can make any model have a draft. For example, let’s say we’re building a
+blog and we have a Post model that holds the article. I can simply include a
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Draftable&lt;/code&gt; module in my model:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# app/models/post.rb&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Post&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationRecord&lt;/span&gt;
+  &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Draftable&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With that, we can do things like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post.save_draft(body: 'First draft of the
+article')&lt;/code&gt; to save a draft and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@post.publish!&lt;/code&gt; to save the draft data to the
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;posts&lt;/code&gt; table.&lt;/p&gt;
+
+&lt;p&gt;To summarize, the point of creating &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Draftable&lt;/code&gt; is to illustrate the decision
+&lt;em&gt;not to use&lt;/em&gt; a gem even if one exists. With roughly a hundred lines of code (not
+counting our tests), we’re able to complete our feature and extend our app
+functionality by allowing any model to have a draft. In addition, we’re not
+dependent on another gem or it’s dependencies. We’re using &lt;strong&gt;less&lt;/strong&gt; Ruby and so  our
+app is lean and more maintainable.&lt;/p&gt;</content><author><name>Matt Sears</name></author><category term="development" /><summary type="html">When it comes to running a Rails project for the long-term, one strong indicator for success is gem decision. I’ve worked on dozens and dozens of Rails applications during my time as a consultant and often times a client’s project would be either be suffering from poor performance or is too difficult to maintain and progress has slowed down to crawl.</summary></entry><entry><title type="html">Build a Shopify App with Rails and Hotwire</title><link href="https://mattsears.com/articles/2021/10/12/build-a-shopify-app-with-rails-and-hotwire/" rel="alternate" type="text/html" title="Build a Shopify App with Rails and Hotwire" /><published>2021-10-12T22:07:00+00:00</published><updated>2021-10-12T22:07:00+00:00</updated><id>https://mattsears.com/articles/2021/10/12/build-a-shopify-app-with-rails-and-hotwire</id><content type="html" xml:base="https://mattsears.com/articles/2021/10/12/build-a-shopify-app-with-rails-and-hotwire/">&lt;p&gt;I’m very grateful for Shopify and all that it has given to the Rails community
+over the years. Shopify &lt;em&gt;is&lt;/em&gt; a Rails application after all. When I ran a
+consulting firm, clients would sometimes raise the question about Rails’
+performance history. My go-to response was “Shopify runs on Rails” so what
+performance issues? &lt;!--more--&gt;&lt;/p&gt;
+
+&lt;p&gt;It’s a wonderful platform that has provided a clear and straightforward path for
+millions of business owners to sell their goods and services online. They have
+provided countless hours back to the Ruby community. In addition to the
+platform, they have a vibrant &lt;a href=&quot;https://apps.shopify.com/&quot;&gt;app store&lt;/a&gt;, which brings me
+to this post. We’re going to build a simple Shopify app using Rails, Hotwire,
+and ViewComponents.&lt;/p&gt;
+
+&lt;p&gt;In this post, we’re going to use the following tools and resources:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Shopify’s &lt;a href=&quot;https://github.com/Shopify/shopify_app&quot;&gt;shopify_app&lt;/a&gt; gem&lt;/li&gt;
+  &lt;li&gt;Ruby on Rails with &lt;a href=&quot;https://github.com/hotwired/turbo-rails&quot;&gt;Hotwire&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/github/view_component&quot;&gt;View Components&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://polaris.shopify.com/&quot;&gt;Shopify Polaris&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://ngrok.com&quot;&gt;ngrok&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;getting-setup&quot;&gt;Getting setup&lt;/h3&gt;
+
+&lt;p&gt;The basic concept of a Shopify App, is that it’s essentially a full blown web application
+running inside the Shopify platform. Hence why it’s a called an ‘app’ and not a
+plugin. This means our app will need to be hosted somewhere on the Internet in
+order for Shopify to interface with it. We can use a service like Heroku, but we
+don’t want to have to push updates to the server in development mode. Instead,
+we’re going to setup &lt;a href=&quot;https://ngrok.com&quot;&gt;ngrok&lt;/a&gt; to tunnel traffic from Shopify
+to our application running locally.&lt;/p&gt;
+
+&lt;p&gt;I recommend signing up for ngrok’s basic plan that allows you to setup a custom
+subdomain such as “shopifyhotwireapp.ngrok.io” that I’m going to use for demo
+purposes. This will come in handy once we start developing the app by having a
+consistent endpoint for Shopify to interface with. Once we have our Rails app up
+and running locally on port 3000, we can run ngrok and give your custom
+subdomain along with the port number to forward traffic, in my case, my laptop.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ngrok http &lt;span class=&quot;nt&quot;&gt;-subdomain&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;shopifyhotwireapp  3000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we need to register an app on Shopify. Assuming you have a
+&lt;a href=&quot;https://partners.shopify.com/&quot;&gt;partner’s&lt;/a&gt; account on Shopify, we can easily
+create a new application from the partners dashboard page. For this post, we’re
+going to create a new app call “My Rails Hotwire App”. Here is where we will add
+the redirection url that we specified in our ngrok command above. This is where
+Shopify will load our app from and send requests to.&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;w-full&quot; src=&quot;/assets/images/generated/shopify_app_hotwire/create-new-app-800-3ba726481.jpg&quot; srcset=&quot;/assets/images/generated/shopify_app_hotwire/create-new-app-400-3ba726481.jpg 400w, /assets/images/generated/shopify_app_hotwire/create-new-app-600-3ba726481.jpg 600w, /assets/images/generated/shopify_app_hotwire/create-new-app-800-3ba726481.jpg 800w, /assets/images/generated/shopify_app_hotwire/create-new-app-1000-3ba726481.jpg 1000w&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;w-full&quot; src=&quot;/assets/images/generated/shopify_app_hotwire/shopify-app-api-keys-800-31e6a080a.jpg&quot; srcset=&quot;/assets/images/generated/shopify_app_hotwire/shopify-app-api-keys-400-31e6a080a.jpg 400w, /assets/images/generated/shopify_app_hotwire/shopify-app-api-keys-600-31e6a080a.jpg 600w, /assets/images/generated/shopify_app_hotwire/shopify-app-api-keys-800-31e6a080a.jpg 800w, /assets/images/generated/shopify_app_hotwire/shopify-app-api-keys-1000-31e6a080a.jpg 1000w&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now we have our credentials for Shopify’s API that we’ll need for our new Rails
+application. Similar to Shopify’s own
+&lt;a href=&quot;https://shopify.dev/apps/auth/session-tokens/rails-react-app-bridge-app&quot;&gt;documentation&lt;/a&gt;,
+we’ll create a new Rails app:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rails new shopify-hotwire
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;shopify-hotwire
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Plug in our new API credentials in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.env&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;SHOPIFY_API_KEY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;xxx...
+&lt;span class=&quot;nv&quot;&gt;SHOPIFY_API_SECRET&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;yyy...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now add the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;shopify_app&lt;/code&gt; gem&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'shopify_app'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'~&amp;gt; 18.0.2'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;shopify_app&lt;/code&gt; gem, we’ll generate a new Shopify app&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;bundle&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;install&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;rails&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;generate&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shopify_app&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Create new 'shops' table to store information about the shops using the app&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;rails&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:migrate&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;shopify_app&lt;/code&gt; gem gives us a few good tools to get us started. Most notably
+it provides the code required to implement OAuth with Shopify so we don’t have
+to worry about doing that work on the back-end. To authenticate with Shopify, we’re using Shopify’s &lt;a href=&quot;https://shopify.dev/apps/tools/app-bridge/getting-started&quot;&gt;App
+Bridge&lt;/a&gt; using session
+tokens on the client-side using Javascript. More on this a little later.&lt;/p&gt;
+
+&lt;p&gt;Shopify has
+&lt;a href=&quot;https://shopify.dev/apps/auth/session-tokens/server-side-rendered-apps&quot;&gt;documentation&lt;/a&gt;
+on how to do this with Turbolinks, but we’re going to use Turbo instead and so
+I’ve taken their examples on Turbolinks and modified it. The same concept
+applies - we’re using client-side code to create session tokens that will
+authenticate requests.&lt;/p&gt;
+
+&lt;p&gt;When we ran &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rails generate shopify_app&lt;/code&gt; earlier, the generator producted a few
+Javascript files for us. The most important one is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;shopify_app.js&lt;/code&gt;, this is
+where we’ll make some adjustments. But first, let’s install Turbo.&lt;/p&gt;
+
+&lt;h4 id=&quot;installing-turbo&quot;&gt;Installing Turbo&lt;/h4&gt;
+
+&lt;p&gt;The JavaScript for Turbo can either be run through the asset pipeline, which is
+included with the gem, or through the package that lives on NPM, through
+Webpacker. We’re going to use Webpacker so let’s add that to the Gemfile along
+with turbo-rails too.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Gemfile&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'webpacker'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'~&amp;gt; 5.0'&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'turbo-rails'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Install turbo in our rails app:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;bundle&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;install&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;rails&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;turbo&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:install&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now that we have webpacker up and running Turbo, we’re going to remove turbolinks and
+add Stimulus, Shopify’s Bridge Utils, and Polaris libraries.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yarn remove turbolinks
+yarn add stimulus
+yarn add @shopify/app-bridge-utils
+yarn add @shopify/polaris
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Again, I’m following Shopify’s
+&lt;a href=&quot;https://shopify.dev/apps/auth/session-tokens/server-side-rendered-apps&quot;&gt;example&lt;/a&gt;
+on how to create an embedded app using Rails and Turbolinks, but using &lt;em&gt;Turbo&lt;/em&gt;
+instead. In their example, they create a Splash page first. The purpose of a
+splash page is to fetch a token from Shopify so that we have a token to
+authenticate the rest of the session. Once a token is retrieved, the page is
+directed to the main home page where our app comes to life.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;rails&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;generate&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;controller&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;splash_page&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Make the splash page the default page so this is the first page the user sees.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# routes.rb&lt;/span&gt;
+
+&lt;span class=&quot;no&quot;&gt;Rails&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;routes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;draw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;root&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;to: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'splash_page#index'&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Much like the Home controller that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;shopify_app&lt;/code&gt; generated for us, we include a
+few modules to give us the resources we need for our app to communicate with the
+shops.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# app/controllers/splash_controller.rb&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SplashPageController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationController&lt;/span&gt;
+  &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ShopifyApp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EmbeddedApp&lt;/span&gt;
+  &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ShopifyApp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;RequireKnownShop&lt;/span&gt;
+  &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ShopifyApp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ShopAccessScopesVerification&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;index&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@shop_origin&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_shopify_domain&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;updating-shopify_appjs-for-turbo&quot;&gt;Updating shopify_app.js for Turbo&lt;/h3&gt;
+
+&lt;p&gt;Now it’s time to update &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;shopify_app.js&lt;/code&gt; so that each fetch to our Rails
+application has a session token included for every request to the server. The
+code included in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;shopify_app&lt;/code&gt; engine will look for the token in the
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Authorization&lt;/code&gt; header and verify the token is legit.&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//app/javascript/shopify_app/shopify_app.js&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Turbo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;@hotwired/turbo-rails&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getSessionToken&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;@shopify/app-bridge-utils&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createApp&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;@shopify/app-bridge&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;SESSION_TOKEN_REFRESH_INTERVAL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Request a new token every 2s&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Turbo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Turbo&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;Turbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;redirectThroughTurbolinks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;isInitialRedirect&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;shopify-app-init&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;validLoadPath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;loadPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;shouldRedirect&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;isInitialRedirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;shouldRedirect&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;validLoadPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;shouldRedirect&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;validLoadPath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;loadPath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!==&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/home&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;shouldRedirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;Turbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;visit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;loadPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;retrieveToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sessionToken&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getSessionToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;keepRetrievingToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;setInterval&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;retrieveToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;SESSION_TOKEN_REFRESH_INTERVAL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;turbo:load&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;redirectThroughTurbolinks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Append Shopify's JWT to every Turbo request&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;turbo:before-fetch-request&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;preventDefault&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;detail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fetchOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;Authorization&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;`Bearer &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sessionToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;detail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resume&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;DOMContentLoaded&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// This is included in embedded_app.html.erb&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;shopify-app-init&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;AppBridge&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;app-bridge&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createApp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;AppBridge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createApp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;apiKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;apiKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// Wait for a session token before trying to load an authenticated page&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;retrieveToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// Keep retrieving a session token periodically&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;keepRetrievingToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// Redirect to the requested page when DOM loads&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isInitialRedirect&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;redirectThroughTurbolinks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;isInitialRedirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In order to make sure our token is legit, we need to continuously fetch the
+token to make sure it’s up-to-date. Not a great solution, but it’s one that
+Shopify recommends in their
+&lt;a href=&quot;https://shopify.dev/apps/auth/session-tokens/server-side-rendered-apps&quot;&gt;post&lt;/a&gt;
+so will go with this for now.&lt;/p&gt;
+
+&lt;p&gt;One thing we should add to our &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AuthorizedController&lt;/code&gt; controller (generated for
+us by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;shopify_app&lt;/code&gt;) is the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ShopifyApp::EnsureAuthenticatedLinks&lt;/code&gt; module from
+the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;shopify_app&lt;/code&gt; gem. This will ensure every request is authenticated with
+Shopify’s API. It does this by checking the session token exists and is
+up-to-date.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# app/controllers/authenticated_controller&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AuthenticatedController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationController&lt;/span&gt;
+  &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ShopifyApp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EnsureAuthenticatedLinks&lt;/span&gt;
+  &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ShopifyApp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Authenticated&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;before_action&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:set_shop_origin&lt;/span&gt;
+
+  &lt;span class=&quot;kp&quot;&gt;private&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;set_shop_origin&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@shop_origin&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_shopify_domain&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;setting-up-the-views&quot;&gt;Setting up the views&lt;/h3&gt;
+
+&lt;p&gt;Alright, at the point we should have our rails application up and running
+locally with ngrok setup to point to https://shopifyhotwireapp.ngrok.io and we
+have a Shopify app registered to use this web address for our app. In addition,
+we have javascript code setup to get a fresh session token from the Shopify API
+and adding it to our request headers so our rails application can authenticate
+our API credentials.&lt;/p&gt;
+
+&lt;p&gt;To make our app look native to Shopiy’s admin panel, we’re going to use
+&lt;a href=&quot;https://polaris.shopify.com/&quot;&gt;Polaris&lt;/a&gt;. Polaris is a collection guidelines, CSS and html
+snippets provided by Shopify to help us give our app a more consistent
+look. Shout out to &lt;a href=&quot;https://byassociationonly.com/&quot;&gt;BAO Agency&lt;/a&gt; for creating a
+set of &lt;a href=&quot;https://github.com/baoagency/polaris_view_components&quot;&gt;View Components&lt;/a&gt;
+that we can easily drop into our ERBs. These view compentns mirror the html
+snippets that Shopify provides, but as a &lt;a href=&quot;https://github.com/github/view_component&quot;&gt;view
+component&lt;/a&gt; instead. Let’s install it.&lt;/p&gt;
+
+&lt;p&gt;Add &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;polaris_view_components&lt;/code&gt; to our Gemfile and run the installer.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rails generate polaris_view_components:install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Setup Polaris styles in your layouts &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;head&amp;gt;&lt;/code&gt; tag in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;embedded_app.html.erb&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-erb highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- app/views/layouts/embedded_app.html.erb --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;lang=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;application_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ShopifyApp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;configuration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;application_name&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;application_name&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stylesheet_link_tag&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'polaris_view_components'&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;javascript_pack_tag&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'application'&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stylesheet_link_tag&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'application'&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;csrf_meta_tags&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;polaris_body_styles&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;app-wrapper&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;app-content&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;main&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;role=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;main&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/main&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;render&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'layouts/flash_messages'&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://unpkg.com/@shopify/app-bridge@2&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;content_tag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:div&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                    &lt;span class=&quot;ss&quot;&gt;id: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'shopify-app-init'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                    &lt;span class=&quot;ss&quot;&gt;data: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                      &lt;span class=&quot;ss&quot;&gt;api_key: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ShopifyApp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;configuration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;api_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                      &lt;span class=&quot;ss&quot;&gt;shop_origin: &lt;/span&gt;&lt;span class=&quot;vi&quot;&gt;@shop_origin&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;vi&quot;&gt;@current_shopify_session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;domain&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@current_shopify_session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+                      &lt;span class=&quot;ss&quot;&gt;host: &lt;/span&gt;&lt;span class=&quot;vi&quot;&gt;@host&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                      &lt;span class=&quot;ss&quot;&gt;load_path: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:return_to&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;home_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                      &lt;span class=&quot;ss&quot;&gt;debug: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Rails&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;development?&lt;/span&gt;
+                    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;content_for?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:javascript&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ContentForJavascript&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;data-turbolinks-temporary&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:javascript&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Install NPM package:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yarn add polaris-view-components
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Finally, register the polaris controllers to index.js.&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// app/javascript/controllers/index.js&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;registerPolarisControllers&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;polaris-view-components&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;registerPolarisControllers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now let’s update the Splash page with a skeleton loader to indicate to the user
+that the app is loading. Note, I’m also using
+&lt;a href=&quot;https://tailwindcss.com&quot;&gt;TailwindCSS&lt;/a&gt; to help with the layout.&lt;/p&gt;
+
+&lt;div class=&quot;language-erb highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- app/views/splash_page/index.html.erb --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;h-screen max-w-5xl mx-auto&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;w-full mx-auto&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;ul&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;role=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;list&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mt-44 grid gap-x-16 gap-y-16&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;polaris_skeleton_body_text&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;polaris_skeleton_body_text&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;polaris_skeleton_body_text&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/ul&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Let’s take a look in the browser.&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;w-full&quot; src=&quot;/assets/images/generated/shopify_app_hotwire/splash-page-800-879a3a5d0.jpg&quot; srcset=&quot;/assets/images/generated/shopify_app_hotwire/splash-page-400-879a3a5d0.jpg 400w, /assets/images/generated/shopify_app_hotwire/splash-page-600-879a3a5d0.jpg 600w, /assets/images/generated/shopify_app_hotwire/splash-page-800-879a3a5d0.jpg 800w, /assets/images/generated/shopify_app_hotwire/splash-page-1000-879a3a5d0.jpg 1000w&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We should only see the splash page for a split second, then it redirects to the
+home page. By then, we should have a session token created and being refreshed
+every two seconds. On the home page, we’ll create a quick email subscriber form
+using Turbo to replace the contents of the turbo frame after the form is
+submitted.&lt;/p&gt;
+
+&lt;div class=&quot;language-erb highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- app/views/home/index.html.erb --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;polaris_page&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;title: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Welcome to my Shopify app built with Rails and Turbo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;polaris_card&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;classes: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;m-0 shadow-sm border-b border-t rounded-none&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;turbo_frame_tag&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:subscribe&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form_with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;model: &lt;/span&gt;&lt;span class=&quot;vi&quot;&gt;@subscriber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;polaris_form_layout&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;form_layout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form_layout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;polaris_text_field&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;name: :email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;form: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;placeholder: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;matt@example.com&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form_layout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;polaris_button&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;primary: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;submit: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Subscribe&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And finally, the create action will update the turbo frame on the home with a
+small thank you message. If all works well, the form will be submitted to the
+server and it will include our session token in the headers placed by the
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;turbo:before-fetch-request&lt;/code&gt; event fired when the form is submitted via
+Turbo. The server will authenticate the token thanks to the modules inluded in
+the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;shopify_app&lt;/code&gt; gem and return a successful response.&lt;/p&gt;
+
+&lt;div class=&quot;language-erb highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- app/views/subscribers/create.turbo_stream.erb --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;turbo_stream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;update&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:subscribe&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;  &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Thanks for subscribing!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/journal/turbo-submit.gif&quot; alt=&quot;Watch Turbo in action&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And there you have it. We have a Shopify app built with Ruby on Rails, Hotwire
+sprinkled with view components and TailwindCSS. In this simple example, we
+collected an email address from a subscriber and rendered a thank you message
+without redirecting or reloading the page and all without any custom Javascript!&lt;/p&gt;
+
+&lt;h3 id=&quot;resources&quot;&gt;Resources&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/Shopify/shopify_app&quot;&gt;Shopify’s shopify_app gem (github)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://hotwired.dev/&quot;&gt;Hotwire (hotwired.dev)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://shopify.dev/apps/auth/session-tokens/server-side-rendered-apps&quot;&gt;Authenticate a server-side rendered embedded app using Rails and Turbolinks (shopify.dev)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/baoagency/polaris_view_components&quot;&gt;Polaris View Components (github.com)&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><author><name>Matt Sears</name></author><category term="development" /><summary type="html">I’m very grateful for Shopify and all that it has given to the Rails community over the years. Shopify is a Rails application after all. When I ran a consulting firm, clients would sometimes raise the question about Rails’ performance history. My go-to response was “Shopify runs on Rails” so what performance issues?</summary></entry><entry><title type="html">Taking Care of Your Vision</title><link href="https://mattsears.com/articles/2021/08/31/taking-care-of-your-vision/" rel="alternate" type="text/html" title="Taking Care of Your Vision" /><published>2021-08-31T00:00:00+00:00</published><updated>2021-08-31T00:00:00+00:00</updated><id>https://mattsears.com/articles/2021/08/31/taking-care-of-your-vision</id><content type="html" xml:base="https://mattsears.com/articles/2021/08/31/taking-care-of-your-vision/">&lt;p&gt;Over the past several months, I’ve had a epic battle with losing my
+vision. Earlier this year in the spring, I noticed I was having small amounts of
+eye strain after long periods of computer work. Then I would take it easy and
+limit screen time and eventually the eye strain would go away and I would return
+back to normal. However, over time, the eye strain would continue and eventually
+it would get so bad, I couldn’t even look at a television without feeling like
+my eyes were going to pop out of my head. &lt;!--more--&gt;&lt;/p&gt;
+
+&lt;p&gt;After a year+ of heavy screen use forced upon us by the pandemic, longer hours
+working, video games, binge watching television night after night, it’s no
+wonder my eyes had reached their breaking point.&lt;/p&gt;
+
+&lt;p&gt;Without my eyes, I was rendered virtually useless and so I wanted to share a few
+tips in this post that eventually helped my eyes get back on track.&lt;/p&gt;
+
+&lt;h4 id=&quot;limit-screen-time&quot;&gt;Limit screen time&lt;/h4&gt;
+
+&lt;p&gt;I wasn’t given much choice on this one. My body forced me to give up screen time
+or else live with what seemed like endless headaches. So no more waking up and
+checking my phone for emails, Reddit, or Hacker news.&lt;/p&gt;
+
+&lt;p&gt;There is a nice side effect of this - I now have more free time and feel more
+present with the world. It’s been nice not always being “connected” with the
+internet. It only took my eyes bleeding to break me from this bad habit of
+always checking my phone.&lt;/p&gt;
+
+&lt;h4 id=&quot;proper-lighting&quot;&gt;Proper lighting&lt;/h4&gt;
+
+&lt;p&gt;It goes without saying that working in the dark with only light from the screen
+is not good over long periods of time. There are a few more factors than just
+turning on the lights that made a difference for me. Reducing screen glare can
+also alleviate your eyes of having to work extra hard to see what’s beyond the
+glare. This meant moving my screen so that I’m facing the sun or window.&lt;/p&gt;
+
+&lt;p&gt;Another tip that’s really
+helped me is having a light behind the screen. Similar to &lt;a href=&quot;https://en.wikipedia.org/wiki/Bias_lighting&quot;&gt;Bias
+Lighting&lt;/a&gt;, having light behind
+screens can help reduce perceived brightness. My desk faces a wall so I
+searched for “backlight” on Amazon and found a good set of LED lights that I
+installed on the back side of my monitor. I could feel the difference right
+away as my eyes felt more relaxed.&lt;/p&gt;
+
+&lt;h4 id=&quot;have-your-eyes-checked&quot;&gt;Have your eye’s checked&lt;/h4&gt;
+
+&lt;p&gt;This is an obvious choice, but it’s important that you work with your eye doctor
+to get the right option for you. The first prescription I received didn’t last
+long and I was feeling eye strain almost a week after receiving my new pair of
+glasses. I went back to the doctor and had them re-checked. Sure enough, the
+prescription changed and had to wait another three weeks for a new pair.&lt;/p&gt;
+
+&lt;p&gt;This go around, I also decided to try &lt;a href=&quot;https://en.wikipedia.org/wiki/Progressive_lens&quot;&gt;progressive
+lenses&lt;/a&gt; that increase in strength
+when looking down like reading a book and decrease strength when looking
+up. They’re meant to accommodate natural use of the eyes. Unfortunately for me,
+my eyes dart around all the time on my big computer screen when sitting at the desk, I would look up
+and down the computer screen all the time so something was always out of
+focus. Back to the eye doctor again.&lt;/p&gt;
+
+&lt;p&gt;What finally worked for me are “Computer” glasses with my exact
+prescription. The computer glasses give me a 5 feet range of clear vision and is
+more suitable for my desk setup and how I work. Thank goodness the long battle
+with my eyes is over…for now.&lt;/p&gt;</content><author><name>Matt Sears</name></author><category term="misc" /><summary type="html">Over the past several months, I’ve had a epic battle with losing my vision. Earlier this year in the spring, I noticed I was having small amounts of eye strain after long periods of computer work. Then I would take it easy and limit screen time and eventually the eye strain would go away and I would return back to normal. However, over time, the eye strain would continue and eventually it would get so bad, I couldn’t even look at a television without feeling like my eyes were going to pop out of my head.</summary></entry><entry><title type="html">Littlelines Acquired!</title><link href="https://mattsears.com/articles/2021/06/30/littlelines-acquired/" rel="alternate" type="text/html" title="Littlelines Acquired!" /><published>2021-06-30T17:56:00+00:00</published><updated>2021-06-30T17:56:00+00:00</updated><id>https://mattsears.com/articles/2021/06/30/littlelines-acquired</id><content type="html" xml:base="https://mattsears.com/articles/2021/06/30/littlelines-acquired/">&lt;p&gt;It’s my great pleasure to announce that &lt;a href=&quot;https://littlelines.com&quot;&gt;Littlelines&lt;/a&gt;
+has been acquired! It’s a great pleasure because the future is even more bright
+for Littlelines.&lt;/p&gt;
+
+&lt;p&gt;When I started Littlelines fourteen years ago, I set out to create a consulting
+firm that truly focused on client’s success in a safe space where the team could
+grow professionally and enjoy the work at the same time. I truly believed and &lt;em&gt;still&lt;/em&gt;
+believe that success doesn’t mean we have to sacrifice our home life,
+quality of work, or sanity - just the opposite it fact. &lt;!--more--&gt; At it’s heart,
+Littlelines is a place to collaborate on products in a fun and nurturing
+environment.&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;w-3/4 m-auto&quot; src=&quot;/assets/images/generated/littlelines-original-sketches-461-082010b10.png&quot; srcset=&quot;/assets/images/generated/littlelines-original-sketches-400-082010b10.png 400w, /assets/images/generated/littlelines-original-sketches-461-082010b10.png 461w&quot; /&gt;&lt;/p&gt;
+
+&lt;p class=&quot;w-full  text-center text-sm italic&quot;&gt;
+  Original logo sketches circa 2007
+&lt;/p&gt;
+
+&lt;p&gt;We didn’t always get it right and there were certainly ups and downs, but it was
+okay to make mistakes as long as we learned from them. As a result, the business
+grew way beyond what I could have ever imagined. The company profits grew ever year,
+team members moved on to become CTO’s, senior product designers, and community
+leaders paving the way for new tools and technologies for the next generation of
+software development.&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;w-full m-auto&quot; src=&quot;/assets/images/generated/me-at-hybridconf-800-828f7861b.jpg&quot; srcset=&quot;/assets/images/generated/me-at-hybridconf-400-828f7861b.jpg 400w, /assets/images/generated/me-at-hybridconf-600-828f7861b.jpg 600w, /assets/images/generated/me-at-hybridconf-800-828f7861b.jpg 800w, /assets/images/generated/me-at-hybridconf-1000-828f7861b.jpg 1000w&quot; /&gt;&lt;/p&gt;
+
+&lt;p class=&quot;w-full  text-center text-sm italic&quot;&gt;
+  Speaking at Hybridconf in Wales 2013
+&lt;/p&gt;
+
+&lt;p&gt;I’m very proud of the work we’ve accomplished over the years and I cherish the
+relationships I’ve formed with clients and teamates from all over the
+world. I’ve worked with the some of the best people anyone could ask for.&lt;/p&gt;
+
+&lt;h4 id=&quot;whats-the-future-hold-for-littlelines&quot;&gt;What’s the future hold for Littlelines?&lt;/h4&gt;
+
+&lt;p&gt;In a nutshell, Littlelines is in the best position to continue the great service
+it has come to be known for. I have worked with the new owners for the past few
+months as a full-time employee and I’m more hopeful about the company’s future
+than ever. One remarkable thing about this change is just how little is actually
+changing - same great mission, same great service. The goal will be the same as
+it’s always been: to foster team development and provide exceptional service for
+it’s clients.&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;w-full m-auto&quot; src=&quot;/assets/images/generated/littlelines-office-800-b89b2e56c.jpg&quot; srcset=&quot;/assets/images/generated/littlelines-office-400-b89b2e56c.jpg 400w, /assets/images/generated/littlelines-office-600-b89b2e56c.jpg 600w, /assets/images/generated/littlelines-office-800-b89b2e56c.jpg 800w, /assets/images/generated/littlelines-office-1000-b89b2e56c.jpg 1000w&quot; /&gt;&lt;/p&gt;
+
+&lt;p class=&quot;w-full  text-center text-sm italic&quot;&gt;
+  Littlelines Ohio headquarters 2016
+&lt;/p&gt;
+
+&lt;p&gt;As for me, I’ve learned an incredible amount over the past fourteen years in
+business, engineering and leadership. After building hundreds of software
+products for small businesses, large enterprises, and non-profits, I’ve had
+fortunate opportunity to observe what it takes to build successful products and
+grow them into a viable businesses.&lt;/p&gt;
+
+&lt;p&gt;I’m a creator at heart. It’s been a life-long journey to create things and put them
+out in the world for people to enjoy and hopefully help. So that’s the next step
+for me - open source, writer, builder. I have a few ideas I’ve been sitting on
+for a while now and I am very fortunate that I get to focus on them 100%. It’s too
+early to tell precisely how this things will unfold, but I’m excited for this
+next chapter. I’ll be sharing my experiences along the way so stay tuned!&lt;/p&gt;</content><author><name>Matt Sears</name></author><category term="news" /><summary type="html">It’s my great pleasure to announce that Littlelines has been acquired! It’s a great pleasure because the future is even more bright for Littlelines. When I started Littlelines fourteen years ago, I set out to create a consulting firm that truly focused on client’s success in a safe space where the team could grow professionally and enjoy the work at the same time. I truly believed and still believe that success doesn’t mean we have to sacrifice our home life, quality of work, or sanity - just the opposite it fact.</summary></entry></feed>

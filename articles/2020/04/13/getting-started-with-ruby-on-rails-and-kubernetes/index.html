@@ -1,0 +1,424 @@
+<html class="h-full antialiased js-focus-visible" data-js-focus-visible="" style="--header-position: sticky; --content-offset: 0px; --header-height: 64px; --header-mb: 0px; --avatar-image-transform: translate3d(0rem, 0, 0) scale(1); --avatar-border-transform: translate3d(-0.2222222222222222rem, 0, 0) scale(1.7777777777777777); --avatar-border-opacity: 0; --header-top: 0px; --avatar-top: 0px;" lang="en">
+  <head>
+  <meta charset="utf-8">
+
+  
+    <title>Matt Sears | Getting Started with Ruby on Rails and Kubernetes</title>
+  
+  <link rel="icon" href="/assets/images/me.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <script src="/assets/builds/application.js"></script>
+  <link href="/assets/builds/application.css" rel="stylesheet" type="text/css" media="all" />
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Getting Started with Ruby on Rails and Kubernetes | Matt Sears</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Getting Started with Ruby on Rails and Kubernetes" />
+<meta name="author" content="Matt Sears" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Why should we deploy our Rails applications to Kubernetes? Traditionally we’ve deployed our applications to the cloud using services like Heroku or on virtual private servers on Amazon EC2, Rackspace, or Digital Ocean using a custom set of Ansible scripts to automate the process. This has worked well an still continues to work well, however we run into issues with scaling our servers to meet users demands and upgrading hardware and software isn’t always easy without downtime." />
+<meta property="og:description" content="Why should we deploy our Rails applications to Kubernetes? Traditionally we’ve deployed our applications to the cloud using services like Heroku or on virtual private servers on Amazon EC2, Rackspace, or Digital Ocean using a custom set of Ansible scripts to automate the process. This has worked well an still continues to work well, however we run into issues with scaling our servers to meet users demands and upgrading hardware and software isn’t always easy without downtime." />
+<link rel="canonical" href="https://mattsears.com/articles/2020/04/13/getting-started-with-ruby-on-rails-and-kubernetes/" />
+<meta property="og:url" content="https://mattsears.com/articles/2020/04/13/getting-started-with-ruby-on-rails-and-kubernetes/" />
+<meta property="og:site_name" content="Matt Sears" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-13T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Getting Started with Ruby on Rails and Kubernetes" />
+<script type="application/ld+json">
+{"description":"Why should we deploy our Rails applications to Kubernetes? Traditionally we’ve deployed our applications to the cloud using services like Heroku or on virtual private servers on Amazon EC2, Rackspace, or Digital Ocean using a custom set of Ansible scripts to automate the process. This has worked well an still continues to work well, however we run into issues with scaling our servers to meet users demands and upgrading hardware and software isn’t always easy without downtime.","@type":"BlogPosting","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://mattsears.com/assets/images/me.png"},"name":"Matt Sears"},"url":"https://mattsears.com/articles/2020/04/13/getting-started-with-ruby-on-rails-and-kubernetes/","headline":"Getting Started with Ruby on Rails and Kubernetes","dateModified":"2020-04-13T00:00:00+00:00","datePublished":"2020-04-13T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mattsears.com/articles/2020/04/13/getting-started-with-ruby-on-rails-and-kubernetes/"},"author":{"@type":"Person","name":"Matt Sears"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+  <body class="flex h-full flex-col bg-zinc-50 dark:bg-black">
+    <div id="__next">
+      <div class="fixed inset-0 flex justify-center sm:px-8">
+        <div class="flex w-full max-w-7xl lg:px-8">
+          <div class="w-full bg-white ring-1 ring-zinc-100 dark:bg-zinc-900 dark:ring-zinc-300/20"></div>
+        </div>
+      </div>
+      <div class="relative">
+        <header class="pointer-events-none relative z-50 flex flex-col" style="height: 64px;">
+  <div class="top-0 z-10 h-16 pt-6" style="position:var(--header-position)">
+    <div class="sm:px-8 top-[var(--header-top,theme(spacing.6))] w-full" style="position:var(--header-inner-position)">
+      <div class="mx-auto max-w-7xl lg:px-8">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="relative flex gap-4">
+              <div class="flex flex-1">
+                <div class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10"><a aria-label="Home" class="pointer-events-auto" href="/">
+                  <img alt="" sizes="2.25rem" srcset="" src="/assets/images/me.png" decoding="async" data-nimg="future" class="rounded-full bg-zinc-100 object-cover dark:bg-zinc-800 h-9 w-9" style="color: transparent;" width="512" height="512"></a></div>
+              </div>
+              <div class="flex flex-1 justify-end md:justify-center">
+                <div class="pointer-events-auto md:hidden" data-headlessui-state="">
+                  <button class="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20" id="headlessui-popover-button-:Rqb6:" type="button" aria-expanded="false" data-headlessui-state="">
+                    Menu
+                    <svg viewBox="0 0 8 6" aria-hidden="true" class="ml-3 h-auto w-2 stroke-zinc-500 group-hover:stroke-zinc-700 dark:group-hover:stroke-zinc-400">
+                      <path d="M1.75 1.75 4 4.25l2.25-2.5" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+                
+<nav class="pointer-events-auto hidden md:block">
+  <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/">
+        Home
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/about/">
+        About
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/articles/">
+        Journal
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400 " href="#contact" data-name="matt" data-domain="mattsears" data-tld="com" onclick="window.location.href = 'mailto:' + this.dataset.name + '@' + this.dataset.domain + '.' + this.dataset.tld; return false;">Contact </a>
+    </li>
+  </ul>
+
+</nav>
+
+
+
+              </div>
+              <div class="flex justify-end md:flex-1 ">
+                <div class="pointer-events-auto ">
+                  <button type="button"
+                          aria-label="Toggle dark mode"
+                          data-controller='toggle-mode'
+                          data-action='click->toggle-mode#toggleMode'
+                          class="group rounded-full bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20">
+                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="h-6 w-6 fill-zinc-100 stroke-zinc-500 transition group-hover:fill-zinc-200 group-hover:stroke-zinc-700 dark:hidden [@media(prefers-color-scheme:dark)]:fill-teal-50 [@media(prefers-color-scheme:dark)]:stroke-teal-500 [@media(prefers-color-scheme:dark)]:group-hover:fill-teal-50 [@media(prefers-color-scheme:dark)]:group-hover:stroke-teal-600">
+                      <path d="M8 12.25A4.25 4.25 0 0 1 12.25 8v0a4.25 4.25 0 0 1 4.25 4.25v0a4.25 4.25 0 0 1-4.25 4.25v0A4.25 4.25 0 0 1 8 12.25v0Z"></path>
+                      <path d="M12.25 3v1.5M21.5 12.25H20M18.791 18.791l-1.06-1.06M18.791 5.709l-1.06 1.06M12.25 20v1.5M4.5 12.25H3M6.77 6.77 5.709 5.709M6.77 17.73l-1.061 1.061" fill="none"></path>
+                    </svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="hidden h-6 w-6 fill-zinc-700 stroke-zinc-500 transition dark:block [@media(prefers-color-scheme:dark)]:group-hover:stroke-zinc-400 [@media_not_(prefers-color-scheme:dark)]:fill-teal-400/10 [@media_not_(prefers-color-scheme:dark)]:stroke-teal-500">
+                      <path d="M17.25 16.22a6.937 6.937 0 0 1-9.47-9.47 7.451 7.451 0 1 0 9.47 9.47ZM12.75 7C17 7 17 2.75 17 2.75S17 7 21.25 7C17 7 17 11.25 17 11.25S17 7 12.75 7Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+        <main>
+          <div class="sm:px-8 mt-16 lg:mt-32">
+            <div class="mx-auto max-w-7xl lg:px-8">
+              <div class="relative px-4 sm:px-8 lg:px-12">
+                <div class="mx-auto max-w-2xl lg:max-w-5xl">
+                  <div class="xl:relative">
+                    <div class="mx-auto max-w-3xl">
+                      
+                      <a type="button" href="/articles/2020/12/13/hello-old-friend-2020/" aria-label="Go back to articles" class=" group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-left-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:left-0 xl:mt-0">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                        </svg>
+                      </a>
+                      
+
+                      
+                      <a type="button" href="/articles/2020/04/08/deploying-ruby-on-rails-apps-on-kubernetes/" aria-label="" class="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-right-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:right-0 xl:mt-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                        </svg>
+                      </a>
+                      
+
+
+                      <article>
+                        <header class="flex flex-col">
+                          <h1 class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-4xl">
+                            Getting Started with Ruby on Rails and Kubernetes
+                          </h1>
+                          <time datetime="2020-04-13" class="order-first flex items-center text-base text-zinc-400 dark:text-zinc-500">
+                            <span class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
+                            <span class="ml-3">April 13, 2020 </span>
+                          </time>
+                        </header>
+                        <div class="mt-8 prose dark:prose-invert">
+                          <h2 id="why-should-we-deploy-our-rails-applications-to-kubernetes">Why should we deploy our Rails applications to Kubernetes?</h2>
+
+<p>Traditionally we’ve deployed our applications to the cloud using services like
+Heroku or on virtual private servers on Amazon EC2, Rackspace, or Digital Ocean
+using a custom set of <a href="https://www.ansible.com/">Ansible</a> scripts to automate
+the process. This has worked well an still continues to work well, however we
+run into issues with scaling our servers to meet users demands and upgrading
+hardware and software isn’t always easy without  downtime.<!--more--></p>
+
+<p>Kubernetes offers us a way to deploy and scale our Rails applications like
+nothing we’ve ever seen before. The flexibility and scalability of containers
+encourage many developers to move to Kubernetes so we can set up our
+infrastructure one time and it will do the scaling and automation for us. There
+is a LOT to learn. In this article, we will walk through how to setup and deploy
+a simple Rails application via Kubernetes in three parts:</p>
+
+<ol>
+  <li>Getting Started with Ruby on Rails and Kubernetes</li>
+  <li><a href="/articles/2020/04/08/deploying-ruby-on-rails-apps-on-kubernetes">Deploying Ruby on Rails Apps on Kubernetes</a></li>
+  <li><a href="/articles/2020/04/03/scaling-ruby-on-rails-apps-with-kubernetes">Scaling Ruby on Rails Apps with Kubernetes</a></li>
+</ol>
+
+<h4 id="prerequisites">Prerequisites</h4>
+
+<p>We’re going to need a few tools installed before we get started. I won’t go into
+too much detail on how to install these since it’s very dependent on your local
+setup and the lastest instructions can be found on the web. In addition to Ruby
+of course, you’ll need the following installed:</p>
+
+<ol>
+  <li>A Ruby on Rails application</li>
+  <li>Kubernetes command-line tool <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a>.</li>
+  <li>A running Kubernetes cluster
+    <ul>
+      <li><a href="https://kubernetes.io/docs/tasks/tools/install-minikube/">Minikube</a> (local)</li>
+      <li><a href="https://aws.amazon.com/eks/">Amazon Elastic Kubernetes Service (Amazon EKS) </a></li>
+      <li><a href="https://cloud.google.com/kubernetes-engine">Google Kubernetes Engine (GKE)</a></li>
+      <li><a href="https://www.digitalocean.com/products/kubernetes/">DigitalOcean Kubernetes</a>.</li>
+    </ul>
+  </li>
+  <li><a href="https://www.gnu.org/software/gettext/manual/html_node/envsubst-Invocation.html">envsubst</a> for help with env vars.</li>
+  <li><a href="https://docs.docker.com/install/">Docker</a> to build our images</li>
+</ol>
+
+<p>Let’s get started!</p>
+
+<h4 id="our-docker-image">Our Docker image</h4>
+
+<p>First thing’s first. We need a docker image to deploy to our cluster. Here’s a
+simple Dockerfile that I use on a lot of our Rails applications:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ARG <span class="nv">RUBY_VERSION</span><span class="o">=</span>2.4.6
+
+FROM ruby:<span class="nv">$RUBY_VERSION</span><span class="nt">-slim-buster</span>
+
+ARG <span class="nv">PG_MAJOR</span><span class="o">=</span>11
+ARG <span class="nv">NODE_MAJOR</span><span class="o">=</span>11
+ARG <span class="nv">YARN_VERSION</span><span class="o">=</span>1.13.0
+ARG <span class="nv">BUNDLER_VERSION</span><span class="o">=</span>1.16.1
+
+ENV <span class="nv">RAILS_LOG_TO_STDOUT</span><span class="o">=</span><span class="nb">true
+</span>ENV <span class="nv">RAILS_ROOT</span><span class="o">=</span>/app
+ENV <span class="nv">LANG</span><span class="o">=</span>C.UTF-8
+ENV <span class="nv">GEM_HOME</span><span class="o">=</span>/bundle
+ENV <span class="nv">BUNDLE_PATH</span><span class="o">=</span><span class="nv">$GEM_HOME</span>
+ENV <span class="nv">BUNDLE_APP_CONFIG</span><span class="o">=</span><span class="nv">$BUNDLE_PATH</span>
+ENV <span class="nv">BUNDLE_BIN</span><span class="o">=</span><span class="nv">$BUNDLE_PATH</span>/bin
+ENV <span class="nv">PATH</span><span class="o">=</span>/app/bin:<span class="nv">$BUNDLE_BIN</span>:<span class="nv">$PATH</span>
+
+<span class="c"># Install essentials</span>
+RUN apt-get update <span class="nt">-qq</span> <span class="se">\</span>
+  <span class="o">&amp;&amp;</span> <span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive apt-get <span class="nb">install</span> <span class="nt">-yq</span> <span class="nt">--no-install-recommends</span> <span class="se">\</span>
+    build-essential <span class="se">\</span>
+    curl <span class="se">\</span>
+    libcurl3-dev <span class="se">\</span>
+    libgit2-dev <span class="se">\</span>
+    git <span class="se">\</span>
+    cmake <span class="se">\</span>
+    gnupg2 <span class="se">\</span>
+    pkg-config <span class="se">\</span>
+  <span class="o">&amp;&amp;</span> apt-get clean <span class="se">\</span>
+  <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-rf</span> /var/cache/apt/archives/<span class="k">*</span> <span class="se">\</span>
+  <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/apt/lists/<span class="k">*</span> /tmp/<span class="k">*</span> /var/tmp/<span class="k">*</span> <span class="se">\</span>
+  <span class="o">&amp;&amp;</span> <span class="nb">truncate</span> <span class="nt">-s</span> 0 /var/log/<span class="k">*</span>log
+
+<span class="c"># Add PostgreSQL to sources list</span>
+RUN curl <span class="nt">-sSL</span> https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - <span class="se">\</span>
+  <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s1">'deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main'</span> <span class="nv">$PG_MAJOR</span> <span class="o">&gt;</span> /etc/apt/sources.list.d/pgdg.list
+
+<span class="c"># Add NodeJS to sources list</span>
+RUN curl <span class="nt">-sL</span> https://deb.nodesource.com/setup_<span class="nv">$NODE_MAJOR</span>.x | bash -
+
+<span class="c"># Add Yarn to the sources list</span>
+RUN curl <span class="nt">-sS</span> https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - <span class="se">\</span>
+  <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s1">'deb http://dl.yarnpkg.com/debian/ stable main'</span> <span class="o">&gt;</span> /etc/apt/sources.list.d/yarn.list
+
+RUN apt-get update <span class="nt">-qq</span> <span class="se">\</span>
+  <span class="o">&amp;&amp;</span> <span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive apt-get <span class="nb">install</span> <span class="nt">-yq</span> <span class="nt">--no-install-recommends</span> <span class="se">\</span>
+    less <span class="se">\</span>
+    libxml2-dev <span class="se">\</span>
+    libgssapi-krb5-2 <span class="se">\</span>
+    libpq5 <span class="se">\</span>
+    libpam-dev <span class="se">\</span>
+    libedit-dev <span class="se">\</span>
+    libxslt1-dev <span class="se">\</span>
+    libpq-dev <span class="se">\</span>
+    postgresql-client-<span class="nv">$PG_MAJOR</span> <span class="se">\</span>
+    nodejs <span class="se">\</span>
+    <span class="nv">yarn</span><span class="o">=</span><span class="nv">$YARN_VERSION</span><span class="nt">-1</span> <span class="se">\</span>
+  <span class="o">&amp;&amp;</span> apt-get clean <span class="se">\</span>
+  <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-rf</span> /var/cache/apt/archives/<span class="k">*</span> <span class="se">\</span>
+  <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/apt/lists/<span class="k">*</span> /tmp/<span class="k">*</span> /var/tmp/<span class="k">*</span> <span class="se">\</span>
+  <span class="o">&amp;&amp;</span> <span class="nb">truncate</span> <span class="nt">-s</span> 0 /var/log/<span class="k">*</span>log
+
+ENV PATH /app/bin:<span class="nv">$PATH</span>
+
+WORKDIR /app
+
+COPY Gemfile Gemfile.lock ./
+
+RUN gem <span class="nb">install </span>bundler <span class="se">\</span>
+  <span class="o">&amp;&amp;</span> bundle <span class="nb">install</span> <span class="nt">-j</span> <span class="s2">"</span><span class="si">$(</span>getconf _NPROCESSORS_ONLN<span class="si">)</span><span class="s2">"</span>  <span class="se">\</span>
+  <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-rf</span> <span class="nv">$BUNDLE_PATH</span>/cache/<span class="k">*</span>.gem <span class="se">\</span>
+  <span class="o">&amp;&amp;</span> find <span class="nv">$BUNDLE_PATH</span>/gems/ <span class="nt">-name</span> <span class="s2">"*.c"</span> <span class="nt">-delete</span> <span class="se">\</span>
+  <span class="o">&amp;&amp;</span> find <span class="nv">$BUNDLE_PATH</span>/gems/ <span class="nt">-name</span> <span class="s2">"*.o"</span> <span class="nt">-delete</span>
+
+COPY <span class="nb">.</span> ./
+
+RUN <span class="nv">RAILS_ENV</span><span class="o">=</span>production bundle <span class="nb">exec </span>rake assets:precompile
+
+CMD bundle <span class="nb">exec </span>puma <span class="nt">-C</span> ./config/puma.rb
+
+</code></pre></div></div>
+
+<p>The above Dockerfile will install all the tools we need to run our application which includes Ruby, Yarn, Nodejs, and Postgres to name a few. Please note we’re not running a Postgres database server in our Docker image. This is mainly because we’re going to be running multiple Rails applications in our cluster and we want just one singular database that all of applications can share. For my application <code class="language-plaintext highlighter-rouge">myapp</code>, I’ve created a database cluster in my DigitalOcean account for it’s database. With this file, we build image:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker build -t myapp:build .
+</code></pre></div></div>
+
+<p>Now we should be able to see our images:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker images
+
+REPOSITORY      TAG                 IMAGE ID            CREATED             SIZE
+myapp           build               b8df7b665990        7 minutes ago       941MB
+</code></pre></div></div>
+
+<p>Now we have an image to work built locally we need to push the image to an
+external services such <a href="https://aws.amazon.com/ecr/">Amazon’s Elastic Container Registry</a>. This will be the
+place where Kubernetes will eventually pull the image from. In this case, we’re
+going to use <a href="https://hub.docker.com/">Docker Hub</a>. Docker Hub offers a free
+plan for public images so it’s a great place to test things out. Once you have an
+account, we can push our image like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker login -u 'my docker hub username' -p  'my docker hub password'
+$ docker push DOCKER_USERNAME/myapp:build
+</code></pre></div></div>
+
+<p>Now we have a docker image and it’s hosted on the interwebs where our
+deployments can get to it eventually. Now we’re to start working on our
+Kubernetes setup. From here, we’re going to assume you have <code class="language-plaintext highlighter-rouge">kubectl</code> installed
+locally and a cluster to work with. In my case, I’ve created a cluster in my DigitalOcean account and followed it’s instructions on setting it up locally. We check this by running:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ kubectl config get-clusters
+
+NAME
+do-nyc3-k8s-myapp-production
+</code></pre></div></div>
+
+<p>If you see your clusters listed, congrats - this means <code class="language-plaintext highlighter-rouge">kubectl</code> is installed correctly and we have a cluster to work with.</p>
+
+<h4 id="our-trusty-hammer-rake">Our trusty hammer: Rake</h4>
+
+<p>What’s truly help me get started with Kubernetes is using tools that I’m
+familiar with. We’re going to be running a lot of commands in the terminal - too
+many to remember in fact. To wrangle these commands and allow us to document the
+steps along the way, we’re going to enlist our old friend Rake to help us.</p>
+
+<p>For the remainder of this series, we’re going to build rake tasks that interface
+with our cluster. By doing so, we have a great way to document what we’re doing
+and the additional bonus of using Ruby and other tools that come with our Rails
+application. By end of this series, we will have built all the basic tasks
+require to setup, deploy and scale our Rails application.</p>
+
+<p>In our Rails application, let’s create a new Rake file called <code class="language-plaintext highlighter-rouge">kube.rake</code> and
+save it in our <code class="language-plaintext highlighter-rouge">lib/tasks/</code> directory. We’re going to start with</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># lib/tasks/kube.rake</span>
+
+<span class="c1"># Turn off Rake noise</span>
+<span class="no">Rake</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">options</span><span class="p">.</span><span class="nf">trace</span> <span class="o">=</span> <span class="kp">false</span>
+
+<span class="n">namespace</span> <span class="ss">:kube</span> <span class="k">do</span>
+  <span class="n">desc</span> <span class="s1">'Print useful information aout our Kubernete setup'</span>
+  <span class="n">task</span> <span class="ss">:list</span> <span class="k">do</span>
+    <span class="n">kubectl</span> <span class="s1">'kubectl get all --all-namespaces'</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">kubectl</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="sb">`kubectl </span><span class="si">#{</span><span class="n">command</span><span class="si">}</span><span class="sb">`</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>As you can see we added a method <code class="language-plaintext highlighter-rouge">def kubectl</code> that simply wraps a shell command
+<code class="language-plaintext highlighter-rouge">kubectl</code>. We will expand on this a bit more later, but for now we call this
+task to get a list of everyting going on in our cluster. Out of the box, our
+cluster will have several components setup for us to support our deployments
+(more information about can be found
+<a href="https://kubernetes.io/docs/concepts/overview/components/">here</a>)</p>
+
+<p>Let’s call our new rake task and see what we get:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ rake kube:list
+
+kube-system   kube-proxy-8m9j4                        1/1     Running   0          109m
+kube-system   kube-proxy-w7hsf                        1/1     Running   0          109m
+kube-system   kubelet-rubber-stamp-7f966c6779-9b2xk   1/1     Running   0          111m
+...
+</code></pre></div></div>
+
+<h3 id="were-ready-to-for-the-next-level">We’re ready to for the next level</h3>
+
+<p>At this point, we have a working docker image hosted on Docker Hub, <code class="language-plaintext highlighter-rouge">kubectl</code>
+talking to our cluster, and our Rake file ready to execute commands for us,
+we’re ready to deploy our rails application to the cluster. Checkout the next
+part in this series: <a href="/articles/2020/04/08/deploying-ruby-on-rails-apps-on-kubernetes">Deploying Ruby on Rails Apps on Kubernetes</a>.</p>
+
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        
+<footer class="mt-24">
+  <div class="sm:px-8">
+    <div class="mx-auto max-w-7xl lg:px-8">
+      <div class="border-t border-zinc-100 pt-10 pb-16 dark:border-zinc-700/40">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+              <div class="flex gap-6 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/">Home</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/about">About</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/work">Work</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/articles">Journal</a>
+              </div>
+              <p class="text-sm text-zinc-400 dark:text-zinc-500">
+                © 2023 Matt Sears. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+      </div>
+    </div>
+  </body>
+</html>

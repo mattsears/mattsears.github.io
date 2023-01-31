@@ -1,0 +1,673 @@
+<html class="h-full antialiased js-focus-visible" data-js-focus-visible="" style="--header-position: sticky; --content-offset: 0px; --header-height: 64px; --header-mb: 0px; --avatar-image-transform: translate3d(0rem, 0, 0) scale(1); --avatar-border-transform: translate3d(-0.2222222222222222rem, 0, 0) scale(1.7777777777777777); --avatar-border-opacity: 0; --header-top: 0px; --avatar-top: 0px;" lang="en">
+  <head>
+  <meta charset="utf-8">
+
+  
+    <title>Matt Sears | Deploying Ruby on Rails Apps on Kubernetes</title>
+  
+  <link rel="icon" href="/assets/images/me.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <script src="/assets/builds/application.js"></script>
+  <link href="/assets/builds/application.css" rel="stylesheet" type="text/css" media="all" />
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Deploying Ruby on Rails Apps on Kubernetes | Matt Sears</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Deploying Ruby on Rails Apps on Kubernetes" />
+<meta name="author" content="Matt Sears" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In Part 1 in this series, we’ve setup our accounts, installed the required tools we need to deploy our Rails application to a Kubernetes cluster. We’ve even started working on our Rake file that we’re using to document our steps and interface with our cluster. In this post, we’ll expand our Rake file to deploy our application to the cluster. In this walkthrough, we’ll accomplish the following:" />
+<meta property="og:description" content="In Part 1 in this series, we’ve setup our accounts, installed the required tools we need to deploy our Rails application to a Kubernetes cluster. We’ve even started working on our Rake file that we’re using to document our steps and interface with our cluster. In this post, we’ll expand our Rake file to deploy our application to the cluster. In this walkthrough, we’ll accomplish the following:" />
+<link rel="canonical" href="https://mattsears.com/articles/2020/04/08/deploying-ruby-on-rails-apps-on-kubernetes/" />
+<meta property="og:url" content="https://mattsears.com/articles/2020/04/08/deploying-ruby-on-rails-apps-on-kubernetes/" />
+<meta property="og:site_name" content="Matt Sears" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-08T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Deploying Ruby on Rails Apps on Kubernetes" />
+<script type="application/ld+json">
+{"description":"In Part 1 in this series, we’ve setup our accounts, installed the required tools we need to deploy our Rails application to a Kubernetes cluster. We’ve even started working on our Rake file that we’re using to document our steps and interface with our cluster. In this post, we’ll expand our Rake file to deploy our application to the cluster. In this walkthrough, we’ll accomplish the following:","@type":"BlogPosting","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://mattsears.com/assets/images/me.png"},"name":"Matt Sears"},"url":"https://mattsears.com/articles/2020/04/08/deploying-ruby-on-rails-apps-on-kubernetes/","headline":"Deploying Ruby on Rails Apps on Kubernetes","dateModified":"2020-04-08T00:00:00+00:00","datePublished":"2020-04-08T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mattsears.com/articles/2020/04/08/deploying-ruby-on-rails-apps-on-kubernetes/"},"author":{"@type":"Person","name":"Matt Sears"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+  <body class="flex h-full flex-col bg-zinc-50 dark:bg-black">
+    <div id="__next">
+      <div class="fixed inset-0 flex justify-center sm:px-8">
+        <div class="flex w-full max-w-7xl lg:px-8">
+          <div class="w-full bg-white ring-1 ring-zinc-100 dark:bg-zinc-900 dark:ring-zinc-300/20"></div>
+        </div>
+      </div>
+      <div class="relative">
+        <header class="pointer-events-none relative z-50 flex flex-col" style="height: 64px;">
+  <div class="top-0 z-10 h-16 pt-6" style="position:var(--header-position)">
+    <div class="sm:px-8 top-[var(--header-top,theme(spacing.6))] w-full" style="position:var(--header-inner-position)">
+      <div class="mx-auto max-w-7xl lg:px-8">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="relative flex gap-4">
+              <div class="flex flex-1">
+                <div class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10"><a aria-label="Home" class="pointer-events-auto" href="/">
+                  <img alt="" sizes="2.25rem" srcset="" src="/assets/images/me.png" decoding="async" data-nimg="future" class="rounded-full bg-zinc-100 object-cover dark:bg-zinc-800 h-9 w-9" style="color: transparent;" width="512" height="512"></a></div>
+              </div>
+              <div class="flex flex-1 justify-end md:justify-center">
+                <div class="pointer-events-auto md:hidden" data-headlessui-state="">
+                  <button class="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20" id="headlessui-popover-button-:Rqb6:" type="button" aria-expanded="false" data-headlessui-state="">
+                    Menu
+                    <svg viewBox="0 0 8 6" aria-hidden="true" class="ml-3 h-auto w-2 stroke-zinc-500 group-hover:stroke-zinc-700 dark:group-hover:stroke-zinc-400">
+                      <path d="M1.75 1.75 4 4.25l2.25-2.5" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+                
+<nav class="pointer-events-auto hidden md:block">
+  <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/">
+        Home
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/about/">
+        About
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/articles/">
+        Journal
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400 " href="#contact" data-name="matt" data-domain="mattsears" data-tld="com" onclick="window.location.href = 'mailto:' + this.dataset.name + '@' + this.dataset.domain + '.' + this.dataset.tld; return false;">Contact </a>
+    </li>
+  </ul>
+
+</nav>
+
+
+
+              </div>
+              <div class="flex justify-end md:flex-1 ">
+                <div class="pointer-events-auto ">
+                  <button type="button"
+                          aria-label="Toggle dark mode"
+                          data-controller='toggle-mode'
+                          data-action='click->toggle-mode#toggleMode'
+                          class="group rounded-full bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20">
+                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="h-6 w-6 fill-zinc-100 stroke-zinc-500 transition group-hover:fill-zinc-200 group-hover:stroke-zinc-700 dark:hidden [@media(prefers-color-scheme:dark)]:fill-teal-50 [@media(prefers-color-scheme:dark)]:stroke-teal-500 [@media(prefers-color-scheme:dark)]:group-hover:fill-teal-50 [@media(prefers-color-scheme:dark)]:group-hover:stroke-teal-600">
+                      <path d="M8 12.25A4.25 4.25 0 0 1 12.25 8v0a4.25 4.25 0 0 1 4.25 4.25v0a4.25 4.25 0 0 1-4.25 4.25v0A4.25 4.25 0 0 1 8 12.25v0Z"></path>
+                      <path d="M12.25 3v1.5M21.5 12.25H20M18.791 18.791l-1.06-1.06M18.791 5.709l-1.06 1.06M12.25 20v1.5M4.5 12.25H3M6.77 6.77 5.709 5.709M6.77 17.73l-1.061 1.061" fill="none"></path>
+                    </svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="hidden h-6 w-6 fill-zinc-700 stroke-zinc-500 transition dark:block [@media(prefers-color-scheme:dark)]:group-hover:stroke-zinc-400 [@media_not_(prefers-color-scheme:dark)]:fill-teal-400/10 [@media_not_(prefers-color-scheme:dark)]:stroke-teal-500">
+                      <path d="M17.25 16.22a6.937 6.937 0 0 1-9.47-9.47 7.451 7.451 0 1 0 9.47 9.47ZM12.75 7C17 7 17 2.75 17 2.75S17 7 21.25 7C17 7 17 11.25 17 11.25S17 7 12.75 7Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+        <main>
+          <div class="sm:px-8 mt-16 lg:mt-32">
+            <div class="mx-auto max-w-7xl lg:px-8">
+              <div class="relative px-4 sm:px-8 lg:px-12">
+                <div class="mx-auto max-w-2xl lg:max-w-5xl">
+                  <div class="xl:relative">
+                    <div class="mx-auto max-w-3xl">
+                      
+                      <a type="button" href="/articles/2020/04/13/getting-started-with-ruby-on-rails-and-kubernetes/" aria-label="Go back to articles" class=" group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-left-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:left-0 xl:mt-0">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                        </svg>
+                      </a>
+                      
+
+                      
+                      <a type="button" href="/articles/2020/04/03/scaling-ruby-on-rails-apps-with-kubernetes/" aria-label="" class="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-right-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:right-0 xl:mt-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                        </svg>
+                      </a>
+                      
+
+
+                      <article>
+                        <header class="flex flex-col">
+                          <h1 class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-4xl">
+                            Deploying Ruby on Rails Apps on Kubernetes
+                          </h1>
+                          <time datetime="2020-04-08" class="order-first flex items-center text-base text-zinc-400 dark:text-zinc-500">
+                            <span class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
+                            <span class="ml-3">April 08, 2020 </span>
+                          </time>
+                        </header>
+                        <div class="mt-8 prose dark:prose-invert">
+                          <p>In <a href="/articles/2020/04/13/getting-started-with-ruby-on-rails-and-kubernetes">Part 1</a> in this series, we’ve setup our accounts,
+installed the required tools we need to deploy our Rails application to a
+Kubernetes cluster. We’ve even started working on our <a href="https://gist.github.com/mattsears/9a5ab09a3ca7861c3daa0d24ca335fed">Rake file</a> that we’re using
+to document our steps and interface with our cluster. In this post, we’ll expand
+our Rake file to deploy our application to the cluster. In this walkthrough,
+we’ll accomplish the following:<!--more--></p>
+
+<ol>
+  <li>Deploy two instances of our Rails application to the cluster.</li>
+  <li>Setup a load balancer to direct traffic to our running Rails applications</li>
+  <li>Enable SSL on your website with Let’s Encrypt.</li>
+</ol>
+
+<h3 id="an-introduction-to-kubernetes-components">An introduction to Kubernetes components</h3>
+
+<p>A Kubernetes cluster is made up of components and are created through a
+declarative way using Yaml files, which as Rubyist, we’re already familiar
+with. We’re going to store our Yaml files in the root directory of our Rails
+application called <code class="language-plaintext highlighter-rouge">/kube</code>. All we need to get our website up and running is
+seven Yaml files:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ls -la kube/
+
+certificate.yml
+cluster-issuer.yml
+deployment.yml
+ingress.yml
+job-migrate.yml
+secret-digital-ocean.yml
+service.yml
+</code></pre></div></div>
+
+<p>We’ll expand on all of the above. First up, is a
+<a href="https://kubernetes.io/docs/concepts/services-networking/service/">Service</a>. A
+Service is going to expose our application (running as Pods). To put simply, the
+Service tells our cluster what port our application is going to run on and
+allows connections to it.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># kube/service.yml</span>
+
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Service</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">myapp-service</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">ports</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">port</span><span class="pi">:</span> <span class="m">3000</span>
+  <span class="na">selector</span><span class="pi">:</span>
+    <span class="na">app</span><span class="pi">:</span> <span class="s">myapp</span>
+    <span class="na">tier</span><span class="pi">:</span> <span class="s">app</span>
+
+</code></pre></div></div>
+
+<p>Pretty simple, right? Let’s revisit our <a href="https://gist.github.com/mattsears/9a5ab09a3ca7861c3daa0d24ca335fed">Rake file</a> and add a task that will apply
+our Service component to our cluster. We’re going to add a <code class="language-plaintext highlighter-rouge">setup</code> task that
+will be responsible for applying all our configuration files to the
+cluster. Kubernetes is smart enough to know if a configuration file has changed
+or not. If the configuration file hasn’t change our cluster will simply ignore
+it.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># lib/tasks/kube.rake</span>
+
+<span class="n">desc</span> <span class="s1">'Apply our Kubernete components'</span>
+<span class="n">task</span> <span class="ss">:setup</span> <span class="k">do</span>
+  <span class="n">kubectl</span> <span class="s2">"apply -f </span><span class="si">#{</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="s2">/kube/service.yml"</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>In the root of our Rails application, let’s run the <code class="language-plaintext highlighter-rouge">setup</code> task and see what happens</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>rake kube:setup
+service/myapp-service created
+
+<span class="nv">$ </span>rake kube:list
+...
+NAMESPACE     NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT<span class="o">(</span>S<span class="o">)</span>    AGE
+default       kubernetes         ClusterIP   10.245.0.1      &lt;none&gt;        443/TCP     3h34m
+default       myapp-service      ClusterIP   10.245.89.220   &lt;none&gt;        3000/TCP    2m19s
+kube-system   kube-dns           ClusterIP   10.245.0.10     &lt;none&gt;        53/UDP      3h34m
+...
+</code></pre></div></div>
+
+<p>As you can see, Kubernetes assigned our service an IP address and the port
+number we wanted. Now it’s time to get your Rails app running in the cluster on
+that port number with the Docker image we built in part one of this series.</p>
+
+<h3 id="kubernetes-component-deployment">Kubernetes component: Deployment</h3>
+
+<p>Here we’re introducing a new configuration to our setup. A
+<a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">Deployment</a>. This
+is where the magic really happens. Our deployment configuration tells our
+cluster a few things:</p>
+
+<ol>
+  <li>The location of our Docker image we built (DockerHub in our case).</li>
+  <li>The port number the Rails application is running on.</li>
+  <li>The environment variables it needs to run.</li>
+  <li>The number of pods, or instances to start (Two in our case).</li>
+</ol>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># ./kube/deployment.yml</span>
+
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">apps/v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Deployment</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">myapp-deployment</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="na">app</span><span class="pi">:</span> <span class="s">myapp</span>
+    <span class="na">tier</span><span class="pi">:</span> <span class="s">app</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">replicas</span><span class="pi">:</span> <span class="m">2</span>
+  <span class="na">minReadySeconds</span><span class="pi">:</span> <span class="m">5</span>
+  <span class="na">strategy</span><span class="pi">:</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">RollingUpdate</span>
+    <span class="na">rollingUpdate</span><span class="pi">:</span>
+      <span class="na">maxSurge</span><span class="pi">:</span> <span class="m">1</span>
+      <span class="na">maxUnavailable</span><span class="pi">:</span> <span class="m">1</span>
+  <span class="na">selector</span><span class="pi">:</span>
+    <span class="na">matchLabels</span><span class="pi">:</span>
+      <span class="na">app</span><span class="pi">:</span> <span class="s">myapp</span>
+      <span class="na">tier</span><span class="pi">:</span> <span class="s">app</span>
+  <span class="na">template</span><span class="pi">:</span>
+    <span class="na">metadata</span><span class="pi">:</span>
+      <span class="na">labels</span><span class="pi">:</span>
+        <span class="na">app</span><span class="pi">:</span> <span class="s">rubytags</span>
+        <span class="na">tier</span><span class="pi">:</span> <span class="s">app</span>
+    <span class="na">spec</span><span class="pi">:</span>
+      <span class="na">imagePullSecrets</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">docker-registry</span>
+      <span class="na">containers</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">myapp</span>
+        <span class="na">image</span><span class="pi">:</span> <span class="s">littlelines/myapp</span>
+        <span class="na">imagePullPolicy</span><span class="pi">:</span> <span class="s">Always</span>
+        <span class="na">ports</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">3000</span>
+        <span class="na">env</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">RAILS_LOG_TO_STDOUT</span>
+          <span class="na">value</span><span class="pi">:</span> <span class="s1">'</span><span class="s">true'</span>
+        <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">SECRET_KEY_BASE</span>
+          <span class="na">value</span><span class="pi">:</span> <span class="s1">'</span><span class="s">$SECRET_KEY_BASE'</span>
+        <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">RAILS_ENV</span>
+          <span class="na">value</span><span class="pi">:</span> <span class="s1">'</span><span class="s">$RAILS_ENV'</span>
+        <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">DATABASE_USERNAME</span>
+          <span class="na">value</span><span class="pi">:</span> <span class="s1">'</span><span class="s">$DATABASE_USERNAME'</span>
+        <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">DATABASE_PASSWORD</span>
+          <span class="na">value</span><span class="pi">:</span> <span class="s1">'</span><span class="s">$DATABASE_PASSWORD'</span>
+        <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">DATABASE_HOST</span>
+          <span class="na">value</span><span class="pi">:</span> <span class="s1">'</span><span class="s">$DATABASE_HOST'</span>
+        <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">DATABASE_PORT</span>
+          <span class="na">value</span><span class="pi">:</span> <span class="s1">'</span><span class="s">$DATABASE_PORT'</span>
+</code></pre></div></div>
+
+<h3 id="some-notes-about-environment-variables">Some notes about environment variables</h3>
+
+<p>One sticky point with Kubernetes is that it doesn’t really have a great way with
+dealing with sensitive data in our configuration files locally. We don’t want to
+save database passwords for example in our yaml files because eventually we want
+to commit these files to Github. Following a suggestion in a Github
+<a href="https://github.com/kubernetes/kubernetes/issues/52787">issue</a> about this
+predicament, we can use the <code class="language-plaintext highlighter-rouge">envsubst</code> command-line tool to substitute the
+placeholders in <code class="language-plaintext highlighter-rouge">deployment.yml</code> with real values.</p>
+
+<p>In our Development configuration, you can see that we have placeholders for our
+environment variables such as <code class="language-plaintext highlighter-rouge">$DATABASE_USERNAME</code>. We need a way to substitute
+that with the real database user name when we apply this configuration to the
+cluster. We can again call on our Rake task to help us with this.</p>
+
+<p>Since we’re in a Rails application already, most likely we’re already using
+environment variables and also likely is that we have the
+<a href="https://github.com/bkeepers/dotenv">dotenv</a> gem installed too. We can create a
+new <code class="language-plaintext highlighter-rouge">.env</code> file in the root directory called <code class="language-plaintext highlighter-rouge">.env.production.cluser</code>. These
+will hold the environment variables needed for our production server. For now,
+let’s add our database user name:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># ./.env.production.cluster</span>
+
+<span class="no">DATABASE_USERNAME</span><span class="o">=</span><span class="s2">"deployer"</span>
+
+</code></pre></div></div>
+
+<p>It’s important that we add this file to our <code class="language-plaintext highlighter-rouge">.gitignore</code> file so that we don’t
+check it into source control. In our <a href="https://gist.github.com/mattsears/9a5ab09a3ca7861c3daa0d24ca335fed">Rake file</a> we can tell <code class="language-plaintext highlighter-rouge">dotenv</code> which <code class="language-plaintext highlighter-rouge">.env</code>
+file to look for by adding this line near the top of our Rake file.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">Dotenv</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="s1">'.env.production.cluster'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Now we have environment variables to work with, we can use <code class="language-plaintext highlighter-rouge">envsubst</code> command line tool to
+substitute our placeholders in our configuration files. This is how we would traditionally do this on the command line:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ export DATABASE_USERNAME='deployer'
+$ envsubst &lt; kube/deployment.yml | kubectl apply -f -
+</code></pre></div></div>
+
+<p>That’s going to be too cumbersome to write each time. Plus we want it to
+pull values from our <code class="language-plaintext highlighter-rouge">.env.production.cluser</code> file. So let’s update our Rake
+task to make this simpler. We’re going to write a <code class="language-plaintext highlighter-rouge">apply</code> method that will to
+the heavy lift for us.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="n">configuration</span><span class="p">)</span>
+  <span class="k">if</span> <span class="no">File</span><span class="p">.</span><span class="nf">file?</span><span class="p">(</span><span class="n">configuration</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="sx">%x{envsubst &lt; </span><span class="si">#{</span><span class="n">configuration</span><span class="si">}</span><span class="sx"> | kubectl apply -f -}</span>
+  <span class="k">else</span>
+    <span class="n">kubectl</span> <span class="s2">"apply -f </span><span class="si">#{</span><span class="n">configuration</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Great. Now we can simply add all the production environment variables to our
+<code class="language-plaintext highlighter-rouge">.env.production.cluster</code> file and our new <code class="language-plaintext highlighter-rouge">apply</code> method with substitute the
+placeholders in the Deployment file will those values.</p>
+
+<p>But, we have one more thing to take care of first. You may have noticed the
+<code class="language-plaintext highlighter-rouge">imagePullSecrets</code> key in our configuration file, this is a special key that we
+need in order for our cluster to authenticate with Docker Hub so that it can
+pull our Docker image into it and run it. To add our DockerHub credentials to
+the cluster we can execute the following command:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ kubectl create secret docker-registry regcred --docker-server=&lt;your-registry-server&gt; --docker-username=&lt;your-name&gt; --docker-password=&lt;your-pword&gt; --docker-email=&lt;your-email&gt;
+</code></pre></div></div>
+
+<p>Rather than having to remember this, again we can add this to our <a href="https://gist.github.com/mattsears/9a5ab09a3ca7861c3daa0d24ca335fed">Rake file</a> and make use of our new environment variable support. We’ll add this to our <code class="language-plaintext highlighter-rouge">rake kube:setup</code> task:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">desc</span> <span class="s1">'Apply our Kubernete configurations to our cluster'</span>
+<span class="n">task</span> <span class="ss">:setup</span> <span class="k">do</span>
+  <span class="c1"># Store our Docker Hub credentials in the cluster so that we can pull our Docker image</span>
+  <span class="n">sh</span> <span class="sx">%Q(
+    kubectl create secret docker-registry regcred </span><span class="err">\</span><span class="sx">
+      --docker-server=</span><span class="si">#{</span><span class="no">ENV</span><span class="p">[</span><span class="s1">'DOCKER_REGISTRY_SERVER'</span><span class="p">]</span><span class="si">}</span><span class="sx"> </span><span class="err">\</span><span class="sx">
+      --docker-username=</span><span class="si">#{</span><span class="no">ENV</span><span class="p">[</span><span class="s1">'DOCKER_USERNAME'</span><span class="p">]</span><span class="si">}</span><span class="sx"> </span><span class="err">\</span><span class="sx">
+      --docker-password=</span><span class="si">#{</span><span class="no">ENV</span><span class="p">[</span><span class="s1">'DOCKER_PASSWORD'</span><span class="p">]</span><span class="si">}</span><span class="sx"> </span><span class="err">\</span><span class="sx">
+      --docker-email=</span><span class="si">#{</span><span class="no">ENV</span><span class="p">[</span><span class="s1">'DOCKER_EMAIL'</span><span class="p">]</span><span class="si">}</span><span class="sx"> </span><span class="err">\</span><span class="sx">
+      || true # &lt;-- prevent error hear from exiting our rake task
+  )</span>
+  <span class="c1"># Apply our Service component</span>
+  <span class="n">apply</span> <span class="s2">"kube/service.yml"</span>
+
+  <span class="c1"># Apply our Deployment component</span>
+  <span class="n">apply</span> <span class="s2">"kube/deployment.yml"</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Pulling it all together, our <code class="language-plaintext highlighter-rouge">rake kube:setup</code> task adds our Docker Hub
+credentials to the cluster and applies our Service and Deployment
+configuration. If all went well, we should have two Pods with our Rails
+application.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NAMESPACE     NAME                                 READY   STATUS    RESTARTS   AGE
+default       myapp-deployment-76c674bb79-4jw9b    1/1     Running   0          21m
+default       myapp-deployment-76c674bb79-6xbnz    1/1     Running   0          21m
+</code></pre></div></div>
+
+<p>This is a huge step. At this point, we have our Rails application running in a
+cluster! But, how can we see the application running in the browser? We need two
+things: One, a web server running on port 80 that will connect to our
+application running on port 3000 and two, a load balancer to accept incoming
+requests from the internet and distribute them equally between our two running
+applications.</p>
+
+<p>Lucky for us, Kubernetes has a built‑in configuration for load balancing, called
+<a href="https://kubernetes.io/docs/concepts/services-networking/ingress/">Ingress</a>,
+that defines rules for external connectivity to our services. We simply need to
+build a Ingress component that will tell how to connect to our service. We’re
+going to be using the <a href="https://www.nginx.com/products/nginx/kubernetes-ingress-controller/">Nginx Ingress
+Controller</a>
+for both our web server and for load balancing.</p>
+
+<h3 id="kubernetes-component-ingress">Kubernetes component: Ingress</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># kube/ingress.yml</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">networking.k8s.io/v1beta1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Ingress</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">myapp-ingress</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">default</span>
+  <span class="na">annotations</span><span class="pi">:</span>
+    <span class="s">kubernetes.io/ingress.class</span><span class="pi">:</span> <span class="s">nginx</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">tls</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">hosts</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">$DNS_WEBSITE</span>
+    <span class="na">secretName</span><span class="pi">:</span> <span class="s">myapp-tls</span>
+  <span class="na">rules</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">host</span><span class="pi">:</span> <span class="s">$DNS_WEBSITE</span>
+    <span class="na">http</span><span class="pi">:</span>
+      <span class="na">paths</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">path</span><span class="pi">:</span> <span class="s">/</span>
+        <span class="na">backend</span><span class="pi">:</span>
+          <span class="na">serviceName</span><span class="pi">:</span> <span class="s">myapp-service</span>
+          <span class="na">servicePort</span><span class="pi">:</span> <span class="m">3000</span>
+</code></pre></div></div>
+
+<p>Remember, we’ll need to add <code class="language-plaintext highlighter-rouge">DNS_WEBSITE</code> environment variable e.g. myapp.com to <code class="language-plaintext highlighter-rouge">env.production.cluster</code> so that
+<code class="language-plaintext highlighter-rouge">envsubst</code> will replace it before sending it to the cluster. Now let’s add a
+couple more commands our <a href="https://gist.github.com/mattsears/9a5ab09a3ca7861c3daa0d24ca335fed">Rake file’s</a> <code class="language-plaintext highlighter-rouge">setup</code> task:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Install Nginx Ingress Controller on our cluster.
+apply "https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/mandatory.yaml"
+
+# Add the load balancer:
+apply "https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud-generic.yaml"
+
+# Apply our Ingress that will connect the new load balancer to our service
+apply "kube/ingress.yml"
+</code></pre></div></div>
+
+<p>Let’s take a look at the results:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ kubectl get pods -n ingress-nginx
+
+NAME            TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)
+ingress-nginx   LoadBalancer   10.245.87.228   159.89.252.115   80:30979/TCP,443:31642/TCP
+
+$ kubectl get services -n ingress-nginx
+
+NAME               HOSTS        ADDRESS          PORTS     AGE
+myapp-ingress      myapp.com    159.89.252.250   80, 443   22m
+
+</code></pre></div></div>
+
+<p>As you can see we have a new load balancer with an IP address! This is the
+external IP we can used to load the application. We take this time to update our
+DNS records and point our domain, ‘myapp.com’ in this case, to this new ip
+address. And since we have our service running with the host reflecting the
+correct domain name, our Nginx configuration is setup to accept requests for
+this host address.</p>
+
+<h3 id="securing-our-website-with-lets-encrypt-ssl-certificates">Securing our website with Let’s Encrypt SSL certificates</h3>
+
+<p>Now it’s time to secure our connection so that your application will run under
+SSL. To do this, we’ll be using <a href="https://cert-manager.io">cert-manager</a> to
+manage certificates. It will ensure certificates are valid and up to date, and
+attempt to renew certificates automatically.</p>
+
+<p>In order to create a SSL certificate, we first need a
+<a href="https://kubernetes.io/docs/concepts/cluster-administration/certificates/">Certificate</a>
+component to tell Let’s Encrypt what website domain we want to encrypt.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># kube/certificate.yml</span>
+
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">cert-manager.io/v1alpha2</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Certificate</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">myapp-tls</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">secretName</span><span class="pi">:</span> <span class="s">myapp-tls</span>
+  <span class="na">issuerRef</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">letsencrypt-prod</span>
+  <span class="na">dnsNames</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">$DNS_WEBSITE</span>
+  <span class="na">issuerRef</span><span class="pi">:</span>
+    <span class="na">kind</span><span class="pi">:</span> <span class="s">ClusterIssuer</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">letsencrypt-prod</span>
+</code></pre></div></div>
+
+<p>And a <a href="https://cert-manager.io/docs/concepts/issuer/">Cluster Issuer</a> component
+to issue to certificate. This includes our domain name and how we’re going to
+verify that we are the owners of our domain.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># kube/cluster-issuer.yml</span>
+
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">cert-manager.io/v1alpha2</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">ClusterIssuer</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">letsencrypt-prod</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">acme</span><span class="pi">:</span>
+    <span class="na">server</span><span class="pi">:</span> <span class="s">https://acme-v02.api.letsencrypt.org/directory</span>
+    <span class="na">email</span><span class="pi">:</span> <span class="s">$ADMIN_EMAIL</span>
+    <span class="na">privateKeySecretRef</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">letsencrypt-prod</span>
+    <span class="na">solvers</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">selector</span><span class="pi">:</span>
+        <span class="na">dnsZones</span><span class="pi">:</span>
+          <span class="pi">-</span> <span class="s">$DNS_WEBSITE</span>
+      <span class="na">dns01</span><span class="pi">:</span>
+        <span class="na">digitalocean</span><span class="pi">:</span>
+          <span class="na">tokenSecretRef</span><span class="pi">:</span>
+            <span class="na">name</span><span class="pi">:</span> <span class="s">digitalocean-dns</span>
+            <span class="na">key</span><span class="pi">:</span> <span class="s">access-token</span>
+</code></pre></div></div>
+
+<p>In order for cert-manager to begin issuing certificates, the ClusterIssuer needs
+a way to validate we are the owner of the domain. In my case, DigitalOcean is
+managing the DNS records for my domain so I’m using my API token that I’ve
+previously created to authenticate as documented
+<a href="https://cert-manager.io/docs/configuration/acme/dns01/digitalocean/">here</a>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apiVersion: v1
+kind: Secret
+metadata:
+  name: digitalocean-dns
+  namespace: cert-manager
+data:
+  access-token: ${DIGITAL_OCEAN_TOKEN}
+</code></pre></div></div>
+
+<p>Our token must be decoded in our cluster first.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ echo -n 'EXAMPLE_DIGITAL_OCEAN_TOKEN' | base64
+
+# Add our tokent to .env.production.cluster
+DIGITAL_OCEAN_TOKEN='RVhBTXXXXXXXXOIYIHHMX09DRUFOX1RPS0VO'
+</code></pre></div></div>
+
+<p>Finally let’s update our <code class="language-plaintext highlighter-rouge">rake kube:setup</code> task and run it. It will now install
+cert-manager and add our DigitalOcean token, Certificate, and ClusterIssuer to
+our cluster:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Install cert-manager</span>
+<span class="n">kubectl</span> <span class="s1">'create namespace cert-manager'</span>
+<span class="n">apply</span> <span class="s2">"https://github.com/jetstack/cert-manager/releases/download/v0.14.0/cert-manager.yaml"</span>
+
+<span class="c1"># Add the Digital Ocean token to the cluster</span>
+<span class="n">apply</span> <span class="s2">"kube/secret-digital-ocean.yml"</span>
+
+<span class="c1"># Add our certificate</span>
+<span class="n">apply</span> <span class="s2">"kube/certificate.yml"</span>
+
+<span class="c1"># Add the certificate issuer</span>
+<span class="n">apply</span> <span class="s2">"kube/cluster-issuer.yml"</span>
+</code></pre></div></div>
+
+<p>After running <code class="language-plaintext highlighter-rouge">rake kube:setup</code>, the cert-manager should have made a API call to
+the DigitalOcean API with our decoded token and verified that our domain name
+e.g myapp.com is managed in my DigitalOcean account and is valid. This process
+is a little tricky at first and I spent a lot of time getting this to work. I
+recommend reading up on the
+<a href="https://cert-manager.io/docs/configuration/acme/">ACME</a> documentation on
+Solving Challenges. I’ve found that the
+<a href="https://cert-manager.io/docs/configuration/acme/dns01/">DNS01</a> challenge
+providers work better if you’re using a supported providers such as Cloudflare,
+Amazon’s Route53, and DigitalOcean.</p>
+
+<p>If cert-manager is able to successfully verify the domain name ownership, it will issue a brand new certificate. We see it by running <code class="language-plaintext highlighter-rouge">describe certifiate</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ kubectl describe certificate
+
+Name:         myapp-tls
+Namespace:    default
+Labels:       &lt;none&gt;
+Annotations:  kubectl.kubernetes.io/last-applied-configuration:
+                {"apiVersion":"cert-manager.io/v1alpha2","kind":"Certificate","metadata":{"annotations":{},"name":"myapp-tls","namespace":"default"},"s...
+API Version:  cert-manager.io/v1alpha3
+Kind:         Certificate
+Metadata:
+  Creation Timestamp:  2020-04-03T01:56:12Z
+  Generation:          1
+  Resource Version:    224072
+  Self Link:           /apis/cert-manager.io/v1alpha3/namespaces/default/certificates/myapp-tls
+  UID:                 6195af34-1306-4985-bae3-757e7b90c35c
+Spec:
+  Dns Names:
+    myapp.co
+  Issuer Ref:
+    Kind:       ClusterIssuer
+    Name:       letsencrypt-prod
+  Secret Name:  myapp-tls
+Status:
+  Conditions:
+    Last Transition Time:  2020-04-10T01:57:17Z
+    Message:               Certificate is up to date and has not expired
+    Reason:                Ready
+    Status:                True
+    Type:                  Ready
+  Not After:               2020-07-10T00:57:16Z
+Events:                    &lt;none&gt;
+</code></pre></div></div>
+
+<p>Now we can load our website in a browser and boom, our website running and is
+secured! At this point, we have a working website running in a Kubernetes
+cluster and we have a good set of rake tasks that makes it easy to deploy new
+updates. Checkout the next part in this series: <a href="/articles/2020/04/03/scaling-ruby-on-rails-apps-with-kubernetes">Scaling Ruby on Rails Apps with
+Kubernetes</a> to
+learn how easy it is to scale your application has usage grows.</p>
+
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        
+<footer class="mt-24">
+  <div class="sm:px-8">
+    <div class="mx-auto max-w-7xl lg:px-8">
+      <div class="border-t border-zinc-100 pt-10 pb-16 dark:border-zinc-700/40">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+              <div class="flex gap-6 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/">Home</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/about">About</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/work">Work</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/articles">Journal</a>
+              </div>
+              <p class="text-sm text-zinc-400 dark:text-zinc-500">
+                © 2023 Matt Sears. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+      </div>
+    </div>
+  </body>
+</html>

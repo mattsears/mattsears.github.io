@@ -1,0 +1,393 @@
+<html class="h-full antialiased js-focus-visible" data-js-focus-visible="" style="--header-position: sticky; --content-offset: 0px; --header-height: 64px; --header-mb: 0px; --avatar-image-transform: translate3d(0rem, 0, 0) scale(1); --avatar-border-transform: translate3d(-0.2222222222222222rem, 0, 0) scale(1.7777777777777777); --avatar-border-opacity: 0; --header-top: 0px; --avatar-top: 0px;" lang="en">
+  <head>
+  <meta charset="utf-8">
+
+  
+    <title>Matt Sears | Maintainable Rails: A Rails Engine Strategy</title>
+  
+  <link rel="icon" href="/assets/images/me.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <script src="/assets/builds/application.js"></script>
+  <link href="/assets/builds/application.css" rel="stylesheet" type="text/css" media="all" />
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Maintainable Rails: A Rails Engine Strategy | Matt Sears</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Maintainable Rails: A Rails Engine Strategy" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="If you’ve ever worked for a company or organization that runs multiple Rails applications, you’ve most likely seen these projects using different sets of plugins, front-end frameworks, coding techniques, test frameworks, etc. etc. Ultimately having a ton of technical debt leading to heavy context switching slowing progress to a crawl. Most of the time it’s inevitable because keeping multiple applications up-to-date and consistent is a daunting task." />
+<meta property="og:description" content="If you’ve ever worked for a company or organization that runs multiple Rails applications, you’ve most likely seen these projects using different sets of plugins, front-end frameworks, coding techniques, test frameworks, etc. etc. Ultimately having a ton of technical debt leading to heavy context switching slowing progress to a crawl. Most of the time it’s inevitable because keeping multiple applications up-to-date and consistent is a daunting task." />
+<link rel="canonical" href="https://mattsears.com/articles/2022/09/12/standardizing-your-stack-with-rails-engines/" />
+<meta property="og:url" content="https://mattsears.com/articles/2022/09/12/standardizing-your-stack-with-rails-engines/" />
+<meta property="og:site_name" content="Matt Sears" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-09-12T15:11:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Maintainable Rails: A Rails Engine Strategy" />
+<script type="application/ld+json">
+{"description":"If you’ve ever worked for a company or organization that runs multiple Rails applications, you’ve most likely seen these projects using different sets of plugins, front-end frameworks, coding techniques, test frameworks, etc. etc. Ultimately having a ton of technical debt leading to heavy context switching slowing progress to a crawl. Most of the time it’s inevitable because keeping multiple applications up-to-date and consistent is a daunting task.","@type":"BlogPosting","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://mattsears.com/assets/images/me.png"}},"url":"https://mattsears.com/articles/2022/09/12/standardizing-your-stack-with-rails-engines/","headline":"Maintainable Rails: A Rails Engine Strategy","dateModified":"2022-09-12T15:11:00+00:00","datePublished":"2022-09-12T15:11:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mattsears.com/articles/2022/09/12/standardizing-your-stack-with-rails-engines/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+  <body class="flex h-full flex-col bg-zinc-50 dark:bg-black">
+    <div id="__next">
+      <div class="fixed inset-0 flex justify-center sm:px-8">
+        <div class="flex w-full max-w-7xl lg:px-8">
+          <div class="w-full bg-white ring-1 ring-zinc-100 dark:bg-zinc-900 dark:ring-zinc-300/20"></div>
+        </div>
+      </div>
+      <div class="relative">
+        <header class="pointer-events-none relative z-50 flex flex-col" style="height: 64px;">
+  <div class="top-0 z-10 h-16 pt-6" style="position:var(--header-position)">
+    <div class="sm:px-8 top-[var(--header-top,theme(spacing.6))] w-full" style="position:var(--header-inner-position)">
+      <div class="mx-auto max-w-7xl lg:px-8">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="relative flex gap-4">
+              <div class="flex flex-1">
+                <div class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10"><a aria-label="Home" class="pointer-events-auto" href="/">
+                  <img alt="" sizes="2.25rem" srcset="" src="/assets/images/me.png" decoding="async" data-nimg="future" class="rounded-full bg-zinc-100 object-cover dark:bg-zinc-800 h-9 w-9" style="color: transparent;" width="512" height="512"></a></div>
+              </div>
+              <div class="flex flex-1 justify-end md:justify-center">
+                <div class="pointer-events-auto md:hidden" data-headlessui-state="">
+                  <button class="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20" id="headlessui-popover-button-:Rqb6:" type="button" aria-expanded="false" data-headlessui-state="">
+                    Menu
+                    <svg viewBox="0 0 8 6" aria-hidden="true" class="ml-3 h-auto w-2 stroke-zinc-500 group-hover:stroke-zinc-700 dark:group-hover:stroke-zinc-400">
+                      <path d="M1.75 1.75 4 4.25l2.25-2.5" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+                
+<nav class="pointer-events-auto hidden md:block">
+  <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/">
+        Home
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/about/">
+        About
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/articles/">
+        Journal
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400 " href="#contact" data-name="matt" data-domain="mattsears" data-tld="com" onclick="window.location.href = 'mailto:' + this.dataset.name + '@' + this.dataset.domain + '.' + this.dataset.tld; return false;">Contact </a>
+    </li>
+  </ul>
+
+</nav>
+
+
+
+              </div>
+              <div class="flex justify-end md:flex-1 ">
+                <div class="pointer-events-auto ">
+                  <button type="button"
+                          aria-label="Toggle dark mode"
+                          data-controller='toggle-mode'
+                          data-action='click->toggle-mode#toggleMode'
+                          class="group rounded-full bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20">
+                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="h-6 w-6 fill-zinc-100 stroke-zinc-500 transition group-hover:fill-zinc-200 group-hover:stroke-zinc-700 dark:hidden [@media(prefers-color-scheme:dark)]:fill-teal-50 [@media(prefers-color-scheme:dark)]:stroke-teal-500 [@media(prefers-color-scheme:dark)]:group-hover:fill-teal-50 [@media(prefers-color-scheme:dark)]:group-hover:stroke-teal-600">
+                      <path d="M8 12.25A4.25 4.25 0 0 1 12.25 8v0a4.25 4.25 0 0 1 4.25 4.25v0a4.25 4.25 0 0 1-4.25 4.25v0A4.25 4.25 0 0 1 8 12.25v0Z"></path>
+                      <path d="M12.25 3v1.5M21.5 12.25H20M18.791 18.791l-1.06-1.06M18.791 5.709l-1.06 1.06M12.25 20v1.5M4.5 12.25H3M6.77 6.77 5.709 5.709M6.77 17.73l-1.061 1.061" fill="none"></path>
+                    </svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="hidden h-6 w-6 fill-zinc-700 stroke-zinc-500 transition dark:block [@media(prefers-color-scheme:dark)]:group-hover:stroke-zinc-400 [@media_not_(prefers-color-scheme:dark)]:fill-teal-400/10 [@media_not_(prefers-color-scheme:dark)]:stroke-teal-500">
+                      <path d="M17.25 16.22a6.937 6.937 0 0 1-9.47-9.47 7.451 7.451 0 1 0 9.47 9.47ZM12.75 7C17 7 17 2.75 17 2.75S17 7 21.25 7C17 7 17 11.25 17 11.25S17 7 12.75 7Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+        <main>
+          <div class="sm:px-8 mt-16 lg:mt-32">
+            <div class="mx-auto max-w-7xl lg:px-8">
+              <div class="relative px-4 sm:px-8 lg:px-12">
+                <div class="mx-auto max-w-2xl lg:max-w-5xl">
+                  <div class="xl:relative">
+                    <div class="mx-auto max-w-3xl">
+                      
+                      <a type="button" href="/articles/2022/12/30/wanderment/" aria-label="Go back to articles" class=" group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-left-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:left-0 xl:mt-0">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                        </svg>
+                      </a>
+                      
+
+                      
+                      <a type="button" href="/articles/2022/04/13/the-joy-of-side-projects/" aria-label="" class="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-right-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:right-0 xl:mt-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                        </svg>
+                      </a>
+                      
+
+
+                      <article>
+                        <header class="flex flex-col">
+                          <h1 class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-4xl">
+                            Maintainable Rails: A Rails Engine Strategy
+                          </h1>
+                          <time datetime="2022-09-12" class="order-first flex items-center text-base text-zinc-400 dark:text-zinc-500">
+                            <span class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
+                            <span class="ml-3">September 12, 2022 </span>
+                          </time>
+                        </header>
+                        <div class="mt-8 prose dark:prose-invert">
+                          <p>If you’ve ever worked for a company or organization that runs multiple Rails applications, you’ve
+most likely seen these projects using different sets of plugins, front-end frameworks, coding
+techniques, test frameworks, etc. etc. Ultimately having a ton of technical debt leading to
+heavy context switching slowing progress to a crawl. Most of the time it’s inevitable
+because keeping multiple applications up-to-date and consistent is a daunting task.<!--more--></p>
+
+<p>I’ve seen this countless times in my career when running a consulting company and when I worked for
+a big IT company. In this article, I want to share with you one technique I use to help <em>pay down
+the technical debt and pave a path forward</em> to a more sound development team using <a href="https://guides.rubyonrails.org/engines.html">Rails Engines</a>.</p>
+
+<h4 id="quick-intro-to-rails-engines">Quick intro to Rails Engines</h4>
+
+<p>The term “engine” can be confusing because it’s not really anything different than what we’ve
+already been working with. A Rails Engine is a Rails application with some special options that
+allow us to “hook” into it. I think of it as a Rails module (like a Ruby module) that we’re adding
+to our code, but instead of getting additional Ruby methods, we can a whole web application at our disposal.</p>
+
+<p>This means we can pack a whole bunch of common/shared functionality into our engine including
+models, controllers, views, and even assets like Javascript, CSS, and image assets.</p>
+
+<p>Let’s kicks things off with an example engine. Let’s say our company wants to build an engine called <code class="language-plaintext highlighter-rouge">CompanyStack</code>:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>rails plugin new company_stack <span class="nt">--mountable</span>
+</code></pre></div></div>
+
+<p>We’re going to isolate our engine so that we can namespace our ruby code to avoid any collisions in
+naming. This will help our engine be independent from any application that uses it. It’s important
+to think of our engine as completely separate from any application that uses it. Combined with the
+<code class="language-plaintext highlighter-rouge">--mountable</code> option (above), using the <code class="language-plaintext highlighter-rouge">isolate_namespace</code> will provide independence we need:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># lib/company_stack/engine.rb</span>
+
+<span class="k">module</span> <span class="nn">CompanyStack</span>
+  <span class="k">class</span> <span class="nc">Engine</span> <span class="o">&lt;</span> <span class="o">::</span><span class="no">Rails</span><span class="o">::</span><span class="no">Engine</span>
+    <span class="n">isolate_namespace</span> <span class="no">CompanyStack</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Now we can include our engine in our Rails application’s Gemfile:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gem</span> <span class="s2">"company_stack"</span><span class="p">,</span> <span class="ss">path: </span><span class="s2">"../path/to/company_stack"</span>
+</code></pre></div></div>
+
+<p>Let’s say our company has a few Rails applications in production. Upper management is
+complaining about the amount of time it takes to ship code. Some of our new engineers
+aren’t as familiar with older versions of Rails so it’s more difficult to assign
+team members to projects. Our senior engineers are complaining about the sheer amount of redundant
+code across our projects. Our Devops team wants to upgrade our servers, but can’t because some
+applications can’t run on newer versions of Ruby, SSL, Postgres, etc etc. Sound familiar?</p>
+
+<p>What are our goals with making our development team more efficient?</p>
+
+<ol>
+  <li>Reduce the overall development churn so we can ship new features faster.</li>
+  <li>Provide a clear direction on our company’s official technical stack.</li>
+</ol>
+
+<h4 id="using-rails-engines-to-define-our-organization-stack">Using Rails Engines to Define Our Organization Stack</h4>
+
+<p>Do we know our company’s official technology stack? We hope that it’s Ruby, but what about
+the gems and libraries we should be using? This is crucial in keeping our applications
+consistent. How many times have we come across a project that uses Rspec and another one using
+Minitest? It’s important to define what and how we should be writing our applications so
+that we can keep our code consistent and reduce the context switching. A good place to start is the
+<code class="language-plaintext highlighter-rouge">gemspec</code> file in our engine:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># /company_stack.gemspec</span>
+
+<span class="no">Gem</span><span class="o">::</span><span class="no">Specification</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">spec</span><span class="o">|</span>
+  <span class="n">spec</span><span class="p">.</span><span class="nf">add_dependency</span> <span class="s1">'rails'</span><span class="p">,</span> <span class="s1">'&gt;= 7.0.3.1'</span>
+  <span class="n">spec</span><span class="p">.</span><span class="nf">add_dependency</span> <span class="s1">'turbo-rails'</span><span class="p">,</span> <span class="s1">'~&gt; 1.0.1'</span>
+  <span class="n">spec</span><span class="p">.</span><span class="nf">add_dependency</span> <span class="s1">'hotwire-rails'</span><span class="p">,</span> <span class="s1">'~&gt; 0.1.3'</span>
+  <span class="n">spec</span><span class="p">.</span><span class="nf">add_dependency</span> <span class="s1">'pg'</span><span class="p">,</span> <span class="s1">'&gt;= 1.3.5'</span>
+  <span class="n">spec</span><span class="p">.</span><span class="nf">add_dependency</span> <span class="s1">'view_component'</span><span class="p">,</span> <span class="s1">'~&gt; 2.53.0'</span>
+  <span class="n">spec</span><span class="p">.</span><span class="nf">add_dependency</span> <span class="s1">'redis'</span><span class="p">,</span> <span class="s1">'~&gt; 4.8'</span>
+  <span class="n">spec</span><span class="p">.</span><span class="nf">add_dependency</span> <span class="s1">'cssbundling-rails'</span><span class="p">,</span> <span class="s1">'~&gt; 1.1.1'</span>
+  <span class="n">spec</span><span class="p">.</span><span class="nf">add_dependency</span> <span class="s1">'jsbundling-rails'</span><span class="p">,</span> <span class="s1">'~&gt; 1.0.2'</span>
+  <span class="n">spec</span><span class="p">.</span><span class="nf">add_dependency</span> <span class="s1">'bcrypt'</span><span class="p">,</span> <span class="s1">'~&gt; 3.1.18'</span>
+  <span class="n">spec</span><span class="p">.</span><span class="nf">add_dependency</span> <span class="s1">'puma, '</span><span class="o">~&gt;</span> <span class="mf">5.6</span><span class="err">'</span>
+  <span class="o">...</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Here we are defining that Rails 7 with Hotwire, Postgres, Redis, and Puma as our official stack. We
+can include additional gems like Mintest, Devise, Sidekiq - you name it. This is taken from my own
+company’s official stack and it means all Rails applications that includes the <code class="language-plaintext highlighter-rouge">CompanyStack</code> engine
+must be written with these tools - no Rspec, no Mysql, no fancy Javascript libraries unless
+officially approved. If your company’s Rails applications are older, then it most likely makes sense
+require lesser versions of Rails, say 6 and up until everything is caught up.</p>
+
+<h4 id="central-place-for-shared-and-common-code">Central Place for Shared and Common Code</h4>
+
+<p>Once we have our engine installed on our Rails applications, we can begin to explore ways to reduce
+code redundancy. Of course, each application is unique, but there will always be cases of common
+code. For example, most applications has a <code class="language-plaintext highlighter-rouge">User</code> model and that can be one area to extract common
+functionality.</p>
+
+<p>Here’s a simplified example: We’ve looked at a few of our Rails applications and we’ve noticed that
+we’re authenticating the User in multiple ways. As an organization, it would be nice that all our
+projects authenticate the same way so we know that our applications are secure and up-to-date. We’ll
+create a Concern in our engine that authenticates a user using email and password.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># /app/models/concern/company_stack/users/auth</span>
+
+<span class="k">module</span> <span class="nn">CompanyStack</span>
+  <span class="k">module</span> <span class="nn">Users::Utils</span>
+    <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
+
+    <span class="n">class_methods</span> <span class="k">do</span>
+      <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="n">login</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+         <span class="o">...</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Now, all we have to do is include the Concern in our Rails application and we instantly have a way
+to authenticate user records. Eventually, we can remove the old code from the application and just
+use the engine to authenticate our users.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="kp">include</span> <span class="no">CompanyStack</span><span class="o">::</span><span class="no">Users</span><span class="o">::</span><span class="no">Authentication</span>
+  <span class="kp">include</span> <span class="no">CompanyStack</span><span class="o">::</span><span class="no">Users</span><span class="o">::</span><span class="no">Utils</span>
+  <span class="o">..</span>
+<span class="k">end</span>
+
+<span class="c1">#=&gt; current_user = User.login("mattsears", "******")</span>
+</code></pre></div></div>
+
+<p>This is a very simplified example, but hopefully it illustrates the potential in using Rails engines
+as a way to cut down technical debt. The nice thing about using Concerns, is that our applications
+aren’t required to use the new authentication until they’re ready i.e. including <code class="language-plaintext highlighter-rouge">include
+CompanyStack::Users::Authentication</code> in our User model. The additional bonus is we don’t have to
+rewrite the user authentication for any new applications we create.</p>
+
+<p>We’re not just restricted to sharing Ruby code either, we can share assets like Javascript and
+stylesheets as well. At my company, our official front-end stack is
+<a href="https://hotwired.dev">Hotwired</a> and <a href="https://tailwindcss.com">TailwindCSS</a> and so we can include
+these libraries in our engine’s asset pipeline.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// package.json (in CompanyStack)</span>
+
+<span class="p">{</span>
+  <span class="dl">"</span><span class="s2">dependencies</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">@hotwired/stimulus</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">3.0.1</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">@hotwired/turbo-rails</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">^7.1.1</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">@rails/actioncable</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">^6.1.5</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">@rails/activestorage</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">^6.1.5</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">esbuild</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">^0.15.6</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">postcss</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">^8.4.6</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">postcss-flexbugs-fixes</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">^5.0.2</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">postcss-import</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">^14.0.2</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">postcss-nesting</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">^10.1.2</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">postcss-preset-env</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">^7.3.1</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">tailwindcss</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">^3.0.20</span><span class="dl">"</span>
+  <span class="p">},</span>
+  <span class="dl">"</span><span class="s2">scripts</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">build:css</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">tailwindcss --postcss -i ./app/assets/stylesheets/company_static/application.css -o ./app/assets/builds/company_stack/application.css</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">build</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">esbuild app/javascript/*.* --minify --bundle --outdir=app/assets/builds/company_stack</span><span class="dl">"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Speaking of asset pipelines, we can also include custom stylesheets for example, that match our
+company brand <em>and/or</em> we can also include Stimulus controllers that provide common Javascript
+functions. Now, all we have to do is include the assets in our applications layouts:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span> <span class="nt">/&gt;</span>
+    <span class="c">&lt;!-- CompanyStack Engine's assets --&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span> <span class="s1">'company_stack/application'</span><span class="p">,</span> <span class="ss">media: </span><span class="s1">'all'</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s1">'company_stack/application'</span>  <span class="cp">%&gt;</span>
+
+    <span class="c">&lt;!-- This application's assets --&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span> <span class="s1">'application'</span><span class="p">,</span> <span class="ss">media: </span><span class="s1">'all'</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s1">'application'</span>  <span class="cp">%&gt;</span>
+    ...
+</code></pre></div></div>
+
+<p>And now our Rails application includes all of our company’s official front-end stack and is ready
+to take advantage of all the code that has already been written - keeping our Rails applications not
+only using less code, but looking consistent too.</p>
+
+<p>We don’t have to stop here either, we can include application helpers, background workers, view
+components, and more in our engine.</p>
+
+<h4 id="in-review">In Review</h4>
+
+<p>Hopefully I’ve illustrated the power as using with Rails Engines as an overall strategy to help your
+organization get on the right track with more maintainable applications.  For my company, we’ve been
+using this strategy for a while and it has paid a lot of dividends and I think it can help you’re
+team too.</p>
+
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        
+<footer class="mt-24">
+  <div class="sm:px-8">
+    <div class="mx-auto max-w-7xl lg:px-8">
+      <div class="border-t border-zinc-100 pt-10 pb-16 dark:border-zinc-700/40">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+              <div class="flex gap-6 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/">Home</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/about">About</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/work">Work</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/articles">Journal</a>
+              </div>
+              <p class="text-sm text-zinc-400 dark:text-zinc-500">
+                © 2023 Matt Sears. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+      </div>
+    </div>
+  </body>
+</html>

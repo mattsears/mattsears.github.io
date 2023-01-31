@@ -1,0 +1,317 @@
+<html class="h-full antialiased js-focus-visible" data-js-focus-visible="" style="--header-position: sticky; --content-offset: 0px; --header-height: 64px; --header-mb: 0px; --avatar-image-transform: translate3d(0rem, 0, 0) scale(1); --avatar-border-transform: translate3d(-0.2222222222222222rem, 0, 0) scale(1.7777777777777777); --avatar-border-opacity: 0; --header-top: 0px; --avatar-top: 0px;" lang="en">
+  <head>
+  <meta charset="utf-8">
+
+  
+    <title>Matt Sears | A Survival Guide for Legacy Rails Apps</title>
+  
+  <link rel="icon" href="/assets/images/me.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <script src="/assets/builds/application.js"></script>
+  <link href="/assets/builds/application.css" rel="stylesheet" type="text/css" media="all" />
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>A Survival Guide for Legacy Rails Apps | Matt Sears</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="A Survival Guide for Legacy Rails Apps" />
+<meta name="author" content="Matt Sears" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Hello, my name is Matt and I love working with legacy Rails apps. Ruby on Rails is now over 10 years old. That means there are a lot of (old) Rails applications running out there. At Littlelines, we’ve worked on hundreds of Rails projects. Most of them we build from the ground up, but often we have the opportunity to work with legacy Rails apps - some as old as 2006! More often than not, we discover these apps include many many common mistakes made back in the day and it’s our job to fix them." />
+<meta property="og:description" content="Hello, my name is Matt and I love working with legacy Rails apps. Ruby on Rails is now over 10 years old. That means there are a lot of (old) Rails applications running out there. At Littlelines, we’ve worked on hundreds of Rails projects. Most of them we build from the ground up, but often we have the opportunity to work with legacy Rails apps - some as old as 2006! More often than not, we discover these apps include many many common mistakes made back in the day and it’s our job to fix them." />
+<link rel="canonical" href="https://mattsears.com/articles/2014/07/28/a-survival-guide-for-legacy-rails-apps/" />
+<meta property="og:url" content="https://mattsears.com/articles/2014/07/28/a-survival-guide-for-legacy-rails-apps/" />
+<meta property="og:site_name" content="Matt Sears" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-07-28T09:44:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="A Survival Guide for Legacy Rails Apps" />
+<script type="application/ld+json">
+{"description":"Hello, my name is Matt and I love working with legacy Rails apps. Ruby on Rails is now over 10 years old. That means there are a lot of (old) Rails applications running out there. At Littlelines, we’ve worked on hundreds of Rails projects. Most of them we build from the ground up, but often we have the opportunity to work with legacy Rails apps - some as old as 2006! More often than not, we discover these apps include many many common mistakes made back in the day and it’s our job to fix them.","@type":"BlogPosting","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://mattsears.com/assets/images/me.png"},"name":"Matt Sears"},"url":"https://mattsears.com/articles/2014/07/28/a-survival-guide-for-legacy-rails-apps/","headline":"A Survival Guide for Legacy Rails Apps","dateModified":"2014-07-28T09:44:00+00:00","datePublished":"2014-07-28T09:44:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mattsears.com/articles/2014/07/28/a-survival-guide-for-legacy-rails-apps/"},"author":{"@type":"Person","name":"Matt Sears"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+  <body class="flex h-full flex-col bg-zinc-50 dark:bg-black">
+    <div id="__next">
+      <div class="fixed inset-0 flex justify-center sm:px-8">
+        <div class="flex w-full max-w-7xl lg:px-8">
+          <div class="w-full bg-white ring-1 ring-zinc-100 dark:bg-zinc-900 dark:ring-zinc-300/20"></div>
+        </div>
+      </div>
+      <div class="relative">
+        <header class="pointer-events-none relative z-50 flex flex-col" style="height: 64px;">
+  <div class="top-0 z-10 h-16 pt-6" style="position:var(--header-position)">
+    <div class="sm:px-8 top-[var(--header-top,theme(spacing.6))] w-full" style="position:var(--header-inner-position)">
+      <div class="mx-auto max-w-7xl lg:px-8">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="relative flex gap-4">
+              <div class="flex flex-1">
+                <div class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10"><a aria-label="Home" class="pointer-events-auto" href="/">
+                  <img alt="" sizes="2.25rem" srcset="" src="/assets/images/me.png" decoding="async" data-nimg="future" class="rounded-full bg-zinc-100 object-cover dark:bg-zinc-800 h-9 w-9" style="color: transparent;" width="512" height="512"></a></div>
+              </div>
+              <div class="flex flex-1 justify-end md:justify-center">
+                <div class="pointer-events-auto md:hidden" data-headlessui-state="">
+                  <button class="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20" id="headlessui-popover-button-:Rqb6:" type="button" aria-expanded="false" data-headlessui-state="">
+                    Menu
+                    <svg viewBox="0 0 8 6" aria-hidden="true" class="ml-3 h-auto w-2 stroke-zinc-500 group-hover:stroke-zinc-700 dark:group-hover:stroke-zinc-400">
+                      <path d="M1.75 1.75 4 4.25l2.25-2.5" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+                
+<nav class="pointer-events-auto hidden md:block">
+  <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/">
+        Home
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/about/">
+        About
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/articles/">
+        Journal
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400 " href="#contact" data-name="matt" data-domain="mattsears" data-tld="com" onclick="window.location.href = 'mailto:' + this.dataset.name + '@' + this.dataset.domain + '.' + this.dataset.tld; return false;">Contact </a>
+    </li>
+  </ul>
+
+</nav>
+
+
+
+              </div>
+              <div class="flex justify-end md:flex-1 ">
+                <div class="pointer-events-auto ">
+                  <button type="button"
+                          aria-label="Toggle dark mode"
+                          data-controller='toggle-mode'
+                          data-action='click->toggle-mode#toggleMode'
+                          class="group rounded-full bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20">
+                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="h-6 w-6 fill-zinc-100 stroke-zinc-500 transition group-hover:fill-zinc-200 group-hover:stroke-zinc-700 dark:hidden [@media(prefers-color-scheme:dark)]:fill-teal-50 [@media(prefers-color-scheme:dark)]:stroke-teal-500 [@media(prefers-color-scheme:dark)]:group-hover:fill-teal-50 [@media(prefers-color-scheme:dark)]:group-hover:stroke-teal-600">
+                      <path d="M8 12.25A4.25 4.25 0 0 1 12.25 8v0a4.25 4.25 0 0 1 4.25 4.25v0a4.25 4.25 0 0 1-4.25 4.25v0A4.25 4.25 0 0 1 8 12.25v0Z"></path>
+                      <path d="M12.25 3v1.5M21.5 12.25H20M18.791 18.791l-1.06-1.06M18.791 5.709l-1.06 1.06M12.25 20v1.5M4.5 12.25H3M6.77 6.77 5.709 5.709M6.77 17.73l-1.061 1.061" fill="none"></path>
+                    </svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="hidden h-6 w-6 fill-zinc-700 stroke-zinc-500 transition dark:block [@media(prefers-color-scheme:dark)]:group-hover:stroke-zinc-400 [@media_not_(prefers-color-scheme:dark)]:fill-teal-400/10 [@media_not_(prefers-color-scheme:dark)]:stroke-teal-500">
+                      <path d="M17.25 16.22a6.937 6.937 0 0 1-9.47-9.47 7.451 7.451 0 1 0 9.47 9.47ZM12.75 7C17 7 17 2.75 17 2.75S17 7 21.25 7C17 7 17 11.25 17 11.25S17 7 12.75 7Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+        <main>
+          <div class="sm:px-8 mt-16 lg:mt-32">
+            <div class="mx-auto max-w-7xl lg:px-8">
+              <div class="relative px-4 sm:px-8 lg:px-12">
+                <div class="mx-auto max-w-2xl lg:max-w-5xl">
+                  <div class="xl:relative">
+                    <div class="mx-auto max-w-3xl">
+                      
+                      <a type="button" href="/articles/2014/09/02/seamlessly-navigate-rails-projects-with-tmux/" aria-label="Go back to articles" class=" group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-left-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:left-0 xl:mt-0">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                        </svg>
+                      </a>
+                      
+
+                      
+                      <a type="button" href="/articles/2014/06/03/getting-started-with-a-b-testing/" aria-label="" class="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-right-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:right-0 xl:mt-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                        </svg>
+                      </a>
+                      
+
+
+                      <article>
+                        <header class="flex flex-col">
+                          <h1 class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-4xl">
+                            A Survival Guide for Legacy Rails Apps
+                          </h1>
+                          <time datetime="2014-07-28" class="order-first flex items-center text-base text-zinc-400 dark:text-zinc-500">
+                            <span class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
+                            <span class="ml-3">July 28, 2014 </span>
+                          </time>
+                        </header>
+                        <div class="mt-8 prose dark:prose-invert">
+                          <p>Hello, my name is Matt and I love working with legacy Rails apps. Ruby on Rails is now over
+<a href="https://github.com/rails/rails/commit/98cb3e69afd687f7c0d4bc48eabf284da691abcc#commitcomment-4974690">10 years</a>
+old. That means there are a lot of (old) Rails applications running out
+there. At Littlelines, we’ve worked on hundreds of Rails projects. Most of them
+we build from the ground up, but often we have the opportunity to work with legacy
+Rails apps - some as old as 2006! More often than not, we discover these apps
+include many many
+<a href="http://edelpero.svbtle.com/most-common-mistakes-on-legacy-rails-apps">common mistakes</a>
+made back in the day and it’s our job to fix them. <!--more-->Over the eight years of
+writing Rails apps, I’ve picked up a few tips and tricks that can help us get
+through the agony of legacy code.</p>
+
+<h3 id="1-take-stock-of-the-situation">1. Take Stock of the Situation</h3>
+
+<p>It is impossible to understand the present or prepare for the future unless we
+have some knowledge of the past. So first things first, let’s take an assessment
+of where we’re at in terms of test coverage and code quality. If we’re lucky
+enough to take on a project that has tests, the first thing I do is install
+<a href="https://github.com/colszowka/simplecov">SimpleCov</a> to measure how well our app
+is tested. Once I have the SimpleCov report, I’ll take a screenshot and save the
+report. Then we can use <a href="http://codeclimate.com">CodeClimate</a> to get an overall
+grade on quality and security. CodeClimate will analyze our app and report on
+all the hotspots and security violations in the code. Finally, I’ll write this
+number down and take a screenshot.</p>
+
+<p>Now that we have metrics to work with, we can do some
+<a href="http://martinfowler.com/bliki/OpportunisticRefactoring.html">Opportunistic Refactoring</a>. In
+other words, always leave code behind in a better state than you found it. The
+fun part is seeing how far we can improve the code’s test coverage and
+quality and we can challenge ourselves to take the score from an F to an A.</p>
+
+<h3 id="2-sharpen-the-saw">2. Sharpen the Saw</h3>
+
+<blockquote>
+  <p>If I had eight hours to chop down a tree, I’d spend six sharpening my axe. –
+Abraham Lincoln</p>
+</blockquote>
+
+<p>As developers, we spend most of our day buried in our text editor. Luckily for
+us, most text editors allow us to customize and fine tune it to make it
+work more effectively for us. Even better, some editors like Vim and Emacs
+allow you to create custom functions to help automate repetitive and
+complex tasks. These can be incredibly useful when working with legacy code. One
+of my favorite functions converts old Ruby 1.8’s hash syntax to 1.9’s new
+syntax.</p>
+
+<p><img src="/assets/images/journal/ruby-hash-converter.gif" alt="Ruby Hash Converter" /></p>
+
+<p>Some text editors like Vim and Emacs ship with built-in
+<a href="http://en.wikipedia.org/wiki/Macro_recorder">Macros</a> support. Macros allow us
+to record keystrokes and play them back. These can be great tools to automate
+simpler tasks with less effort. The nice things about Macros is we
+don’t need to write a function, we just need to hit the record button
+and play it back.</p>
+
+<p>Let’s take look at an example. Let’s say we are upgrading a Rails application
+and we discover that it’s using the old style of validating ActiveRecord
+fields. We can create an ad hoc macro to convert the first line of the
+validation code to the new validation syntax and play it back for the next
+three lines.</p>
+
+<p><img src="/assets/images/journal/macro-recording.gif" alt="Emacs Macro and Playback" /></p>
+
+<h3 id="3-learn-something-new">3. Learn Something New</h3>
+
+<p>As soon as we stop try new things, we stop learning. We can always be better
+Rubyist and so as a general rule, I try to learn something new when starting a
+new project. It doesn’t have to be anything huge. In fact, it’s usually a small
+thing and something that fits with the project. It can be anything from
+replacing our view templates with a new template engine like
+<a href="http://slim-lang.com/">Slim</a> or something as small like using Ruby 2.0’s new
+<a href="http://robots.thoughtbot.com/ruby-2-keyword-arguments">keyword arguments</a>. Most
+likely our legacy app is using some old and unmaintained gems. This is a great
+opportunity to see what we can replace them with. Head on over to the
+<a href="https://www.ruby-toolbox.com">The Ruby Toolbox</a> or
+<a href="http://marcanguera.net/awesome-ruby">Awesome Ruby</a> and see the latest and
+greatest libraries available.</p>
+
+<p>To give you an example, A few years ago I was tasked with upgrading an old Rail
+1.2 app to the latest and greatest version. During the upgrade process, I discovered a
+lot of embedded SQL and the project owner had complained about how slow the
+searching has been on the site. So, I thought it would be a good opportunity to
+learn more about how to do full-text searching in Rails. And this lead me to
+discover the great <a href="http://sunspot.github.io">Sunspot</a> gem. With Sunspot, I was
+able to eliminate all the embedded SQL and make the search perform much much
+faster at the same time.</p>
+
+<h3 id="4-have-a-plan">4. Have a Plan</h3>
+
+<p>As a rule for every new project, I make a list of things I’d like to accomplished
+by the end of the project. It’s usually a small list that contains some very
+high level goals. In most cases, the goals coincide with making a better Rails
+app and me a better a developer in the end. For example, here is a list I made
+on my last project.</p>
+
+<ol>
+  <li>Upgrade application to Rails 4 and Ruby 2.</li>
+  <li>Raise Code Climate GPA to 4.0.</li>
+  <li>Increase test code coverage by 20%.</li>
+  <li>Watch RubyTapas episode on
+<a href="http://www.rubytapas.com/episodes/114-Null-Object">Null Object</a> and apply it.</li>
+  <li>Try out <a href="https://github.com/deivid-rodriguez/byebug">Byebug</a> gem and see how
+it stacks up to Pry.</li>
+  <li>Write a new Emacs Lisp function that converts erb to haml across multiple buffers.</li>
+</ol>
+
+<h3 id="5-keep-pushing">5. Keep Pushing</h3>
+
+<p>As many of you may know, working with legacy projects can be boring and
+frustrating. But, we can take steps to make it a little more fun and learn
+something new in process. Even when the code is horrendous and we’re cursing who
+ever wrote this pile of #@$%, we can still learn something new and challenge
+ourselves. And it isn’t always new tricks or tools we learn, it’s also the past
+mistakes that teach us. If you commit to taking these steps, you’ll improve your
+skills at a much faster rate and you’ll find yourself stepping out of your
+normal routine and applying new solutions that will ultimately lead to you
+becoming a better developer.</p>
+
+<p>How about you? If you have any tips for working on legacy Rails apps, please add
+a comment below.</p>
+
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        
+<footer class="mt-24">
+  <div class="sm:px-8">
+    <div class="mx-auto max-w-7xl lg:px-8">
+      <div class="border-t border-zinc-100 pt-10 pb-16 dark:border-zinc-700/40">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+              <div class="flex gap-6 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/">Home</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/about">About</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/work">Work</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/articles">Journal</a>
+              </div>
+              <p class="text-sm text-zinc-400 dark:text-zinc-500">
+                © 2023 Matt Sears. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+      </div>
+    </div>
+  </body>
+</html>

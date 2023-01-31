@@ -1,0 +1,340 @@
+<html class="h-full antialiased js-focus-visible" data-js-focus-visible="" style="--header-position: sticky; --content-offset: 0px; --header-height: 64px; --header-mb: 0px; --avatar-image-transform: translate3d(0rem, 0, 0) scale(1); --avatar-border-transform: translate3d(-0.2222222222222222rem, 0, 0) scale(1.7777777777777777); --avatar-border-opacity: 0; --header-top: 0px; --avatar-top: 0px;" lang="en">
+  <head>
+  <meta charset="utf-8">
+
+  
+    <title>Matt Sears | Kill N+1 Queries For Good with Strict Loading</title>
+  
+  <link rel="icon" href="/assets/images/me.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <script src="/assets/builds/application.js"></script>
+  <link href="/assets/builds/application.css" rel="stylesheet" type="text/css" media="all" />
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Kill N+1 Queries For Good with Strict Loading | Matt Sears</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Kill N+1 Queries For Good with Strict Loading" />
+<meta name="author" content="Matt Sears" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I mostly write about technology and business since that’s been my livelyhood for the past twenty years, but I also write about my other interests including music, traveling, and other random topics." />
+<meta property="og:description" content="I mostly write about technology and business since that’s been my livelyhood for the past twenty years, but I also write about my other interests including music, traveling, and other random topics." />
+<link rel="canonical" href="https://mattsears.com/articles/2021/05/23/kill-n-plus-one-queries-for-good-with-strict-loading/" />
+<meta property="og:url" content="https://mattsears.com/articles/2021/05/23/kill-n-plus-one-queries-for-good-with-strict-loading/" />
+<meta property="og:site_name" content="Matt Sears" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-05-23T21:17:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Kill N+1 Queries For Good with Strict Loading" />
+<script type="application/ld+json">
+{"description":"I mostly write about technology and business since that’s been my livelyhood for the past twenty years, but I also write about my other interests including music, traveling, and other random topics.","@type":"BlogPosting","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://mattsears.com/assets/images/me.png"},"name":"Matt Sears"},"url":"https://mattsears.com/articles/2021/05/23/kill-n-plus-one-queries-for-good-with-strict-loading/","headline":"Kill N+1 Queries For Good with Strict Loading","dateModified":"2021-05-23T21:17:00+00:00","datePublished":"2021-05-23T21:17:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mattsears.com/articles/2021/05/23/kill-n-plus-one-queries-for-good-with-strict-loading/"},"author":{"@type":"Person","name":"Matt Sears"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+  <body class="flex h-full flex-col bg-zinc-50 dark:bg-black">
+    <div id="__next">
+      <div class="fixed inset-0 flex justify-center sm:px-8">
+        <div class="flex w-full max-w-7xl lg:px-8">
+          <div class="w-full bg-white ring-1 ring-zinc-100 dark:bg-zinc-900 dark:ring-zinc-300/20"></div>
+        </div>
+      </div>
+      <div class="relative">
+        <header class="pointer-events-none relative z-50 flex flex-col" style="height: 64px;">
+  <div class="top-0 z-10 h-16 pt-6" style="position:var(--header-position)">
+    <div class="sm:px-8 top-[var(--header-top,theme(spacing.6))] w-full" style="position:var(--header-inner-position)">
+      <div class="mx-auto max-w-7xl lg:px-8">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="relative flex gap-4">
+              <div class="flex flex-1">
+                <div class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10"><a aria-label="Home" class="pointer-events-auto" href="/">
+                  <img alt="" sizes="2.25rem" srcset="" src="/assets/images/me.png" decoding="async" data-nimg="future" class="rounded-full bg-zinc-100 object-cover dark:bg-zinc-800 h-9 w-9" style="color: transparent;" width="512" height="512"></a></div>
+              </div>
+              <div class="flex flex-1 justify-end md:justify-center">
+                <div class="pointer-events-auto md:hidden" data-headlessui-state="">
+                  <button class="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20" id="headlessui-popover-button-:Rqb6:" type="button" aria-expanded="false" data-headlessui-state="">
+                    Menu
+                    <svg viewBox="0 0 8 6" aria-hidden="true" class="ml-3 h-auto w-2 stroke-zinc-500 group-hover:stroke-zinc-700 dark:group-hover:stroke-zinc-400">
+                      <path d="M1.75 1.75 4 4.25l2.25-2.5" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+                
+<nav class="pointer-events-auto hidden md:block">
+  <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/">
+        Home
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/about/">
+        About
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/articles/">
+        Journal
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400 " href="#contact" data-name="matt" data-domain="mattsears" data-tld="com" onclick="window.location.href = 'mailto:' + this.dataset.name + '@' + this.dataset.domain + '.' + this.dataset.tld; return false;">Contact </a>
+    </li>
+  </ul>
+
+</nav>
+
+
+
+              </div>
+              <div class="flex justify-end md:flex-1 ">
+                <div class="pointer-events-auto ">
+                  <button type="button"
+                          aria-label="Toggle dark mode"
+                          data-controller='toggle-mode'
+                          data-action='click->toggle-mode#toggleMode'
+                          class="group rounded-full bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20">
+                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="h-6 w-6 fill-zinc-100 stroke-zinc-500 transition group-hover:fill-zinc-200 group-hover:stroke-zinc-700 dark:hidden [@media(prefers-color-scheme:dark)]:fill-teal-50 [@media(prefers-color-scheme:dark)]:stroke-teal-500 [@media(prefers-color-scheme:dark)]:group-hover:fill-teal-50 [@media(prefers-color-scheme:dark)]:group-hover:stroke-teal-600">
+                      <path d="M8 12.25A4.25 4.25 0 0 1 12.25 8v0a4.25 4.25 0 0 1 4.25 4.25v0a4.25 4.25 0 0 1-4.25 4.25v0A4.25 4.25 0 0 1 8 12.25v0Z"></path>
+                      <path d="M12.25 3v1.5M21.5 12.25H20M18.791 18.791l-1.06-1.06M18.791 5.709l-1.06 1.06M12.25 20v1.5M4.5 12.25H3M6.77 6.77 5.709 5.709M6.77 17.73l-1.061 1.061" fill="none"></path>
+                    </svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="hidden h-6 w-6 fill-zinc-700 stroke-zinc-500 transition dark:block [@media(prefers-color-scheme:dark)]:group-hover:stroke-zinc-400 [@media_not_(prefers-color-scheme:dark)]:fill-teal-400/10 [@media_not_(prefers-color-scheme:dark)]:stroke-teal-500">
+                      <path d="M17.25 16.22a6.937 6.937 0 0 1-9.47-9.47 7.451 7.451 0 1 0 9.47 9.47ZM12.75 7C17 7 17 2.75 17 2.75S17 7 21.25 7C17 7 17 11.25 17 11.25S17 7 12.75 7Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+        <main>
+          <div class="sm:px-8 mt-16 lg:mt-32">
+            <div class="mx-auto max-w-7xl lg:px-8">
+              <div class="relative px-4 sm:px-8 lg:px-12">
+                <div class="mx-auto max-w-2xl lg:max-w-5xl">
+                  <div class="xl:relative">
+                    <div class="mx-auto max-w-3xl">
+                      
+                      <a type="button" href="/articles/2021/06/30/littlelines-acquired/" aria-label="Go back to articles" class=" group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-left-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:left-0 xl:mt-0">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                        </svg>
+                      </a>
+                      
+
+                      
+                      <a type="button" href="/articles/2021/04/25/two-simple-books-to-wealth/" aria-label="" class="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-right-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:right-0 xl:mt-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                        </svg>
+                      </a>
+                      
+
+
+                      <article>
+                        <header class="flex flex-col">
+                          <h1 class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-4xl">
+                            Kill N+1 Queries For Good with Strict Loading
+                          </h1>
+                          <time datetime="2021-05-23" class="order-first flex items-center text-base text-zinc-400 dark:text-zinc-500">
+                            <span class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
+                            <span class="ml-3">May 23, 2021 </span>
+                          </time>
+                        </header>
+                        <div class="mt-8 prose dark:prose-invert">
+                          <p>Starting with <a href="https://github.com/rails/rails/pull/37400">Rails 6.1</a>, we can set
+a <code class="language-plaintext highlighter-rouge">strict_loading</code> configuration option that, when <code class="language-plaintext highlighter-rouge">true</code>, will throw an error
+if your code attempts to lazy load any associations with out strictly including
+the association in the ActiveRecord query.</p>
+
+<h4 id="a-brief-history-on-n1-queries-and-ruby-on-rails">A brief history on N+1 queries and Ruby on Rails</h4>
+
+<p>Rails has a long history of scaling problems and a big cause of this is slow
+database performance of N+1 queries. Rails makes it super easy to get data from
+a database and magically have all of it at your finger tips. <!--more--> For
+example, let’s say we have the following model associations:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_many</span> <span class="ss">:activities</span>
+  <span class="o">...</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Activity</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">belongs_to</span> <span class="ss">:user</span>
+  <span class="o">...</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Let’s say we want to get a list of activities for the first user:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">first</span>
+</code></pre></div></div>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%</span> <span class="vi">@user</span><span class="p">.</span><span class="nf">activities</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">activity</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">activity</span><span class="p">.</span><span class="nf">description</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>The log files indicates it takes six SQL queries to get the information we want,
+six queries! That may not sound like a lot, but as users grow and activities
+grow, that’s going to be a tremendous burden we place on the database.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">User</span> <span class="no">Load</span> <span class="p">(</span><span class="mf">0.5</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span> <span class="s2">"users"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"users"</span> <span class="no">LIMIT</span> <span class="vg">$1</span>  <span class="p">[[</span><span class="s2">"LIMIT"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="no">Activity</span> <span class="no">Load</span> <span class="p">(</span><span class="mf">0.4</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span> <span class="s2">"activities"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"activities"</span> <span class="no">WHERE</span> <span class="s2">"activities"</span><span class="o">.</span><span class="s2">"id"</span> <span class="o">=</span> <span class="vg">$1</span> <span class="no">LIMIT</span> <span class="vg">$2</span>  <span class="p">[[</span><span class="s2">"id"</span><span class="p">,</span> <span class="mi">16</span><span class="p">],</span> <span class="p">[</span><span class="s2">"LIMIT"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="no">Activity</span> <span class="no">Load</span> <span class="p">(</span><span class="mf">0.4</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span> <span class="s2">"activities"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"activities"</span> <span class="no">WHERE</span> <span class="s2">"activities"</span><span class="o">.</span><span class="s2">"id"</span> <span class="o">=</span> <span class="vg">$1</span> <span class="no">LIMIT</span> <span class="vg">$2</span>  <span class="p">[[</span><span class="s2">"id"</span><span class="p">,</span> <span class="mi">16</span><span class="p">],</span> <span class="p">[</span><span class="s2">"LIMIT"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="no">Activity</span> <span class="no">Load</span> <span class="p">(</span><span class="mf">0.3</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span> <span class="s2">"activities"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"activities"</span> <span class="no">WHERE</span> <span class="s2">"activities"</span><span class="o">.</span><span class="s2">"id"</span> <span class="o">=</span> <span class="vg">$1</span> <span class="no">LIMIT</span> <span class="vg">$2</span>  <span class="p">[[</span><span class="s2">"id"</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="s2">"LIMIT"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="no">Activity</span> <span class="no">Load</span> <span class="p">(</span><span class="mf">0.3</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span> <span class="s2">"activities"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"activities"</span> <span class="no">WHERE</span> <span class="s2">"activities"</span><span class="o">.</span><span class="s2">"id"</span> <span class="o">=</span> <span class="vg">$1</span> <span class="no">LIMIT</span> <span class="vg">$2</span>  <span class="p">[[</span><span class="s2">"id"</span><span class="p">,</span> <span class="mi">27</span><span class="p">],</span> <span class="p">[</span><span class="s2">"LIMIT"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="no">Activity</span> <span class="no">Load</span> <span class="p">(</span><span class="mf">0.4</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span> <span class="s2">"activities"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"activities"</span> <span class="no">WHERE</span> <span class="s2">"activities"</span><span class="o">.</span><span class="s2">"id"</span> <span class="o">=</span> <span class="vg">$1</span> <span class="no">LIMIT</span> <span class="vg">$2</span>  <span class="p">[[</span><span class="s2">"id"</span><span class="p">,</span> <span class="mi">16</span><span class="p">],</span> <span class="p">[</span><span class="s2">"LIMIT"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+</code></pre></div></div>
+
+<p>Rails took it upon itself to load the activity records for us because we didn’t
+explicitly say we needed activity data in our initial call to get the
+users. This is called <code class="language-plaintext highlighter-rouge">lazy loading</code> and it’s the default behavior in Rails. To
+provide relief for our database, we get around the default behavior and <a href="https://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations">eager
+load</a>
+associations by adding an <code class="language-plaintext highlighter-rouge">includes</code> statement:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">includes</span><span class="p">(</span><span class="ss">:activities</span><span class="p">).</span><span class="nf">first</span>
+</code></pre></div></div>
+
+<p>Now our logs indicate that we went from <em>six</em> SQL queries, to just <em>two</em>. And it
+will stay at two even as the activities grow.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">User</span> <span class="no">Load</span> <span class="p">(</span><span class="mf">0.4</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span> <span class="s2">"users"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"users"</span> <span class="no">LIMIT</span> <span class="vg">$1</span>  <span class="p">[[</span><span class="s2">"LIMIT"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="no">Activity</span> <span class="no">Load</span> <span class="p">(</span><span class="mf">0.4</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span> <span class="s2">"activities"</span><span class="p">.</span><span class="nf">*</span> <span class="no">FROM</span> <span class="s2">"activities"</span> <span class="no">WHERE</span> <span class="s2">"activities"</span><span class="o">.</span><span class="s2">"id"</span> <span class="no">IN</span> <span class="p">(</span><span class="vg">$1</span><span class="p">,</span> <span class="vg">$2</span><span class="p">,</span> <span class="vg">$3</span><span class="p">)</span>  <span class="p">[[</span><span class="kp">nil</span><span class="p">,</span> <span class="mi">16</span><span class="p">],</span> <span class="p">[</span><span class="kp">nil</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="kp">nil</span><span class="p">,</span> <span class="mi">27</span><span class="p">]]</span>
+</code></pre></div></div>
+
+<p>Clearly, eager loading is crucial to save on precious database cycles and makes
+our application more scalable. There are tons of articles out there about eager
+loading so I won’t go into anymore detail. Instead, I want to focus on how can
+we be sure we’re using eager loading throughout the development life-cycle.</p>
+
+<h3 id="make-strict-loading-the-default-to-prevent-any-lazy-loading-of-database-records">Make strict loading the default to prevent any lazy loading of database records</h3>
+
+<p>To turn off lazy loading completely we just make a simple configuration change:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># config/application.rb</span>
+
+<span class="n">config</span><span class="p">.</span><span class="nf">active_record</span><span class="p">.</span><span class="nf">strict_loading_by_default</span> <span class="o">=</span> <span class="kp">true</span>
+</code></pre></div></div>
+
+<p>Now, if we attempt to lazy load any records, Rails will throw an error,
+preventing our application from running and possibly tests from passing until we
+eager load every query that requires data from an association.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">StrictLoadingViolationError</span> <span class="p">(</span><span class="sb">`User`</span> <span class="n">is</span> <span class="n">marked</span> <span class="k">for</span> <span class="n">strict_loading</span><span class="o">.</span>
+  <span class="no">The</span> <span class="sb">`Activity`</span> <span class="n">association</span> <span class="n">named</span> <span class="sb">`:activity`</span> <span class="n">cannot</span> <span class="n">be</span> <span class="n">lazily</span> <span class="n">loaded</span><span class="o">.</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This is a sure-fire way of preventing N+1 queries and forces us to really think
+about the data we need when writing code. This is my default setting on any new
+Rails projects and it does take some time getting used to. When I first starting
+using strict loading, it was a little frustrating to start. My tests wouldn’t
+pass and the some load pages wouldn’t render. I was tempted to remove the
+setting, in particular in test mode so my tests would pass again. But, I
+resisted and instead updated my code to eager load records where needed.</p>
+
+<p>A particular trouble spot are test fixtures. For example, the code below uses
+<a href="https://github.com/thoughtbot/factory_bot">FactoryBot</a> for fixtures and there’s
+no simple way to eager load factories. So we can’t get data on associated
+models like <code class="language-plaintext highlighter-rouge">user.activities</code> without getting the
+<code class="language-plaintext highlighter-rouge">ActiveRecord::StrictLoadingViolationError</code> error. To get around this, I eager load
+the association data in the <code class="language-plaintext highlighter-rouge">subject</code>:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">UserTest</span> <span class="o">&lt;</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">{</span> <span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">}</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:activity</span><span class="p">)</span> <span class="p">{</span> <span class="n">create</span><span class="p">(</span><span class="ss">:activity</span><span class="p">,</span> <span class="ss">user: </span><span class="n">user</span><span class="p">)</span> <span class="p">}</span>
+
+  <span class="n">subject</span> <span class="p">{</span> <span class="no">User</span><span class="p">.</span><span class="nf">includes</span><span class="p">(</span><span class="ss">:activites</span><span class="p">).</span><span class="nf">find</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="nf">id</span><span class="p">)</span> <span class="p">}</span>
+
+  <span class="n">it</span> <span class="s2">"has activities"</span> <span class="k">do</span>
+    <span class="c1"># assert_includes user.activities, activity # throws ActiveRecord::StrictLoadingViolationError error</span>
+
+    <span class="n">assert_includes</span> <span class="n">subject</span><span class="p">.</span><span class="nf">activities</span><span class="p">,</span> <span class="n">actvity</span>
+  <span class="k">end</span>
+  <span class="o">...</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Not exactly as easy as just using the <code class="language-plaintext highlighter-rouge">user</code> record created from FactoryBot, but
+at least now our <code class="language-plaintext highlighter-rouge">subject</code> has all the data loaded and the results are a faster
+test suite since we’re using less queries!</p>
+
+<h4 id="updates-coming-in-rails-7-for-strict-loading">Updates coming in Rails 7 for strict loading</h4>
+
+<p>In the upcoming Rails 7 release, there are more options around strict loading we
+can use to fine tune our application. Most notably, the <code class="language-plaintext highlighter-rouge">n_plus_one_only</code> mode that
+allows us to lazily load <code class="language-plaintext highlighter-rouge">belongs_to</code> and <code class="language-plaintext highlighter-rouge">has_many</code> associations that are
+fetched through a single query, but does not raise an error unless it is a true N+1
+query. This will be mostly likely be the default setting I will use since I think it’s a
+nice trade off between convenience and performance.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">user</span><span class="p">.</span><span class="nf">activities</span> <span class="c1"># Does not raise an error anymore</span>
+<span class="n">user</span><span class="p">.</span><span class="nf">activities</span><span class="p">.</span><span class="nf">first</span><span class="p">.</span><span class="nf">client</span> <span class="c1"># Raises StrictLoadingViolationError</span>
+</code></pre></div></div>
+
+<p>We can also set the strict loading option on an associations-by-association
+basis. This can be handy if we’re working with an existing app and we want to
+convert to strict loading over time.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_many</span> <span class="ss">:activities</span><span class="p">,</span> <span class="ss">strict_loading: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>I encourage you to try making strict loading the default in your Ruby on Rails
+applications. Your databases will thank you.</p>
+
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        
+<footer class="mt-24">
+  <div class="sm:px-8">
+    <div class="mx-auto max-w-7xl lg:px-8">
+      <div class="border-t border-zinc-100 pt-10 pb-16 dark:border-zinc-700/40">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+              <div class="flex gap-6 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/">Home</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/about">About</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/work">Work</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/articles">Journal</a>
+              </div>
+              <p class="text-sm text-zinc-400 dark:text-zinc-500">
+                © 2023 Matt Sears. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+      </div>
+    </div>
+  </body>
+</html>

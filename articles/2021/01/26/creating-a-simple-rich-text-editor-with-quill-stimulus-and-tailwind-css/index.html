@@ -1,0 +1,388 @@
+<html class="h-full antialiased js-focus-visible" data-js-focus-visible="" style="--header-position: sticky; --content-offset: 0px; --header-height: 64px; --header-mb: 0px; --avatar-image-transform: translate3d(0rem, 0, 0) scale(1); --avatar-border-transform: translate3d(-0.2222222222222222rem, 0, 0) scale(1.7777777777777777); --avatar-border-opacity: 0; --header-top: 0px; --avatar-top: 0px;" lang="en">
+  <head>
+  <meta charset="utf-8">
+
+  
+    <title>Matt Sears | Creating a Rich Text Editor with Quill, Stimulus and Tailwind CSS</title>
+  
+  <link rel="icon" href="/assets/images/me.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <script src="/assets/builds/application.js"></script>
+  <link href="/assets/builds/application.css" rel="stylesheet" type="text/css" media="all" />
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Creating a Rich Text Editor with Quill, Stimulus and Tailwind CSS | Matt Sears</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Creating a Rich Text Editor with Quill, Stimulus and Tailwind CSS" />
+<meta name="author" content="Matt Sears" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Adding rich text editors to a project has a long history of friction and frustration in development. Whenever I’m asked to add a text editor, I naturally do whatever I can do to avoid them completely. That, or make sure I do extra meditation in preparation for weeks of pain." />
+<meta property="og:description" content="Adding rich text editors to a project has a long history of friction and frustration in development. Whenever I’m asked to add a text editor, I naturally do whatever I can do to avoid them completely. That, or make sure I do extra meditation in preparation for weeks of pain." />
+<link rel="canonical" href="https://mattsears.com/articles/2021/01/26/creating-a-simple-rich-text-editor-with-quill-stimulus-and-tailwind-css/" />
+<meta property="og:url" content="https://mattsears.com/articles/2021/01/26/creating-a-simple-rich-text-editor-with-quill-stimulus-and-tailwind-css/" />
+<meta property="og:site_name" content="Matt Sears" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-01-26T00:12:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Creating a Rich Text Editor with Quill, Stimulus and Tailwind CSS" />
+<script type="application/ld+json">
+{"description":"Adding rich text editors to a project has a long history of friction and frustration in development. Whenever I’m asked to add a text editor, I naturally do whatever I can do to avoid them completely. That, or make sure I do extra meditation in preparation for weeks of pain.","@type":"BlogPosting","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://mattsears.com/assets/images/me.png"},"name":"Matt Sears"},"url":"https://mattsears.com/articles/2021/01/26/creating-a-simple-rich-text-editor-with-quill-stimulus-and-tailwind-css/","headline":"Creating a Rich Text Editor with Quill, Stimulus and Tailwind CSS","dateModified":"2021-01-26T00:12:00+00:00","datePublished":"2021-01-26T00:12:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mattsears.com/articles/2021/01/26/creating-a-simple-rich-text-editor-with-quill-stimulus-and-tailwind-css/"},"author":{"@type":"Person","name":"Matt Sears"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+  <body class="flex h-full flex-col bg-zinc-50 dark:bg-black">
+    <div id="__next">
+      <div class="fixed inset-0 flex justify-center sm:px-8">
+        <div class="flex w-full max-w-7xl lg:px-8">
+          <div class="w-full bg-white ring-1 ring-zinc-100 dark:bg-zinc-900 dark:ring-zinc-300/20"></div>
+        </div>
+      </div>
+      <div class="relative">
+        <header class="pointer-events-none relative z-50 flex flex-col" style="height: 64px;">
+  <div class="top-0 z-10 h-16 pt-6" style="position:var(--header-position)">
+    <div class="sm:px-8 top-[var(--header-top,theme(spacing.6))] w-full" style="position:var(--header-inner-position)">
+      <div class="mx-auto max-w-7xl lg:px-8">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="relative flex gap-4">
+              <div class="flex flex-1">
+                <div class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10"><a aria-label="Home" class="pointer-events-auto" href="/">
+                  <img alt="" sizes="2.25rem" srcset="" src="/assets/images/me.png" decoding="async" data-nimg="future" class="rounded-full bg-zinc-100 object-cover dark:bg-zinc-800 h-9 w-9" style="color: transparent;" width="512" height="512"></a></div>
+              </div>
+              <div class="flex flex-1 justify-end md:justify-center">
+                <div class="pointer-events-auto md:hidden" data-headlessui-state="">
+                  <button class="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20" id="headlessui-popover-button-:Rqb6:" type="button" aria-expanded="false" data-headlessui-state="">
+                    Menu
+                    <svg viewBox="0 0 8 6" aria-hidden="true" class="ml-3 h-auto w-2 stroke-zinc-500 group-hover:stroke-zinc-700 dark:group-hover:stroke-zinc-400">
+                      <path d="M1.75 1.75 4 4.25l2.25-2.5" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+                
+<nav class="pointer-events-auto hidden md:block">
+  <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/">
+        Home
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/about/">
+        About
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/articles/">
+        Journal
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400 " href="#contact" data-name="matt" data-domain="mattsears" data-tld="com" onclick="window.location.href = 'mailto:' + this.dataset.name + '@' + this.dataset.domain + '.' + this.dataset.tld; return false;">Contact </a>
+    </li>
+  </ul>
+
+</nav>
+
+
+
+              </div>
+              <div class="flex justify-end md:flex-1 ">
+                <div class="pointer-events-auto ">
+                  <button type="button"
+                          aria-label="Toggle dark mode"
+                          data-controller='toggle-mode'
+                          data-action='click->toggle-mode#toggleMode'
+                          class="group rounded-full bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20">
+                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="h-6 w-6 fill-zinc-100 stroke-zinc-500 transition group-hover:fill-zinc-200 group-hover:stroke-zinc-700 dark:hidden [@media(prefers-color-scheme:dark)]:fill-teal-50 [@media(prefers-color-scheme:dark)]:stroke-teal-500 [@media(prefers-color-scheme:dark)]:group-hover:fill-teal-50 [@media(prefers-color-scheme:dark)]:group-hover:stroke-teal-600">
+                      <path d="M8 12.25A4.25 4.25 0 0 1 12.25 8v0a4.25 4.25 0 0 1 4.25 4.25v0a4.25 4.25 0 0 1-4.25 4.25v0A4.25 4.25 0 0 1 8 12.25v0Z"></path>
+                      <path d="M12.25 3v1.5M21.5 12.25H20M18.791 18.791l-1.06-1.06M18.791 5.709l-1.06 1.06M12.25 20v1.5M4.5 12.25H3M6.77 6.77 5.709 5.709M6.77 17.73l-1.061 1.061" fill="none"></path>
+                    </svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="hidden h-6 w-6 fill-zinc-700 stroke-zinc-500 transition dark:block [@media(prefers-color-scheme:dark)]:group-hover:stroke-zinc-400 [@media_not_(prefers-color-scheme:dark)]:fill-teal-400/10 [@media_not_(prefers-color-scheme:dark)]:stroke-teal-500">
+                      <path d="M17.25 16.22a6.937 6.937 0 0 1-9.47-9.47 7.451 7.451 0 1 0 9.47 9.47ZM12.75 7C17 7 17 2.75 17 2.75S17 7 21.25 7C17 7 17 11.25 17 11.25S17 7 12.75 7Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+        <main>
+          <div class="sm:px-8 mt-16 lg:mt-32">
+            <div class="mx-auto max-w-7xl lg:px-8">
+              <div class="relative px-4 sm:px-8 lg:px-12">
+                <div class="mx-auto max-w-2xl lg:max-w-5xl">
+                  <div class="xl:relative">
+                    <div class="mx-auto max-w-3xl">
+                      
+                      <a type="button" href="/articles/2021/02/07/writing-ruby-commands-with-mutations-gem/" aria-label="Go back to articles" class=" group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-left-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:left-0 xl:mt-0">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                        </svg>
+                      </a>
+                      
+
+                      
+                      <a type="button" href="/articles/2020/12/13/hello-old-friend-2020/" aria-label="" class="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-right-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:right-0 xl:mt-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                        </svg>
+                      </a>
+                      
+
+
+                      <article>
+                        <header class="flex flex-col">
+                          <h1 class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-4xl">
+                            Creating a Rich Text Editor with Quill, Stimulus and Tailwind CSS
+                          </h1>
+                          <time datetime="2021-01-26" class="order-first flex items-center text-base text-zinc-400 dark:text-zinc-500">
+                            <span class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
+                            <span class="ml-3">January 26, 2021 </span>
+                          </time>
+                        </header>
+                        <div class="mt-8 prose dark:prose-invert">
+                          <p>Adding rich text editors to a project has a long history of friction and
+frustration in development. Whenever I’m asked to add a text editor, I naturally
+do whatever I can do to avoid them completely. That, or make sure I do extra
+meditation in preparation for weeks of pain.<!--more--> Most problems range from plugins
+either doing too much - where it’s difficult to dissect into doing just what you
+need <em>or</em> doing too little finding yourself writing a bunch of extra code
+just to make it work for your project.</p>
+
+<p>With a recent Ruby on Rails project, I found a nice solution that’s working
+quite well so far. I found <a href="https://github.com/quilljs/quill">Quill</a> while
+searching for open source rich text editors. On the Readme file, it says <em>a modern rich
+text editor built for compatibility and extensibility</em> which is exactly what I’m
+looking for. In this post, I’m going to use
+<a href="https://stimulus.hotwire.dev/">Stimulus</a> and <a href="https://tailwindcss.com/">Tailwind
+CSS</a> to build a text editor that uses minimial
+javascript and looks natural in our application. In other words, it will look
+like we’ve build an editor from scratch. Check it out:</p>
+
+<p><img src="/assets/images/journal/rich-text-editor.gif" alt="Watch Rich Text Editor in action" />
+Quill’s file size is 47kb compressed and minified which is not too bad. I’m
+using Yarn in my project so installing is a simple as <code class="language-plaintext highlighter-rouge">yarn add quill</code>. Let’s
+create a Stimulus controller called <code class="language-plaintext highlighter-rouge">rich_editor_controller.s</code>:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Controller</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">stimulus</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Quill</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">quill</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="dl">"</span><span class="s2">./editor.scss</span><span class="dl">"</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="kd">extends</span> <span class="nx">Controller</span> <span class="p">{</span>
+
+  <span class="kd">static</span> <span class="nx">targets</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">container</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">hidden</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">toolbar</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">form</span><span class="dl">'</span><span class="p">];</span>
+
+  <span class="nx">connect</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">quillInit</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="cm">/**
+   * Fire up quill wyswig editor
+   */</span>
+  <span class="nx">quillInit</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">quill</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Quill</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">containerTarget</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">quillOption</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">_this</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+
+    <span class="c1">// While we type, copy the text to our hidden form field so it can be saved.</span>
+    <span class="nx">quill</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">text-change</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">delta</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">_this</span><span class="p">.</span><span class="nx">hiddenTarget</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">quill</span><span class="p">.</span><span class="nx">root</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">;</span>
+    <span class="p">});</span>
+
+    <span class="c1">// Capture focus on and off events</span>
+    <span class="nx">quill</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">selection-change</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">range</span><span class="p">,</span> <span class="nx">oldRange</span><span class="p">,</span> <span class="nx">source</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">range</span> <span class="o">===</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="nx">oldRange</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">_this</span><span class="p">.</span><span class="nx">onFocusOut</span><span class="p">();</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">range</span> <span class="o">!==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="nx">oldRange</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span>
+        <span class="nx">_this</span><span class="p">.</span><span class="nx">onFocus</span><span class="p">();</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="cm">/**
+   * Fires when the editor receives focus
+   */</span>
+  <span class="nx">onFocus</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Add a border and reveal the toolbar</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="dl">"</span><span class="s2">border-gray-200</span><span class="dl">"</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">toolbarTarget</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="dl">"</span><span class="s2">opacity-100</span><span class="dl">"</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="cm">/**
+   * Fires when the editor loses focus
+   */</span>
+  <span class="nx">onFocusOut</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Hide the border and toolbar</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="dl">"</span><span class="s2">border-gray-200</span><span class="dl">"</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">toolbarTarget</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="dl">"</span><span class="s2">opacity-100</span><span class="dl">"</span><span class="p">);</span>
+
+    <span class="c1">// Submit the form to save our updates</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">formTarget</span><span class="p">.</span><span class="nx">requestSubmit</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Quill configuration options</span>
+  <span class="kd">get</span> <span class="nx">quillOption</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="na">modules</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">toolbar</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">toolbarTarget</span>
+      <span class="p">},</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This is all the javascript we need to get a basic text editor and with an added
+bonus of saving our updates to the database by submitting the form whenever the
+editor loses focus. The above Stimulus controller is performing three main
+functions:</p>
+
+<ol>
+  <li>Using Quill to convert the text into html and assigning it to a hidden form field.</li>
+  <li>Submitting the form when the editor loses focus so our updates are saved.</li>
+  <li>Hiding and revealing the text editor controls for a better user experience.</li>
+</ol>
+
+<p>One important things to note, we’re not importing any themes or css from Quill. We’re
+going to use our own css and icons so our text editor blends in naturally with our
+application. Let’s create some html for our text editor:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">data-controller=</span><span class="s">"rich-editor"</span>
+     <span class="na">class=</span><span class="s">"border border-white hover:border-gray-200 rounded-lg p-3"</span><span class="nt">&gt;</span>
+
+  <span class="cp">&lt;%=</span> <span class="n">form_with</span><span class="p">(</span><span class="ss">model: </span><span class="n">user</span><span class="p">,</span> <span class="ss">data: </span><span class="p">{</span><span class="ss">rich_editor_target: </span><span class="s1">'form'</span><span class="p">}</span><span class="s2">") do |f| </span><span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span><span class="s2"> f.hidden_field user.description, data: { rich_editor_target: "</span><span class="n">hidden</span><span class="s2">" } </span><span class="cp">%&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"prose max-w-none"</span> <span class="na">data-rich-editor-target=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span><span class="s2"> raw(user.description) </span><span class="cp">%&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+
+    <span class="c">&lt;!-- Toolbar --&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"divide-x divide-gray-200 opacity-0"</span> <span class="na">data-rich-editor-target=</span><span class="s">"toolbar"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"editor-toolbar-button ql-bold "</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span><span class="s2"> inline_svg_tag "</span><span class="n">bold</span><span class="p">.</span><span class="nf">svg</span><span class="s2">", class: 'editor-toolbar-icon' </span><span class="cp">%&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"editor-toolbar-button ql-italic"</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span><span class="s2"> inline_icon :italic,'editor-toolbar-icon' </span><span class="cp">%&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"editor-toolbar-button ql-underline"</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span><span class="s2"> inline_svg_tag "</span><span class="n">underline</span><span class="p">.</span><span class="nf">svg</span><span class="s2">", class: 'editor-toolbar-icon' </span><span class="cp">%&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"editor-toolbar-button ql-strike"</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span><span class="s2"> inline_svg_tag "</span><span class="n">strike</span><span class="p">.</span><span class="nf">svg</span><span class="s2">", class: 'editor-toolbar-icon' </span><span class="cp">%&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"editor-toolbar-button ql-list"</span> <span class="na">value=</span><span class="s">"bullet"</span> <span class="na">type=</span><span class="s">"button"</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span><span class="s2"> inline_svg_tag "</span><span class="n">bullet_list</span><span class="p">.</span><span class="nf">svg</span><span class="s2">", class: 'editor-toolbar-icon' </span><span class="cp">%&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"editor-toolbar-button ql-list"</span> <span class="na">value=</span><span class="s">"ordered"</span> <span class="na">type=</span><span class="s">"button"</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span><span class="s2"> inline_svg_tag "</span><span class="n">ordered_list</span><span class="p">.</span><span class="nf">svg</span><span class="s2">", class: 'editor-toolbar-icon' </span><span class="cp">%&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"editor-toolbar-button ql-blockquote"</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span><span class="s2"> inline_svg_tag "</span><span class="n">block_quote</span><span class="p">.</span><span class="nf">svg</span><span class="s2">", class: 'editor-toolbar-icon' </span><span class="cp">%&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"editor-toolbar-button ql-code-block"</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span><span class="s2"> inline_svg_tag "</span><span class="n">code_block</span><span class="p">.</span><span class="nf">svg</span><span class="s2">", class: 'editor-toolbar-icon' </span><span class="cp">%&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="cp">&lt;%</span><span class="s2"> end </span><span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<p>As you can see above, we have a hidden form field that will store the html, a
+place for the editor itself, and a toolbar. In this case, we’re using our text
+editor to allow our users to format a description about themselves. I found some
+icons using <a href="https://iconduck.com/">Icon Duck</a> to build our toolbar with and I’m
+using <a href="https://github.com/jamesmartin/inline_svg">inline_svg</a> to render the
+icons inline with the html. By adding Quill specific classes e.g. <code class="language-plaintext highlighter-rouge">ql-bold</code>,
+<code class="language-plaintext highlighter-rouge">ql-italic</code>, <code class="language-plaintext highlighter-rouge">ql-blockquote</code> to the buttons, it lets Quill know where to assign
+the functions to perform those actions. Our final step is to apply a little
+Tailwind CSS to <code class="language-plaintext highlighter-rouge">editor.scss</code> that will style our text.</p>
+
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">.ql-container</span> <span class="p">{</span>
+  <span class="k">@apply</span> <span class="nt">whitespace-pre-wrap</span> <span class="nt">p-0</span><span class="p">;</span>
+
+  <span class="nt">ol</span> <span class="p">{</span>
+    <span class="k">@apply</span> <span class="nt">list-inside</span> <span class="nt">list-decimal</span> <span class="nt">py-3</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nt">ul</span> <span class="p">{</span>
+    <span class="k">@apply</span> <span class="nt">list-inside</span> <span class="nt">list-disc</span> <span class="nt">py-3</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nt">blockquote</span> <span class="p">{</span>
+    <span class="k">@apply</span> <span class="nt">bg-gray-50</span> <span class="nt">border-l</span> <span class="nt">border-indigo-200</span> <span class="nt">p-2</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nt">pre</span> <span class="p">{</span>
+    <span class="k">@apply</span> <span class="nt">bg-gray-50</span> <span class="nt">p-2</span> <span class="nt">my-2</span> <span class="nt">text-sm</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@layer</span> <span class="nt">components</span> <span class="p">{</span>
+  <span class="nc">.editor-toolbar-button</span> <span class="p">{</span>
+    <span class="k">@apply</span> <span class="nt">hover</span><span class="nd">:bg-gray-100</span> <span class="nt">rounded-md</span> <span class="nt">p-2</span><span class="p">;</span>
+
+    <span class="k">&amp;</span><span class="nc">.ql-active</span> <span class="p">{</span>
+      <span class="k">@apply</span> <span class="nt">bg-gray-100</span><span class="p">;</span>
+    <span class="p">}</span>
+
+  <span class="p">}</span>
+  <span class="nc">.editor-toolbar-icon</span><span class="p">{</span>
+    <span class="k">@apply</span> <span class="nt">w-3</span> <span class="nt">h-3</span> <span class="nt">text-gray-400</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We now have a pretty good text editor and it looks natural in our
+application. Next step will be extending the controller to add more features
+like adding @Mentions and Emojis that I will cover in future posts.</p>
+
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        
+<footer class="mt-24">
+  <div class="sm:px-8">
+    <div class="mx-auto max-w-7xl lg:px-8">
+      <div class="border-t border-zinc-100 pt-10 pb-16 dark:border-zinc-700/40">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+              <div class="flex gap-6 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/">Home</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/about">About</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/work">Work</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/articles">Journal</a>
+              </div>
+              <p class="text-sm text-zinc-400 dark:text-zinc-500">
+                © 2023 Matt Sears. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+      </div>
+    </div>
+  </body>
+</html>

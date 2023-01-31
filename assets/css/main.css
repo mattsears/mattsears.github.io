@@ -1,0 +1,163 @@
+.highlight table td { padding: 5px; }
+
+.highlight table pre { margin: 0; }
+
+.highlight .cm { color: #999988; font-style: italic; }
+
+.highlight .cp { color: #999999; font-weight: bold; }
+
+.highlight .c1 { color: #999988; font-style: italic; }
+
+.highlight .cs { color: #999999; font-weight: bold; font-style: italic; }
+
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cpf { color: #999988; font-style: italic; }
+
+.highlight .err { color: #a61717; background-color: #e3d2d2; }
+
+.highlight .gd { color: #000000; background-color: #ffdddd; }
+
+.highlight .ge { color: #000000; font-style: italic; }
+
+.highlight .gr { color: #aa0000; }
+
+.highlight .gh { color: #999999; }
+
+.highlight .gi { color: #000000; background-color: #ddffdd; }
+
+.highlight .go { color: #888888; }
+
+.highlight .gp { color: #555555; }
+
+.highlight .gs { font-weight: bold; }
+
+.highlight .gu { color: #aaaaaa; }
+
+.highlight .gt { color: #aa0000; }
+
+.highlight .kc { color: #000000; font-weight: bold; }
+
+.highlight .kd { color: #000000; font-weight: bold; }
+
+.highlight .kn { color: #000000; font-weight: bold; }
+
+.highlight .kp { color: #000000; font-weight: bold; }
+
+.highlight .kr { color: #000000; font-weight: bold; }
+
+.highlight .kt { color: #445588; font-weight: bold; }
+
+.highlight .k, .highlight .kv { color: #000000; font-weight: bold; }
+
+.highlight .mf { color: #009999; }
+
+.highlight .mh { color: #009999; }
+
+.highlight .il { color: #009999; }
+
+.highlight .mi { color: #009999; }
+
+.highlight .mo { color: #009999; }
+
+.highlight .m, .highlight .mb, .highlight .mx { color: #009999; }
+
+.highlight .sa { color: #000000; font-weight: bold; }
+
+.highlight .sb { color: #d14; }
+
+.highlight .sc { color: #d14; }
+
+.highlight .sd { color: #d14; }
+
+.highlight .s2 { color: #d14; }
+
+.highlight .se { color: #d14; }
+
+.highlight .sh { color: #d14; }
+
+.highlight .si { color: #d14; }
+
+.highlight .sx { color: #d14; }
+
+.highlight .sr { color: #009926; }
+
+.highlight .s1 { color: #d14; }
+
+.highlight .ss { color: #990073; }
+
+.highlight .s, .highlight .dl { color: #d14; }
+
+.highlight .na { color: #008080; }
+
+.highlight .bp { color: #999999; }
+
+.highlight .nb { color: #0086B3; }
+
+.highlight .nc { color: #445588; font-weight: bold; }
+
+.highlight .no { color: #008080; }
+
+.highlight .nd { color: #3c5d5d; font-weight: bold; }
+
+.highlight .ni { color: #800080; }
+
+.highlight .ne { color: #990000; font-weight: bold; }
+
+.highlight .nf, .highlight .fm { color: #990000; font-weight: bold; }
+
+.highlight .nl { color: #990000; font-weight: bold; }
+
+.highlight .nn { color: #555555; }
+
+.highlight .nt { color: #000080; }
+
+.highlight .vc { color: #008080; }
+
+.highlight .vg { color: #008080; }
+
+.highlight .vi { color: #008080; }
+
+.highlight .nv, .highlight .vm { color: #008080; }
+
+.highlight .ow { color: #000000; font-weight: bold; }
+
+.highlight .o { color: #000000; font-weight: bold; }
+
+.highlight .w { color: #bbbbbb; }
+
+.highlight { background-color: #f8f8f8; line-height: 1.75em; margin: 0; padding: .5em; overflow: auto; width: 100%; word-wrap: break-word; }
+
+.number { display: flex; justify-content: center; align-items: center; font-size: 3.5rem; position: relative; width: 5.75rem; height: 5.75rem; margin-left: auto; margin-right: auto; background: url("/assets/images/circle.svg") center center no-repeat; background-size: auto; background-size: 100% auto; }
+
+.number { font-family: 'Covered By Your Grace', cursive; color: #ebb44c; }
+
+.highlighter { background-image: linear-gradient(-100deg, rgba(242, 186, 72, 0.3), rgba(242, 186, 72, 0.7) 95%, rgba(242, 186, 72, 0.1)); border-radius: 13% 0.2rem 20% 0.2rem; }
+
+hr { display: block; height: 0; margin: 2rem 0; margin-right: 0px; margin-left: 0px; padding: 0; border: 0; border-top-color: currentcolor; border-top-style: none; border-top-width: 0px; border-top: 1px solid #D8D8D8; border-top-width: 1px; width: 6rem; border-top-width: 3px; margin-left: auto; margin-right: auto; }
+
+.bb { border: 1px solid blue !important; }
+
+.post a { color: #6366F1; }
+
+.post p { margin: 0 0 1em 0; }
+
+.post h4, .post h3 { font-weight: 800; margin: 1em 0; }
+
+.post .highlighter-rouge { margin-bottom: 1em; }
+
+.post code { font-size: 0.875rem; background-color: #f6f8fa; }
+
+.post pre { padding: 10px; line-height: 1.2rem; }
+
+.post pre code { font-size: 0.875rem; }
+
+.post pre code span { margin: 0; padding: 0; }
+
+.post ol { margin: 0 0 2em 2em; list-style-type: decimal; }
+
+.post table { min-width: 100%; border-collapse: collapse; margin: 1em 0 1em 0; }
+
+.post table tr { border-bottom: 1px solid #E5E7EB; }
+
+.post table tr td { padding: 1em 1em 1em 0; white-space: nowrap; font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; }
+
+/*# sourceMappingURL=main.css.map */

@@ -1,0 +1,286 @@
+<html class="h-full antialiased js-focus-visible" data-js-focus-visible="" style="--header-position: sticky; --content-offset: 0px; --header-height: 64px; --header-mb: 0px; --avatar-image-transform: translate3d(0rem, 0, 0) scale(1); --avatar-border-transform: translate3d(-0.2222222222222222rem, 0, 0) scale(1.7777777777777777); --avatar-border-opacity: 0; --header-top: 0px; --avatar-top: 0px;" lang="en">
+  <head>
+  <meta charset="utf-8">
+
+  
+    <title>Matt Sears | How to Make Action Text Work with Rails 5.2</title>
+  
+  <link rel="icon" href="/assets/images/me.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <script src="/assets/builds/application.js"></script>
+  <link href="/assets/builds/application.css" rel="stylesheet" type="text/css" media="all" />
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>How to Make Action Text Work with Rails 5.2 | Matt Sears</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="How to Make Action Text Work with Rails 5.2" />
+<meta name="author" content="Matt Sears" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="When DHH announced Action Text, I really like the idea of making rich text editors easier to use especially when throwing photos in the mix. It’s come up multiple times in projects over the years and it’s never been easy to do. It just so happens, I was working on a project that needed a simple blog and would be perfect match for Action Text. Only problem was it was a Rails 5.2 application and Action Text is really slated for Rails 6, which won’t be released until next year. So I decided to see if I can make it work." />
+<meta property="og:description" content="When DHH announced Action Text, I really like the idea of making rich text editors easier to use especially when throwing photos in the mix. It’s come up multiple times in projects over the years and it’s never been easy to do. It just so happens, I was working on a project that needed a simple blog and would be perfect match for Action Text. Only problem was it was a Rails 5.2 application and Action Text is really slated for Rails 6, which won’t be released until next year. So I decided to see if I can make it work." />
+<link rel="canonical" href="https://mattsears.com/articles/2018/11/30/how-to-make-actiontext-work-with-rails-5/" />
+<meta property="og:url" content="https://mattsears.com/articles/2018/11/30/how-to-make-actiontext-work-with-rails-5/" />
+<meta property="og:site_name" content="Matt Sears" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-11-30T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="How to Make Action Text Work with Rails 5.2" />
+<script type="application/ld+json">
+{"description":"When DHH announced Action Text, I really like the idea of making rich text editors easier to use especially when throwing photos in the mix. It’s come up multiple times in projects over the years and it’s never been easy to do. It just so happens, I was working on a project that needed a simple blog and would be perfect match for Action Text. Only problem was it was a Rails 5.2 application and Action Text is really slated for Rails 6, which won’t be released until next year. So I decided to see if I can make it work.","@type":"BlogPosting","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://mattsears.com/assets/images/me.png"},"name":"Matt Sears"},"url":"https://mattsears.com/articles/2018/11/30/how-to-make-actiontext-work-with-rails-5/","headline":"How to Make Action Text Work with Rails 5.2","dateModified":"2018-11-30T00:00:00+00:00","datePublished":"2018-11-30T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mattsears.com/articles/2018/11/30/how-to-make-actiontext-work-with-rails-5/"},"author":{"@type":"Person","name":"Matt Sears"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+  <body class="flex h-full flex-col bg-zinc-50 dark:bg-black">
+    <div id="__next">
+      <div class="fixed inset-0 flex justify-center sm:px-8">
+        <div class="flex w-full max-w-7xl lg:px-8">
+          <div class="w-full bg-white ring-1 ring-zinc-100 dark:bg-zinc-900 dark:ring-zinc-300/20"></div>
+        </div>
+      </div>
+      <div class="relative">
+        <header class="pointer-events-none relative z-50 flex flex-col" style="height: 64px;">
+  <div class="top-0 z-10 h-16 pt-6" style="position:var(--header-position)">
+    <div class="sm:px-8 top-[var(--header-top,theme(spacing.6))] w-full" style="position:var(--header-inner-position)">
+      <div class="mx-auto max-w-7xl lg:px-8">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="relative flex gap-4">
+              <div class="flex flex-1">
+                <div class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10"><a aria-label="Home" class="pointer-events-auto" href="/">
+                  <img alt="" sizes="2.25rem" srcset="" src="/assets/images/me.png" decoding="async" data-nimg="future" class="rounded-full bg-zinc-100 object-cover dark:bg-zinc-800 h-9 w-9" style="color: transparent;" width="512" height="512"></a></div>
+              </div>
+              <div class="flex flex-1 justify-end md:justify-center">
+                <div class="pointer-events-auto md:hidden" data-headlessui-state="">
+                  <button class="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20" id="headlessui-popover-button-:Rqb6:" type="button" aria-expanded="false" data-headlessui-state="">
+                    Menu
+                    <svg viewBox="0 0 8 6" aria-hidden="true" class="ml-3 h-auto w-2 stroke-zinc-500 group-hover:stroke-zinc-700 dark:group-hover:stroke-zinc-400">
+                      <path d="M1.75 1.75 4 4.25l2.25-2.5" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+                
+<nav class="pointer-events-auto hidden md:block">
+  <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/">
+        Home
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/about/">
+        About
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/articles/">
+        Journal
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400 " href="#contact" data-name="matt" data-domain="mattsears" data-tld="com" onclick="window.location.href = 'mailto:' + this.dataset.name + '@' + this.dataset.domain + '.' + this.dataset.tld; return false;">Contact </a>
+    </li>
+  </ul>
+
+</nav>
+
+
+
+              </div>
+              <div class="flex justify-end md:flex-1 ">
+                <div class="pointer-events-auto ">
+                  <button type="button"
+                          aria-label="Toggle dark mode"
+                          data-controller='toggle-mode'
+                          data-action='click->toggle-mode#toggleMode'
+                          class="group rounded-full bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20">
+                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="h-6 w-6 fill-zinc-100 stroke-zinc-500 transition group-hover:fill-zinc-200 group-hover:stroke-zinc-700 dark:hidden [@media(prefers-color-scheme:dark)]:fill-teal-50 [@media(prefers-color-scheme:dark)]:stroke-teal-500 [@media(prefers-color-scheme:dark)]:group-hover:fill-teal-50 [@media(prefers-color-scheme:dark)]:group-hover:stroke-teal-600">
+                      <path d="M8 12.25A4.25 4.25 0 0 1 12.25 8v0a4.25 4.25 0 0 1 4.25 4.25v0a4.25 4.25 0 0 1-4.25 4.25v0A4.25 4.25 0 0 1 8 12.25v0Z"></path>
+                      <path d="M12.25 3v1.5M21.5 12.25H20M18.791 18.791l-1.06-1.06M18.791 5.709l-1.06 1.06M12.25 20v1.5M4.5 12.25H3M6.77 6.77 5.709 5.709M6.77 17.73l-1.061 1.061" fill="none"></path>
+                    </svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="hidden h-6 w-6 fill-zinc-700 stroke-zinc-500 transition dark:block [@media(prefers-color-scheme:dark)]:group-hover:stroke-zinc-400 [@media_not_(prefers-color-scheme:dark)]:fill-teal-400/10 [@media_not_(prefers-color-scheme:dark)]:stroke-teal-500">
+                      <path d="M17.25 16.22a6.937 6.937 0 0 1-9.47-9.47 7.451 7.451 0 1 0 9.47 9.47ZM12.75 7C17 7 17 2.75 17 2.75S17 7 21.25 7C17 7 17 11.25 17 11.25S17 7 12.75 7Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+        <main>
+          <div class="sm:px-8 mt-16 lg:mt-32">
+            <div class="mx-auto max-w-7xl lg:px-8">
+              <div class="relative px-4 sm:px-8 lg:px-12">
+                <div class="mx-auto max-w-2xl lg:max-w-5xl">
+                  <div class="xl:relative">
+                    <div class="mx-auto max-w-3xl">
+                      
+                      <a type="button" href="/articles/2019/08/10/quick-wins-to-improve-rails-performance/" aria-label="Go back to articles" class=" group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-left-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:left-0 xl:mt-0">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                        </svg>
+                      </a>
+                      
+
+                      
+                      <a type="button" href="/articles/2014/09/02/seamlessly-navigate-rails-projects-with-tmux/" aria-label="" class="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-right-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:right-0 xl:mt-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                        </svg>
+                      </a>
+                      
+
+
+                      <article>
+                        <header class="flex flex-col">
+                          <h1 class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-4xl">
+                            How to Make Action Text Work with Rails 5.2
+                          </h1>
+                          <time datetime="2018-11-30" class="order-first flex items-center text-base text-zinc-400 dark:text-zinc-500">
+                            <span class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
+                            <span class="ml-3">November 30, 2018 </span>
+                          </time>
+                        </header>
+                        <div class="mt-8 prose dark:prose-invert">
+                          <p>When DHH
+<a href="https://www.youtube.com/watch?v=HJZ9TnKrt7Q&amp;feature=youtu.be">announced</a> <a href="https://github.com/rails/actiontext">Action Text</a>, I really like the idea of making rich text editors easier to use especially
+when throwing photos in the mix. It’s come up multiple times in projects over the years and it’s never been easy to do.</p>
+
+<p>It just so happens, I was working on a project that needed a simple blog and
+would be perfect match for Action Text. Only problem was it was a Rails 5.2
+application and Action Text is really slated for Rails 6, which won’t be released
+until next year. So I decided to see if I can make it work. <!--more--> Long story, short - it works.</p>
+
+<h3 id="1-installation">1. Installation</h3>
+
+<p>In Rails 5.2, The ActionStorage performs image processing on the fly and uses MiniMagick by default. However in Rails 6, ActiveStorage is moving to the <a href="https://github.com/janko-m/image_processing">ImageProcessing</a> gem instead. But for our purposes, we just need the Action Text gem installed.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gem</span> <span class="s2">"actiontext"</span><span class="p">,</span> <span class="ss">github: </span><span class="s2">"rails/actiontext"</span><span class="p">,</span> <span class="ss">require: </span><span class="s2">"action_text"</span>
+</code></pre></div></div>
+
+<p>And then run the installer and migrations:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rails</span> <span class="n">action_text</span><span class="ss">:install</span>
+<span class="n">rails</span> <span class="n">db</span><span class="ss">:migrate</span>
+</code></pre></div></div>
+
+<h3 id="2-update-action-texts-blob-partial">2. Update Action Text’s Blob Partial</h3>
+
+<p>The Action Text installer will add a view partial <code class="language-plaintext highlighter-rouge">_blob.html.erb</code> that’s
+responsible for displaying the images. We’ll need to modify this partial since
+Action Text assumes we’re using ImageProcessing’s <code class="language-plaintext highlighter-rouge">resize_to_fit</code> option to
+resize photos, but that’s not available to us yet. We need to use the
+<code class="language-plaintext highlighter-rouge">variant</code> option available to us in Rails 5.2 ActiveStorage. These variants are
+used to create thumbnails, fixed-size avatars, or any other derivative image
+from the original.</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;figure</span> <span class="na">class=</span><span class="s">"attachment attachment--</span><span class="cp">&lt;%=</span> <span class="n">blob</span><span class="p">.</span><span class="nf">representable?</span> <span class="p">?</span> <span class="s2">"preview"</span> <span class="p">:</span> <span class="s2">"file"</span> <span class="cp">%&gt;</span><span class="s"> attachment--</span><span class="cp">&lt;%=</span> <span class="n">blob</span><span class="p">.</span><span class="nf">filename</span><span class="p">.</span><span class="nf">extension</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">blob</span><span class="p">.</span><span class="nf">representable?</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">image_tag</span><span class="p">(</span><span class="n">blob</span><span class="p">.</span><span class="nf">variant</span><span class="p">(</span><span class="ss">resize: </span><span class="s2">"800x600"</span><span class="p">))</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+
+  <span class="nt">&lt;figcaption</span> <span class="na">class=</span><span class="s">"attachment__caption"</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">caption</span> <span class="o">=</span> <span class="n">blob</span><span class="p">.</span><span class="nf">try</span><span class="p">(</span><span class="ss">:caption</span><span class="p">)</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">caption</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/figcaption&gt;</span>
+<span class="nt">&lt;/figure&gt;</span>
+</code></pre></div></div>
+
+<p>Now, this worked for the most part. I was able to click an drag photos over to
+the trix editor and verified that it was uploading files via
+ActiveStorage. Pretty cool!</p>
+
+<p><img src="/assets/images/journal/action-text-in-action.gif" alt="Hotwire Gif" /></p>
+
+<h4 id="3-avoid-pguniqueviolation-errors">3. Avoid PG:UniqueViolation Errors</h4>
+
+<p>But, I noticed some issues with other ActiveStorage enabled models unrelated to Action Text, in
+particular, models with <code class="language-plaintext highlighter-rouge">has_many_attached</code> included. Looking at the logs, I saw some
+exceptions:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PG::UniqueViolation: ERROR: duplicate key value violates unique constraint "index_active_storage_attachments_uniqueness" DETAIL: Key (record_type, record_id, name, blob_id)=(ActionText::RichText, 349d05dd-cc7c-4e51-973d-24ff9e382e10, embeds, 1e794d34-6a14-4a80-9aeb-d31e6e1a1494) already exists. : INSERT INTO "active_storage_attachments" ("name", "record_id", "record_type", "blob_id", "created_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"
+</code></pre></div></div>
+
+<p>It wasn’t saving all the attachments for a model. I had no idea why this was
+happending, but I verified it worked fine in Rails 5.2. Digging deeper, it looks
+like this entire part of ActiveStorage was rewritten for Rails 6 and that means
+Action Text was written to work with that, understandably. The exception is
+being raised
+<a href="https://github.com/rails/rails/blob/5-2-stable/activestorage/lib/active_storage/attached/many.rb#L21">here</a>
+in <code class="language-plaintext highlighter-rouge">activestorage</code>. It’s attempting to create new records when the records
+already exists, which unfortunately means we’re going to have to override this
+method with a little monkey patching:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># config/initializers/monkey_patches.rb</span>
+
+<span class="k">module</span> <span class="nn">ActiveStorage</span>
+  <span class="k">class</span> <span class="nc">Attached::Many</span> <span class="o">&lt;</span> <span class="no">Attached</span>
+    <span class="k">def</span> <span class="nf">attach</span><span class="p">(</span><span class="o">*</span><span class="n">attachables</span><span class="p">)</span>
+      <span class="n">attachables</span><span class="p">.</span><span class="nf">flatten</span><span class="p">.</span><span class="nf">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">attachable</span><span class="o">|</span>
+
+        <span class="k">if</span> <span class="n">record</span><span class="p">.</span><span class="nf">new_record?</span>
+          <span class="n">attachments</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="ss">record: </span><span class="n">record</span><span class="p">,</span> <span class="ss">blob: </span><span class="n">create_blob_from</span><span class="p">(</span><span class="n">attachable</span><span class="p">))</span>
+        <span class="k">elsif</span> <span class="o">!</span><span class="n">record</span><span class="p">.</span><span class="nf">is_a?</span> <span class="no">ActionText</span><span class="o">::</span><span class="no">RichText</span>
+          <span class="n">attachments</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">record: </span><span class="n">record</span><span class="p">,</span> <span class="ss">blob: </span><span class="n">create_blob_from</span><span class="p">(</span><span class="n">attachable</span><span class="p">))</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>We simple check if the record is of type <code class="language-plaintext highlighter-rouge">ActionText:Rich</code> before attempting to create new attachments, otherwise we just skip it. And that did the trick.</p>
+
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        
+<footer class="mt-24">
+  <div class="sm:px-8">
+    <div class="mx-auto max-w-7xl lg:px-8">
+      <div class="border-t border-zinc-100 pt-10 pb-16 dark:border-zinc-700/40">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+              <div class="flex gap-6 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/">Home</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/about">About</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/work">Work</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/articles">Journal</a>
+              </div>
+              <p class="text-sm text-zinc-400 dark:text-zinc-500">
+                © 2023 Matt Sears. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+      </div>
+    </div>
+  </body>
+</html>

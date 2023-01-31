@@ -1,0 +1,274 @@
+<html class="h-full antialiased js-focus-visible" data-js-focus-visible="" style="--header-position: sticky; --content-offset: 0px; --header-height: 64px; --header-mb: 0px; --avatar-image-transform: translate3d(0rem, 0, 0) scale(1); --avatar-border-transform: translate3d(-0.2222222222222222rem, 0, 0) scale(1.7777777777777777); --avatar-border-opacity: 0; --header-top: 0px; --avatar-top: 0px;" lang="en">
+  <head>
+  <meta charset="utf-8">
+
+  
+    <title>Matt Sears | Defensive Development</title>
+  
+  <link rel="icon" href="/assets/images/me.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <script src="/assets/builds/application.js"></script>
+  <link href="/assets/builds/application.css" rel="stylesheet" type="text/css" media="all" />
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Defensive Development | Matt Sears</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Defensive Development" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Much like Defensive Driving, in which Wikipedia describes “anticipating dangerous situations, despite adverse conditions or the mistakes of others when operating a motor vehicle”, defensive development is building software that anticipates future “one-off” features and deployments by having tools to solve problems already in production." />
+<meta property="og:description" content="Much like Defensive Driving, in which Wikipedia describes “anticipating dangerous situations, despite adverse conditions or the mistakes of others when operating a motor vehicle”, defensive development is building software that anticipates future “one-off” features and deployments by having tools to solve problems already in production." />
+<link rel="canonical" href="https://mattsears.com/articles/2023/01/31/defensive-software/" />
+<meta property="og:url" content="https://mattsears.com/articles/2023/01/31/defensive-software/" />
+<meta property="og:site_name" content="Matt Sears" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-01-31T17:08:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Defensive Development" />
+<script type="application/ld+json">
+{"description":"Much like Defensive Driving, in which Wikipedia describes “anticipating dangerous situations, despite adverse conditions or the mistakes of others when operating a motor vehicle”, defensive development is building software that anticipates future “one-off” features and deployments by having tools to solve problems already in production.","@type":"BlogPosting","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://mattsears.com/assets/images/me.png"}},"url":"https://mattsears.com/articles/2023/01/31/defensive-software/","headline":"Defensive Development","dateModified":"2023-01-31T17:08:00+00:00","datePublished":"2023-01-31T17:08:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mattsears.com/articles/2023/01/31/defensive-software/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+  <body class="flex h-full flex-col bg-zinc-50 dark:bg-black">
+    <div id="__next">
+      <div class="fixed inset-0 flex justify-center sm:px-8">
+        <div class="flex w-full max-w-7xl lg:px-8">
+          <div class="w-full bg-white ring-1 ring-zinc-100 dark:bg-zinc-900 dark:ring-zinc-300/20"></div>
+        </div>
+      </div>
+      <div class="relative">
+        <header class="pointer-events-none relative z-50 flex flex-col" style="height: 64px;">
+  <div class="top-0 z-10 h-16 pt-6" style="position:var(--header-position)">
+    <div class="sm:px-8 top-[var(--header-top,theme(spacing.6))] w-full" style="position:var(--header-inner-position)">
+      <div class="mx-auto max-w-7xl lg:px-8">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="relative flex gap-4">
+              <div class="flex flex-1">
+                <div class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10"><a aria-label="Home" class="pointer-events-auto" href="/">
+                  <img alt="" sizes="2.25rem" srcset="" src="/assets/images/me.png" decoding="async" data-nimg="future" class="rounded-full bg-zinc-100 object-cover dark:bg-zinc-800 h-9 w-9" style="color: transparent;" width="512" height="512"></a></div>
+              </div>
+              <div class="flex flex-1 justify-end md:justify-center">
+                <div class="pointer-events-auto md:hidden" data-headlessui-state="">
+                  <button class="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20" id="headlessui-popover-button-:Rqb6:" type="button" aria-expanded="false" data-headlessui-state="">
+                    Menu
+                    <svg viewBox="0 0 8 6" aria-hidden="true" class="ml-3 h-auto w-2 stroke-zinc-500 group-hover:stroke-zinc-700 dark:group-hover:stroke-zinc-400">
+                      <path d="M1.75 1.75 4 4.25l2.25-2.5" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+                
+<nav class="pointer-events-auto hidden md:block">
+  <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/">
+        Home
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/about/">
+        About
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/articles/">
+        Journal
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400 " href="#contact" data-name="matt" data-domain="mattsears" data-tld="com" onclick="window.location.href = 'mailto:' + this.dataset.name + '@' + this.dataset.domain + '.' + this.dataset.tld; return false;">Contact </a>
+    </li>
+  </ul>
+
+</nav>
+
+
+
+              </div>
+              <div class="flex justify-end md:flex-1 ">
+                <div class="pointer-events-auto ">
+                  <button type="button"
+                          aria-label="Toggle dark mode"
+                          data-controller='toggle-mode'
+                          data-action='click->toggle-mode#toggleMode'
+                          class="group rounded-full bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20">
+                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="h-6 w-6 fill-zinc-100 stroke-zinc-500 transition group-hover:fill-zinc-200 group-hover:stroke-zinc-700 dark:hidden [@media(prefers-color-scheme:dark)]:fill-teal-50 [@media(prefers-color-scheme:dark)]:stroke-teal-500 [@media(prefers-color-scheme:dark)]:group-hover:fill-teal-50 [@media(prefers-color-scheme:dark)]:group-hover:stroke-teal-600">
+                      <path d="M8 12.25A4.25 4.25 0 0 1 12.25 8v0a4.25 4.25 0 0 1 4.25 4.25v0a4.25 4.25 0 0 1-4.25 4.25v0A4.25 4.25 0 0 1 8 12.25v0Z"></path>
+                      <path d="M12.25 3v1.5M21.5 12.25H20M18.791 18.791l-1.06-1.06M18.791 5.709l-1.06 1.06M12.25 20v1.5M4.5 12.25H3M6.77 6.77 5.709 5.709M6.77 17.73l-1.061 1.061" fill="none"></path>
+                    </svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="hidden h-6 w-6 fill-zinc-700 stroke-zinc-500 transition dark:block [@media(prefers-color-scheme:dark)]:group-hover:stroke-zinc-400 [@media_not_(prefers-color-scheme:dark)]:fill-teal-400/10 [@media_not_(prefers-color-scheme:dark)]:stroke-teal-500">
+                      <path d="M17.25 16.22a6.937 6.937 0 0 1-9.47-9.47 7.451 7.451 0 1 0 9.47 9.47ZM12.75 7C17 7 17 2.75 17 2.75S17 7 21.25 7C17 7 17 11.25 17 11.25S17 7 12.75 7Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+        <main>
+          <div class="sm:px-8 mt-16 lg:mt-32">
+            <div class="mx-auto max-w-7xl lg:px-8">
+              <div class="relative px-4 sm:px-8 lg:px-12">
+                <div class="mx-auto max-w-2xl lg:max-w-5xl">
+                  <div class="xl:relative">
+                    <div class="mx-auto max-w-3xl">
+                      
+
+                      
+                      <a type="button" href="/articles/2022/12/30/wanderment/" aria-label="" class="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-right-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:right-0 xl:mt-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                        </svg>
+                      </a>
+                      
+
+
+                      <article>
+                        <header class="flex flex-col">
+                          <h1 class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-4xl">
+                            Defensive Development
+                          </h1>
+                          <time datetime="2023-01-31" class="order-first flex items-center text-base text-zinc-400 dark:text-zinc-500">
+                            <span class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
+                            <span class="ml-3">January 31, 2023 </span>
+                          </time>
+                        </header>
+                        <div class="mt-8 prose dark:prose-invert">
+                          <p>Much like <a href="https://en.wikipedia.org/wiki/Defensive_driving">Defensive Driving</a>, in which Wikipedia
+describes “anticipating dangerous situations, despite adverse conditions or the mistakes of others
+when operating a motor vehicle”, defensive development is building software that anticipates future
+“one-off” features and deployments by having tools to solve problems already in production. <!--more--></p>
+
+<p><img class="w-full m-auto" src="/assets/images/generated/chess-match-800-4c3c49fc2.jpg" srcset="/assets/images/generated/chess-match-400-4c3c49fc2.jpg 400w, /assets/images/generated/chess-match-600-4c3c49fc2.jpg 600w, /assets/images/generated/chess-match-800-4c3c49fc2.jpg 800w, /assets/images/generated/chess-match-1000-4c3c49fc2.jpg 1000w" /></p>
+
+<p>When I was a technical leader at a big tech company, releasing software to production was a big deal
+involving many people and procedures - taking days sometimes weeks. It was particularly important to
+have all the i’s dotted and t’s crossed, otherwise it may take another week to deploy another
+release. In some cases, a small bug would slip through or even something smaller like a word
+misspelled that would have to wait until the following week or petition for an emergency release.</p>
+
+<p>Another common scenario is an outside department in the company needs a special “view” to the
+application so that they can gain access to the software for their own purposes. They typically
+would request our team to build a separate section just for them tying up our resources just to
+build this special feature instead of focusing on our own customer needs. Does this sound
+familiar?</p>
+
+<p>Over many years of taking feature requests working with customers and external teams, you begin to
+realize a common set of requests users always ask for post-production. In this post, I want to share
+with you what I typically like to include with every piece of software I ship in order to anticipate
+future requests and reduce the need to deploy special releases.</p>
+
+<h4 id="1-administration-tool">1. Administration Tool</h4>
+
+<p>By far the best and obvious way to make updates in production without re-deploying code is having an
+administration tool in place. This can be for development team eyes only or even allow customers to
+make updates as well. In Ruby On Rails applications, there are already a few great plugins that
+makes it very easy. Here’s just a few examples that have helped my team:</p>
+
+<ul>
+  <li>Updating production database records like user information.</li>
+  <li>Revoking user accounts or permissions.</li>
+  <li>Removing fake or test account data.</li>
+  <li>Changing the price of subscription plans.</li>
+</ul>
+
+<h4 id="2-a-private-api">2. A Private API</h4>
+
+<p>Building an API in the software can be pretty simple to include. Again, for Ruby on Rails apps,
+there are gems that make this simple. Having just a simple API in place and pay big dividends down
+the road. When asked to get a special “access” in a lot of cases, you can just provide the API
+endpoints and connection details and they can build their own application themselves.</p>
+
+<h4 id="3-managed-tool-for-error-logging">3. Managed Tool for Error Logging</h4>
+
+<p>If I had a nickel for every time I got an email saying “the website was down last night” and then
+spending hours trying to figure out what happened, well, I’d have a lot of nickels. Having a way to
+search log files is a crucial way to track down issues or even false alarms. A lot of the time it’s
+the hosting provider having network issues. Tools like <a href="https://www.datadoghq.com">DataDog</a> gives
+you the ability to track down errors and when they occur. If anything, it’s been a great way to
+point out there weren’t any issues at all and we can move on to the next task.</p>
+
+<h4 id="4-healthcheck-aka-smoketest-page">4. Healthcheck (aka Smoketest) Page</h4>
+
+<p>This is one of the oldest and my personal favorite trick. Often times I will build a page in the application
+that only I can get to (i.e. /smoketest) that will give me a basic vitals of the system. For
+example:</p>
+
+<ul>
+  <li>First and foremost, make sure the application is still running.</li>
+  <li>Show the number of active users to make sure the application is database connection is fine.</li>
+  <li>Display the status of connection to third-party api’s to check the connection is working.</li>
+</ul>
+
+<p>When getting that dreaded email saying “something’s wrong with the site”, I’ll check the smoketest
+page first to make sure all is working or quickly determine the issue.</p>
+
+<h4 id="5-routine-maintenance-task-page">5. Routine Maintenance Task Page</h4>
+
+<p>Similar to the administration tool, having a section in the application where the development team
+can queue routine maintenance tasks i.e. Rake tasks, is a great time saver. The folks at
+Shopify have a gem for this called <a href="https://github.com/Shopify/maintenance_tasks">Maintenance Tasks</a>
+that works great. Here are some examples of maintenance tasks I’ve used in production before:</p>
+
+<ul>
+  <li>Deleting inactive user records to clean up the database.</li>
+  <li>Clearing production cache assets to make sure all cached assets are up-to-date.</li>
+  <li>Re-running scheduled tasks in case there was an outage from the night before.</li>
+</ul>
+
+<p>After your the application has been in production a while and you’ve implemented tools like listed
+above, you’ll notice fewer and fewer emergency releases and having more to time focus on adding
+value your customers will love.</p>
+
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        
+<footer class="mt-24">
+  <div class="sm:px-8">
+    <div class="mx-auto max-w-7xl lg:px-8">
+      <div class="border-t border-zinc-100 pt-10 pb-16 dark:border-zinc-700/40">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+              <div class="flex gap-6 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/">Home</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/about">About</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/work">Work</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/articles">Journal</a>
+              </div>
+              <p class="text-sm text-zinc-400 dark:text-zinc-500">
+                © 2023 Matt Sears. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+      </div>
+    </div>
+  </body>
+</html>

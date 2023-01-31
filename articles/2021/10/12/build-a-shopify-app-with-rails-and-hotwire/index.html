@@ -1,0 +1,640 @@
+<html class="h-full antialiased js-focus-visible" data-js-focus-visible="" style="--header-position: sticky; --content-offset: 0px; --header-height: 64px; --header-mb: 0px; --avatar-image-transform: translate3d(0rem, 0, 0) scale(1); --avatar-border-transform: translate3d(-0.2222222222222222rem, 0, 0) scale(1.7777777777777777); --avatar-border-opacity: 0; --header-top: 0px; --avatar-top: 0px;" lang="en">
+  <head>
+  <meta charset="utf-8">
+
+  
+    <title>Matt Sears | Build a Shopify App with Rails and Hotwire</title>
+  
+  <link rel="icon" href="/assets/images/me.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <script src="/assets/builds/application.js"></script>
+  <link href="/assets/builds/application.css" rel="stylesheet" type="text/css" media="all" />
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Build a Shopify App with Rails and Hotwire | Matt Sears</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Build a Shopify App with Rails and Hotwire" />
+<meta name="author" content="Matt Sears" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I’m very grateful for Shopify and all that it has given to the Rails community over the years. Shopify is a Rails application after all. When I ran a consulting firm, clients would sometimes raise the question about Rails’ performance history. My go-to response was “Shopify runs on Rails” so what performance issues?" />
+<meta property="og:description" content="I’m very grateful for Shopify and all that it has given to the Rails community over the years. Shopify is a Rails application after all. When I ran a consulting firm, clients would sometimes raise the question about Rails’ performance history. My go-to response was “Shopify runs on Rails” so what performance issues?" />
+<link rel="canonical" href="https://mattsears.com/articles/2021/10/12/build-a-shopify-app-with-rails-and-hotwire/" />
+<meta property="og:url" content="https://mattsears.com/articles/2021/10/12/build-a-shopify-app-with-rails-and-hotwire/" />
+<meta property="og:site_name" content="Matt Sears" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-10-12T22:07:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Build a Shopify App with Rails and Hotwire" />
+<script type="application/ld+json">
+{"description":"I’m very grateful for Shopify and all that it has given to the Rails community over the years. Shopify is a Rails application after all. When I ran a consulting firm, clients would sometimes raise the question about Rails’ performance history. My go-to response was “Shopify runs on Rails” so what performance issues?","@type":"BlogPosting","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://mattsears.com/assets/images/me.png"},"name":"Matt Sears"},"url":"https://mattsears.com/articles/2021/10/12/build-a-shopify-app-with-rails-and-hotwire/","headline":"Build a Shopify App with Rails and Hotwire","dateModified":"2021-10-12T22:07:00+00:00","datePublished":"2021-10-12T22:07:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mattsears.com/articles/2021/10/12/build-a-shopify-app-with-rails-and-hotwire/"},"author":{"@type":"Person","name":"Matt Sears"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+  <body class="flex h-full flex-col bg-zinc-50 dark:bg-black">
+    <div id="__next">
+      <div class="fixed inset-0 flex justify-center sm:px-8">
+        <div class="flex w-full max-w-7xl lg:px-8">
+          <div class="w-full bg-white ring-1 ring-zinc-100 dark:bg-zinc-900 dark:ring-zinc-300/20"></div>
+        </div>
+      </div>
+      <div class="relative">
+        <header class="pointer-events-none relative z-50 flex flex-col" style="height: 64px;">
+  <div class="top-0 z-10 h-16 pt-6" style="position:var(--header-position)">
+    <div class="sm:px-8 top-[var(--header-top,theme(spacing.6))] w-full" style="position:var(--header-inner-position)">
+      <div class="mx-auto max-w-7xl lg:px-8">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="relative flex gap-4">
+              <div class="flex flex-1">
+                <div class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10"><a aria-label="Home" class="pointer-events-auto" href="/">
+                  <img alt="" sizes="2.25rem" srcset="" src="/assets/images/me.png" decoding="async" data-nimg="future" class="rounded-full bg-zinc-100 object-cover dark:bg-zinc-800 h-9 w-9" style="color: transparent;" width="512" height="512"></a></div>
+              </div>
+              <div class="flex flex-1 justify-end md:justify-center">
+                <div class="pointer-events-auto md:hidden" data-headlessui-state="">
+                  <button class="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20" id="headlessui-popover-button-:Rqb6:" type="button" aria-expanded="false" data-headlessui-state="">
+                    Menu
+                    <svg viewBox="0 0 8 6" aria-hidden="true" class="ml-3 h-auto w-2 stroke-zinc-500 group-hover:stroke-zinc-700 dark:group-hover:stroke-zinc-400">
+                      <path d="M1.75 1.75 4 4.25l2.25-2.5" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+                
+<nav class="pointer-events-auto hidden md:block">
+  <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/">
+        Home
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/about/">
+        About
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition  hover:text-teal-500 dark:hover:text-teal-400  " href="/articles/">
+        Journal
+        
+      </a>
+    </li>
+    
+    <li>
+      <a class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400 " href="#contact" data-name="matt" data-domain="mattsears" data-tld="com" onclick="window.location.href = 'mailto:' + this.dataset.name + '@' + this.dataset.domain + '.' + this.dataset.tld; return false;">Contact </a>
+    </li>
+  </ul>
+
+</nav>
+
+
+
+              </div>
+              <div class="flex justify-end md:flex-1 ">
+                <div class="pointer-events-auto ">
+                  <button type="button"
+                          aria-label="Toggle dark mode"
+                          data-controller='toggle-mode'
+                          data-action='click->toggle-mode#toggleMode'
+                          class="group rounded-full bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20">
+                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="h-6 w-6 fill-zinc-100 stroke-zinc-500 transition group-hover:fill-zinc-200 group-hover:stroke-zinc-700 dark:hidden [@media(prefers-color-scheme:dark)]:fill-teal-50 [@media(prefers-color-scheme:dark)]:stroke-teal-500 [@media(prefers-color-scheme:dark)]:group-hover:fill-teal-50 [@media(prefers-color-scheme:dark)]:group-hover:stroke-teal-600">
+                      <path d="M8 12.25A4.25 4.25 0 0 1 12.25 8v0a4.25 4.25 0 0 1 4.25 4.25v0a4.25 4.25 0 0 1-4.25 4.25v0A4.25 4.25 0 0 1 8 12.25v0Z"></path>
+                      <path d="M12.25 3v1.5M21.5 12.25H20M18.791 18.791l-1.06-1.06M18.791 5.709l-1.06 1.06M12.25 20v1.5M4.5 12.25H3M6.77 6.77 5.709 5.709M6.77 17.73l-1.061 1.061" fill="none"></path>
+                    </svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="hidden h-6 w-6 fill-zinc-700 stroke-zinc-500 transition dark:block [@media(prefers-color-scheme:dark)]:group-hover:stroke-zinc-400 [@media_not_(prefers-color-scheme:dark)]:fill-teal-400/10 [@media_not_(prefers-color-scheme:dark)]:stroke-teal-500">
+                      <path d="M17.25 16.22a6.937 6.937 0 0 1-9.47-9.47 7.451 7.451 0 1 0 9.47 9.47ZM12.75 7C17 7 17 2.75 17 2.75S17 7 21.25 7C17 7 17 11.25 17 11.25S17 7 12.75 7Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+        <main>
+          <div class="sm:px-8 mt-16 lg:mt-32">
+            <div class="mx-auto max-w-7xl lg:px-8">
+              <div class="relative px-4 sm:px-8 lg:px-12">
+                <div class="mx-auto max-w-2xl lg:max-w-5xl">
+                  <div class="xl:relative">
+                    <div class="mx-auto max-w-3xl">
+                      
+                      <a type="button" href="/articles/2021/11/29/to-gem-or-not-to-gem/" aria-label="Go back to articles" class=" group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-left-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:left-0 xl:mt-0">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                        </svg>
+                      </a>
+                      
+
+                      
+                      <a type="button" href="/articles/2021/08/31/taking-care-of-your-vision/" aria-label="" class="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-right-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:right-0 xl:mt-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                        </svg>
+                      </a>
+                      
+
+
+                      <article>
+                        <header class="flex flex-col">
+                          <h1 class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-4xl">
+                            Build a Shopify App with Rails and Hotwire
+                          </h1>
+                          <time datetime="2021-10-12" class="order-first flex items-center text-base text-zinc-400 dark:text-zinc-500">
+                            <span class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
+                            <span class="ml-3">October 12, 2021 </span>
+                          </time>
+                        </header>
+                        <div class="mt-8 prose dark:prose-invert">
+                          <p>I’m very grateful for Shopify and all that it has given to the Rails community
+over the years. Shopify <em>is</em> a Rails application after all. When I ran a
+consulting firm, clients would sometimes raise the question about Rails’
+performance history. My go-to response was “Shopify runs on Rails” so what
+performance issues? <!--more--></p>
+
+<p>It’s a wonderful platform that has provided a clear and straightforward path for
+millions of business owners to sell their goods and services online. They have
+provided countless hours back to the Ruby community. In addition to the
+platform, they have a vibrant <a href="https://apps.shopify.com/">app store</a>, which brings me
+to this post. We’re going to build a simple Shopify app using Rails, Hotwire,
+and ViewComponents.</p>
+
+<p>In this post, we’re going to use the following tools and resources:</p>
+
+<ol>
+  <li>Shopify’s <a href="https://github.com/Shopify/shopify_app">shopify_app</a> gem</li>
+  <li>Ruby on Rails with <a href="https://github.com/hotwired/turbo-rails">Hotwire</a></li>
+  <li><a href="https://github.com/github/view_component">View Components</a></li>
+  <li><a href="https://polaris.shopify.com/">Shopify Polaris</a></li>
+  <li><a href="https://ngrok.com">ngrok</a></li>
+</ol>
+
+<h3 id="getting-setup">Getting setup</h3>
+
+<p>The basic concept of a Shopify App, is that it’s essentially a full blown web application
+running inside the Shopify platform. Hence why it’s a called an ‘app’ and not a
+plugin. This means our app will need to be hosted somewhere on the Internet in
+order for Shopify to interface with it. We can use a service like Heroku, but we
+don’t want to have to push updates to the server in development mode. Instead,
+we’re going to setup <a href="https://ngrok.com">ngrok</a> to tunnel traffic from Shopify
+to our application running locally.</p>
+
+<p>I recommend signing up for ngrok’s basic plan that allows you to setup a custom
+subdomain such as “shopifyhotwireapp.ngrok.io” that I’m going to use for demo
+purposes. This will come in handy once we start developing the app by having a
+consistent endpoint for Shopify to interface with. Once we have our Rails app up
+and running locally on port 3000, we can run ngrok and give your custom
+subdomain along with the port number to forward traffic, in my case, my laptop.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ngrok http <span class="nt">-subdomain</span><span class="o">=</span>shopifyhotwireapp  3000
+</code></pre></div></div>
+
+<p>Now we need to register an app on Shopify. Assuming you have a
+<a href="https://partners.shopify.com/">partner’s</a> account on Shopify, we can easily
+create a new application from the partners dashboard page. For this post, we’re
+going to create a new app call “My Rails Hotwire App”. Here is where we will add
+the redirection url that we specified in our ngrok command above. This is where
+Shopify will load our app from and send requests to.</p>
+
+<p><img class="w-full" src="/assets/images/generated/shopify_app_hotwire/create-new-app-800-3ba726481.jpg" srcset="/assets/images/generated/shopify_app_hotwire/create-new-app-400-3ba726481.jpg 400w, /assets/images/generated/shopify_app_hotwire/create-new-app-600-3ba726481.jpg 600w, /assets/images/generated/shopify_app_hotwire/create-new-app-800-3ba726481.jpg 800w, /assets/images/generated/shopify_app_hotwire/create-new-app-1000-3ba726481.jpg 1000w" /></p>
+
+<p><img class="w-full" src="/assets/images/generated/shopify_app_hotwire/shopify-app-api-keys-800-31e6a080a.jpg" srcset="/assets/images/generated/shopify_app_hotwire/shopify-app-api-keys-400-31e6a080a.jpg 400w, /assets/images/generated/shopify_app_hotwire/shopify-app-api-keys-600-31e6a080a.jpg 600w, /assets/images/generated/shopify_app_hotwire/shopify-app-api-keys-800-31e6a080a.jpg 800w, /assets/images/generated/shopify_app_hotwire/shopify-app-api-keys-1000-31e6a080a.jpg 1000w" /></p>
+
+<p>Now we have our credentials for Shopify’s API that we’ll need for our new Rails
+application. Similar to Shopify’s own
+<a href="https://shopify.dev/apps/auth/session-tokens/rails-react-app-bridge-app">documentation</a>,
+we’ll create a new Rails app:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails new shopify-hotwire
+<span class="nb">cd </span>shopify-hotwire
+</code></pre></div></div>
+
+<p>Plug in our new API credentials in the <code class="language-plaintext highlighter-rouge">.env</code> file.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">SHOPIFY_API_KEY</span><span class="o">=</span>xxx...
+<span class="nv">SHOPIFY_API_SECRET</span><span class="o">=</span>yyy...
+</code></pre></div></div>
+
+<p>Now add the <code class="language-plaintext highlighter-rouge">shopify_app</code> gem</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gem</span> <span class="s1">'shopify_app'</span><span class="p">,</span> <span class="s1">'~&gt; 18.0.2'</span>
+</code></pre></div></div>
+
+<p>Using the <code class="language-plaintext highlighter-rouge">shopify_app</code> gem, we’ll generate a new Shopify app</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bundle</span> <span class="n">install</span>
+<span class="o">...</span>
+
+<span class="n">rails</span> <span class="n">generate</span> <span class="n">shopify_app</span>
+<span class="o">...</span>
+
+<span class="c1"># Create new 'shops' table to store information about the shops using the app</span>
+<span class="n">rails</span> <span class="n">db</span><span class="ss">:migrate</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">shopify_app</code> gem gives us a few good tools to get us started. Most notably
+it provides the code required to implement OAuth with Shopify so we don’t have
+to worry about doing that work on the back-end. To authenticate with Shopify, we’re using Shopify’s <a href="https://shopify.dev/apps/tools/app-bridge/getting-started">App
+Bridge</a> using session
+tokens on the client-side using Javascript. More on this a little later.</p>
+
+<p>Shopify has
+<a href="https://shopify.dev/apps/auth/session-tokens/server-side-rendered-apps">documentation</a>
+on how to do this with Turbolinks, but we’re going to use Turbo instead and so
+I’ve taken their examples on Turbolinks and modified it. The same concept
+applies - we’re using client-side code to create session tokens that will
+authenticate requests.</p>
+
+<p>When we ran <code class="language-plaintext highlighter-rouge">rails generate shopify_app</code> earlier, the generator producted a few
+Javascript files for us. The most important one is <code class="language-plaintext highlighter-rouge">shopify_app.js</code>, this is
+where we’ll make some adjustments. But first, let’s install Turbo.</p>
+
+<h4 id="installing-turbo">Installing Turbo</h4>
+
+<p>The JavaScript for Turbo can either be run through the asset pipeline, which is
+included with the gem, or through the package that lives on NPM, through
+Webpacker. We’re going to use Webpacker so let’s add that to the Gemfile along
+with turbo-rails too.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Gemfile</span>
+
+<span class="n">gem</span> <span class="s1">'webpacker'</span><span class="p">,</span> <span class="s1">'~&gt; 5.0'</span>
+<span class="n">gem</span> <span class="s1">'turbo-rails'</span>
+</code></pre></div></div>
+
+<p>Install turbo in our rails app:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bundle</span> <span class="n">install</span>
+
+<span class="n">rails</span> <span class="n">turbo</span><span class="ss">:install</span>
+</code></pre></div></div>
+
+<p>Now that we have webpacker up and running Turbo, we’re going to remove turbolinks and
+add Stimulus, Shopify’s Bridge Utils, and Polaris libraries.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yarn remove turbolinks
+yarn add stimulus
+yarn add @shopify/app-bridge-utils
+yarn add @shopify/polaris
+</code></pre></div></div>
+
+<p>Again, I’m following Shopify’s
+<a href="https://shopify.dev/apps/auth/session-tokens/server-side-rendered-apps">example</a>
+on how to create an embedded app using Rails and Turbolinks, but using <em>Turbo</em>
+instead. In their example, they create a Splash page first. The purpose of a
+splash page is to fetch a token from Shopify so that we have a token to
+authenticate the rest of the session. Once a token is retrieved, the page is
+directed to the main home page where our app comes to life.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rails</span> <span class="n">generate</span> <span class="n">controller</span> <span class="n">splash_page</span> <span class="n">index</span>
+</code></pre></div></div>
+
+<p>Make the splash page the default page so this is the first page the user sees.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># routes.rb</span>
+
+<span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">routes</span><span class="p">.</span><span class="nf">draw</span> <span class="k">do</span>
+  <span class="n">root</span> <span class="ss">to: </span><span class="s1">'splash_page#index'</span>
+  <span class="o">...</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Much like the Home controller that <code class="language-plaintext highlighter-rouge">shopify_app</code> generated for us, we include a
+few modules to give us the resources we need for our app to communicate with the
+shops.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># app/controllers/splash_controller.rb</span>
+
+<span class="k">class</span> <span class="nc">SplashPageController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="kp">include</span> <span class="no">ShopifyApp</span><span class="o">::</span><span class="no">EmbeddedApp</span>
+  <span class="kp">include</span> <span class="no">ShopifyApp</span><span class="o">::</span><span class="no">RequireKnownShop</span>
+  <span class="kp">include</span> <span class="no">ShopifyApp</span><span class="o">::</span><span class="no">ShopAccessScopesVerification</span>
+
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="vi">@shop_origin</span> <span class="o">=</span> <span class="n">current_shopify_domain</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="updating-shopify_appjs-for-turbo">Updating shopify_app.js for Turbo</h3>
+
+<p>Now it’s time to update <code class="language-plaintext highlighter-rouge">shopify_app.js</code> so that each fetch to our Rails
+application has a session token included for every request to the server. The
+code included in the <code class="language-plaintext highlighter-rouge">shopify_app</code> engine will look for the token in the
+<code class="language-plaintext highlighter-rouge">Authorization</code> header and verify the token is legit.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//app/javascript/shopify_app/shopify_app.js</span>
+
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Turbo</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@hotwired/turbo-rails</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">getSessionToken</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@shopify/app-bridge-utils</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">createApp</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@shopify/app-bridge</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">SESSION_TOKEN_REFRESH_INTERVAL</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">;</span> <span class="c1">// Request a new token every 2s</span>
+
+<span class="nb">window</span><span class="p">.</span><span class="nx">Turbo</span> <span class="o">=</span> <span class="nx">Turbo</span>
+<span class="nx">Turbo</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+
+<span class="kd">function</span> <span class="nx">redirectThroughTurbolinks</span><span class="p">(</span><span class="nx">isInitialRedirect</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">shopify-app-init</span><span class="dl">"</span><span class="p">).</span><span class="nx">dataset</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">validLoadPath</span> <span class="o">=</span> <span class="nx">data</span> <span class="o">&amp;&amp;</span> <span class="nx">data</span><span class="p">.</span><span class="nx">loadPath</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">shouldRedirect</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+  <span class="k">switch</span> <span class="p">(</span><span class="nx">isInitialRedirect</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">case</span> <span class="kc">true</span><span class="p">:</span>
+    <span class="nx">shouldRedirect</span> <span class="o">=</span> <span class="nx">validLoadPath</span><span class="p">;</span>
+    <span class="k">break</span><span class="p">;</span>
+  <span class="k">case</span> <span class="kc">false</span><span class="p">:</span>
+    <span class="nx">shouldRedirect</span> <span class="o">=</span> <span class="nx">validLoadPath</span> <span class="o">&amp;&amp;</span> <span class="nx">data</span><span class="p">.</span><span class="nx">loadPath</span> <span class="o">!==</span> <span class="dl">"</span><span class="s2">/home</span><span class="dl">"</span>
+    <span class="k">break</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">shouldRedirect</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">Turbo</span><span class="p">.</span><span class="nx">visit</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">loadPath</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">async</span> <span class="kd">function</span> <span class="nx">retrieveToken</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">sessionToken</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">getSessionToken</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">app</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">keepRetrievingToken</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">setInterval</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">retrieveToken</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">app</span><span class="p">);</span>
+  <span class="p">},</span> <span class="nx">SESSION_TOKEN_REFRESH_INTERVAL</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">turbo:load</span><span class="dl">"</span><span class="p">,</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">redirectThroughTurbolinks</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="c1">// Append Shopify's JWT to every Turbo request</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">turbo:before-fetch-request</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">detail</span><span class="p">.</span><span class="nx">fetchOptions</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="dl">'</span><span class="s1">Authorization</span><span class="dl">'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">`Bearer </span><span class="p">${</span><span class="nb">window</span><span class="p">.</span><span class="nx">sessionToken</span><span class="p">}</span><span class="s2">`</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">detail</span><span class="p">.</span><span class="nx">resume</span><span class="p">()</span>
+<span class="p">})</span>
+
+<span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">DOMContentLoaded</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// This is included in embedded_app.html.erb</span>
+  <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">shopify-app-init</span><span class="dl">'</span><span class="p">).</span><span class="nx">dataset</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">AppBridge</span> <span class="o">=</span> <span class="nb">window</span><span class="p">[</span><span class="dl">'</span><span class="s1">app-bridge</span><span class="dl">'</span><span class="p">];</span>
+  <span class="kd">var</span> <span class="nx">createApp</span> <span class="o">=</span> <span class="nx">AppBridge</span><span class="p">.</span><span class="k">default</span><span class="p">;</span>
+
+  <span class="nb">window</span><span class="p">.</span><span class="nx">app</span> <span class="o">=</span> <span class="nx">createApp</span><span class="p">({</span>
+    <span class="na">apiKey</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">apiKey</span><span class="p">,</span>
+    <span class="na">host</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">host</span><span class="p">,</span>
+  <span class="p">});</span>
+
+  <span class="c1">// Wait for a session token before trying to load an authenticated page</span>
+  <span class="k">await</span> <span class="nx">retrieveToken</span><span class="p">();</span>
+
+  <span class="c1">// Keep retrieving a session token periodically</span>
+  <span class="nx">keepRetrievingToken</span><span class="p">();</span>
+
+  <span class="c1">// Redirect to the requested page when DOM loads</span>
+  <span class="kd">var</span> <span class="nx">isInitialRedirect</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+  <span class="nx">redirectThroughTurbolinks</span><span class="p">(</span><span class="nx">isInitialRedirect</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>In order to make sure our token is legit, we need to continuously fetch the
+token to make sure it’s up-to-date. Not a great solution, but it’s one that
+Shopify recommends in their
+<a href="https://shopify.dev/apps/auth/session-tokens/server-side-rendered-apps">post</a>
+so will go with this for now.</p>
+
+<p>One thing we should add to our <code class="language-plaintext highlighter-rouge">AuthorizedController</code> controller (generated for
+us by <code class="language-plaintext highlighter-rouge">shopify_app</code>) is the <code class="language-plaintext highlighter-rouge">ShopifyApp::EnsureAuthenticatedLinks</code> module from
+the <code class="language-plaintext highlighter-rouge">shopify_app</code> gem. This will ensure every request is authenticated with
+Shopify’s API. It does this by checking the session token exists and is
+up-to-date.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># app/controllers/authenticated_controller</span>
+
+<span class="k">class</span> <span class="nc">AuthenticatedController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="kp">include</span> <span class="no">ShopifyApp</span><span class="o">::</span><span class="no">EnsureAuthenticatedLinks</span>
+  <span class="kp">include</span> <span class="no">ShopifyApp</span><span class="o">::</span><span class="no">Authenticated</span>
+
+  <span class="n">before_action</span> <span class="ss">:set_shop_origin</span>
+
+  <span class="kp">private</span>
+
+  <span class="k">def</span> <span class="nf">set_shop_origin</span>
+    <span class="vi">@shop_origin</span> <span class="o">=</span> <span class="n">current_shopify_domain</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="setting-up-the-views">Setting up the views</h3>
+
+<p>Alright, at the point we should have our rails application up and running
+locally with ngrok setup to point to https://shopifyhotwireapp.ngrok.io and we
+have a Shopify app registered to use this web address for our app. In addition,
+we have javascript code setup to get a fresh session token from the Shopify API
+and adding it to our request headers so our rails application can authenticate
+our API credentials.</p>
+
+<p>To make our app look native to Shopiy’s admin panel, we’re going to use
+<a href="https://polaris.shopify.com/">Polaris</a>. Polaris is a collection guidelines, CSS and html
+snippets provided by Shopify to help us give our app a more consistent
+look. Shout out to <a href="https://byassociationonly.com/">BAO Agency</a> for creating a
+set of <a href="https://github.com/baoagency/polaris_view_components">View Components</a>
+that we can easily drop into our ERBs. These view compentns mirror the html
+snippets that Shopify provides, but as a <a href="https://github.com/github/view_component">view
+component</a> instead. Let’s install it.</p>
+
+<p>Add <code class="language-plaintext highlighter-rouge">polaris_view_components</code> to our Gemfile and run the installer.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails generate polaris_view_components:install
+</code></pre></div></div>
+
+<p>Setup Polaris styles in your layouts <code class="language-plaintext highlighter-rouge">&lt;head&gt;</code> tag in the <code class="language-plaintext highlighter-rouge">embedded_app.html.erb</code></p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- app/views/layouts/embedded_app.html.erb --&gt;</span>
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span> <span class="nt">/&gt;</span>
+    <span class="cp">&lt;%</span> <span class="n">application_name</span> <span class="o">=</span> <span class="no">ShopifyApp</span><span class="p">.</span><span class="nf">configuration</span><span class="p">.</span><span class="nf">application_name</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;title&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">application_name</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/title&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span> <span class="s1">'polaris_view_components'</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">javascript_pack_tag</span> <span class="s1">'application'</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span> <span class="s1">'application'</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">csrf_meta_tags</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+
+  <span class="nt">&lt;body</span> <span class="na">style=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">polaris_body_styles</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"app-wrapper"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"app-content"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;main</span> <span class="na">role=</span><span class="s">"main"</span><span class="nt">&gt;</span>
+          <span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span>
+        <span class="nt">&lt;/main&gt;</span>
+      <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+
+    <span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s1">'layouts/flash_messages'</span> <span class="cp">%&gt;</span>
+
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://unpkg.com/@shopify/app-bridge@2"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+    <span class="cp">&lt;%=</span> <span class="n">content_tag</span><span class="p">(</span><span class="ss">:div</span><span class="p">,</span> <span class="kp">nil</span><span class="p">,</span>
+                    <span class="ss">id: </span><span class="s1">'shopify-app-init'</span><span class="p">,</span>
+                    <span class="ss">data: </span><span class="p">{</span>
+                      <span class="ss">api_key: </span><span class="no">ShopifyApp</span><span class="p">.</span><span class="nf">configuration</span><span class="p">.</span><span class="nf">api_key</span><span class="p">,</span>
+                      <span class="ss">shop_origin: </span><span class="vi">@shop_origin</span> <span class="o">||</span> <span class="p">(</span><span class="vi">@current_shopify_session</span><span class="p">.</span><span class="nf">domain</span> <span class="k">if</span> <span class="vi">@current_shopify_session</span><span class="p">),</span>
+                      <span class="ss">host: </span><span class="vi">@host</span><span class="p">,</span>
+                      <span class="ss">load_path: </span><span class="n">params</span><span class="p">[</span><span class="ss">:return_to</span><span class="p">]</span> <span class="o">||</span> <span class="n">home_path</span><span class="p">,</span>
+                      <span class="ss">debug: </span><span class="no">Rails</span><span class="p">.</span><span class="nf">env</span><span class="p">.</span><span class="nf">development?</span>
+                    <span class="p">}</span> <span class="p">)</span> <span class="cp">%&gt;</span>
+
+    <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">content_for?</span><span class="p">(</span><span class="ss">:javascript</span><span class="p">)</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"ContentForJavascript"</span> <span class="na">data-turbolinks-temporary</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="ss">:javascript</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;/div&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<p>Install NPM package:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yarn add polaris-view-components
+</code></pre></div></div>
+
+<p>Finally, register the polaris controllers to index.js.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// app/javascript/controllers/index.js</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">registerPolarisControllers</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">polaris-view-components</span><span class="dl">"</span>
+<span class="nx">registerPolarisControllers</span><span class="p">(</span><span class="nx">application</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Now let’s update the Splash page with a skeleton loader to indicate to the user
+that the app is loading. Note, I’m also using
+<a href="https://tailwindcss.com">TailwindCSS</a> to help with the layout.</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- app/views/splash_page/index.html.erb --&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"h-screen max-w-5xl mx-auto"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"w-full mx-auto"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;ul</span> <span class="na">role=</span><span class="s">"list"</span> <span class="na">class=</span><span class="s">"mt-44 grid gap-x-16 gap-y-16"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">polaris_skeleton_body_text</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">polaris_skeleton_body_text</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">polaris_skeleton_body_text</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;/ul&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<p>Let’s take a look in the browser.</p>
+
+<p><img class="w-full" src="/assets/images/generated/shopify_app_hotwire/splash-page-800-879a3a5d0.jpg" srcset="/assets/images/generated/shopify_app_hotwire/splash-page-400-879a3a5d0.jpg 400w, /assets/images/generated/shopify_app_hotwire/splash-page-600-879a3a5d0.jpg 600w, /assets/images/generated/shopify_app_hotwire/splash-page-800-879a3a5d0.jpg 800w, /assets/images/generated/shopify_app_hotwire/splash-page-1000-879a3a5d0.jpg 1000w" /></p>
+
+<p>We should only see the splash page for a split second, then it redirects to the
+home page. By then, we should have a session token created and being refreshed
+every two seconds. On the home page, we’ll create a quick email subscriber form
+using Turbo to replace the contents of the turbo frame after the form is
+submitted.</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- app/views/home/index.html.erb --&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">polaris_page</span><span class="p">(</span><span class="ss">title: </span><span class="s2">"Welcome to my Shopify app built with Rails and Turbo"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">page</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">polaris_card</span><span class="p">(</span><span class="ss">classes: </span><span class="s2">"m-0 shadow-sm border-b border-t rounded-none"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">card</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">turbo_frame_tag</span> <span class="ss">:subscribe</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">form_with</span><span class="p">(</span><span class="ss">model: </span><span class="vi">@subscriber</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">polaris_form_layout</span> <span class="k">do</span> <span class="o">|</span><span class="n">form_layout</span><span class="o">|</span> <span class="cp">%&gt;</span>
+          <span class="cp">&lt;%</span> <span class="n">form_layout</span><span class="p">.</span><span class="nf">item</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+            <span class="cp">&lt;%=</span> <span class="n">polaris_text_field</span><span class="p">(</span><span class="ss">name: :email</span><span class="p">,</span> <span class="ss">form: </span><span class="n">f</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"matt@example.com"</span><span class="p">)</span> <span class="cp">%&gt;</span>
+          <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+          <span class="cp">&lt;%</span> <span class="n">form_layout</span><span class="p">.</span><span class="nf">item</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+            <span class="cp">&lt;%=</span> <span class="n">polaris_button</span><span class="p">(</span><span class="ss">primary: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">submit: </span><span class="kp">true</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"Subscribe"</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+          <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>And finally, the create action will update the turbo frame on the home with a
+small thank you message. If all works well, the form will be submitted to the
+server and it will include our session token in the headers placed by the
+<code class="language-plaintext highlighter-rouge">turbo:before-fetch-request</code> event fired when the form is submitted via
+Turbo. The server will authenticate the token thanks to the modules inluded in
+the <code class="language-plaintext highlighter-rouge">shopify_app</code> gem and return a successful response.</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- app/views/subscribers/create.turbo_stream.erb --&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">turbo_stream</span><span class="p">.</span><span class="nf">update</span> <span class="ss">:subscribe</span> <span class="k">do</span>  <span class="cp">%&gt;</span>
+  <span class="nt">&lt;p&gt;</span>Thanks for subscribing!<span class="nt">&lt;/p&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/journal/turbo-submit.gif" alt="Watch Turbo in action" /></p>
+
+<p>And there you have it. We have a Shopify app built with Ruby on Rails, Hotwire
+sprinkled with view components and TailwindCSS. In this simple example, we
+collected an email address from a subscriber and rendered a thank you message
+without redirecting or reloading the page and all without any custom Javascript!</p>
+
+<h3 id="resources">Resources</h3>
+
+<ol>
+  <li><a href="https://github.com/Shopify/shopify_app">Shopify’s shopify_app gem (github)</a></li>
+  <li><a href="https://hotwired.dev/">Hotwire (hotwired.dev)</a></li>
+  <li><a href="https://shopify.dev/apps/auth/session-tokens/server-side-rendered-apps">Authenticate a server-side rendered embedded app using Rails and Turbolinks (shopify.dev)</a></li>
+  <li><a href="https://github.com/baoagency/polaris_view_components">Polaris View Components (github.com)</a></li>
+</ol>
+
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        
+<footer class="mt-24">
+  <div class="sm:px-8">
+    <div class="mx-auto max-w-7xl lg:px-8">
+      <div class="border-t border-zinc-100 pt-10 pb-16 dark:border-zinc-700/40">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+              <div class="flex gap-6 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/">Home</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/about">About</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/work">Work</a>
+                <a class="transition hover:text-teal-500 dark:hover:text-teal-400" href="/articles">Journal</a>
+              </div>
+              <p class="text-sm text-zinc-400 dark:text-zinc-500">
+                © 2023 Matt Sears. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+      </div>
+    </div>
+  </body>
+</html>

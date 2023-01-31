@@ -1,0 +1,3 @@
+css: yarn build:css --watch
+js: yarn build:js --watch
+jekyll: bundle exec jekyll serve --port 4015 --drafts --livereload --livereload_port 8877
