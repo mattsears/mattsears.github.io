@@ -20,8 +20,8 @@ group :jekyll_plugins do
   gem "jekyll-feed"
   gem "jekyll-paginate"
   gem 'jekyll-seo-tag'
-  # gem 'jekyll_picture_tag'
-  gem 'jekyll_picture_tag', '~> 1.6'
+  # gem 'jekyll_picture_tag', '~> 1.6'
+  gem 'jekyll_picture_tag', '~> 2.0'
   gem "rouge"
   gem 'jekyll-compose'
 end
