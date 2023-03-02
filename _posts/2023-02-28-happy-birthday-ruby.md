@@ -36,7 +36,7 @@ everyday. And for fourteen years, I did just that - building hundreds of applica
 getting paid for it. It has been one of the greatest endeavors of my life.
 
 Today, I love Ruby as much today as I did seventeen years ago. Even though I've moved on from the
-consulting world, I still write Ruby almost everyday in some way shape for form. And I don't see
+consulting world, I still write Ruby almost everyday in some way shape or form. And I don't see
 that changing anytime soon.
 
 Thank you Ruby ❤️
