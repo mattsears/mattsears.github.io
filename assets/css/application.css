@@ -8,13 +8,13 @@ pre[class*='highlight'] {
   @apply text-zinc-100;
 }
 
-.highlight {
+div.highlight {
   line-height: 1.75em;
   margin: 0;
   overflow: auto;
   width: 100%;
   word-wrap: break-word;
-  padding: 20px;
+  padding: 0px;
 }
 
 .highlight table td { padding: 5px; }
