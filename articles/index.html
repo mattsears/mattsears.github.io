@@ -11,7 +11,7 @@ title: Journal
           <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">Writing on life, business, art & other random topics.</h1>
           <p class="mt-6 text-base text-zinc-600 dark:text-zinc-400">All of my long-form thoughts on tech, leadership, product design, and more, collected in chronological order.</p>
         </header>
-        <div class="mt-16 sm:mt-20">
+        <div class="mt-16 sm:mt-20 ">
           <div class="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40">
             <div class="flex max-w-3xl flex-col space-y-16">
               {% for post in paginator.posts %}
@@ -46,7 +46,7 @@ title: Journal
           </div>
         </div>
 
-        <div class="mt-16 align-center text-center">
+        <div class="mt-16 align-center text-center ">
           <nav class="relative z-0 inline-flex shadow-sm -space-x-px mx-auto " aria-label="Pagination">
             {% if paginator.previous_page %}
             <a href="{{ paginator.previous_page_path | relative_url }}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
