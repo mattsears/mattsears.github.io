@@ -32,13 +32,12 @@ excerpt_separator: <!--more-->
 permalink: /articles/:year/:month/:day/:title/
 paginate: 10
 paginate_path: "/articles/page:num/"
-logo: /assets/images/me-profile.png
+logo: /assets/images/profile-pic.jpg
 
 social:
   name: Matt Sears
   links:
     - https://www.linkedin.com/in/matthewsears
-    - https://github.com/mattsears
     - https://instagram.com/mattsears
 
 picture:
