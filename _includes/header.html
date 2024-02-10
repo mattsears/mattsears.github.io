@@ -23,12 +23,12 @@
         <div class="relative px-4 sm:px-8 lg:px-12">
           <div class="mx-auto max-w-2xl lg:max-w-5xl">
             <div class="relative flex">
-              <div class="flex flex-1"></div>
-              <div class="flex flex-1 justify-end md:justify-center">
+              <div class="flex flex-1 justify-center">
                 {% include navigation.html %}
               </div>
 
-              <div class="flex justify-end md:flex-1">
+              {% comment %}
+              <div class="flex justify-end md:flex-1 hidden">
                 <div class="pointer-events-auto">
                   <button
                     type="button"
@@ -56,6 +56,8 @@
                   </button>
                 </div>
               </div>
+
+              {% endcomment %}
             </div>
           </div>
         </div>
